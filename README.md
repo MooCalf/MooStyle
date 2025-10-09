@@ -295,7 +295,7 @@ localStorage.removeItem('user');   // Remove user data
 
 4. **Environment Setup**
 
-   **⚠️ SECURITY WARNING**: Never commit your `.env` file to version control. It contains sensitive information like database credentials and secret keys.
+   **✅ SECURITY**: The `.env` files are properly excluded from version control via `.gitignore` to protect sensitive credentials.
 
    **For Windows (PowerShell):**
    ```powershell
