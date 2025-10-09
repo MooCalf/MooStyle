@@ -27,6 +27,30 @@ Welcome to the central documentation hub for the Modding Website project. This f
   - Automated actions checklist
 - **Use When**: Uploading new mods through AI assistant, understanding the upload workflow
 
+### **🔐 Security & Authentication**
+
+#### **PASSWORD_RESET_SYSTEM.md**
+- **Purpose**: Comprehensive guide to the password reset system architecture and implementation
+- **Contents**:
+  - Token generation and security mechanisms
+  - Email communication system integration
+  - Frontend and backend implementation details
+  - User experience flow and troubleshooting
+  - Security best practices and configuration
+  - Gmail SMTP setup and email masking
+- **Use When**: Understanding password reset functionality, troubleshooting reset issues, implementing security measures
+
+#### **ADMIN_DASHBOARD_GUIDE.md**
+- **Purpose**: Complete documentation of the admin dashboard features and capabilities
+- **Contents**:
+  - Real-time system health monitoring
+  - User management and analytics
+  - Shopping cart oversight and management
+  - Product management integration
+  - Performance optimization and troubleshooting
+  - Security implementation and access control
+- **Use When**: Managing the platform, monitoring system health, understanding administrative capabilities
+
 ### **🔧 Technical Guides**
 
 #### **NETWORK_ERROR_FIXED.md**

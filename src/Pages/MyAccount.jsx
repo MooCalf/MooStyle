@@ -8,10 +8,12 @@ import {
   Star,
   Gift,
   Bell,
-  AlertCircle
+  AlertCircle,
+  RefreshCw
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Footer } from '@/Components/Footer';
+import ChangePassword from '@/Components/ChangePassword';
 
 const MyAccount = () => {
   const navigate = useNavigate();
@@ -19,31 +21,135 @@ const MyAccount = () => {
   const [notificationSettings, setNotificationSettings] = useState({
     emailNotifications: false
   });
+  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const userData = localStorage.getItem('user');
-    if (userData) {
+    const loadUserData = async () => {
+      setLoading(true);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
       try {
-        const parsedUser = JSON.parse(userData);
-        setUser(parsedUser);
-        
-        // Load notification settings from user data
-        if (parsedUser.notificationSettings) {
-          console.log('Loading notification settings:', parsedUser.notificationSettings);
-          setNotificationSettings(parsedUser.notificationSettings);
+        // Always fetch fresh data from server to ensure points are up to date
+        const response = await fetch(`http://localhost:5000/api/auth/profile?t=${Date.now()}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Cache-Control': 'no-cache'
+          }
+        });
+
+        if (response.ok) {
+          const responseData = await response.json();
+          const userData = responseData.user;
+          console.log('🔄 Fresh user data from server:', userData);
+          setUser(userData);
+          localStorage.setItem('user', JSON.stringify(userData));
+          
+          // Load notification settings from user data
+          if (userData.notificationSettings) {
+            console.log('Loading notification settings:', userData.notificationSettings);
+            setNotificationSettings(userData.notificationSettings);
+          } else {
+            console.log('No notification settings found, using defaults');
+          }
+          setLoading(false);
         } else {
-          console.log('No notification settings found, using defaults');
+          // If server request fails, fall back to localStorage
+          const userData = localStorage.getItem('user');
+          if (userData) {
+            const parsedUser = JSON.parse(userData);
+            setUser(parsedUser);
+            
+            if (parsedUser.notificationSettings) {
+              setNotificationSettings(parsedUser.notificationSettings);
+            }
+          } else {
+            navigate('/login');
+          }
         }
       } catch (error) {
-        console.error('Error parsing user data:', error);
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        navigate('/login');
+        console.error('Error fetching user data:', error);
+        // Fall back to localStorage
+        const userData = localStorage.getItem('user');
+        if (userData) {
+          const parsedUser = JSON.parse(userData);
+          setUser(parsedUser);
+          
+          if (parsedUser.notificationSettings) {
+            setNotificationSettings(parsedUser.notificationSettings);
+          }
+        } else {
+          navigate('/login');
+        }
+        setLoading(false);
       }
-    } else {
-      navigate('/login');
-    }
+    };
+
+    // Load user data initially
+    loadUserData();
+
+    // Listen for storage changes to update user data when points change
+    const handleStorageChange = (e) => {
+      if (e.key === 'user') {
+        loadUserData();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Also listen for custom events (for same-tab updates)
+    const handleUserUpdate = () => {
+      loadUserData();
+    };
+
+    window.addEventListener('userDataUpdated', handleUserUpdate);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('userDataUpdated', handleUserUpdate);
+    };
   }, [navigate]);
+
+  const refreshUserData = async () => {
+    setRefreshing(true);
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/login');
+        return;
+      }
+
+      const response = await fetch(`http://localhost:5000/api/auth/profile?t=${Date.now()}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Cache-Control': 'no-cache'
+        }
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        const userData = responseData.user;
+        localStorage.setItem('user', JSON.stringify(userData));
+        setUser(userData);
+        
+        if (userData.notificationSettings) {
+          setNotificationSettings(userData.notificationSettings);
+        }
+        
+        console.log('User data refreshed successfully');
+      } else {
+        console.error('Failed to refresh user data');
+      }
+    } catch (error) {
+      console.error('Error refreshing user data:', error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -180,7 +286,8 @@ const MyAccount = () => {
         <div className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg p-6 text-white">
           <div className="flex items-center justify-between mb-4">
             <Star size={24} />
-            <span className="text-2xl font-bold">{user.points || 0}</span>
+            <span className="text-2xl font-bold">{user?.points ?? 0}</span>
+            {console.log('🎯 Displaying points:', user?.points)}
           </div>
           <h4 className="font-semibold mb-2">Available Points</h4>
           <p className="text-teal-100 text-sm">Earn 2 points for each mod you download</p>
@@ -188,7 +295,8 @@ const MyAccount = () => {
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <div className="flex items-center justify-between mb-4">
             <Check size={24} className="text-green-600" />
-            <span className="text-2xl font-bold text-gray-900">{user.membershipLevel || 'Bronze'}</span>
+            <span className="text-2xl font-bold text-gray-900">{user?.membershipLevel ?? 'Bronze'}</span>
+            {console.log('🏆 Displaying membership level:', user?.membershipLevel)}
           </div>
           <h4 className="font-semibold text-gray-900 mb-2">Membership Level</h4>
           <p className="text-gray-600 text-sm">Current tier based on your points</p>
@@ -400,7 +508,7 @@ const MyAccount = () => {
     </div>
   );
 
-  if (!user) {
+  if (!user || loading) {
     return (
       <div className="min-h-screen bg-gray-50">
         {/* Header with Logo */}
@@ -419,16 +527,24 @@ const MyAccount = () => {
           </div>
         </div>
 
-        {/* Authentication Required Notice */}
+        {/* Loading or Authentication Required Notice */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-8 text-center">
+          <div className={`border rounded-lg p-8 text-center ${loading ? 'bg-blue-50 border-blue-200' : 'bg-red-50 border-red-200'}`}>
             <div className="flex justify-center mb-6">
-              <AlertCircle size={64} className="text-red-600" />
+              {loading ? (
+                <RefreshCw size={64} className="text-blue-600 animate-spin" />
+              ) : (
+                <AlertCircle size={64} className="text-red-600" />
+              )}
             </div>
-            <h1 className="text-3xl font-bold text-red-900 mb-4">Account Required</h1>
-            <p className="text-red-800 text-lg mb-8 max-w-2xl mx-auto">
-              You need to create an account to access your profile, track points, manage notifications, 
-              and enjoy all the benefits of being a MooStyle member.
+            <h1 className={`text-3xl font-bold mb-4 ${loading ? 'text-blue-900' : 'text-red-900'}`}>
+              {loading ? 'Loading Account Data...' : 'Account Required'}
+            </h1>
+            <p className={`text-lg mb-8 max-w-2xl mx-auto ${loading ? 'text-blue-800' : 'text-red-800'}`}>
+              {loading 
+                ? 'Please wait while we fetch your latest account information and points...'
+                : 'You need to create an account to access your profile, track points, manage notifications, and enjoy all the benefits of being a MooStyle member.'
+              }
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -476,6 +592,15 @@ const MyAccount = () => {
                 <p className="text-sm text-gray-600">{user.email}</p>
               </div>
               <button
+                onClick={refreshUserData}
+                disabled={refreshing}
+                className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Refresh account data"
+              >
+                <RefreshCw size={16} className={`mr-2 ${refreshing ? 'animate-spin' : ''}`} />
+                Refresh
+              </button>
+              <button
                 onClick={handleLogout}
                 className="flex items-center px-4 py-2 text-red-600 hover:text-red-700 transition-colors"
               >
@@ -491,6 +616,7 @@ const MyAccount = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <div className="space-y-8">
                 {renderProfileSection()}
+                <ChangePassword />
                 {renderNotificationsSection()}
                 {renderRewardsSection()}
                 {renderContactsSection()}

@@ -61,6 +61,14 @@ const userSchema = new mongoose.Schema({
     enum: ['Bronze', 'Silver', 'Gold', 'Diamond'],
     default: 'Bronze'
   },
+  resetPasswordToken: {
+    type: String,
+    default: null
+  },
+  resetPasswordExpires: {
+    type: Date,
+    default: null
+  },
   createdAt: {
     type: Date,
     default: Date.now

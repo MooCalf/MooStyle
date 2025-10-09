@@ -8,6 +8,8 @@ import { ProductDetail } from "./Pages/ProductDetail";
 import { Cart } from "./Pages/Cart";
 import { Login } from "./Pages/Login";
 import { Register } from "./Pages/Register";
+import ForgotPassword from "./Pages/ForgotPassword";
+import ResetPassword from "./Pages/ResetPassword";
 import { AdminDashboard } from "./Pages/AdminDashboard";
 import { NotFound } from "./Pages/NotFound";
 import CommonQuestions from "./Pages/CommonQuestions";
@@ -37,6 +39,8 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="/common-questions" element={<CommonQuestions />} />
             <Route path="/about-me" element={<AboutMe />} />
