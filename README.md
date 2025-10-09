@@ -260,7 +260,7 @@ localStorage.removeItem('user');   // Remove user data
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd Modding-Website
+   cd MooStyle
    ```
 
 2. **Install frontend dependencies**
@@ -275,6 +275,28 @@ localStorage.removeItem('user');   // Remove user data
    ```
 
 4. **Environment Setup**
+
+   **⚠️ SECURITY WARNING**: Never commit your `.env` file to version control. It contains sensitive information like database credentials and secret keys.
+
+   **For Windows (PowerShell):**
+   ```powershell
+   # Navigate to backend directory
+   cd backend
+   
+   # Copy environment template
+   copy env.example .env
+   
+   # Update backend/.env with your configuration:
+   # Edit the .env file and set these values:
+   PORT=5000
+   NODE_ENV=development
+   MONGODB_URI=mongodb://localhost:27017/your-database-name
+   JWT_SECRET=your-unique-secure-jwt-secret-key-here
+   JWT_EXPIRE=7d
+   FRONTEND_URL=http://localhost:5173
+   ```
+
+   **For macOS/Linux:**
    ```bash
    # Copy environment template
    cp backend/env.example backend/.env
@@ -282,24 +304,126 @@ localStorage.removeItem('user');   // Remove user data
    # Update backend/.env with your configuration:
    PORT=5000
    NODE_ENV=development
-   MONGODB_URI=mongodb://localhost:27017/moostyle
-   JWT_SECRET=your-super-secret-jwt-key
+   MONGODB_URI=mongodb://localhost:27017/your-database-name
+   JWT_SECRET=your-unique-secure-jwt-secret-key-here
    JWT_EXPIRE=7d
    FRONTEND_URL=http://localhost:5173
    ```
 
-5. **Start the development servers**
-   ```bash
-   # Terminal 1 - Backend (from backend directory)
-   npm run dev
+5. **Start MongoDB**
    
-   # Terminal 2 - Frontend (from root directory)
+   **Local MongoDB:**
+   ```bash
+   # Make sure MongoDB is running on your system
+   # Windows: Start MongoDB service or run mongod
+   # macOS: brew services start mongodb-community
+   # Linux: sudo systemctl start mongod
+   ```
+
+6. **Start the development servers**
+
+   **Important**: You need to open **TWO separate terminal windows/tabs** - one for the backend and one for the frontend.
+   
+   **For Windows (PowerShell):**
+   
+   **Terminal 1 - Backend:**
+   ```powershell
+   # Navigate to backend directory
+   cd backend
+   
+   # Start backend server
+   npm run dev
+   # OR alternatively:
+   # node server.cjs
+   ```
+   
+   **Terminal 2 - Frontend:**
+   ```powershell
+   # Make sure you're in the root MooStyle directory
+   # (NOT in the backend folder)
+   
+   # Start frontend development server
+   npm run dev
+   ```
+   
+   **For macOS/Linux:**
+   
+   **Terminal 1 - Backend:**
+   ```bash
+   # Navigate to backend directory
+   cd backend
+   
+   # Start backend server
+   npm run dev
+   # OR alternatively:
+   # node server.cjs
+   ```
+   
+   **Terminal 2 - Frontend:**
+   ```bash
+   # Make sure you're in the root MooStyle directory
+   # (NOT in the backend folder)
+   
+   # Start frontend development server
    npm run dev
    ```
 
-6. **Access the application**
+7. **Access the application**
    - Frontend: http://localhost:5173
    - Backend API: http://localhost:5000
+
+## 🔒 Security Best Practices
+
+### Environment Variables
+- **Never commit `.env` files** to version control
+- **Use strong, unique JWT secrets** (minimum 32 characters)
+- **Use different secrets** for development and production
+- **Rotate secrets regularly** in production
+- **Use environment-specific database names**
+
+### Database Security
+- **Use strong passwords** for database access
+- **Enable authentication** on MongoDB instances
+- **Use connection strings** with proper credentials
+- **Limit database access** to necessary IPs only
+
+### API Security
+- **Validate all inputs** on the server side
+- **Use HTTPS** in production
+- **Implement rate limiting** to prevent abuse
+- **Keep dependencies updated** for security patches
+
+## 🔧 Troubleshooting Setup Issues
+
+### Common Issues and Solutions
+
+**1. MongoDB Connection Error**
+```bash
+# Check if MongoDB is running
+# Windows: Check Services or run mongod
+# macOS: brew services list | grep mongodb
+# Linux: sudo systemctl status mongod
+```
+
+**2. Port Already in Use**
+```bash
+# Kill process using port 5000
+# Windows: netstat -ano | findstr :5000
+# macOS/Linux: lsof -ti:5000 | xargs kill -9
+```
+
+**3. Environment File Issues**
+```bash
+# Make sure .env file exists in backend directory
+# Check file permissions and content
+```
+
+**4. Node Modules Issues**
+```bash
+# Clear node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+```
 
 ### Production Build
    ```bash
@@ -313,7 +437,7 @@ npm start
 ## 📁 Project Structure
 
 ```
-Modding-Website/
+MooStyle/
 ├── src/                          # Frontend React application
 │   ├── Components/               # Reusable React components
 │   │   ├── ui/                  # Basic UI components
@@ -412,12 +536,12 @@ Modding-Website/
 # Production Environment
 NODE_ENV=production
 PORT=5000
-MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/moostyle
-JWT_SECRET=your-production-secret-key
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/your-database-name
+JWT_SECRET=your-production-secret-key-change-this
 JWT_EXPIRE=7d
 FRONTEND_URL=https://yourdomain.com
 EMAIL_USER=your-email@domain.com
-EMAIL_PASS=your-email-password
+EMAIL_PASS=your-app-specific-password
 ```
 
 ### Deployment Options

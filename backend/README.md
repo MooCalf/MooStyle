@@ -57,7 +57,7 @@ A comprehensive e-commerce backend API built with Node.js, Express, and MongoDB 
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd backend
+   cd MooStyle/backend
    ```
 
 2. **Install dependencies**
@@ -66,24 +66,69 @@ A comprehensive e-commerce backend API built with Node.js, Express, and MongoDB 
    ```
 
 3. **Environment Setup**
-   ```bash
-   cp env.example .env
-   ```
+
+   **⚠️ SECURITY WARNING**: Never commit your `.env` file to version control. It contains sensitive information like database credentials and secret keys.
+
+   **For Windows (PowerShell):**
+   ```powershell
+   # Copy environment template
+   copy env.example .env
    
-   Update the `.env` file with your configuration:
-   ```env
+   # Edit the .env file with your configuration:
+   # Open .env file and update these values:
    PORT=5000
    NODE_ENV=development
-   FRONTEND_URL=http://localhost:3000
-   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/moostyle
-   JWT_SECRET=your-super-secret-jwt-key
+   MONGODB_URI=mongodb://localhost:27017/your-database-name
+   JWT_SECRET=your-unique-secure-jwt-secret-key-here
    JWT_EXPIRE=7d
+   FRONTEND_URL=http://localhost:5173
    ```
 
-4. **Start the server**
+   **For macOS/Linux:**
+   ```bash
+   # Copy environment template
+   cp env.example .env
+   
+   # Edit the .env file with your configuration:
+   PORT=5000
+   NODE_ENV=development
+   MONGODB_URI=mongodb://localhost:27017/your-database-name
+   JWT_SECRET=your-unique-secure-jwt-secret-key-here
+   JWT_EXPIRE=7d
+   FRONTEND_URL=http://localhost:5173
+   ```
+
+4. **Start MongoDB**
+   
+   **Local MongoDB:**
+   ```bash
+   # Make sure MongoDB is running on your system
+   # Windows: Start MongoDB service or run mongod
+   # macOS: brew services start mongodb-community
+   # Linux: sudo systemctl start mongod
+   ```
+
+5. **Start the server**
+
+   **For Windows (PowerShell):**
+   ```powershell
+   # Development mode
+   npm run dev
+   
+   # Or run directly
+   node server.cjs
+   
+   # Production mode
+   npm start
+   ```
+
+   **For macOS/Linux:**
    ```bash
    # Development mode
    npm run dev
+   
+   # Or run directly
+   node server.cjs
    
    # Production mode
    npm start
@@ -102,7 +147,7 @@ A comprehensive e-commerce backend API built with Node.js, Express, and MongoDB 
 
 1. Install MongoDB locally
 2. Start MongoDB service
-3. Update `MONGODB_URI=mongodb://localhost:27017/moostyle`
+3. Update `MONGODB_URI=mongodb://localhost:27017/your-database-name`
 
 ## 📚 API Endpoints
 
@@ -209,9 +254,9 @@ npm test
 
 ### Environment Variables for Production
 - `NODE_ENV=production`
-- `MONGODB_URI=<production-mongodb-uri>`
-- `JWT_SECRET=<strong-secret-key>`
-- `FRONTEND_URL=<production-frontend-url>`
+- `MONGODB_URI=<your-production-mongodb-uri>`
+- `JWT_SECRET=<your-strong-secret-key>`
+- `FRONTEND_URL=<your-production-frontend-url>`
 
 ### Cloudflare Workers (Recommended)
 1. Install Wrangler CLI
