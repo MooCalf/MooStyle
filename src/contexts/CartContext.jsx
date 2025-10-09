@@ -343,6 +343,9 @@ export const CartProvider = ({ children }) => {
             userData.points = data.totalPoints;
             userData.membershipLevel = data.membershipLevel;
             localStorage.setItem('user', JSON.stringify(userData));
+            
+            // Dispatch custom event to notify other components
+            window.dispatchEvent(new CustomEvent('userDataUpdated'));
           }
           
           showToast(`Download initiated! You earned ${data.pointsAwarded} points!`, 'success');

@@ -17,8 +17,10 @@ import {
   Search,
   Star,
   ShoppingCart,
-  Calendar
+  Calendar,
+  Activity
 } from 'lucide-react';
+import ApiHealthMonitor from '@/Components/ApiHealthMonitor';
 
 export const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -435,6 +437,7 @@ export const AdminDashboard = () => {
                 { id: 'overview', label: 'Overview', icon: BarChart3 },
                 { id: 'users', label: 'Users', icon: Users },
                 { id: 'carts', label: 'Carts', icon: ShoppingCart },
+                { id: 'api-health', label: 'API Health', icon: Activity },
                 { id: 'settings', label: 'Settings', icon: Settings }
               ].map((tab) => (
                 <button
@@ -945,6 +948,14 @@ export const AdminDashboard = () => {
               </div>
             </div>
           )}
+
+          {/* API Health Monitor Tab */}
+          {activeTab === 'api-health' && (
+            <div className="space-y-6">
+              <ApiHealthMonitor />
+            </div>
+          )}
+
         </div>
 
       </div>
