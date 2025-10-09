@@ -1,0 +1,21 @@
+{
+  "name": "MooCalf Portfolio",
+  "short_name": "MooCalf",
+  "description": "Creative individual specializing in 3D modeling, graphic design, and community management",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafafa",
+  "theme_color": "#6C2BD7",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/projects/MooCalf_Main Logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["art", "design", "portfolio"],
+  "lang": "en",
+  "dir": "ltr"
+} 
