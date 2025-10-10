@@ -297,11 +297,13 @@ export const NavigationPrimary = () => {
               </AnimatePresence>
             </div>
 
-            {/* Heart Icon */}
+            {/* Patreon Support Button */}
               <a
-                href="#wishlist"
-                className="nav-primary-icon"
-                aria-label="Wishlist"
+                href="https://www.patreon.com/MOOSTYLES"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="nav-primary-icon hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:text-white transition-all duration-200"
+                aria-label="Support on Patreon"
               >
               <Heart size={18} className="sm:w-5 sm:h-5" />
             </a>

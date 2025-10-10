@@ -8,6 +8,7 @@ import {
   Shield,
   MessageCircle,
   Globe,
+  Heart,
 } from "lucide-react";
 
 const ContactInfoItem = ({ icon: Icon, title, content, href, description }) => (
@@ -49,6 +50,7 @@ export const ContactSection = () => {
     { icon: Twitch, href: "https://www.twitch.tv/moocalf_", label: "Twitch" },
     { icon: Instagram, href: "https://www.instagram.com/cypher._01", label: "Instagram" },
     { icon: Twitter, href: "https://x.com/MooCalf_", label: "Twitter/X" },
+    { icon: Heart, href: "https://www.patreon.com/MOOSTYLES", label: "Support on Patreon" },
   ];
 
   const contactInfoItems = [
@@ -115,6 +117,28 @@ export const ContactSection = () => {
                 {socialLinks.map((socialLink) => (
                   <SocialLink key={socialLink.label} {...socialLink} />
                 ))}
+              </div>
+            </div>
+            
+            {/* Patreon Support Section */}
+            <div className="pt-8">
+              <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-6 border border-orange-200">
+                <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
+                  <Heart className="h-5 w-5 text-orange-500 mr-2" />
+                  Support My Work
+                </h4>
+                <p className="text-gray-600 mb-4">
+                  Love my mods? Consider supporting me on Patreon to help me create more amazing content for the InZoi community!
+                </p>
+                <a
+                  href="https://www.patreon.com/MOOSTYLES"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg hover:from-orange-600 hover:to-red-600 transition-all duration-200 font-medium"
+                >
+                  <Heart className="h-4 w-4 mr-2" />
+                  Support on Patreon
+                </a>
               </div>
             </div>
           </div>
