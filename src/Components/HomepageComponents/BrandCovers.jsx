@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export const BrandCovers = () => {
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -74,7 +75,7 @@ export const BrandCovers = () => {
   };
 
   return (
-    <div className="brand-covers-section flex justify-center items-center">
+    <div id="featured-brands" className="brand-covers-section flex justify-center items-center">
       <div className="container mx-auto px-4 py-4">
         <div className="text-center mb-4">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
@@ -120,10 +121,17 @@ export const BrandCovers = () => {
 
 const BrandCard = ({ brand, isHovered, onHover, onLeave }) => {
   return (
-    <div
+    <motion.div
       className={`brand-card ${isHovered ? 'brand-card-hovered' : ''}`}
       onMouseEnter={onHover}
       onMouseLeave={onLeave}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ 
+        y: -8,
+        transition: { type: "spring", stiffness: 400, damping: 17 }
+      }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <div className="brand-card-image-container">
         <img
@@ -146,6 +154,6 @@ const BrandCard = ({ brand, isHovered, onHover, onLeave }) => {
           <p className="brand-description">{brand.description}</p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

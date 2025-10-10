@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowLeft, HelpCircle, Mail, Phone, Clock, Shield, Download, Heart, Users, Instagram, Twitter, Facebook, Youtube, Github } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { motion } from "framer-motion";
 
 const CommonQuestions = () => {
   const faqs = [
@@ -103,130 +104,218 @@ const CommonQuestions = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center space-x-4">
-            <Link 
-              to="/" 
-              className="p-2 text-gray-600 hover:text-teal-600 transition-colors duration-200"
-            >
-              <ArrowLeft size={24} />
-            </Link>
-            <div className="flex items-center space-x-3">
-              <HelpCircle className="text-teal-600" size={32} />
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Common Questions</h1>
-                <p className="text-gray-600 mt-1">Find answers to frequently asked questions</p>
+        <motion.div 
+          className="min-h-screen bg-gray-50"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* Header */}
+          <motion.div 
+            className="bg-white border-b border-gray-200"
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+              <div className="flex items-center space-x-4">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link 
+                    to="/" 
+                    className="p-2 text-gray-600 hover:text-teal-600 transition-colors duration-200"
+                  >
+                    <ArrowLeft size={24} />
+                  </Link>
+                </motion.div>
+                <div className="flex items-center space-x-3">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.2, type: "spring", stiffness: 200 }}
+                  >
+                    <HelpCircle className="text-teal-600" size={32} />
+                  </motion.div>
+                  <motion.div
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                  >
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Common Questions</h1>
+                    <p className="text-gray-600 mt-1">Find answers to frequently asked questions</p>
+                  </motion.div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </motion.div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="space-y-8">
-          {faqs.map((category, categoryIndex) => {
-            const IconComponent = category.icon;
-            return (
-              <div key={categoryIndex} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <div className="bg-gradient-to-r from-teal-50 to-teal-100 px-6 py-4 border-b border-gray-200">
-                  <div className="flex items-center space-x-3">
-                    <IconComponent className="text-teal-600" size={24} />
-                    <h2 className="text-xl font-semibold text-gray-900">{category.category}</h2>
-                  </div>
-                </div>
-                <div className="divide-y divide-gray-200">
-                  {category.questions.map((faq, faqIndex) => (
-                    <div key={faqIndex} className="px-6 py-6">
-                      <h3 className="text-lg font-medium text-gray-900 mb-3">{faq.question}</h3>
-                      <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+          {/* Main Content */}
+          <motion.div 
+            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <div className="space-y-8">
+              {faqs.map((category, categoryIndex) => {
+                const IconComponent = category.icon;
+                return (
+                  <motion.div 
+                    key={categoryIndex} 
+                    className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden"
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.5 + categoryIndex * 0.1 }}
+                    whileHover={{ y: -2 }}
+                  >
+                    <div className="bg-gradient-to-r from-teal-50 to-teal-100 px-6 py-4 border-b border-gray-200">
+                      <div className="flex items-center space-x-3">
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ duration: 0.3, delay: 0.6 + categoryIndex * 0.1 }}
+                        >
+                          <IconComponent className="text-teal-600" size={24} />
+                        </motion.div>
+                        <h2 className="text-xl font-semibold text-gray-900">{category.category}</h2>
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                    <div className="divide-y divide-gray-200">
+                      {category.questions.map((faq, faqIndex) => (
+                        <motion.div 
+                          key={faqIndex} 
+                          className="px-6 py-6"
+                          initial={{ x: -20, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          transition={{ duration: 0.4, delay: 0.7 + categoryIndex * 0.1 + faqIndex * 0.05 }}
+                        >
+                          <h3 className="text-lg font-medium text-gray-900 mb-3">{faq.question}</h3>
+                          <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
 
         {/* Contact Support Section */}
-        <div className="mt-12 bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+        <motion.div 
+          id="still-have-questions" 
+          className="mt-12 bg-white rounded-lg shadow-sm border border-gray-200 p-8"
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1.2 }}
+          whileHover={{ y: -2 }}
+        >
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Still Have Questions?</h2>
-            <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
+            <motion.h2 
+              className="text-2xl font-bold text-gray-900 mb-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.4, delay: 1.3 }}
+            >
+              Still Have Questions?
+            </motion.h2>
+            <motion.p 
+              className="text-gray-600 mb-8 max-w-2xl mx-auto"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 1.4 }}
+            >
               Can't find what you're looking for? Our support team is here to help you with any questions or concerns about mods, downloads, or your account.
-            </p>
+            </motion.p>
             
             {/* Contact Methods */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <a
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4 justify-center mb-8"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 1.5 }}
+            >
+              <motion.a
                 href="mailto:support@moostyle.com"
                 className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <Mail size={20} className="mr-2" />
                 Email Support
-              </a>
-              <a
+              </motion.a>
+              <motion.a
                 href="https://discord.gg/moostyle"
                 className="inline-flex items-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <Users size={20} className="mr-2" />
                 Discord Community
-              </a>
-            </div>
+              </motion.a>
+            </motion.div>
 
             {/* Social Media Links */}
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Follow Us on Social Media</h3>
+            <motion.div 
+              className="mb-6"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 1.6 }}
+            >
+              <motion.h3 
+                className="text-lg font-semibold text-gray-900 mb-4"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.4, delay: 1.7 }}
+              >
+                Follow Us on Social Media
+              </motion.h3>
               <div className="flex justify-center space-x-4">
-                <a
-                  href="https://instagram.com/moostyle"
-                  className="p-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full hover:scale-110 transition-transform duration-200"
-                  aria-label="Instagram"
-                >
-                  <Instagram size={24} />
-                </a>
-                <a
-                  href="https://twitter.com/moostyle"
-                  className="p-3 bg-blue-500 text-white rounded-full hover:scale-110 transition-transform duration-200"
-                  aria-label="Twitter"
-                >
-                  <Twitter size={24} />
-                </a>
-                <a
-                  href="https://facebook.com/moostyle"
-                  className="p-3 bg-blue-600 text-white rounded-full hover:scale-110 transition-transform duration-200"
-                  aria-label="Facebook"
-                >
-                  <Facebook size={24} />
-                </a>
-                <a
-                  href="https://youtube.com/moostyle"
-                  className="p-3 bg-red-600 text-white rounded-full hover:scale-110 transition-transform duration-200"
-                  aria-label="YouTube"
-                >
-                  <Youtube size={24} />
-                </a>
-                <a
-                  href="https://github.com/moostyle"
-                  className="p-3 bg-gray-800 text-white rounded-full hover:scale-110 transition-transform duration-200"
-                  aria-label="GitHub"
-                >
-                  <Github size={24} />
-                </a>
+                {[
+                  { href: "https://instagram.com/moostyle", icon: Instagram, bg: "bg-gradient-to-r from-pink-500 to-purple-600", label: "Instagram" },
+                  { href: "https://twitter.com/moostyle", icon: Twitter, bg: "bg-blue-500", label: "Twitter" },
+                  { href: "https://facebook.com/moostyle", icon: Facebook, bg: "bg-blue-600", label: "Facebook" },
+                  { href: "https://youtube.com/moostyle", icon: Youtube, bg: "bg-red-600", label: "YouTube" },
+                  { href: "https://github.com/moostyle", icon: Github, bg: "bg-gray-800", label: "GitHub" }
+                ].map((social, index) => {
+                  const IconComponent = social.icon;
+                  return (
+                    <motion.a
+                      key={index}
+                      href={social.href}
+                      className={`p-3 ${social.bg} text-white rounded-full hover:scale-110 transition-transform duration-200`}
+                      aria-label={social.label}
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ 
+                        duration: 0.5, 
+                        delay: 1.8 + index * 0.1,
+                        type: "spring",
+                        stiffness: 200
+                      }}
+                      whileHover={{ scale: 1.2, rotate: 5 }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <IconComponent size={24} />
+                    </motion.a>
+                  );
+                })}
               </div>
-            </div>
+            </motion.div>
 
-            <div className="flex items-center justify-center text-sm text-gray-500">
+            <motion.div 
+              className="flex items-center justify-center text-sm text-gray-500"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 2.2 }}
+            >
               <Clock size={16} className="mr-2" />
               Support Hours: Monday - Friday, 9 AM - 6 PM EST
-            </div>
+            </motion.div>
           </div>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      </motion.div>
+    </motion.div>
   );
 };
 

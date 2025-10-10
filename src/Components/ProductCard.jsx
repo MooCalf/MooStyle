@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Heart, ShoppingBag, Star, Eye, Download, User, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import { motion } from "framer-motion";
 
 export const ProductCard = ({ product, onAddToCart, onToggleFavorite, onQuickView }) => {
   const { addToCart, isInCart } = useCart();
@@ -61,7 +62,16 @@ export const ProductCard = ({ product, onAddToCart, onToggleFavorite, onQuickVie
 
   return (
     <Link to={`/product/${product.id}`} className="block">
-      <div className="product-card bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group cursor-pointer">
+      <motion.div 
+        className="product-card bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group cursor-pointer"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        whileHover={{ 
+          y: -4,
+          transition: { type: "spring", stiffness: 400, damping: 17 }
+        }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
         {/* Product Image */}
         <div className="relative">
           <div className="aspect-square overflow-hidden">
@@ -116,56 +126,56 @@ export const ProductCard = ({ product, onAddToCart, onToggleFavorite, onQuickVie
         </div>
 
         {/* Product Info */}
-              <div className="p-4">
-                {/* Author */}
-                <div className="flex items-center gap-1 mb-1">
-                  <User size={12} className="text-gray-400" />
-                  <p className="text-xs text-gray-500 truncate">{product.author || product.brand}</p>
-                </div>
-                
-                {/* Name */}
-                <h3 className="text-base font-semibold text-gray-900 mb-3 line-clamp-2">{product.name}</h3>
-                
-                {/* Description */}
-                <p className="text-sm text-gray-600 line-clamp-2 mb-3">{product.description}</p>
-                
-                {/* Mod Info */}
-                <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-                  <div className="flex items-center gap-1">
-                    <Download size={12} />
-                    <span>{formatDownloadCount(product.downloadCount)}</span>
-                  </div>
-                  {product.modFile && (
-                    <span>{formatFileSize(product.modFile.size)}</span>
-                  )}
-                </div>
+        <div className="p-4">
+          {/* Author */}
+          <div className="flex items-center gap-1 mb-1">
+            <User size={12} className="text-gray-400" />
+            <p className="text-xs text-gray-500 truncate">{product.author || product.brand}</p>
+          </div>
+          
+          {/* Name */}
+          <h3 className="text-base font-semibold text-gray-900 mb-3 line-clamp-2">{product.name}</h3>
+          
+          {/* Description */}
+          <p className="text-sm text-gray-600 line-clamp-2 mb-3">{product.description}</p>
+          
+          {/* Mod Info */}
+          <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+            <div className="flex items-center gap-1">
+              <Download size={12} />
+              <span>{formatDownloadCount(product.downloadCount)}</span>
+            </div>
+            {product.modFile && (
+              <span>{formatFileSize(product.modFile.size)}</span>
+            )}
+          </div>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1 mb-3">
-                  {product.tags.slice(0, 2).map((tag, index) => (
-                    <span key={index} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
-                      {tag}
-                    </span>
-                  ))}
-                  {product.tags.length > 2 && (
-                    <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
-                      +{product.tags.length - 2} more
-                    </span>
-                  )}
-                </div>
+          {/* Tags */}
+          <div className="flex flex-wrap gap-1 mb-3">
+            {product.tags.slice(0, 2).map((tag, index) => (
+              <span key={index} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
+                {tag}
+              </span>
+            ))}
+            {product.tags.length > 2 && (
+              <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
+                +{product.tags.length - 2} more
+              </span>
+            )}
+          </div>
 
-                {/* Add to Cart Button */}
-                <button
-                  onClick={handleAddToCart}
-                  disabled={addingToCart || isInCart(product.id)}
-                  className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-2 ${
-                    addedToCart || isInCart(product.id)
-                      ? "bg-green-600 text-white cursor-default"
-                      : addingToCart
-                      ? "bg-gray-400 text-white cursor-not-allowed"
-                      : "bg-teal-600 hover:bg-teal-700 text-white"
-                  }`}
-                >
+          {/* Add to Cart Button */}
+          <button
+            onClick={handleAddToCart}
+            disabled={addingToCart || isInCart(product.id)}
+            className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-2 ${
+              addedToCart || isInCart(product.id)
+                ? "bg-green-600 text-white cursor-default"
+                : addingToCart
+                ? "bg-gray-400 text-white cursor-not-allowed"
+                : "bg-teal-600 hover:bg-teal-700 text-white"
+            }`}
+          >
             {addingToCart ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
@@ -184,7 +194,7 @@ export const ProductCard = ({ product, onAddToCart, onToggleFavorite, onQuickVie
             )}
           </button>
         </div>
-      </div>
+      </motion.div>
     </Link>
   );
 };

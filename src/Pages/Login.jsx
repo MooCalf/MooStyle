@@ -64,8 +64,8 @@ export const Login = () => {
   return (
     <>
       <Metadata 
-        pageTitle="Login - MooStyle"
-        pageDescription="Sign in to your MooStyle account"
+        pageTitle="Login - MOOSTYLE"
+        pageDescription="Sign in to your MOOSTYLE account"
       />
       <div className="min-h-screen bg-gray-50">
         <NavigationPrimary />
