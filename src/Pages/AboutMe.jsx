@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, User, Heart, Globe, Award, Mail, Instagram, Twitter, Facebook, Youtube, Github, Download, Code } from 'lucide-react';
+import { ArrowLeft, User, Heart, Globe, Award, Mail, Instagram, Twitter, Facebook, Youtube, Download, Code, Twitch } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -315,6 +315,17 @@ const AboutMe = () => {
               <Globe size={20} className="mr-2" />
               Visit Moocalf.com
             </motion.a>
+            <motion.a
+              href="https://www.patreon.com/MOOSTYLES"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg hover:from-orange-600 hover:to-red-600 transition-colors duration-200 font-medium"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Heart size={20} className="mr-2" />
+              Support on Patreon
+            </motion.a>
           </motion.div>
           <motion.div 
             className="flex justify-center space-x-6"
@@ -326,7 +337,8 @@ const AboutMe = () => {
               { href: "https://www.instagram.com/cypher._01", icon: Instagram, label: "Instagram" },
               { href: "https://x.com/MooCalf_", icon: Twitter, label: "Twitter/X" },
               { href: "https://www.youtube.com/@MooCalf", icon: Youtube, label: "YouTube" },
-              { href: "https://www.twitch.tv/moocalf_", icon: Github, label: "Twitch" }
+              { href: "https://www.twitch.tv/moocalf_", icon: Twitch, label: "Twitch" },
+              { href: "https://www.patreon.com/MOOSTYLES", icon: Heart, label: "Support on Patreon" }
             ].map((social, index) => {
               const IconComponent = social.icon;
               return (

@@ -306,6 +306,29 @@ export const Shopping = () => {
                 )}
               </>
             )}
+            
+            {/* Patreon Support Section */}
+            <div className="mt-12 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-8 border border-orange-200">
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center justify-center">
+                  <Heart className="h-6 w-6 text-orange-500 mr-2" />
+                  Love Our Mods?
+                </h3>
+                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                  All our mods are completely free! If you enjoy our work and want to support us in creating more amazing InZoi mods, 
+                  consider becoming a patron. Your support helps us continue providing high-quality mods to the community.
+                </p>
+                <a
+                  href="https://www.patreon.com/MOOSTYLES"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg hover:from-orange-600 hover:to-red-600 transition-all duration-200 font-semibold text-lg"
+                >
+                  <Heart className="h-5 w-5 mr-2" />
+                  Support on Patreon
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

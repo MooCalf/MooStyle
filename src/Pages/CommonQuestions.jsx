@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, HelpCircle, Mail, Phone, Clock, Shield, Download, Heart, Users, Instagram, Twitter, Facebook, Youtube, Github } from 'lucide-react';
+import { ArrowLeft, HelpCircle, Mail, Phone, Clock, Shield, Download, Heart, Users, Instagram, Twitter, Facebook, Youtube } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
 
@@ -276,7 +276,7 @@ const CommonQuestions = () => {
                   { href: "https://twitter.com/moostyle", icon: Twitter, bg: "bg-blue-500", label: "Twitter" },
                   { href: "https://facebook.com/moostyle", icon: Facebook, bg: "bg-blue-600", label: "Facebook" },
                   { href: "https://youtube.com/moostyle", icon: Youtube, bg: "bg-red-600", label: "YouTube" },
-                  { href: "https://github.com/moostyle", icon: Github, bg: "bg-gray-800", label: "GitHub" }
+                  { href: "https://www.patreon.com/MOOSTYLES", icon: Heart, bg: "bg-gradient-to-r from-orange-500 to-red-500", label: "Support on Patreon" }
                 ].map((social, index) => {
                   const IconComponent = social.icon;
                   return (

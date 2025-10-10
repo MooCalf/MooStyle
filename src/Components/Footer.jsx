@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowUp, HelpCircle, Instagram, Twitter, Youtube, Github, Mail, Globe } from "lucide-react";
+import { ArrowUp, HelpCircle, Instagram, Twitter, Youtube, Mail, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export const Footer = () => {
@@ -23,7 +23,7 @@ export const Footer = () => {
     {
       title: "Socials",
       links: [
-        { name: "Patreon", href: "https://www.patreon.com/c/MOOSTYLES" }
+        { name: "Patreon", href: "https://www.patreon.com/MOOSTYLES" }
       ]
     },
     {
