@@ -1,27 +1,33 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Calendar, User, Tag, ChevronRight, Search, Filter, Clock, Eye, Heart, Share2 } from 'lucide-react';
+import { ArrowLeft, Filter, Tag, Calendar, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { NavigationPrimary } from '@/Components/NavigationPrimary';
+import { NavigationSecondary } from '@/Components/NavigationSecondary';
+import { Footer } from '@/Components/Footer';
+import { ThemeToggle } from '@/Components/ThemeToggle';
+import { Background } from '@/Components/Background';
+import { Metadata } from '@/Components/Metadata.jsx';
+import SearchQuery from '@/Components/SearchQuery';
+import BlogPostCard from '@/Components/BlogPostCard';
+import BlogPostDetails from '@/Components/BlogPostDetails';
 
 const Blog = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedTag, setSelectedTag] = useState('all');
-  const [sortBy, setSortBy] = useState('newest');
-  const [showFilters, setShowFilters] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
 
   // Sample blog posts - you can replace this with real data later
   const blogPosts = [
     {
       id: 1,
-      title: "Welcome to MooStyle - Your New Modding Destination",
-      excerpt: "I'm excited to announce the launch of MooStyle, your premier destination for high-quality InZoi mods. After months of development, we're finally ready to share amazing mods with the community.",
+      type: 'blog',
+      title: "Welcome to MOOSTYLE - Your New Modding Destination",
+      excerpt: "I'm excited to announce the launch of MOOSTYLE, your premier destination for high-quality InZoi mods. After months of development, we're finally ready to share amazing mods with the community.",
       content: `
         <h2>Welcome to the Future of InZoi Modding</h2>
-        <p>After months of hard work and dedication, I'm thrilled to officially launch MooStyle - your new go-to destination for high-quality InZoi mods. This platform represents everything I've learned about modding and community building over the years.</p>
+        <p>After months of hard work and dedication, I'm thrilled to officially launch MOOSTYLE - your new go-to destination for high-quality InZoi mods. This platform represents everything I've learned about modding and community building over the years.</p>
         
-        <h3>What Makes MooStyle Different?</h3>
-        <p>Unlike other modding platforms, MooStyle focuses on:</p>
+        <h3>What Makes MOOSTYLE Different?</h3>
+        <p>Unlike other modding platforms, MOOSTYLE focuses on:</p>
         <ul>
           <li><strong>Quality over Quantity:</strong> Every mod is carefully tested and optimized</li>
           <li><strong>Community First:</strong> Built by modders, for modders</li>
@@ -46,13 +52,14 @@ const Blog = () => {
       tags: ["launch", "mods", "inzoi", "community"],
       readTime: "3 min read",
       featured: true,
-      image: "/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
+      image: "/projects/Brand Medias/Promotional Content/Promo Poster.png",
       views: 1250,
       likes: 89,
       comments: 23
     },
     {
       id: 2,
+      type: 'blog',
       title: "InZoi Modding Guidelines - What You Need to Know",
       excerpt: "Understanding InZoi's modding guidelines is crucial for creating compatible and safe mods. Here's everything you need to know about the official guidelines and best practices.",
       content: `
@@ -94,13 +101,14 @@ const Blog = () => {
       tags: ["inzoi", "guidelines", "modding", "tutorial"],
       readTime: "5 min read",
       featured: false,
-      image: "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
+      image: "/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
       views: 890,
       likes: 67,
       comments: 15
     },
     {
       id: 3,
+      type: 'blog',
       title: "Community Spotlight: Amazing Mods from Our Creators",
       excerpt: "This month we're highlighting some incredible mods created by our community members. From character customizations to furniture sets, these creators are pushing the boundaries of what's possible.",
       content: `
@@ -139,13 +147,14 @@ const Blog = () => {
       tags: ["community", "spotlight", "creators", "featured"],
       readTime: "4 min read",
       featured: false,
-      image: "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
+      image: "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
       views: 756,
       likes: 45,
       comments: 12
     },
     {
       id: 4,
+      type: 'blog',
       title: "Technical Deep Dive: Modding Tools and Resources",
       excerpt: "A comprehensive guide to the tools and resources every InZoi modder should know about. From basic setup to advanced techniques, we cover everything you need to get started.",
       content: `
@@ -196,13 +205,14 @@ const Blog = () => {
       tags: ["tools", "resources", "technical", "guide"],
       readTime: "7 min read",
       featured: false,
-      image: "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
+      image: "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
       views: 1120,
       likes: 78,
       comments: 19
     },
     {
       id: 5,
+      type: 'blog',
       title: "Monthly Mod Roundup - January 2024",
       excerpt: "Check out the best mods released this month! From character enhancements to gameplay improvements, here are our top picks for January 2024.",
       content: `
@@ -250,322 +260,180 @@ const Blog = () => {
       tags: ["roundup", "january", "mods", "review"],
       readTime: "6 min read",
       featured: false,
-      image: "/projects/BrandCovers/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
+      image: "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
       views: 980,
       likes: 56,
       comments: 8
     }
   ];
 
-  const categories = ['all', 'Announcements', 'Tutorials', 'Community', 'Reviews'];
-  const allTags = ['all', ...new Set(blogPosts.flatMap(post => post.tags))];
-  const sortOptions = [
-    { value: 'newest', label: 'Newest First' },
-    { value: 'oldest', label: 'Oldest First' },
-    { value: 'most-viewed', label: 'Most Viewed' },
-    { value: 'most-liked', label: 'Most Liked' }
-  ];
-
-  const filteredPosts = blogPosts.filter(post => {
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
-    const matchesTag = selectedTag === 'all' || post.tags.includes(selectedTag);
-    return matchesSearch && matchesCategory && matchesTag;
-  });
-
-  // Sort posts based on selected option
-  const sortedPosts = [...filteredPosts].sort((a, b) => {
-    switch (sortBy) {
-      case 'newest':
-        return new Date(b.date) - new Date(a.date);
-      case 'oldest':
-        return new Date(a.date) - new Date(b.date);
-      case 'most-viewed':
-        return b.views - a.views;
-      case 'most-liked':
-        return b.likes - a.likes;
-      default:
-        return 0;
-    }
-  });
-
-  const featuredPost = sortedPosts.find(post => post.featured);
-  const regularPosts = sortedPosts.filter(post => !post.featured);
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
-  };
-
   const handlePostClick = (post) => {
     setSelectedPost(post);
   };
 
-  const handleClosePost = () => {
+  const handlePostClose = () => {
     setSelectedPost(null);
   };
 
+  const handleSearchSelect = (result) => {
+    if (result.type === 'blog') {
+      const post = blogPosts.find(p => p.id === result.id);
+      if (post) {
+        setSelectedPost(post);
+      }
+    }
+  };
+
+  const featuredPost = blogPosts.find(post => post.featured);
+  const regularPosts = blogPosts.filter(post => !post.featured);
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center space-x-4">
-            <Link 
-              to="/" 
-              className="p-2 text-gray-600 hover:text-teal-600 transition-colors duration-200"
+    <>
+      <Metadata 
+        pageTitle="Blog - MOOSTYLE"
+        pageDescription="Stay updated with the latest MOOSTYLE news, modding tips, and community insights."
+      />
+      
+      <div className="min-h-screen text-gray-900 overflow-x-hidden relative">
+        <Background showEffects={false} />
+        <ThemeToggle />
+        
+        {/* Navigation Bars */}
+        <div id="navigation">
+          <NavigationPrimary />
+          <NavigationSecondary />
+        </div>
+        
+        {/* Main Content */}
+        <main id="main-content">
+          {/* Blog Header */}
+          <motion.div 
+            className="bg-white border-b border-gray-200"
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+              <div className="flex items-center space-x-4">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link 
+                    to="/" 
+                    className="p-2 text-gray-600 hover:text-teal-600 transition-colors duration-200"
+                  >
+                    <ArrowLeft size={24} />
+                  </Link>
+                </motion.div>
+                <div className="flex items-center space-x-3">
+                  <motion.div 
+                    className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.2, type: "spring", stiffness: 200 }}
+                  >
+                    <span className="text-white font-bold text-sm">B</span>
+                  </motion.div>
+                  <motion.div
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                  >
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Blog</h1>
+                    <p className="text-gray-600 mt-1">Updates, announcements, and insights</p>
+                  </motion.div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Blog Content */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            {/* Search */}
+            <motion.div 
+              className="mb-8"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <ArrowLeft size={24} />
-            </Link>
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">B</span>
-              </div>
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Blog</h1>
-                <p className="text-gray-600 mt-1">Updates, announcements, and insights</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Search and Filter */}
-        <div className="mb-8">
-          <div className="flex flex-col lg:flex-row gap-4 mb-6">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-              <input
-                type="text"
+              <SearchQuery
+                searchData={blogPosts}
+                onSearchSelect={handleSearchSelect}
                 placeholder="Search blog posts..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="max-w-2xl"
+                searchFields={['title', 'content', 'tags', 'category', 'author', 'excerpt']}
+                resultLimit={8}
               />
-            </div>
-            <div className="flex gap-2">
-              <div className="relative">
-                <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                  className="pl-10 pr-8 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-white min-w-[140px]"
-                >
-                  {categories.map(category => (
-                    <option key={category} value={category}>
-                      {category === 'all' ? 'All Categories' : category}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="relative">
-                <Tag className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-                <select
-                  value={selectedTag}
-                  onChange={(e) => setSelectedTag(e.target.value)}
-                  className="pl-10 pr-8 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-white min-w-[120px]"
-                >
-                  {allTags.map(tag => (
-                    <option key={tag} value={tag}>
-                      {tag === 'all' ? 'All Tags' : `#${tag}`}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="relative">
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent bg-white min-w-[140px]"
-                >
-                  {sortOptions.map(option => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-          
-          {/* Active Filters Display */}
-          {(selectedCategory !== 'all' || selectedTag !== 'all' || searchTerm) && (
-            <div className="flex flex-wrap gap-2 mb-4">
-              {searchTerm && (
-                <span className="bg-teal-100 text-teal-800 px-3 py-1 rounded-full text-sm">
-                  Search: "{searchTerm}"
-                </span>
-              )}
-              {selectedCategory !== 'all' && (
-                <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                  Category: {selectedCategory}
-                </span>
-              )}
-              {selectedTag !== 'all' && (
-                <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">
-                  Tag: #{selectedTag}
-                </span>
-              )}
-              <button
-                onClick={() => {
-                  setSearchTerm('');
-                  setSelectedCategory('all');
-                  setSelectedTag('all');
-                }}
-                className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm hover:bg-gray-200 transition-colors"
+            </motion.div>
+
+            {/* Featured Post */}
+            {featuredPost && (
+              <motion.div 
+                className="mb-12"
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
               >
-                Clear All
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Featured Post */}
-        {featuredPost && (
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured Post</h2>
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="md:flex">
-                <div className="md:w-1/2">
-                  <img
-                    src={featuredPost.image}
-                    alt={featuredPost.title}
-                    className="w-full h-64 md:h-full object-cover"
-                    onError={(e) => {
-                      e.target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkZlYXR1cmVkIEJsb2cgUG9zdDwvdGV4dD48L3N2Zz4=";
-                    }}
-                  />
-                </div>
-                <div className="md:w-1/2 p-8">
-                  <div className="flex items-center space-x-2 mb-3">
-                    <span className="bg-teal-100 text-teal-800 text-xs font-semibold px-2 py-1 rounded-full">
-                      {featuredPost.category}
-                    </span>
-                    <span className="bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded-full">
-                      Featured
-                    </span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-4 hover:text-teal-600 transition-colors">
-                    {featuredPost.title}
-                  </h3>
-                  <p className="text-gray-600 mb-6 leading-relaxed">
-                    {featuredPost.excerpt}
-                  </p>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
-                      <div className="flex items-center space-x-1">
-                        <User size={16} />
-                        <span>{featuredPost.author}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Calendar size={16} />
-                        <span>{formatDate(featuredPost.date)}</span>
-                      </div>
-                      <span>{featuredPost.readTime}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-wrap gap-2">
-                      {featuredPost.tags.map((tag, index) => (
-                        <span key={index} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
-                          #{tag}
-                        </span>
-                      ))}
-                    </div>
-                    <button className="flex items-center space-x-1 text-teal-600 hover:text-teal-700 font-medium">
-                      <span>Read More</span>
-                      <ChevronRight size={16} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Regular Posts */}
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Latest Posts</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {regularPosts.map((post) => (
-              <article key={post.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-48 object-cover"
-                  onError={(e) => {
-                    e.target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkJsb2cgUG9zdDwvdGV4dD48L3N2Zz4=";
-                  }}
+                <motion.h2 
+                  className="text-2xl font-bold text-gray-900 mb-6"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.4, delay: 0.6 }}
+                >
+                  Featured Post
+                </motion.h2>
+                <BlogPostCard
+                  post={featuredPost}
+                  onClick={handlePostClick}
+                  variant="featured"
+                  className="md:flex"
                 />
-                <div className="p-6">
-                  <div className="flex items-center space-x-2 mb-3">
-                    <span className="bg-teal-100 text-teal-800 text-xs font-semibold px-2 py-1 rounded-full">
-                      {post.category}
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 hover:text-teal-600 transition-colors line-clamp-2">
-                    {post.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 line-clamp-3">
-                    {post.excerpt}
-                  </p>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-3 text-sm text-gray-500">
-                      <div className="flex items-center space-x-1">
-                        <User size={14} />
-                        <span>{post.author}</span>
-                      </div>
-                      <div className="flex items-center space-x-1">
-                        <Calendar size={14} />
-                        <span>{formatDate(post.date)}</span>
-                      </div>
-                    </div>
-                    <span className="text-sm text-gray-500">{post.readTime}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex flex-wrap gap-1">
-                      {post.tags.slice(0, 2).map((tag, index) => (
-                        <span key={index} className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
-                          #{tag}
-                        </span>
-                      ))}
-                      {post.tags.length > 2 && (
-                        <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
-                          +{post.tags.length - 2}
-                        </span>
-                      )}
-                    </div>
-                    <button className="flex items-center space-x-1 text-teal-600 hover:text-teal-700 font-medium text-sm">
-                      <span>Read</span>
-                      <ChevronRight size={14} />
-                    </button>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
+              </motion.div>
+            )}
 
-        {/* Empty State */}
-        {regularPosts.length === 0 && (
-          <div className="text-center py-12">
-            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="text-gray-400" size={24} />
-            </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No posts found</h3>
-            <p className="text-gray-600">Try adjusting your search or filter criteria.</p>
+            {/* Regular Posts */}
+            <motion.div
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+            >
+              <motion.h2 
+                className="text-2xl font-bold text-gray-900 mb-6"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.8 }}
+              >
+                Latest Posts
+              </motion.h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {regularPosts.map((post, index) => (
+                  <BlogPostCard
+                    key={post.id}
+                    post={post}
+                    onClick={handlePostClick}
+                    variant="default"
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
+                  />
+                ))}
+              </div>
+            </motion.div>
           </div>
-        )}
+
+          <Footer />
+        </main>
       </div>
-    </div>
+
+      {/* Blog Post Details Modal */}
+      {selectedPost && (
+        <BlogPostDetails
+          post={selectedPost}
+          onClose={handlePostClose}
+        />
+      )}
+    </>
   );
 };
 

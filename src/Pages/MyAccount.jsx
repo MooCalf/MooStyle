@@ -517,11 +517,11 @@ const MyAccount = () => {
             <div className="flex items-center justify-center">
               <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200">
                 <img
-                  src="/projects/MooCalf_Main Logo.png"
-                  alt="MooStyle Logo"
-                  className="h-8 w-8 rounded-full"
+                  src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png"
+                  alt="MOOSTYLE Logo"
+                  className="h-8 w-8 object-contain"
                 />
-                <span className="text-2xl font-bold text-gray-900">MooStyle</span>
+                <span className="text-2xl font-bold text-teal-600">MOOSTYLE</span>
               </Link>
             </div>
           </div>
@@ -580,11 +580,11 @@ const MyAccount = () => {
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200">
               <img
-                src="/projects/MooCalf_Main Logo.png"
-                alt="MooStyle Logo"
-                className="h-8 w-8 rounded-full"
+                src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png"
+                alt="MOOSTYLE Logo"
+                className="h-8 w-8 object-contain"
               />
-              <span className="text-2xl font-bold text-gray-900">MooStyle</span>
+              <span className="text-2xl font-bold text-teal-600">MOOSTYLE</span>
             </Link>
             <div className="flex items-center space-x-4">
               <div className="text-right">

@@ -87,6 +87,10 @@ code, pre, .font-mono {
   transform: none;
 }
 
+.brand-logo-link span {
+  color: #0d9488 !important; /* Ensure teal color is preserved */
+}
+
 @media (min-width: 640px) {
   .nav-secondary-link {
     font-size: 0.875rem;
@@ -345,6 +349,13 @@ img {
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
+  padding: 0 1rem;
+}
+
+@media (max-width: 640px) {
+  .promotional-carousel-container {
+    padding: 0 0.5rem;
+  }
 }
 
 .promotional-banner {
@@ -406,13 +417,25 @@ img {
   border-radius: 0 0 8px 8px;
   position: relative;
   overflow: hidden;
-  height: 250px;
+  height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+@media (min-width: 480px) {
+  .carousel-box {
+    height: 250px;
+  }
+}
+
 @media (min-width: 640px) {
+  .carousel-box {
+    height: 350px;
+  }
+}
+
+@media (min-width: 768px) {
   .carousel-box {
     height: 400px;
   }
@@ -439,7 +462,19 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   transition: transform 0.5s ease;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Ensure images scale properly on very small screens */
+@media (max-width: 480px) {
+  .carousel-image {
+    object-fit: cover;
+    object-position: center;
+  }
 }
 
 .carousel-counter {
@@ -459,17 +494,26 @@ img {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.9);
   color: #666666;
   border: none;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 10;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 480px) {
+  .carousel-arrow {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 @media (min-width: 640px) {
@@ -485,7 +529,13 @@ img {
 }
 
 .carousel-arrow-left {
-  left: 10px;
+  left: 8px;
+}
+
+@media (min-width: 480px) {
+  .carousel-arrow-left {
+    left: 12px;
+  }
 }
 
 @media (min-width: 640px) {
@@ -495,7 +545,13 @@ img {
 }
 
 .carousel-arrow-right {
-  right: 10px;
+  right: 8px;
+}
+
+@media (min-width: 480px) {
+  .carousel-arrow-right {
+    right: 12px;
+  }
 }
 
 @media (min-width: 640px) {
@@ -1260,13 +1316,13 @@ img {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 240px;
-  height: 320px;
+  height: auto;
+  aspect-ratio: 3/4;
 }
 
 @media (min-width: 640px) {
   .brand-card {
     width: 280px;
-    height: 360px;
     max-width: none;
   }
 }
@@ -1274,14 +1330,12 @@ img {
 @media (min-width: 768px) {
   .brand-card {
     width: 300px;
-    height: 380px;
   }
 }
 
 @media (min-width: 1024px) {
   .brand-card {
     width: 320px;
-    height: 400px;
   }
 }
 
@@ -1305,26 +1359,8 @@ img {
 .brand-card-image-container {
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 100%;
   overflow: hidden;
-}
-
-@media (min-width: 640px) {
-  .brand-card-image-container {
-    height: 240px;
-  }
-}
-
-@media (min-width: 768px) {
-  .brand-card-image-container {
-    height: 260px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .brand-card-image-container {
-    height: 280px;
-  }
 }
 
 .brand-card-image {

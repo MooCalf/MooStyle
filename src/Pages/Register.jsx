@@ -121,8 +121,8 @@ export const Register = () => {
   return (
     <>
       <Metadata 
-        pageTitle="Register - MooStyle"
-        pageDescription="Create your MooStyle account"
+        pageTitle="Register - MOOSTYLE"
+        pageDescription="Create your MOOSTYLE account"
       />
       <div className="min-h-screen bg-gray-50">
         <NavigationPrimary />

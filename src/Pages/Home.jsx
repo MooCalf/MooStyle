@@ -1,13 +1,13 @@
 import { NavigationPrimary } from "@/Components/NavigationPrimary";
 import { NavigationSecondary } from "@/Components/NavigationSecondary";
-import { HeroSection } from "@/Components/HeroSection";
-import { Regions } from "@/Components/Regions";
-import { BrandCovers } from "@/Components/BrandCovers";
-import { Recommended } from "@/Components/Recommended";
-import { RecommendedCategories } from "@/Components/RecommendedCategories";
-import { MoreBrands } from "@/Components/MoreBrands";
-import { LocalArtisans } from "@/Components/LocalArtisans";
-import { ContactSection } from "@/Components/ContactSection";
+import { HeroSection } from "@/Components/HomepageComponents/HeroSection";
+import { Regions } from "@/Components/HomepageComponents/Regions";
+import { BrandCovers } from "@/Components/HomepageComponents/BrandCovers";
+import { Recommended } from "@/Components/HomepageComponents/Recommended";
+import { RecommendedCategories } from "@/Components/HomepageComponents/RecommendedCategories";
+import { MoreBrands } from "@/Components/HomepageComponents/MoreBrands";
+import { LocalArtisans } from "@/Components/HomepageComponents/LocalArtisans";
+import { ContactSection } from "@/Components/HomepageComponents/ContactSection";
 import { ThemeToggle } from "@/Components/ThemeToggle";
 import { Background } from "@/Components/Background";
 import { Footer } from "@/Components/Footer";
@@ -16,8 +16,8 @@ import { Metadata } from "@/Components/Metadata.jsx";
 export const Home = () => (
   <>
     <Metadata 
-      pageTitle="MooStyle - Asian Fashion & Beauty"
-      pageDescription="Discover the latest Asian fashion, beauty products, and lifestyle items at MooStyle."
+      pageTitle="MOOSTYLE - Asian Fashion & Beauty"
+      pageDescription="Discover the latest Asian fashion, beauty products, and lifestyle items at MOOSTYLE."
     />
     
     {/* Skip Links for Accessibility */}

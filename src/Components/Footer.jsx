@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ArrowUp, HelpCircle, Instagram, Twitter, Youtube, Github, Mail, Globe } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Footer = () => {
   const [showHelpDropdown, setShowHelpDropdown] = useState(false);
@@ -16,16 +17,13 @@ export const Footer = () => {
       title: "Downloads",
       links: [
         { name: "Browse Mods", href: "/shopping" },
-        { name: "Featured Mods", href: "/brands" },
-        { name: "Latest Releases", href: "/brands" }
+        { name: "Featured Mods", href: "/#featured-brands" }
       ]
     },
     {
-      title: "Community",
+      title: "Socials",
       links: [
-        { name: "Discord Server", href: "https://discord.gg/moocalf" },
-        { name: "Reddit Community", href: "https://reddit.com/user/MooCalf" },
-        { name: "Mod Requests", href: "/about" }
+        { name: "Patreon", href: "https://www.patreon.com/c/MOOSTYLES" }
       ]
     },
     {
@@ -33,7 +31,7 @@ export const Footer = () => {
       links: [
         { name: "Installation Guide", href: "/common-questions" },
         { name: "Troubleshooting", href: "/common-questions" },
-        { name: "Contact Support", href: "mailto:hello@moocalf.com" }
+        { name: "Contact Support", href: "/common-questions#still-have-questions" }
       ]
     },
     {
@@ -82,10 +80,19 @@ export const Footer = () => {
         </div>
       </div>
 
-      {/* Row 2: Large MOOSTYLE Text */}
+      {/* Row 2: Logo and Large MOOSTYLE Text */}
       <div className="py-8 sm:py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl xl:text-9xl font-bold text-white tracking-tight opacity-90">
+          {/* MOOSTYLE Logo */}
+          <div className="mb-6 sm:mb-8">
+            <img
+              src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL DARKCOLOR.png"
+              alt="MOOSTYLE Logo"
+              className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 mx-auto object-contain"
+            />
+          </div>
+          {/* Large MOOSTYLE Text */}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white tracking-tight opacity-90">
             MOOSTYLE
           </h2>
         </div>
@@ -103,41 +110,55 @@ export const Footer = () => {
             {/* Right: Icons */}
             <div className="flex items-center space-x-4">
               {/* Scroll to Top Button */}
-              <button
+              <motion.button
                 onClick={scrollToTop}
                 className="footer-icon p-2 bg-white bg-opacity-20 rounded-full shadow-sm hover:shadow-md hover:bg-opacity-30"
                 aria-label="Scroll to top"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
               >
                 <ArrowUp size={20} />
-              </button>
+              </motion.button>
 
               {/* Help Dropdown */}
               <div className="relative">
-                <button
+                <motion.button
                   onClick={() => setShowHelpDropdown(!showHelpDropdown)}
                   className="footer-icon p-2 bg-white bg-opacity-20 rounded-full shadow-sm hover:shadow-md hover:bg-opacity-30"
                   aria-label="Help"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 >
                   <HelpCircle size={20} />
-                </button>
-                {showHelpDropdown && (
-                  <div className="absolute bottom-full right-0 mb-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
-                    <div className="py-1">
-                      <a
-                        href="#common-questions"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        Common Questions
-                      </a>
-                      <a
-                        href="#about-me"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      >
-                        About Me
-                      </a>
-                    </div>
-                  </div>
-                )}
+                </motion.button>
+                <AnimatePresence>
+                  {showHelpDropdown && (
+                    <motion.div 
+                      className="absolute bottom-full right-0 mb-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50"
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                    >
+                      <div className="py-1">
+                        <a
+                          href="#common-questions"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          Common Questions
+                        </a>
+                        <a
+                          href="#about-me"
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          About Me
+                        </a>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </div>
