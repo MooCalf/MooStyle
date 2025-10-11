@@ -94,6 +94,65 @@
 }
 
 /* ========================================
+   BACK BUTTON STYLES
+   ======================================== */
+
+/* Simple Back Button */
+.back-button-simple {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  color: #6b7280;
+  transition: all 0.2s ease;
+  border: none;
+  background: transparent;
+  outline: none;
+  cursor: pointer;
+}
+
+.back-button-simple:hover {
+  color: #0d9488;
+  background-color: #f0fdfa;
+}
+
+.back-button-simple:active {
+  transform: scale(0.98);
+}
+
+/* Enhanced Back Button */
+.back-button-enhanced {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  color: #6b7280;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  outline: none;
+  cursor: pointer;
+}
+
+.back-button-enhanced:hover {
+  color: #0d9488;
+  background-color: #f0fdfa;
+  border-color: #0d9488;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.15);
+}
+
+.back-button-enhanced:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
    CARD PATTERNS
    ======================================== */
 

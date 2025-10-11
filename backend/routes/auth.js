@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const { body, validationResult } = require('express-validator');
 const User = require('../models/User');
 const { sendPasswordResetEmail } = require('../services/emailService');
+const { authRateLimit, apiRateLimit } = require('../middleware/rateLimiter');
 const router = express.Router();
 
 // Test endpoint to check if auth routes are working
@@ -132,7 +133,7 @@ router.post('/register', validateRegistration, async (req, res) => {
 });
 
 // Login user
-router.post('/login', validateLogin, async (req, res) => {
+router.post('/login', authRateLimit, validateLogin, async (req, res) => {
   try {
     console.log('Login request received:', {
       email: req.body.email.replace(/(.{2}).*(@.*)/, '$1***$2'),
@@ -231,7 +232,7 @@ router.get('/profile', async (req, res) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.userId);
+    const user = await User.findById(decoded.userId).lean();
     
     if (!user) {
       return res.status(404).json({
@@ -240,9 +241,23 @@ router.get('/profile', async (req, res) => {
       });
     }
 
+    // Create public profile manually for better performance
+    const publicProfile = {
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      isActive: user.isActive,
+      lastLogin: user.lastLogin,
+      notificationSettings: user.notificationSettings,
+      points: user.points,
+      membershipLevel: user.membershipLevel,
+      createdAt: user.createdAt
+    };
+
     res.json({
       success: true,
-      user: user.getPublicProfile()
+      user: publicProfile
     });
 
   } catch (error) {
@@ -304,60 +319,8 @@ router.put('/notification-settings', async (req, res) => {
   }
 });
 
-// Add points to user account (for mod downloads)
-router.post('/add-points', async (req, res) => {
-  try {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
-    
-    if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: 'No token provided'
-      });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.userId);
-    
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'User not found'
-      });
-    }
-
-    const { modCount } = req.body;
-    
-    if (!modCount || modCount <= 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid mod count'
-      });
-    }
-
-    // Add 2 points per mod downloaded
-    const pointsToAdd = modCount * 2;
-    user.points += pointsToAdd;
-    await user.save();
-
-    console.log(`Added ${pointsToAdd} points to user ${user.username} for downloading ${modCount} mods`);
-
-    res.json({
-      success: true,
-      message: `Added ${pointsToAdd} points for downloading ${modCount} mods`,
-      points: user.points,
-      membershipLevel: user.membershipLevel
-    });
-
-  } catch (error) {
-    console.error('Add points error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to add points',
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
-    });
-  }
-});
+// REMOVED: Duplicate points endpoint - points are now handled exclusively through /api/cart/download
+// This prevents duplicate point awards and consolidates the points system
 
 // Forgot password - send reset email
 router.post('/forgot-password', async (req, res) => {

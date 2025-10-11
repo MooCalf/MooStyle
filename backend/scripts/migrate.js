@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../models/User');
 const Cart = require('../models/Cart');
+const PointTransaction = require('../models/PointTransaction');
 
 // Database Migration Script for MooStyle
 // This script handles updates to existing user accounts when schema changes
@@ -9,20 +10,21 @@ const runMigrations = async () => {
   try {
     console.log('🔄 Starting database migrations...');
     
-    // Migration 1: Ensure all users have points and membershipLevel fields
+    // Migration 1: Ensure all users have points, membershipLevel, and lastDownloaded fields
     console.log('📊 Migrating user accounts...');
     
-    const usersWithoutPoints = await User.find({
+    const usersWithoutFields = await User.find({
       $or: [
         { points: { $exists: false } },
         { membershipLevel: { $exists: false } },
-        { notificationSettings: { $exists: false } }
+        { notificationSettings: { $exists: false } },
+        { lastDownloaded: { $exists: false } }
       ]
     });
     
-    console.log(`Found ${usersWithoutPoints.length} users needing migration`);
+    console.log(`Found ${usersWithoutFields.length} users needing migration`);
     
-    for (const user of usersWithoutPoints) {
+    for (const user of usersWithoutFields) {
       const updates = {};
       
       // Add points if missing
@@ -43,6 +45,12 @@ const runMigrations = async () => {
           emailNotifications: false
         };
         console.log(`Adding notificationSettings field to user: ${user.username}`);
+      }
+      
+      // Add lastDownloaded if missing
+      if (user.lastDownloaded === undefined) {
+        updates.lastDownloaded = null;
+        console.log(`Adding lastDownloaded field to user: ${user.username}`);
       }
       
       // Update user with missing fields
@@ -85,6 +93,36 @@ const runMigrations = async () => {
       }
     }
     
+    // Migration 4: Create PointTransaction collection and indexes
+    console.log('📊 Setting up PointTransaction collection...');
+    
+    try {
+      // Create the collection by inserting a dummy document and then removing it
+      const dummyTransaction = new PointTransaction({
+        userId: allUsers[0]?._id || new mongoose.Types.ObjectId(),
+        username: 'migration_test',
+        transactionType: 'admin_adjustment',
+        pointsAwarded: 0,
+        pointsBefore: 0,
+        pointsAfter: 0,
+        membershipLevelBefore: 'Bronze',
+        membershipLevelAfter: 'Bronze',
+        modCount: 0,
+        downloadData: {},
+        ipAddress: '127.0.0.1',
+        userAgent: 'Migration Script',
+        adminNote: 'Migration test - will be deleted',
+        metadata: {}
+      });
+      
+      await dummyTransaction.save();
+      await PointTransaction.deleteOne({ username: 'migration_test' });
+      
+      console.log('✅ PointTransaction collection created successfully');
+    } catch (error) {
+      console.log('ℹ️ PointTransaction collection already exists or error:', error.message);
+    }
+    
     console.log('✅ All migrations completed successfully!');
     
     // Show final user data
@@ -95,9 +133,15 @@ const runMigrations = async () => {
       console.log(`Email: ${user.email}`);
       console.log(`Points: ${user.points}`);
       console.log(`Membership Level: ${user.membershipLevel}`);
+      console.log(`Last Downloaded: ${user.lastDownloaded || 'Never'}`);
       console.log(`Notification Settings: ${JSON.stringify(user.notificationSettings)}`);
       console.log('---');
     }
+    
+    // Show PointTransaction collection status
+    console.log('\n📊 PointTransaction collection status:');
+    const transactionCount = await PointTransaction.countDocuments();
+    console.log(`Total transactions logged: ${transactionCount}`);
     
   } catch (error) {
     console.error('❌ Migration failed:', error);

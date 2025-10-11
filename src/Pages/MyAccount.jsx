@@ -14,6 +14,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { Footer } from '@/Components/Footer';
 import ChangePassword from '@/Components/ChangePassword';
+import MyAccountSkeleton from '@/Components/MyAccountSkeleton';
 import { apiConfig } from '@/lib/apiConfig.js';
 
 const MyAccount = () => {
@@ -34,12 +35,63 @@ const MyAccount = () => {
         return;
       }
 
+      // Check if we have cached data that's still fresh (less than 5 minutes old)
+      const cachedUser = localStorage.getItem('user');
+      const cacheTimestamp = localStorage.getItem('userCacheTimestamp');
+      const now = Date.now();
+      const cacheAge = cacheTimestamp ? now - parseInt(cacheTimestamp) : Infinity;
+      const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+      // Use cached data if it's fresh
+      if (cachedUser && cacheAge < CACHE_DURATION) {
+        try {
+          const parsedUser = JSON.parse(cachedUser);
+          setUser(parsedUser);
+          if (parsedUser.notificationSettings) {
+            setNotificationSettings(parsedUser.notificationSettings);
+          }
+          setLoading(false);
+          console.log('📦 Using cached user data');
+          
+          // Still fetch fresh data in background for next time
+          fetchFreshDataInBackground(token);
+          return;
+        } catch (error) {
+          console.error('Error parsing cached user data:', error);
+        }
+      }
+
+      // Fetch fresh data
+      await fetchFreshData(token);
+    };
+
+    const fetchFreshDataInBackground = async (token) => {
       try {
-        // Always fetch fresh data from server to ensure points are up to date
-        const response = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.auth.profile)}?t=${Date.now()}`, {
+        const response = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.auth.profile)}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
-            'Cache-Control': 'no-cache'
+            'Cache-Control': 'max-age=300' // 5 minutes cache
+          }
+        });
+
+        if (response.ok) {
+          const responseData = await response.json();
+          const userData = responseData.user;
+          localStorage.setItem('user', JSON.stringify(userData));
+          localStorage.setItem('userCacheTimestamp', Date.now().toString());
+          console.log('🔄 Background refresh completed');
+        }
+      } catch (error) {
+        console.warn('Background refresh failed:', error);
+      }
+    };
+
+    const fetchFreshData = async (token) => {
+      try {
+        const response = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.auth.profile)}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Cache-Control': 'max-age=300'
           }
         });
 
@@ -49,8 +101,8 @@ const MyAccount = () => {
           console.log('🔄 Fresh user data from server:', userData);
           setUser(userData);
           localStorage.setItem('user', JSON.stringify(userData));
+          localStorage.setItem('userCacheTimestamp', Date.now().toString());
           
-          // Load notification settings from user data
           if (userData.notificationSettings) {
             console.log('Loading notification settings:', userData.notificationSettings);
             setNotificationSettings(userData.notificationSettings);
@@ -71,6 +123,7 @@ const MyAccount = () => {
           } else {
             navigate('/login');
           }
+          setLoading(false);
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -124,7 +177,7 @@ const MyAccount = () => {
         return;
       }
 
-      const response = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.auth.profile)}?t=${Date.now()}`, {
+      const response = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.auth.profile)}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Cache-Control': 'no-cache'
@@ -135,6 +188,7 @@ const MyAccount = () => {
         const responseData = await response.json();
         const userData = responseData.user;
         localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('userCacheTimestamp', Date.now().toString());
         setUser(userData);
         
         if (userData.notificationSettings) {
@@ -288,7 +342,6 @@ const MyAccount = () => {
           <div className="flex items-center justify-between mb-4">
             <Star size={24} />
             <span className="text-2xl font-bold">{user?.points ?? 0}</span>
-            {console.log('🎯 Displaying points:', user?.points)}
           </div>
           <h4 className="font-semibold mb-2">Available Points</h4>
           <p className="text-teal-100 text-sm">Earn 2 points for each mod you download</p>
@@ -297,7 +350,6 @@ const MyAccount = () => {
           <div className="flex items-center justify-between mb-4">
             <Check size={24} className="text-green-600" />
             <span className="text-2xl font-bold text-gray-900">{user?.membershipLevel ?? 'Bronze'}</span>
-            {console.log('🏆 Displaying membership level:', user?.membershipLevel)}
           </div>
           <h4 className="font-semibold text-gray-900 mb-2">Membership Level</h4>
           <p className="text-gray-600 text-sm">Current tier based on your points</p>
@@ -510,67 +562,7 @@ const MyAccount = () => {
   );
 
   if (!user || loading) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        {/* Header with Logo */}
-        <div className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex items-center justify-center">
-              <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200">
-                <img
-                  src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png"
-                  alt="MOOSTYLE Logo"
-                  className="h-8 w-8 object-contain"
-                />
-                <span className="text-2xl font-bold text-teal-600">MOOSTYLE</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Loading or Authentication Required Notice */}
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          <div className={`border rounded-lg p-8 text-center ${loading ? 'bg-blue-50 border-blue-200' : 'bg-red-50 border-red-200'}`}>
-            <div className="flex justify-center mb-6">
-              {loading ? (
-                <RefreshCw size={64} className="text-blue-600 animate-spin" />
-              ) : (
-                <AlertCircle size={64} className="text-red-600" />
-              )}
-            </div>
-            <h1 className={`text-3xl font-bold mb-4 ${loading ? 'text-blue-900' : 'text-red-900'}`}>
-              {loading ? 'Loading Account Data...' : 'Account Required'}
-            </h1>
-            <p className={`text-lg mb-8 max-w-2xl mx-auto ${loading ? 'text-blue-800' : 'text-red-800'}`}>
-              {loading 
-                ? 'Please wait while we fetch your latest account information and points...'
-                : 'You need to create an account to access your profile, track points, manage notifications, and enjoy all the benefits of being a MooStyle member.'
-              }
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/register"
-                className="inline-flex items-center px-8 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 font-medium"
-              >
-                Create Account
-              </Link>
-              <Link
-                to="/login"
-                className="inline-flex items-center px-8 py-3 border-2 border-teal-600 text-teal-600 rounded-lg hover:bg-teal-50 transition-colors duration-200 font-medium"
-              >
-                Sign In
-              </Link>
-            </div>
-            <p className="text-red-700 text-sm mt-6">
-              Already have an account? <Link to="/login" className="underline hover:text-red-800">Sign in here</Link>
-            </p>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <Footer />
-      </div>
-    );
+    return <MyAccountSkeleton />;
   }
 
   return (

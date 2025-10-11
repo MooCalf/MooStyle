@@ -102,9 +102,9 @@ export const CartSummary = ({
         {/* Continue Shopping Button */}
         <button
           onClick={onContinueShopping}
-          className="w-full bg-white hover:bg-gray-50 border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
+          className="back-button-enhanced w-full"
         >
-          <ArrowLeft className="w-4 h-4 mr-2" />
+          <ArrowLeft className="w-4 h-4" />
           Continue Shopping
         </button>
       </div>

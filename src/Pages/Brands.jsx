@@ -51,7 +51,7 @@ const Brands = () => {
         <div className="page-header">
           <div className="content-container">
             <div className="page-header-content">
-              <Link to="/" className="back-button">
+              <Link to="/" className="back-button-enhanced">
                 <ArrowLeft size={20} />
                 <span>Back to Home</span>
               </Link>

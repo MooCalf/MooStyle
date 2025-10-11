@@ -32,6 +32,16 @@ const PORT = process.env.PORT || 5000;
 // Trust proxy for accurate IP addresses
 app.set('trust proxy', 1);
 
+// Caching middleware for API responses
+app.use((req, res, next) => {
+  // Set cache headers for GET requests to profile endpoint
+  if (req.method === 'GET' && req.path === '/api/auth/profile') {
+    res.set('Cache-Control', 'private, max-age=300'); // 5 minutes cache
+    res.set('ETag', `"${Date.now()}"`); // Simple ETag for cache validation
+  }
+  next();
+});
+
 // Security middleware - simplified
 app.use(helmet({
   contentSecurityPolicy: false, // Disable CSP for development
