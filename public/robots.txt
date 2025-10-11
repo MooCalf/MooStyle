@@ -1,0 +1,125 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://moostyle.com/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# SECURITY: Disallow dangerous/sensitive files and directories
+Disallow: /admin/
+Disallow: /api/
+Disallow: /backend/
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /.env
+Disallow: /.env.*
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /yarn.lock
+Disallow: /composer.json
+Disallow: /composer.lock
+
+# SECURITY: Block configuration and sensitive files
+Disallow: /*.env$
+Disallow: /*.config$
+Disallow: /*.conf$
+Disallow: /*.ini$
+Disallow: /*.log$
+Disallow: /*.sql$
+Disallow: /*.db$
+Disallow: /*.sqlite$
+Disallow: /*.sqlite3$
+
+# SECURITY: Block backup and temporary files
+Disallow: /*.bak$
+Disallow: /*.backup$
+Disallow: /*.tmp$
+Disallow: /*.temp$
+Disallow: /*.old$
+Disallow: /*.orig$
+Disallow: /*.swp$
+Disallow: /*.swo$
+
+# SECURITY: Block development and build files
+Disallow: /dist/
+Disallow: /build/
+Disallow: /.git/
+Disallow: /.svn/
+Disallow: /.hg/
+Disallow: /.bzr/
+Disallow: /vendor/
+Disallow: /cache/
+Disallow: /tmp/
+Disallow: /temp/
+
+# SECURITY: Block executable and script files
+Disallow: /*.exe$
+Disallow: /*.bat$
+Disallow: /*.cmd$
+Disallow: /*.sh$
+Disallow: /*.ps1$
+Disallow: /*.py$
+Disallow: /*.php$
+Disallow: /*.asp$
+Disallow: /*.jsp$
+
+# SECURITY: Block sensitive document types
+Disallow: /*.key$
+Disallow: /*.pem$
+Disallow: /*.p12$
+Disallow: /*.pfx$
+Disallow: /*.crt$
+Disallow: /*.cer$
+Disallow: /*.der$
+
+# SECURITY: Block system and hidden files
+Disallow: /.htaccess
+Disallow: /.htpasswd
+Disallow: /.DS_Store
+Disallow: /Thumbs.db
+Disallow: /desktop.ini
+Disallow: /.gitignore
+Disallow: /.gitattributes
+
+# Block unnecessary but not dangerous files
+Disallow: /*.json$
+Disallow: /*.js$
+Disallow: /*.css$
+Disallow: /*.map$
+
+# Allow important pages
+Allow: /blog
+Allow: /shopping
+Allow: /brands
+Allow: /artisans
+Allow: /about-me
+Allow: /common-questions
+
+# Allow images and assets
+Allow: /projects/
+Allow: /assets/
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.gif$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /*.ico$
+
+# Social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: TelegramBot
+Allow: /

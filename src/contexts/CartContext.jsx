@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { apiConfig } from '@/lib/apiConfig.js';
 
 const CartContext = createContext();
 
@@ -22,19 +23,12 @@ export const CartProvider = ({ children }) => {
 
   // Check if user is authenticated
   const isAuthenticated = () => {
-    const token = localStorage.getItem('token');
-    console.log('Checking authentication - token exists:', !!token);
-    return !!token;
+    return apiConfig.isAuthenticated();
   };
 
   // Get auth headers for API calls
   const getAuthHeaders = () => {
-    const token = localStorage.getItem('token');
-    console.log('Getting auth headers - token:', token ? 'exists' : 'missing');
-    return {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    };
+    return apiConfig.getAuthHeaders();
   };
 
   // Load cart from backend or localStorage
@@ -43,7 +37,7 @@ export const CartProvider = ({ children }) => {
       if (isAuthenticated()) {
         // Load from backend
         try {
-          const response = await fetch('http://localhost:5000/api/cart', {
+          const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.cart.base), {
             headers: getAuthHeaders()
           });
           
@@ -102,14 +96,11 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (product) => {
     try {
       setIsLoading(true);
-      console.log('addToCart called with product:', product);
-      console.log('User authenticated:', isAuthenticated());
       
       // Sync to backend first if authenticated
       if (isAuthenticated()) {
         try {
-          console.log('Adding to backend cart:', product);
-          const response = await fetch('http://localhost:5000/api/cart/add', {
+          const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.cart.add), {
             method: 'POST',
             headers: getAuthHeaders(),
             body: JSON.stringify({
@@ -120,16 +111,13 @@ export const CartProvider = ({ children }) => {
           
           if (!response.ok) {
             const errorData = await response.json();
-            console.error('Backend add to cart failed:', errorData);
             throw new Error('Failed to add item to backend cart');
           }
           
           const data = await response.json();
-          console.log('Backend add to cart success:', data);
           
           // Update local state with backend response
           if (data.success && data.cart) {
-            console.log('Backend cart response items:', data.cart.items);
             setCartItems(data.cart.items || []);
             showToast(`Added ${product.name} to cart`, 'success');
             return true;
@@ -141,7 +129,6 @@ export const CartProvider = ({ children }) => {
         }
       } else {
         // Not authenticated - use local storage only
-        console.log('User not authenticated, using localStorage only');
         const existingItem = cartItems.find(item => item.product.id === product.id);
         
         if (existingItem) {
@@ -178,27 +165,21 @@ export const CartProvider = ({ children }) => {
   const removeFromCart = async (productId) => {
     try {
       setIsLoading(true);
-      console.log('CartContext: Removing productId:', productId);
       
       // Sync to backend first if authenticated
       if (isAuthenticated()) {
         try {
-          console.log('User is authenticated, removing from backend...');
-          const response = await fetch(`http://localhost:5000/api/cart/remove/${productId}`, {
+          const response = await fetch(apiConfig.buildUrl(`${apiConfig.endpoints.cart.remove}/${productId}`), {
             method: 'DELETE',
             headers: getAuthHeaders()
           });
           
-          console.log('Backend response status:', response.status);
-          
           if (!response.ok) {
             const errorData = await response.json();
-            console.error('Backend removal failed:', errorData);
             throw new Error('Failed to remove item from backend');
           }
           
           const data = await response.json();
-          console.log('Backend removal success:', data);
           
           // Update local state with backend response
           if (data.success && data.cart) {
@@ -238,7 +219,7 @@ export const CartProvider = ({ children }) => {
       // Sync to backend first if authenticated
       if (isAuthenticated()) {
         try {
-          const response = await fetch(`http://localhost:5000/api/cart/update/${productId}`, {
+          const response = await fetch(apiConfig.buildUrl(`${apiConfig.endpoints.cart.update}/${productId}`), {
             method: 'PUT',
             headers: getAuthHeaders(),
             body: JSON.stringify({ quantity })
@@ -246,12 +227,10 @@ export const CartProvider = ({ children }) => {
           
           if (!response.ok) {
             const errorData = await response.json();
-            console.error('Backend quantity update failed:', errorData);
             throw new Error('Failed to update quantity in backend');
           }
           
           const data = await response.json();
-          console.log('Backend quantity update success:', data);
           
           // Update local state with backend response
           if (data.success && data.cart) {
@@ -293,7 +272,7 @@ export const CartProvider = ({ children }) => {
       // Sync to backend if authenticated
       if (isAuthenticated()) {
         try {
-          await fetch('http://localhost:5000/api/cart/clear', {
+          await fetch(apiConfig.buildUrl(apiConfig.endpoints.cart.clear), {
             method: 'DELETE',
             headers: getAuthHeaders()
           });
@@ -324,7 +303,7 @@ export const CartProvider = ({ children }) => {
         return false;
       }
 
-      const response = await fetch('http://localhost:5000/api/cart/download', {
+      const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.cart.download), {
         method: 'POST',
         headers: getAuthHeaders()
       });

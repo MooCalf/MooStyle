@@ -3,8 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { NavigationPrimary } from "@/Components/NavigationPrimary";
 import { NavigationSecondary } from "@/Components/NavigationSecondary";
 import { AdvancedSearch } from "@/Components/AdvancedSearch";
+import SearchQuery from "@/Components/SearchQuery";
 import { ProductCard } from "@/Components/ProductCard";
 import { getCategoryData, getProductsByCategory, searchProducts, getAllProducts } from "@/lib/shoppingData";
+import { getGlobalSearchData } from "@/lib/globalSearchData";
 import { Metadata } from "@/Components/Metadata.jsx";
 import { Loader2, Grid, List, Star, Heart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
@@ -21,9 +23,14 @@ export const Shopping = () => {
   const [hasMore, setHasMore] = useState(true);
   const [filters, setFilters] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearchActive, setIsSearchActive] = useState(false);
 
   const itemsPerPage = 12;
   const categoryData = getCategoryData(category);
+
+  // Prepare search data for SearchQuery component - use global search data
+  const searchData = getGlobalSearchData();
 
   useEffect(() => {
     if (category && categoryData) {
@@ -61,6 +68,53 @@ export const Shopping = () => {
 
   const handleFiltersChange = (newFilters) => {
     setFilters(newFilters);
+  };
+
+  // Handle SearchQuery selection
+  const handleSearchSelect = (result) => {
+    if (result.url) {
+      navigate(result.url);
+    } else {
+      // Fallback navigation based on type
+      switch (result.type) {
+        case 'product':
+          navigate(`/product/${result.id}`);
+          break;
+        case 'category':
+          navigate(`/shopping/${result.subcategory || result.category}`);
+          break;
+        case 'blog':
+          navigate('/blog');
+          break;
+        case 'page':
+          navigate(result.url || '/');
+          break;
+        default:
+          navigate('/');
+      }
+    }
+  };
+
+  // Handle SearchQuery search
+  const handleSearchQueryChange = (query) => {
+    setSearchQuery(query);
+    if (query.trim()) {
+      setIsSearchActive(true);
+      // Use the existing searchProducts function
+      const results = searchProducts(query, { ...filters, category });
+      setSearchResults(results);
+      setFilteredProducts(results.slice(0, itemsPerPage));
+      setCurrentPage(1);
+      setHasMore(results.length > itemsPerPage);
+    } else {
+      setIsSearchActive(false);
+      setSearchResults([]);
+      // Reset to original products
+      const originalProducts = category ? getProductsByCategory(category) : getAllProducts();
+      setFilteredProducts(originalProducts.slice(0, itemsPerPage));
+      setCurrentPage(1);
+      setHasMore(originalProducts.length > itemsPerPage);
+    }
   };
 
   const loadMoreProducts = () => {
@@ -168,9 +222,26 @@ export const Shopping = () => {
                 </div>
               </div>
 
+              {/* SearchQuery Component */}
+              <div className="mb-4">
+                <SearchQuery
+                  searchData={searchData}
+                  onSearchSelect={handleSearchSelect}
+                  placeholder={`Search ${category ? categoryData.name : 'all products'}...`}
+                  showFilters={true}
+                  className="w-full"
+                  searchFields={['title', 'description', 'content', 'tags', 'category', 'subcategory', 'author', 'brand']}
+                  resultLimit={20}
+                />
+              </div>
+
               {/* Results Count */}
               <div className="text-sm text-gray-600">
-                Showing {filteredProducts.length} of {products.length} products
+                {isSearchActive ? (
+                  <>Showing {filteredProducts.length} search results for "{searchQuery}"</>
+                ) : (
+                  <>Showing {filteredProducts.length} of {products.length} products</>
+                )}
               </div>
             </div>
 

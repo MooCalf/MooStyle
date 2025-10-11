@@ -1,0 +1,126 @@
+# Static Assets - Cache for 1 year
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+# Images - Cache for 30 days
+/projects/*
+  Cache-Control: public, max-age=2592000
+  X-Content-Type-Options: nosniff
+
+# HTML Pages - Cache for 1 hour
+/*
+  Cache-Control: public, max-age=3600
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# API Endpoints - Cache for 5 minutes
+/api/*
+  Cache-Control: public, max-age=300
+  X-Content-Type-Options: nosniff
+
+# User-specific content - Cache for 10 minutes
+/my-account
+/cart
+  Cache-Control: private, max-age=600
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+
+# Authentication pages - No cache
+/login
+/register
+/forgot-password
+/reset-password
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+
+# Admin pages - No cache + Extra security
+/admin/*
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+
+# SECURITY: Block dangerous file types
+/*.env
+/*.env.*
+/*.config
+/*.conf
+/*.ini
+/*.log
+/*.sql
+/*.db
+/*.sqlite
+/*.sqlite3
+/*.bak
+/*.backup
+/*.tmp
+/*.temp
+/*.old
+/*.orig
+/*.swp
+/*.swo
+/*.exe
+/*.bat
+/*.cmd
+/*.sh
+/*.ps1
+/*.py
+/*.php
+/*.asp
+/*.jsp
+/*.key
+/*.pem
+/*.p12
+/*.pfx
+/*.crt
+/*.cer
+/*.der
+  X-Content-Type-Options: nosniff
+  Content-Type: text/plain
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# SECURITY: Block system files
+/.htaccess
+/.htpasswd
+/.DS_Store
+/Thumbs.db
+/desktop.ini
+/.gitignore
+/.gitattributes
+  X-Content-Type-Options: nosniff
+  Content-Type: text/plain
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# SECURITY: Block development directories
+/node_modules/*
+/src/*
+/backend/*
+/dist/*
+/build/*
+/.git/*
+/.svn/*
+/.hg/*
+/.bzr/*
+/vendor/*
+/cache/*
+/tmp/*
+/temp/*
+  X-Content-Type-Options: nosniff
+  Content-Type: text/plain
+  Cache-Control: no-cache, no-store, must-revalidate
+
+# Security headers for all pages
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-XSS-Protection: 1; mode=block
+  Strict-Transport-Security: max-age=31536000; includeSubDomains

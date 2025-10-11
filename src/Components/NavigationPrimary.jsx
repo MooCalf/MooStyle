@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { motion, AnimatePresence } from "framer-motion";
 import SearchQuery from "./SearchQuery";
+import { getGlobalSearchData } from '@/lib/globalSearchData';
 
 export const NavigationPrimary = () => {
   const { getCartCount, clearCartOnLogout } = useCart();
@@ -13,99 +14,7 @@ export const NavigationPrimary = () => {
   const [user, setUser] = useState(null);
 
   // Search data for the SearchQuery component
-  const searchData = [
-    // Products
-    {
-      id: 'product-1',
-      type: 'product',
-      title: 'Korean Skincare Set',
-      category: 'skincare',
-      tags: ['korean', 'skincare', 'beauty', 'routine'],
-      author: 'LunaGlow',
-      date: '2024-01-15',
-      content: 'Complete Korean skincare routine with cleanser, toner, and moisturizer',
-      url: '/product/korean-skincare-set'
-    },
-    {
-      id: 'product-2',
-      type: 'product',
-      title: 'Japanese Streetwear Hoodie',
-      category: 'fashion',
-      tags: ['japanese', 'streetwear', 'hoodie', 'fashion'],
-      author: 'TokyoVibe',
-      date: '2024-01-10',
-      content: 'Premium Japanese streetwear hoodie with unique design',
-      url: '/product/japanese-hoodie'
-    },
-    {
-      id: 'product-3',
-      type: 'product',
-      title: 'Chinese Ceramic Tea Set',
-      category: 'lifestyle',
-      tags: ['chinese', 'ceramic', 'tea', 'lifestyle'],
-      author: 'ZenLifestyle',
-      date: '2024-01-05',
-      content: 'Traditional Chinese ceramic tea set for authentic tea experience',
-      url: '/product/chinese-tea-set'
-    },
-    // Blog Posts
-    {
-      id: 'blog-1',
-      type: 'blog',
-      title: 'Welcome to MOOSTYLE - Your New Modding Destination',
-      category: 'announcement',
-      tags: ['welcome', 'modding', 'inzoi', 'community'],
-      author: 'MooCalf',
-      date: '2024-01-15',
-      content: 'I\'m excited to announce the launch of MOOSTYLE, your premier destination for high-quality InZoi mods.',
-      url: '/blog'
-    },
-    {
-      id: 'blog-2',
-      type: 'blog',
-      title: 'Top 10 InZoi Mods You Need to Try',
-      category: 'guide',
-      tags: ['inzoi', 'mods', 'guide', 'top-10'],
-      author: 'MooCalf',
-      date: '2024-01-12',
-      content: 'Discover the most popular and essential InZoi mods that will enhance your gaming experience.',
-      url: '/blog'
-    },
-    {
-      id: 'blog-3',
-      type: 'blog',
-      title: 'How to Install InZoi Mods Safely',
-      category: 'tutorial',
-      tags: ['inzoi', 'mods', 'tutorial', 'installation'],
-      author: 'MooCalf',
-      date: '2024-01-08',
-      content: 'Step-by-step guide on how to safely install InZoi mods without breaking your game.',
-      url: '/blog'
-    },
-    // Pages
-    {
-      id: 'page-1',
-      type: 'page',
-      title: 'About MOOSTYLE',
-      category: 'about',
-      tags: ['about', 'moostyle', 'company', 'story'],
-      author: 'MooCalf',
-      date: '2024-01-01',
-      content: 'Learn about MOOSTYLE\'s mission to provide high-quality InZoi mods to the community.',
-      url: '/about-me'
-    },
-    {
-      id: 'page-2',
-      type: 'page',
-      title: 'Common Questions',
-      category: 'help',
-      tags: ['faq', 'help', 'questions', 'support'],
-      author: 'MooCalf',
-      date: '2024-01-01',
-      content: 'Find answers to frequently asked questions about MOOSTYLE and InZoi modding.',
-      url: '/common-questions'
-    }
-  ];
+  const searchData = getGlobalSearchData();
 
   // Check if user is logged in
   useEffect(() => {

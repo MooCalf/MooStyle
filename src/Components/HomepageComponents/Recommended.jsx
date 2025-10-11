@@ -10,7 +10,7 @@ export const Recommended = () => {
   const recommendedData = [
     {
       id: 1,
-      image: "/projects/Products/LunaGlow/Lunaglow - Kit Promotional Cover.png",
+      image: "/projects/Products/LunaGlow/Korean Glass Skin Set/Lunaglow - Kit Promotional Cover.png",
       name: "LunaGlow Radiance Set",
       description: "Complete Korean skincare routine",
       brand: "LunaGlow",

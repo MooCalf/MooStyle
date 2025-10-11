@@ -1,9 +1,11 @@
 // Frontend Product Service
 // Handles API calls to the backend product system
 
+import { apiConfig } from './apiConfig.js';
+
 class ProductService {
   constructor() {
-    this.baseURL = 'http://localhost:5000/api/products';
+    this.baseURL = apiConfig.buildUrl(apiConfig.endpoints.products.base);
     this.cache = new Map();
     this.cacheTimeout = 5 * 60 * 1000; // 5 minutes
   }

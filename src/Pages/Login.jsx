@@ -4,6 +4,7 @@ import { NavigationPrimary } from '@/Components/NavigationPrimary';
 import { NavigationSecondary } from '@/Components/NavigationSecondary';
 import { Metadata } from '@/Components/Metadata.jsx';
 import { Eye, EyeOff, AlertCircle, CheckCircle, Info } from 'lucide-react';
+import { apiConfig } from '@/lib/apiConfig.js';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export const Login = () => {
     setSuccess('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.auth.login), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

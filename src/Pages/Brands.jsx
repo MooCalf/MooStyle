@@ -299,7 +299,7 @@ const getBrandLogoImage = (brandName) => {
 
 const getBrandBackgroundImage = (brandName) => {
   const backgroundImages = {
-    "LunaGlow": "/projects/Products/LunaGlow/Lunaglow - Kit Promotional Cover.png",
+    "LunaGlow": "/projects/Products/LunaGlow/Korean Glass Skin Set/Lunaglow - Kit Promotional Cover.png",
     "TokyoVibe": "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
     "CelestialBeauty": "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
     "PearlEssence": "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",

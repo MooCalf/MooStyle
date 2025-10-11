@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle, AlertTriangle, XCircle, RefreshCw, Activity, Database, Lock, ShoppingCart, Users, Mail, Loader2 } from 'lucide-react';
+import { apiConfig } from '@/lib/apiConfig.js';
 
 const ApiHealthMonitor = () => {
   const [services, setServices] = useState([]);
@@ -31,7 +32,7 @@ const ApiHealthMonitor = () => {
   const checkSingleEndpoint = async (endpoint, index) => {
     const startTime = performance.now();
     try {
-      const response = await fetch(`http://localhost:5000${endpoint.path}`);
+      const response = await fetch(`${apiConfig.baseURL}${endpoint.path}`);
       const endTime = performance.now();
       const responseTime = Math.round(endTime - startTime);
       const data = await response.json();

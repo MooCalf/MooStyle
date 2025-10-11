@@ -1,21 +1,76 @@
 {
-  "name": "MooCalf Portfolio",
-  "short_name": "MooCalf",
-  "description": "Creative individual specializing in 3D modeling, graphic design, and community management",
+  "name": "MOOSTYLE - Asian Fashion & Beauty Platform",
+  "short_name": "MOOSTYLE",
+  "description": "Premier destination for Asian fashion, beauty products, and lifestyle items. High-quality InZoi mods, Korean skincare, Japanese streetwear, and more.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fafafa",
-  "theme_color": "#6C2BD7",
+  "background_color": "#ffffff",
+  "theme_color": "#0d9488",
   "orientation": "portrait-primary",
+  "scope": "/",
   "icons": [
     {
-      "src": "/projects/MooCalf_Main Logo.png",
+      "src": "/projects/Brand Medias/Logos/MooStyle Logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/projects/Brand Medias/Logos/MooStyle Logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "categories": ["art", "design", "portfolio"],
+  "categories": ["shopping", "fashion", "beauty", "lifestyle", "entertainment"],
   "lang": "en",
-  "dir": "ltr"
+  "dir": "ltr",
+  "screenshots": [
+    {
+      "src": "/projects/Brand Medias/Promotional Content/Promo Poster.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Blog",
+      "short_name": "Blog",
+      "description": "Read latest blog posts and modding tips",
+      "url": "/blog",
+      "icons": [
+        {
+          "src": "/projects/Brand Medias/Logos/MooStyle Logo.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Shopping",
+      "short_name": "Shop",
+      "description": "Browse products and mods",
+      "url": "/shopping",
+      "icons": [
+        {
+          "src": "/projects/Brand Medias/Logos/MooStyle Logo.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Brands",
+      "short_name": "Brands",
+      "description": "Explore our brand partners",
+      "url": "/brands",
+      "icons": [
+        {
+          "src": "/projects/Brand Medias/Logos/MooStyle Logo.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 } 

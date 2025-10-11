@@ -1,6 +1,8 @@
 // Mod Upload System
 // Handles the step-by-step process of uploading mods to the website
 
+import { apiConfig } from './apiConfig.js';
+
 import fs from 'fs';
 import path from 'path';
 
@@ -478,7 +480,7 @@ ${new Date().toISOString()}
   // Sync with database
   async syncWithDatabase(productId) {
     try {
-      const response = await fetch('http://localhost:5000/api/products/refresh', {
+      const response = await fetch(apiConfig.buildUrl('/api/products/refresh'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

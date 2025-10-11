@@ -1,6 +1,5 @@
 import { NavigationPrimary } from "@/Components/NavigationPrimary";
 import { NavigationSecondary } from "@/Components/NavigationSecondary";
-import { ThemeToggle } from "@/Components/ThemeToggle";
 import { Background } from "@/Components/Background";
 import { Footer } from "@/Components/Footer";
 import { ArrowLeft, X, Menu } from "lucide-react";
@@ -142,7 +141,6 @@ export const MyProjects = () => {
         <NavigationPrimary />
         <NavigationSecondary />
         <MyProjectsNavbar />
-        <ThemeToggle />
         <Background showEffects={false} />
         <div className="pt-24 pb-8 px-4">
           <div className="container mx-auto max-w-7xl">
