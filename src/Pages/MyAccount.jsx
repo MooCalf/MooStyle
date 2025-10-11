@@ -14,6 +14,7 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { Footer } from '@/Components/Footer';
 import ChangePassword from '@/Components/ChangePassword';
+import { apiConfig } from '@/lib/apiConfig.js';
 
 const MyAccount = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const MyAccount = () => {
 
       try {
         // Always fetch fresh data from server to ensure points are up to date
-        const response = await fetch(`http://localhost:5000/api/auth/profile?t=${Date.now()}`, {
+        const response = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.auth.profile)}?t=${Date.now()}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Cache-Control': 'no-cache'
@@ -123,7 +124,7 @@ const MyAccount = () => {
         return;
       }
 
-      const response = await fetch(`http://localhost:5000/api/auth/profile?t=${Date.now()}`, {
+      const response = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.auth.profile)}?t=${Date.now()}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Cache-Control': 'no-cache'
@@ -167,7 +168,7 @@ const MyAccount = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/auth/notification-settings', {
+      const response = await fetch(apiConfig.buildUrl('/api/auth/notification-settings'), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

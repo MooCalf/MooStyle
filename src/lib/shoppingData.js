@@ -12,11 +12,12 @@ export const shoppingCategories = {
         name: "Korean Glass Skin Set",
         author: "LunaGlow",
         brand: "LunaGlow",
+        folderPath: "Products/LunaGlow/Korean Glass Skin Set", // Exact folder path for downloads
         price: 89.99,
         originalPrice: 129.99,
-        image: "/projects/Products/LunaGlow/Lunaglow - Kit Promotional Cover.png",
+        image: "/projects/Products/LunaGlow/Korean Glass Skin Set/Lunaglow - Kit Promotional Cover.png",
         images: [
-          "/projects/Products/LunaGlow/Lunaglow - Kit Promotional Cover.png"
+          "/projects/Products/LunaGlow/Korean Glass Skin Set/Lunaglow - Kit Promotional Cover.png"
         ],
         description: "Complete Korean skincare routine for glass skin effect",
         detailedDescription: "Transform your skin with our premium Korean Glass Skin Set. This comprehensive 4-step routine combines the best of Korean skincare innovation to achieve that coveted glass skin effect. Formulated with hyaluronic acid, niacinamide, and traditional Korean ingredients like ginseng and green tea extract.",
@@ -48,13 +49,13 @@ export const shoppingCategories = {
         shipping: "Free shipping on orders over $50",
         returnPolicy: "30-day return policy",
         ingredients: "Hyaluronic Acid, Niacinamide, Korean Ginseng Extract, Green Tea Extract, Ceramides",
-        howToUse: "Apply cleanser, then toner, followed by serum, and finish with moisturizer. Use morning and evening for best results.",
         modFile: {
           filename: "korean-glass-skin-set.zip",
           size: 15728640, // 15MB
           version: "1.2.0"
         },
-        downloadCount: 15420
+        downloadCount: 15420,
+        howToUse: "Apply cleanser, then toner, followed by serum, and finish with moisturizer. Use morning and evening for best results."
       },
       {
         id: "beauty-002",
@@ -450,7 +451,7 @@ export const shoppingCategories = {
         brand: "LunaGlow",
         price: 75.00,
         originalPrice: 95.00,
-        image: "/projects/Products/LunaGlow/Lunaglow - Kit Promotional Cover.png",
+        image: "/projects/Products/LunaGlow/Korean Glass Skin Set/Lunaglow - Kit Promotional Cover.png",
         description: "Complete Korean skincare routine",
         tags: ["Skincare", "Korean", "Radiance", "Set"],
         rating: 4.8,
@@ -472,9 +473,9 @@ export const shoppingCategories = {
         brand: "LunaGlow",
         price: 0.00,
         originalPrice: 0.00,
-        image: "/projects/Products/LunaGlow/Lunaglow - Kit Promotional Cover.png",
+        image: "/projects/Products/LunaGlow/Korean Glass Skin Set/Lunaglow - Kit Promotional Cover.png",
         images: [
-          "/projects/Products/LunaGlow/Lunaglow - Kit Promotional Cover.png"
+          "/projects/Products/LunaGlow/Korean Glass Skin Set/Lunaglow - Kit Promotional Cover.png"
         ],
         description: "Exclusive LunaGlow promotional kit cover - premium Korean skincare collection",
         detailedDescription: "Discover the essence of Korean beauty with our exclusive LunaGlow Kit Promotional Cover. This premium collection features our signature skincare products designed to give you that coveted glass skin effect. Perfect for those who want to experience the best of Korean beauty innovation.",

@@ -9,7 +9,7 @@ export const BrandCovers = () => {
     // Row 1: 4 brands
     {
       id: 1,
-      image: "/projects/Products/LunaGlow/Lunaglow - Kit Promotional Cover.png",
+      image: "/projects/Products/LunaGlow/Korean Glass Skin Set/Lunaglow - Kit Promotional Cover.png",
       name: "LunaGlow",
       description: "Korean-inspired skincare essentials",
       discount: "30% OFF"

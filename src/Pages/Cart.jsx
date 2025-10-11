@@ -96,46 +96,232 @@ export const Cart = () => {
       // Add each cart item to the zip
       for (const item of cartItems) {
         const productData = item.productData || item.product;
-        const folderName = productData.brand || productData.author || 'Products';
+        const brandName = productData.brand || productData.author || 'Products';
+        const productName = productData.name || 'Unknown Product';
         
-        // Create folder structure: Brand/ProductName/
-        const productFolder = zip.folder(folderName).folder(productData.name || 'Unknown Product');
+        // Create folder structure: Products/BrandName/ProductName/
+        const brandFolder = zip.folder('Products').folder(brandName);
+        const productFolder = brandFolder.folder(productName);
         
-        // Add product information as a text file
-        const productInfo = {
-          name: productData.name,
-          brand: productData.brand,
-          author: productData.author,
-          description: productData.description,
-          price: productData.price,
-          category: productData.category,
-          quantity: item.quantity,
-          addedAt: item.addedAt || new Date().toISOString()
-        };
+        // First, try to fetch actual files from the Products folder
+        let actualFilesFound = false;
         
-        productFolder.file('product-info.json', JSON.stringify(productInfo, null, 2));
-        
-        // Add product description as a text file
-        if (productData.description) {
-          productFolder.file('description.txt', productData.description);
-        }
-        
-        // Add product features if available
-        if (productData.features && productData.features.length > 0) {
-          productFolder.file('features.txt', productData.features.join('\n'));
-        }
-        
-        // Add product image if available
-        if (productData.image) {
-          try {
-            // Fetch the image and add it to the zip
-            const response = await fetch(productData.image);
+        // Fetch all actual files from the Products folder structure using exact folder path
+        try {
+          const token = localStorage.getItem('token');
+          if (token && productData.folderPath) {
+            const response = await fetch(`/api/cart/product-files-by-path/${encodeURIComponent(productData.folderPath)}`, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+            });
+            
             if (response.ok) {
-              const imageBlob = await response.blob();
-              productFolder.file('product-image.jpg', imageBlob);
+              const data = await response.json();
+              console.log(`Found ${data.files.length} files for folder: ${productData.folderPath}`);
+              
+              // Add each file to the zip
+              for (const file of data.files) {
+                try {
+                  const fileResponse = await fetch(file.path);
+                  if (fileResponse.ok) {
+                    const fileBlob = await fileResponse.blob();
+                    
+                    if (file.folder) {
+                      // File is in a subfolder
+                      const subfolderZip = productFolder.folder(file.folder);
+                      subfolderZip.file(file.name, fileBlob);
+                      console.log(`Added file: ${file.folder}/${file.name}`);
+                    } else {
+                      // File is in the main folder
+                      productFolder.file(file.name, fileBlob);
+                      console.log(`Added file: ${file.name}`);
+                    }
+                    actualFilesFound = true;
+                  }
+                } catch (fileError) {
+                  console.warn(`Could not fetch file ${file.name}:`, fileError);
+                }
+              }
+              
+              // If no files were found, create a placeholder
+              if (data.files.length === 0) {
+                const placeholderInfo = {
+                  folderPath: productData.folderPath,
+                  note: "No files found in product folder",
+                  timestamp: new Date().toISOString()
+                };
+                productFolder.file('folder-info.json', JSON.stringify(placeholderInfo, null, 2));
+              }
+            } else {
+              console.warn('Could not fetch product files from API');
+              // Fallback to manual file fetching
+              actualFilesFound = await fetchKnownFiles(productFolder, productData.folderPath, productData);
             }
-          } catch (imageError) {
-            console.warn('Could not fetch product image:', imageError);
+          } else {
+            console.warn('No authentication token or folder path found');
+            // Fallback to manual file fetching
+            actualFilesFound = await fetchKnownFiles(productFolder, productData.folderPath, productData);
+          }
+        } catch (error) {
+          console.warn('Error fetching product files:', error);
+          // Fallback to manual file fetching
+          actualFilesFound = await fetchKnownFiles(productFolder, productData.folderPath, productData);
+        }
+        
+        // Only add metadata files if no actual files were found
+        if (!actualFilesFound) {
+          // Add product information as a text file
+          const productInfo = {
+            name: productData.name,
+            brand: productData.brand,
+            author: productData.author,
+            description: productData.description,
+            price: productData.price,
+            category: productData.category,
+            quantity: item.quantity,
+            addedAt: item.addedAt || new Date().toISOString()
+          };
+          
+          productFolder.file('product-info.json', JSON.stringify(productInfo, null, 2));
+          
+          // Add product description as a text file
+          if (productData.description) {
+            productFolder.file('description.txt', productData.description);
+          }
+          
+          // Add product features if available
+          if (productData.features && productData.features.length > 0) {
+            productFolder.file('features.txt', productData.features.join('\n'));
+          }
+          
+          // Add product image if available
+          if (productData.image) {
+            try {
+              // Fetch the image and add it to the zip
+              const response = await fetch(productData.image);
+              if (response.ok) {
+                const imageBlob = await response.blob();
+                const imageExtension = productData.image.split('.').pop() || 'jpg';
+                productFolder.file(`product-image.${imageExtension}`, imageBlob);
+              }
+            } catch (imageError) {
+              console.warn('Could not fetch product image:', imageError);
+            }
+          }
+        }
+        
+        // Helper function for fallback file fetching
+        async function fetchKnownFiles(productFolder, folderPath, productData) {
+          let filesFound = false;
+          
+          if (!folderPath) {
+            console.warn('No folder path provided for fallback file fetching');
+            return filesFound;
+          }
+          
+          // Input validation function
+          const validateFilePath = (folderPath, filename) => {
+            const cleanPath = folderPath.replace(/\.\./g, '').replace(/\/\//g, '/');
+            const cleanFilename = filename.replace(/\.\./g, '').replace(/\/\//g, '/');
+            
+            if (!/^[a-zA-Z0-9\/\-_]+$/.test(cleanPath) || !/^[a-zA-Z0-9.\-_]+$/.test(cleanFilename)) {
+              throw new Error('Invalid file path');
+            }
+            
+            return `/projects/${cleanPath}/${cleanFilename}`;
+          };
+          
+          const knownFiles = [
+            'Lunaglow - Kit Promotional Cover.png',
+            'metadata.txt',
+            'product-info.txt',
+            'README.md',
+            'cover.png',
+            'main.jpg'
+          ];
+          
+          // Add modFile if it exists
+          if (productData.modFile && productData.modFile.filename) {
+            knownFiles.push(productData.modFile.filename);
+          }
+          
+          // Use Promise.all for parallel file fetching (performance optimization)
+          const filePromises = knownFiles.map(async (filename) => {
+            try {
+              const filePath = validateFilePath(folderPath, filename);
+              const response = await fetch(filePath);
+              if (response.ok) {
+                const fileBlob = await response.blob();
+                productFolder.file(filename, fileBlob);
+                console.log(`Successfully added file: ${filename}`);
+                return true;
+              }
+            } catch (fileError) {
+              console.warn(`Could not fetch file ${filename}:`, fileError);
+            }
+            return false;
+          });
+          
+          const fileResults = await Promise.all(filePromises);
+          filesFound = fileResults.some(result => result);
+          
+          // Also try to fetch files from subfolders (images, files, etc.)
+          const subfolders = ['images', 'files', 'docs'];
+          for (const subfolder of subfolders) {
+            try {
+              // Validate subfolder path
+              const cleanSubfolder = subfolder.replace(/\.\./g, '').replace(/\/\//g, '/');
+              if (!/^[a-zA-Z0-9\-_]+$/.test(cleanSubfolder)) {
+                console.warn(`Invalid subfolder name: ${subfolder}`);
+                continue;
+              }
+              
+              const subfolderPath = `/projects/${folderPath}/${cleanSubfolder}/`;
+              // Try common file extensions
+              const commonExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.zip', '.pdf', '.txt', '.json'];
+              const commonNames = ['main', 'cover', 'promotional', 'product', 'gallery', 'metadata'];
+              
+              for (const name of commonNames) {
+                for (const ext of commonExtensions) {
+                  const filename = `${name}${ext}`;
+                  try {
+                    const filePath = validateFilePath(folderPath, `${cleanSubfolder}/${filename}`);
+                    const response = await fetch(filePath);
+                    if (response.ok) {
+                      const fileBlob = await response.blob();
+                      const subfolderZip = productFolder.folder(subfolder);
+                      subfolderZip.file(filename, fileBlob);
+                      console.log(`Successfully added file: ${subfolder}/${filename}`);
+                      filesFound = true;
+                    }
+                  } catch (fileError) {
+                    // Silently continue - file doesn't exist
+                  }
+                }
+              }
+            } catch (subfolderError) {
+              console.warn(`Could not access subfolder ${subfolder}:`, subfolderError);
+            }
+          }
+          
+          return filesFound;
+        }
+        
+        // Add additional images if available
+        if (productData.images && productData.images.length > 0) {
+          const imagesFolder = productFolder.folder('images');
+          for (let i = 0; i < productData.images.length; i++) {
+            try {
+              const response = await fetch(productData.images[i]);
+              if (response.ok) {
+                const imageBlob = await response.blob();
+                const imageExtension = productData.images[i].split('.').pop() || 'jpg';
+                imagesFolder.file(`gallery-${i + 1}.${imageExtension}`, imageBlob);
+              }
+            } catch (imageError) {
+              console.warn(`Could not fetch gallery image ${i + 1}:`, imageError);
+            }
           }
         }
       }

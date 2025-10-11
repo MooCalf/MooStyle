@@ -5,15 +5,16 @@ import { motion } from 'framer-motion';
 import { NavigationPrimary } from '@/Components/NavigationPrimary';
 import { NavigationSecondary } from '@/Components/NavigationSecondary';
 import { Footer } from '@/Components/Footer';
-import { ThemeToggle } from '@/Components/ThemeToggle';
 import { Background } from '@/Components/Background';
-import { Metadata } from '@/Components/Metadata.jsx';
+import SEO from '@/Components/SEO';
 import SearchQuery from '@/Components/SearchQuery';
 import BlogPostCard from '@/Components/BlogPostCard';
 import BlogPostDetails from '@/Components/BlogPostDetails';
+import { BlogPostCardSkeleton } from '@/Components/LoadingStates';
 
 const Blog = () => {
   const [selectedPost, setSelectedPost] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // Sample blog posts - you can replace this with real data later
   const blogPosts = [
@@ -289,14 +290,16 @@ const Blog = () => {
 
   return (
     <>
-      <Metadata 
-        pageTitle="Blog - MOOSTYLE"
-        pageDescription="Stay updated with the latest MOOSTYLE news, modding tips, and community insights."
+      <SEO
+        title="Blog - MOOSTYLE | Latest News, Modding Tips & Community Insights"
+        description="Stay updated with the latest MOOSTYLE news, modding tips, and community insights. Discover InZoi modding guides, community spotlights, and technical tutorials."
+        keywords="MOOSTYLE blog, InZoi modding, modding tips, community news, modding tutorials, InZoi guides, modding community"
+        url="/blog"
+        type="website"
       />
       
       <div className="min-h-screen text-gray-900 overflow-x-hidden relative">
         <Background showEffects={false} />
-        <ThemeToggle />
         
         {/* Navigation Bars */}
         <div id="navigation">
@@ -407,17 +410,24 @@ const Blog = () => {
                 Latest Posts
               </motion.h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {regularPosts.map((post, index) => (
-                  <BlogPostCard
-                    key={post.id}
-                    post={post}
-                    onClick={handlePostClick}
-                    variant="default"
-                    initial={{ y: 30, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
-                  />
-                ))}
+                {loading ? (
+                  // Show loading skeletons
+                  [...Array(6)].map((_, index) => (
+                    <BlogPostCardSkeleton key={index} />
+                  ))
+                ) : (
+                  regularPosts.map((post, index) => (
+                    <BlogPostCard
+                      key={post.id}
+                      post={post}
+                      onClick={handlePostClick}
+                      variant="default"
+                      initial={{ y: 30, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
+                    />
+                  ))
+                )}
               </div>
             </motion.div>
           </div>

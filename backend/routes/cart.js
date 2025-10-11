@@ -2,6 +2,8 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const Cart = require('../models/Cart');
 const User = require('../models/User');
+const fs = require('fs').promises;
+const path = require('path');
 
 const router = express.Router();
 
@@ -305,6 +307,173 @@ router.post('/download', authenticateToken, async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Failed to process download',
+      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+    });
+  }
+});
+
+// Path validation function to prevent directory traversal
+const validateFolderPath = (folderPath) => {
+  // Remove any path traversal attempts
+  const cleanPath = folderPath.replace(/\.\./g, '').replace(/\/\//g, '/');
+  
+  // Only allow alphanumeric, hyphens, underscores, and forward slashes
+  if (!/^[a-zA-Z0-9\/\-_]+$/.test(cleanPath)) {
+    throw new Error('Invalid folder path');
+  }
+  
+  // Ensure path starts with Products/
+  if (!cleanPath.startsWith('Products/')) {
+    throw new Error('Path must start with Products/');
+  }
+  
+  return cleanPath;
+};
+
+// Get product folder contents for bulk download by folder path
+router.get('/product-files-by-path/:folderPath', authenticateToken, async (req, res) => {
+  try {
+    const folderPath = validateFolderPath(req.params.folderPath);
+    const productPath = path.join(process.cwd(), 'public', 'projects', folderPath);
+    
+    const files = [];
+    
+    try {
+      // Read the main product folder
+      const items = await fs.readdir(productPath, { withFileTypes: true });
+      
+      for (const item of items) {
+        const itemPath = path.join(productPath, item.name);
+        
+        if (item.isFile()) {
+          // It's a file
+          const stats = await fs.stat(itemPath);
+          files.push({
+            name: item.name,
+            type: 'file',
+            size: stats.size,
+            path: `/projects/${folderPath}/${item.name}`,
+            relativePath: item.name
+          });
+        } else if (item.isDirectory()) {
+          // It's a directory - read its contents
+          try {
+            const subItems = await fs.readdir(itemPath, { withFileTypes: true });
+            for (const subItem of subItems) {
+              if (subItem.isFile()) {
+                const subItemPath = path.join(itemPath, subItem.name);
+                const stats = await fs.stat(subItemPath);
+                files.push({
+                  name: subItem.name,
+                  type: 'file',
+                  size: stats.size,
+                  path: `/projects/${folderPath}/${item.name}/${subItem.name}`,
+                  relativePath: `${item.name}/${subItem.name}`,
+                  folder: item.name
+                });
+              }
+            }
+          } catch (subError) {
+            console.warn(`Could not read subdirectory ${item.name}:`, subError);
+          }
+        }
+      }
+    } catch (error) {
+      console.warn(`Could not read product folder ${folderPath}:`, error);
+    }
+    
+    res.json({
+      success: true,
+      folderPath,
+      files,
+      count: files.length
+    });
+    
+  } catch (error) {
+    console.error('Get product files by path error:', error);
+    
+    // Handle validation errors differently
+    if (error.message.includes('Invalid folder path') || error.message.includes('Path must start with Products/')) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid folder path',
+        error: error.message
+      });
+    }
+    
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get product files',
+      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+    });
+  }
+});
+
+// Get product folder contents for bulk download
+router.get('/product-files/:brand/:product', authenticateToken, async (req, res) => {
+  try {
+    const { brand, product } = req.params;
+    const productPath = path.join(process.cwd(), 'public', 'projects', 'Products', brand, product);
+    
+    const files = [];
+    
+    try {
+      // Read the main product folder
+      const items = await fs.readdir(productPath, { withFileTypes: true });
+      
+      for (const item of items) {
+        const itemPath = path.join(productPath, item.name);
+        
+        if (item.isFile()) {
+          // It's a file
+          const stats = await fs.stat(itemPath);
+          files.push({
+            name: item.name,
+            type: 'file',
+            size: stats.size,
+            path: `/projects/Products/${brand}/${product}/${item.name}`,
+            relativePath: item.name
+          });
+        } else if (item.isDirectory()) {
+          // It's a directory - read its contents
+          try {
+            const subItems = await fs.readdir(itemPath, { withFileTypes: true });
+            for (const subItem of subItems) {
+              if (subItem.isFile()) {
+                const subItemPath = path.join(itemPath, subItem.name);
+                const stats = await fs.stat(subItemPath);
+                files.push({
+                  name: subItem.name,
+                  type: 'file',
+                  size: stats.size,
+                  path: `/projects/Products/${brand}/${product}/${item.name}/${subItem.name}`,
+                  relativePath: `${item.name}/${subItem.name}`,
+                  folder: item.name
+                });
+              }
+            }
+          } catch (subError) {
+            console.warn(`Could not read subdirectory ${item.name}:`, subError);
+          }
+        }
+      }
+    } catch (error) {
+      console.warn(`Could not read product folder ${brand}/${product}:`, error);
+    }
+    
+    res.json({
+      success: true,
+      brand,
+      product,
+      files,
+      count: files.length
+    });
+    
+  } catch (error) {
+    console.error('Get product files error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to get product files',
       error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
     });
   }

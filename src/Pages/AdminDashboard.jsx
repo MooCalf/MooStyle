@@ -21,6 +21,7 @@ import {
   Activity
 } from 'lucide-react';
 import ApiHealthMonitor from '../Components/ApiHealthMonitor';
+import { apiConfig } from '@/lib/apiConfig.js';
 
 export const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -106,7 +107,7 @@ export const AdminDashboard = () => {
       
       // Fetch carts with pagination
       try {
-        const cartsResponse = await fetch(`http://localhost:5000/api/admin/carts?page=${cartsCurrentPage}&limit=${itemsPerPage}`, {
+        const cartsResponse = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.admin.carts)}?page=${cartsCurrentPage}&limit=${itemsPerPage}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -154,7 +155,7 @@ export const AdminDashboard = () => {
       
       // Fetch stats
       try {
-        const statsResponse = await fetch('http://localhost:5000/api/admin/stats', {
+        const statsResponse = await fetch(apiConfig.buildUrl(apiConfig.endpoints.admin.stats), {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -193,7 +194,7 @@ export const AdminDashboard = () => {
 
       // Fetch users
       try {
-        const usersResponse = await fetch(`http://localhost:5000/api/admin/users?page=${currentPage}&limit=${itemsPerPage}&search=${searchTerm}`, {
+        const usersResponse = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.admin.users)}?page=${currentPage}&limit=${itemsPerPage}&search=${searchTerm}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -247,7 +248,7 @@ export const AdminDashboard = () => {
       console.log('User ID:', editingUser.id);
       
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/admin/users/${editingUser.id}`, {
+      const response = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.admin.users)}/${editingUser.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -280,7 +281,7 @@ export const AdminDashboard = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/admin/users/${userId}`, {
+      const response = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.admin.users)}/${userId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

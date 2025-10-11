@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Lock, CheckCircle } from 'lucide-react';
+import { apiConfig } from '@/lib/apiConfig.js';
 
 const ResetPassword = () => {
   const [searchParams] = useSearchParams();
@@ -44,7 +45,7 @@ const ResetPassword = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/reset-password', {
+      const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.auth.resetPassword), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -8,16 +8,18 @@ import { RecommendedCategories } from "@/Components/HomepageComponents/Recommend
 import { MoreBrands } from "@/Components/HomepageComponents/MoreBrands";
 import { LocalArtisans } from "@/Components/HomepageComponents/LocalArtisans";
 import { ContactSection } from "@/Components/HomepageComponents/ContactSection";
-import { ThemeToggle } from "@/Components/ThemeToggle";
 import { Background } from "@/Components/Background";
 import { Footer } from "@/Components/Footer";
-import { Metadata } from "@/Components/Metadata.jsx";
+import SEO from "@/Components/SEO";
 
 export const Home = () => (
   <>
-    <Metadata 
-      pageTitle="MOOSTYLE - Asian Fashion & Beauty"
-      pageDescription="Discover the latest Asian fashion, beauty products, and lifestyle items at MOOSTYLE."
+    <SEO
+      title="MOOSTYLE - Premier Asian Fashion & Beauty Platform | InZoi Mods"
+      description="Discover the latest Asian fashion, beauty products, and lifestyle items at MOOSTYLE. High-quality InZoi mods, Korean skincare, Japanese streetwear, Chinese traditional items, and more. Free downloads, community-driven platform."
+      keywords="Asian fashion, Korean beauty, Japanese streetwear, InZoi mods, K-beauty, Asian lifestyle, fashion mods, beauty products, Korean skincare, Japanese fashion, Chinese traditional, modding community, free mods"
+      url="/"
+      type="website"
     />
     
     {/* Skip Links for Accessibility */}
@@ -30,7 +32,6 @@ export const Home = () => (
     
     <div className="min-h-screen text-gray-900 overflow-x-hidden relative">
       <Background showEffects={false} />
-      <ThemeToggle />
       
       {/* Navigation Bars */}
       <div id="navigation">

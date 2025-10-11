@@ -7,21 +7,41 @@ export const PromotionalCarousel = () => {
   const [isHovered, setIsHovered] = useState(false);
   const intervalRef = useRef(null);
 
-  // Carousel images including MOOSTYLE promotional content
-  const carouselImages = [
-    "/projects/Brand Medias/Promotional Content/Promo Landscape.png",
-    "/projects/Brand Medias/Promotional Content/Promo Banner - Patreon.png",
-    "/projects/Carousell Images/image1.jpg",
-    "/projects/Carousell Images/image2.jpg", 
-    "/projects/Carousell Images/image3.jpg"
+  // Carousel content including images and videos
+  const carouselContent = [
+    {
+      type: 'image',
+      src: "/projects/Brand Medias/Promotional Content/Promo Landscape.png",
+      alt: "Promo Landscape"
+    },
+    {
+      type: 'image',
+      src: "/projects/Brand Medias/Promotional Content/Promo Banner - Patreon.png",
+      alt: "Promo Banner - Patreon"
+    },
+    {
+      type: 'image',
+      src: "/projects/Carousell Images/image1.jpg",
+      alt: "Carousel Image 1"
+    },
+    {
+      type: 'image',
+      src: "/projects/Carousell Images/image2.jpg",
+      alt: "Carousel Image 2"
+    },
+    {
+      type: 'image',
+      src: "/projects/Carousell Images/image3.jpg",
+      alt: "Carousel Image 3"
+    }
   ];
 
-  const totalImages = carouselImages.length;
+  const totalContent = carouselContent.length;
 
   const startInterval = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % totalImages);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % totalContent);
     }, 5000);
   };
 
@@ -40,14 +60,14 @@ export const PromotionalCarousel = () => {
     }
 
     return () => stopInterval();
-  }, [isHovered, totalImages]);
+  }, [isHovered, totalContent]);
 
   const goToPrevious = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + totalImages) % totalImages);
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + totalContent) % totalContent);
   };
 
   const goToNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalImages);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalContent);
   };
 
   const handleMouseEnter = () => {
@@ -89,25 +109,45 @@ export const PromotionalCarousel = () => {
         <div className="carousel-content">
           <div className="carousel-slide-container">
             <AnimatePresence mode="wait">
-              <motion.img
-                key={currentIndex}
-                src={carouselImages[currentIndex]}
-                alt={`Promotional image ${currentIndex + 1}`}
-                className="carousel-image"
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                onError={(e) => {
-                  e.target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIFBsYWNlaG9sZGVyPC90ZXh0Pjwvc3ZnPg==";
-                }}
-              />
+              {carouselContent[currentIndex].type === 'video' ? (
+                <motion.video
+                  key={currentIndex}
+                  src={carouselContent[currentIndex].src}
+                  alt={carouselContent[currentIndex].alt}
+                  className="carousel-image"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  onError={(e) => {
+                    e.target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlZpZGVvIFBsYWNlaG9sZGVyPC90ZXh0Pjwvc3ZnPg==";
+                  }}
+                />
+              ) : (
+                <motion.img
+                  key={currentIndex}
+                  src={carouselContent[currentIndex].src}
+                  alt={carouselContent[currentIndex].alt}
+                  className="carousel-image"
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  onError={(e) => {
+                    e.target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkltYWdlIFBsYWNlaG9sZGVyPC90ZXh0Pjwvc3ZnPg==";
+                  }}
+                />
+              )}
             </AnimatePresence>
           </div>
 
-          {/* Image Counter */}
+          {/* Content Counter */}
           <div className="carousel-counter">
-            {currentIndex + 1}/{totalImages}
+            {currentIndex + 1}/{totalContent}
           </div>
         </div>
 

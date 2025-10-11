@@ -4,6 +4,7 @@ import { NavigationPrimary } from '@/Components/NavigationPrimary';
 import { NavigationSecondary } from '@/Components/NavigationSecondary';
 import { Metadata } from '@/Components/Metadata.jsx';
 import { Eye, EyeOff, AlertCircle, CheckCircle, Info, AlertTriangle } from 'lucide-react';
+import { apiConfig } from '@/lib/apiConfig.js';
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ export const Register = () => {
         password: '***' // Don't log actual password
       });
 
-      const response = await fetch('http://localhost:5000/api/auth/register', {
+      const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.auth.register), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

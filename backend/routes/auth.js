@@ -46,8 +46,8 @@ router.post('/register', validateRegistration, async (req, res) => {
   try {
     console.log('Registration request received:', {
       username: req.body.username,
-      email: req.body.email,
-      password: '***' // Don't log actual password
+      email: req.body.email.replace(/(.{2}).*(@.*)/, '$1***$2'),
+      timestamp: new Date().toISOString()
     });
 
     // Check validation errors
@@ -101,7 +101,7 @@ router.post('/register', validateRegistration, async (req, res) => {
         role: user.role 
       },
       process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: '24h' }
     );
 
     res.status(201).json({
@@ -135,8 +135,8 @@ router.post('/register', validateRegistration, async (req, res) => {
 router.post('/login', validateLogin, async (req, res) => {
   try {
     console.log('Login request received:', {
-      email: req.body.email,
-      password: '***'
+      email: req.body.email.replace(/(.{2}).*(@.*)/, '$1***$2'),
+      timestamp: new Date().toISOString()
     });
 
     // Check validation errors
@@ -157,7 +157,7 @@ router.post('/login', validateLogin, async (req, res) => {
     // Find user by email
     const user = await User.findOne({ email }).select('+password');
     if (!user) {
-      console.log('User not found:', email);
+      console.log('User not found:', email.replace(/(.{2}).*(@.*)/, '$1***$2'));
       return res.status(401).json({
         success: false,
         message: 'Invalid email or password'
@@ -166,7 +166,7 @@ router.post('/login', validateLogin, async (req, res) => {
 
     // Check if user is active
     if (!user.isActive) {
-      console.log('Inactive user attempted login:', email);
+      console.log('Inactive user attempted login:', email.replace(/(.{2}).*(@.*)/, '$1***$2'));
       return res.status(401).json({
         success: false,
         message: 'Account is deactivated'
@@ -176,7 +176,7 @@ router.post('/login', validateLogin, async (req, res) => {
     // Check password
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
-      console.log('Invalid password for:', email);
+      console.log('Invalid password for:', email.replace(/(.{2}).*(@.*)/, '$1***$2'));
       return res.status(401).json({
         success: false,
         message: 'Invalid email or password'
@@ -198,7 +198,7 @@ router.post('/login', validateLogin, async (req, res) => {
         role: user.role 
       },
       process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { expiresIn: '24h' }
     );
 
     res.json({
