@@ -61,6 +61,10 @@ const userSchema = new mongoose.Schema({
     enum: ['Bronze', 'Silver', 'Gold', 'Diamond'],
     default: 'Bronze'
   },
+  lastDownloaded: {
+    type: Date,
+    default: null
+  },
   resetPasswordToken: {
     type: String,
     default: null
@@ -83,10 +87,13 @@ const userSchema = new mongoose.Schema({
   toObject: { virtuals: true }
 });
 
-// Indexes
+// Indexes for performance optimization
 userSchema.index({ email: 1 });
 userSchema.index({ username: 1 });
 userSchema.index({ createdAt: -1 });
+userSchema.index({ points: -1 }); // For membership level queries
+userSchema.index({ isActive: 1 }); // For active user queries
+userSchema.index({ lastLogin: -1 }); // For user activity tracking
 
 // Pre-save middleware to hash password
 userSchema.pre('save', async function(next) {

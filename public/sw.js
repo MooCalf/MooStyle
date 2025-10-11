@@ -14,9 +14,16 @@ const STATIC_FILES = [
   '/artisans',
   '/about-me',
   '/common-questions',
-  '/manifest.json',
-  '/sitemap.xml',
-  '/robots.txt'
+  '/manifest.json'
+];
+
+// Skip caching for development files
+const SKIP_CACHE_PATTERNS = [
+  /@vite/,
+  /@react-refresh/,
+  /node_modules/,
+  /\.hot-update\./,
+  /hmr/
 ];
 
 // Install event - cache static files
@@ -74,6 +81,11 @@ self.addEventListener('fetch', (event) => {
 
   // Skip chrome-extension and other non-http requests
   if (!url.protocol.startsWith('http')) {
+    return;
+  }
+
+  // Skip development files that shouldn't be cached
+  if (SKIP_CACHE_PATTERNS.some(pattern => pattern.test(url.pathname))) {
     return;
   }
 

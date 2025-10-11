@@ -17,13 +17,23 @@ if ('serviceWorker' in navigator) {
 }
 
 // Preload critical images
+// Preload critical images only if they're actually used
 import { criticalImages } from './lib/imageOptimization.js';
 if (typeof window !== 'undefined') {
-  criticalImages.forEach(url => {
+  // Only preload images that are likely to be used immediately
+  const immediateImages = criticalImages.filter(url => {
+    // Check if the image is used in the current page
+    return window.location.pathname === '/' || 
+           window.location.pathname.includes('home') ||
+           window.location.pathname.includes('brands');
+  });
+  
+  immediateImages.forEach(url => {
     const link = document.createElement('link');
     link.rel = 'preload';
     link.as = 'image';
     link.href = url;
+    link.crossOrigin = 'anonymous';
     document.head.appendChild(link);
   });
 }

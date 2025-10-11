@@ -4,6 +4,7 @@ import { NavigationPrimary } from '@/Components/NavigationPrimary';
 import { NavigationSecondary } from '@/Components/NavigationSecondary';
 import { Metadata } from '@/Components/Metadata.jsx';
 import { useCart } from '@/contexts/CartContext';
+import { apiConfig } from '@/lib/apiConfig';
 import JSZip from 'jszip';
 import { 
   ShoppingBag, 
@@ -72,10 +73,9 @@ export const Cart = () => {
       // Remove from cart and wait for completion
       await removeFromCart(productId);
       
-      console.log('Item removed successfully, refreshing page...');
+      console.log('Item removed successfully');
       
-      // Force a page refresh to ensure UI updates
-      window.location.reload();
+      // Don't reload the page - let React handle the state update
       
     } catch (error) {
       console.error('Error removing item from cart:', error);
@@ -83,14 +83,84 @@ export const Cart = () => {
     }
   };
 
-  const handleBulkDownload = async () => {
-    if (cartItems.length === 0) return;
+  const handleBulkDownload = async (event) => {
+    // Prevent automatic execution
+    if (!event || !event.isTrusted) {
+      console.log('❌ handleBulkDownload called without user interaction, ignoring');
+      return;
+    }
+    
+    console.log('🚀 handleBulkDownload called by user - cartItems length:', cartItems.length);
+    console.log('🚀 handleBulkDownload called by user - cartItems:', cartItems);
+    
+    if (cartItems.length === 0) {
+      console.log('❌ Cart is empty, returning early');
+      return;
+    }
 
     setDownloading(true);
     setError(null);
 
     try {
-      // Create a zip file with all cart items
+      // First, call the backend API to award points and get download data
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.log('❌ No authentication token found');
+        setError('Please log in to download mods');
+        setDownloading(false);
+        return;
+      }
+
+      console.log('✅ Authentication token found, proceeding with download');
+
+      // Call the points API to award points and get download authorization
+      console.log('🚀 Calling points API:', `${apiConfig.buildUrl(apiConfig.endpoints.cart.download)}`);
+      const pointsResponse = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.cart.download)}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log('📡 Points API response status:', pointsResponse.status);
+
+      if (!pointsResponse.ok) {
+        const errorData = await pointsResponse.json();
+        throw new Error(errorData.message || 'Failed to process download');
+      }
+
+      const pointsData = await pointsResponse.json();
+      
+      if (!pointsData.success) {
+        throw new Error(pointsData.message || 'Download failed');
+      }
+
+      // Update user data with new points
+      const userData = JSON.parse(localStorage.getItem('user'));
+      if (userData) {
+        userData.points = pointsData.totalPoints;
+        userData.membershipLevel = pointsData.membershipLevel;
+        localStorage.setItem('user', JSON.stringify(userData));
+        
+        // Dispatch custom event to notify other components
+        window.dispatchEvent(new CustomEvent('userDataUpdated'));
+      }
+
+      // Show success message with points earned
+      setError(null);
+      setDownloadSuccess(true);
+      console.log(`✅ Download authorized! You earned ${pointsData.pointsAwarded} points!`);
+      
+      // Show success toast notification
+      if (window.showToast) {
+        window.showToast(`✅ Download authorized! You earned ${pointsData.pointsAwarded} points!`, 'success');
+      } else {
+        // Fallback to alert if toast system not available
+        alert(`✅ Download authorized! You earned ${pointsData.pointsAwarded} points!`);
+      }
+
+      // Now proceed with the actual file download
       const zip = new JSZip();
       
       // Add each cart item to the zip
@@ -216,8 +286,18 @@ export const Cart = () => {
           let filesFound = false;
           
           if (!folderPath) {
-            console.warn('No folder path provided for fallback file fetching');
-            return filesFound;
+            console.warn('No folder path provided for fallback file fetching, creating metadata only');
+            // Create a simple metadata file instead of trying to fetch files
+            const metadata = {
+              name: productData.name,
+              brand: productData.brand,
+              author: productData.author,
+              description: productData.description,
+              note: "No folder path available - metadata only",
+              timestamp: new Date().toISOString()
+            };
+            productFolder.file('product-metadata.json', JSON.stringify(metadata, null, 2));
+            return true; // Return true to indicate we created something
           }
           
           // Input validation function
@@ -350,7 +430,7 @@ export const Cart = () => {
       
     } catch (error) {
       console.error('Bulk download error:', error);
-      setError('Failed to create download package. Please try again.');
+      setError(error.message || 'Failed to create download package. Please try again.');
     } finally {
       setDownloading(false);
     }
@@ -398,9 +478,9 @@ export const Cart = () => {
             <div className="flex items-center gap-4 mb-4">
               <button
                 onClick={() => navigate(-1)}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                className="back-button-simple"
               >
-                <ArrowLeft size={20} className="text-gray-600" />
+                <ArrowLeft size={20} />
               </button>
               <h1 className="text-3xl font-bold text-gray-900">Shopping Cart</h1>
             </div>

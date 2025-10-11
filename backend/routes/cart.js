@@ -1,9 +1,12 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const Cart = require('../models/Cart');
 const User = require('../models/User');
+const PointTransaction = require('../models/PointTransaction');
 const fs = require('fs').promises;
 const path = require('path');
+const { downloadRateLimit } = require('../middleware/rateLimiter');
 
 const router = express.Router();
 
@@ -261,54 +264,142 @@ router.get('/count', authenticateToken, async (req, res) => {
   }
 });
 
-// Download cart items and award points
-router.post('/download', authenticateToken, async (req, res) => {
+// Download cart items and award points with atomic transaction
+router.post('/download', downloadRateLimit, authenticateToken, async (req, res) => {
+  const session = await mongoose.startSession();
+  
   try {
-    const cart = await Cart.getUserCart(req.user._id);
+    await session.withTransaction(async () => {
+      // Get user cart within transaction
+      const cart = await Cart.findOne({ user: req.user._id, isActive: true }).session(session);
+      
+      if (!cart || cart.items.length === 0) {
+        throw new Error('Cart is empty');
+      }
+
+      const modCount = cart.getCartCount();
+      
+      // Validate mod count
+      if (modCount <= 0) {
+        throw new Error('Invalid mod count');
+      }
+
+      // Check for recent downloads to prevent abuse (within last 5 minutes)
+      const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+      const recentDownloads = await User.findOne({
+        _id: req.user._id,
+        lastDownloaded: { $gte: fiveMinutesAgo }
+      }).session(session);
+
+      if (recentDownloads) {
+        throw new Error('Please wait before downloading again to prevent abuse');
+      }
+
+      // Award points for downloads (2 points per mod) - atomic operation
+      const pointsToAdd = modCount * 2;
+      const pointsBefore = req.user.points;
+      const membershipLevelBefore = req.user.membershipLevel;
+      
+      const updatedUser = await User.findByIdAndUpdate(
+        req.user._id,
+        { 
+          $inc: { points: pointsToAdd },
+          $set: { lastDownloaded: new Date() }
+        },
+        { 
+          new: true,
+          session: session
+        }
+      );
+
+      if (!updatedUser) {
+        throw new Error('User not found');
+      }
+
+      // Clear cart after successful point award
+      await cart.clearCart();
+
+      // Log the transaction for audit trail
+      await PointTransaction.logTransaction({
+        userId: req.user._id,
+        username: req.user.username,
+        transactionType: 'download',
+        pointsAwarded: pointsToAdd,
+        pointsBefore: pointsBefore,
+        pointsAfter: updatedUser.points,
+        membershipLevelBefore: membershipLevelBefore,
+        membershipLevelAfter: updatedUser.membershipLevel,
+        modCount: modCount,
+        downloadData: {
+          modCount: modCount,
+          totalSize: cart.getCartTotalSize(),
+          items: cart.items.map(item => ({
+            name: item.productData.name,
+            author: item.productData.author,
+            downloadUrl: item.productData.downloadUrl
+          }))
+        },
+        ipAddress: req.ip || req.connection.remoteAddress,
+        userAgent: req.get('User-Agent') || '',
+        metadata: {
+          sessionId: req.sessionID,
+          timestamp: new Date().toISOString()
+        }
+      });
+
+      console.log(`✅ ATOMIC TRANSACTION: Awarded ${pointsToAdd} points to user ${updatedUser.username} for downloading ${modCount} mods. New total: ${updatedUser.points}`);
+
+      // Return success response
+      res.json({
+        success: true,
+        message: `Download initiated for ${modCount} mods`,
+        pointsAwarded: pointsToAdd,
+        totalPoints: updatedUser.points,
+        membershipLevel: updatedUser.membershipLevel,
+        downloadData: {
+          modCount: modCount,
+          totalSize: cart.getCartTotalSize(),
+          items: cart.items.map(item => ({
+            name: item.productData.name,
+            author: item.productData.author,
+            downloadUrl: item.productData.downloadUrl
+          }))
+        }
+      });
+    });
+
+  } catch (error) {
+    console.error('Download cart error:', error);
     
-    if (!cart || cart.items.length === 0) {
+    // Handle specific error cases
+    if (error.message === 'Cart is empty') {
       return res.status(400).json({
         success: false,
         message: 'Cart is empty'
       });
     }
-
-    const modCount = cart.getCartCount();
     
-    // Award points for downloads (2 points per mod)
-    const pointsToAdd = modCount * 2;
-    req.user.points += pointsToAdd;
-    await req.user.save();
-
-    console.log(`Awarded ${pointsToAdd} points to user ${req.user.username} for downloading ${modCount} mods`);
-
-    // Clear cart after successful download
-    await cart.clearCart();
-
-    res.json({
-      success: true,
-      message: `Download initiated for ${modCount} mods`,
-      pointsAwarded: pointsToAdd,
-      totalPoints: req.user.points,
-      membershipLevel: req.user.membershipLevel,
-      downloadData: {
-        modCount: modCount,
-        totalSize: cart.getCartTotalSize(),
-        items: cart.items.map(item => ({
-          name: item.productData.name,
-          author: item.productData.author,
-          downloadUrl: item.productData.downloadUrl
-        }))
-      }
-    });
-
-  } catch (error) {
-    console.error('Download cart error:', error);
+    if (error.message === 'Invalid mod count') {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid mod count'
+      });
+    }
+    
+    if (error.message.includes('Please wait')) {
+      return res.status(429).json({
+        success: false,
+        message: error.message
+      });
+    }
+    
     res.status(500).json({
       success: false,
       message: 'Failed to process download',
       error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
     });
+  } finally {
+    await session.endSession();
   }
 });
 

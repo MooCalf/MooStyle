@@ -331,12 +331,25 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #4b5563; /* text-gray-600 */
-  transition: color 300ms ease;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: none;
+  color: #4b5563;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  outline: none;
 }
 
 .blog-post-modal-back-button:hover {
-  color: #0d9488; /* text-teal-600 */
+  color: #0d9488;
+  background-color: #f0fdfa;
+}
+
+.blog-post-modal-back-button:active {
+  transform: scale(0.98);
 }
 
 .blog-post-modal-share-button {

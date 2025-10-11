@@ -79,15 +79,13 @@ const BlogPostDetails = ({ post, onClose, onShare }) => {
       >
         {/* Header */}
         <div className="blog-post-modal-header">
-          <motion.button
+          <button
             onClick={onClose}
             className="blog-post-modal-back-button"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
           >
             <ArrowLeft size={20} />
             <span>Back to Blog</span>
-          </motion.button>
+          </button>
           
           <div className="flex items-center space-x-2">
             <motion.button

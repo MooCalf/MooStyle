@@ -84,11 +84,9 @@ export const imageOptimization = {
   }
 };
 
-// Critical images to preload
+// Critical images to preload - only images that are used on multiple pages
 export const criticalImages = [
-  '/projects/Brand Medias/Promotional Content/Promo Poster.png',
-  '/projects/Brand Medias/Logos/MooStyle Logo.png',
-  '/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png'
+  '/projects/Brand Medias/Logos/MooStyle Logo.png'
 ];
 
 export default imageOptimization;

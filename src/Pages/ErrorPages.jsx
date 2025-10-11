@@ -92,13 +92,13 @@ export const NotFound = () => {
                 Go Home
               </Link>
               
-              <button
-                onClick={() => window.history.back()}
-                className="inline-flex items-center px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 font-medium"
-              >
-                <ArrowLeft className="w-5 h-5 mr-2" />
-                Go Back
-              </button>
+                      <button
+                        onClick={() => window.history.back()}
+                        className="back-button-enhanced"
+                      >
+                        <ArrowLeft className="w-5 h-5" />
+                        Go Back
+                      </button>
             </motion.div>
             
             {/* Helpful Links */}

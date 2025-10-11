@@ -79,9 +79,9 @@ const ResetPassword = () => {
               <p className="text-gray-600 mb-6">{message}</p>
               <Link
                 to="/login"
-                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
+                className="back-button-enhanced"
               >
-                <ArrowLeft className="mr-2 h-4 w-4" />
+                <ArrowLeft className="h-4 w-4" />
                 Back to Login
               </Link>
             </div>
@@ -119,9 +119,9 @@ const ResetPassword = () => {
           <div className="mb-6">
             <Link
               to="/login"
-              className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900"
+              className="back-button-simple"
             >
-              <ArrowLeft className="mr-2 h-4 w-4" />
+              <ArrowLeft className="h-4 w-4" />
               Back to Login
             </Link>
           </div>
