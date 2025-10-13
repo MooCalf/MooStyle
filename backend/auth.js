@@ -1,7 +1,7 @@
 const { betterAuth } = require("better-auth");
 const { MongoClient } = require("mongodb");
 const { mongodbAdapter } = require("better-auth/adapters/mongodb");
-const { admin } = require("better-auth/plugins");
+const { admin, emailOTP } = require("better-auth/plugins");
 const { sendPasswordResetEmail, sendEmailVerificationEmail } = require("./services/emailService");
 
 // MongoDB connection
@@ -22,6 +22,38 @@ const auth = betterAuth({
       defaultRole: "user",
       adminRoles: ["admin"],
       adminUserIds: [], // We'll add your admin email here
+    }),
+    emailOTP({
+      otpLength: 6,
+      expiresIn: 300, // 5 minutes
+      allowedAttempts: 3,
+      async sendVerificationOTP({ email, otp, type }) {
+        console.log(`Sending OTP to ${email}: ${otp} (type: ${type})`);
+        
+        try {
+          if (type === "sign-in") {
+            // Send OTP for sign in
+            await sendPasswordResetEmail(email, `Your sign-in code is: ${otp}`, `Sign-in Code: ${otp}`);
+          } else if (type === "email-verification") {
+            // Send OTP for email verification
+            await sendEmailVerificationEmail(email, `Your verification code is: ${otp}`, `Verification Code: ${otp}`);
+          } else if (type === "forget-password") {
+            // Send OTP for password reset
+            await sendPasswordResetEmail(email, `Your password reset code is: ${otp}`, `Password Reset Code: ${otp}`);
+          }
+          
+          return {
+            success: true,
+            message: `OTP sent to ${email}`
+          };
+        } catch (error) {
+          console.error('Error sending OTP:', error);
+          return {
+            success: false,
+            message: 'Failed to send OTP'
+          };
+        }
+      }
     })
   ],
 

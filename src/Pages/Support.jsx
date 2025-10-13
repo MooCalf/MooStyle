@@ -1,106 +1,59 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { NavigationPrimary } from '@/Components/NavigationPrimary';
 import { NavigationSecondary } from '@/Components/NavigationSecondary';
 import { Metadata } from '@/Components/Metadata.jsx';
+import { SupportContactForm } from '@/Components/SupportContactForm';
 import { 
   Mail, 
-  MessageCircle, 
-  Phone, 
   Clock, 
-  HelpCircle, 
-  AlertCircle, 
-  CheckCircle,
-  Send,
-  User,
-  MessageSquare,
-  FileText,
+  AlertCircle,
   Shield,
   CreditCard,
   ShoppingBag,
   Download,
-  Settings
+  Settings,
+  HelpCircle,
+  User
 } from 'lucide-react';
 
 export const Support = () => {
   const { user, isBanned } = useAuth();
-  const [formData, setFormData] = useState({
-    name: user?.name || user?.username || '',
-    email: user?.email || '',
-    subject: isBanned ? 'Account Suspension Appeal' : '',
-    category: isBanned ? 'suspension' : 'general',
-    message: isBanned ? `Hello,\n\nI would like to appeal my account suspension. Please review my case.\n\nAccount: ${user?.email || user?.username}\nSuspension Reason: ${user?.banReason || 'Not provided'}\n\nThank you for your time.\n\nBest regards,` : '',
-    priority: isBanned ? 'high' : 'medium'
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitStatus(null);
-
-    try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      setSubmitStatus('success');
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        category: 'general',
-        message: '',
-        priority: 'medium'
-      });
-    } catch (error) {
-      setSubmitStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   const supportCategories = [
     {
-      icon: <Shield size={24} className="text-red-600" />,
+      icon: <Shield size={24} color="#dc2626" />,
       title: "Account Issues",
       description: "Suspended accounts, login problems, password resets",
       color: "bg-red-50 border-red-200 hover:bg-red-100"
     },
     {
-      icon: <ShoppingBag size={24} className="text-blue-600" />,
+      icon: <ShoppingBag size={24} color="#2563eb" />,
       title: "Shopping & Cart",
       description: "Cart issues, checkout problems, payment questions",
       color: "bg-blue-50 border-blue-200 hover:bg-blue-100"
     },
     {
-      icon: <Download size={24} className="text-green-600" />,
+      icon: <Download size={24} color="#16a34a" />,
       title: "Downloads & Content",
       description: "Download problems, file access, content issues",
       color: "bg-green-50 border-green-200 hover:bg-green-100"
     },
     {
-      icon: <CreditCard size={24} className="text-purple-600" />,
+      icon: <CreditCard size={24} color="#9333ea" />,
       title: "Billing & Payments",
       description: "Payment issues, refunds, subscription questions",
       color: "bg-purple-50 border-purple-200 hover:bg-purple-100"
     },
     {
-      icon: <Settings size={24} className="text-orange-600" />,
+      icon: <Settings size={24} color="#ea580c" />,
       title: "Account Settings",
       description: "Profile updates, preferences, account management",
       color: "bg-orange-50 border-orange-200 hover:bg-orange-100"
     },
     {
-      icon: <HelpCircle size={24} className="text-gray-600" />,
+      icon: <HelpCircle size={24} color="#6b7280" />,
       title: "General Support",
       description: "Other questions, feedback, technical issues",
       color: "bg-gray-50 border-gray-200 hover:bg-gray-100"
@@ -147,7 +100,7 @@ export const Support = () => {
             <div className="mb-8 bg-red-50 border border-red-200 rounded-lg p-6">
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <AlertCircle size={24} className="text-red-600" />
+                  <AlertCircle size={24} color="#dc2626" />
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-red-800 mb-2">Account Suspended - We're Here to Help</h3>
@@ -177,13 +130,13 @@ export const Support = () => {
           </div>
 
           {/* Contact Methods */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
               <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Mail size={24} className="text-teal-600" />
+                <Mail size={24} color="#0d9488" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Email Support</h3>
-              <p className="text-gray-600 mb-4">Get help via email</p>
+              <p className="text-gray-600 mb-4">Directly contact us to get help via email</p>
               <a 
                 href="mailto:support@moostyle.com"
                 className="inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
@@ -194,20 +147,8 @@ export const Support = () => {
             </div>
 
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageCircle size={24} className="text-blue-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Live Chat</h3>
-              <p className="text-gray-600 mb-4">Chat with our support team</p>
-              <button className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                <MessageCircle size={16} className="mr-2" />
-                Start Chat
-              </button>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
               <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock size={24} className="text-green-600" />
+                <Clock size={24} color="#16a34a" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Response Time</h3>
               <p className="text-gray-600 mb-4">We typically respond within</p>
@@ -237,133 +178,7 @@ export const Support = () => {
           </div>
 
           {/* Support Form */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a message</h2>
-            
-            {submitStatus === 'success' && (
-              <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
-                <CheckCircle size={20} className="text-green-600" />
-                <p className="text-green-800">Your message has been sent successfully! We'll get back to you within 24-48 hours.</p>
-              </div>
-            )}
-
-            {submitStatus === 'error' && (
-              <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
-                <AlertCircle size={20} className="text-red-600" />
-                <p className="text-red-800">There was an error sending your message. Please try again or contact us directly.</p>
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <User size={16} className="inline mr-2" />
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                    placeholder="Enter your full name"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <Mail size={16} className="inline mr-2" />
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                    placeholder="Enter your email address"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <FileText size={16} className="inline mr-2" />
-                    Subject *
-                  </label>
-                  <input
-                    type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                    placeholder="Brief description of your issue"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <HelpCircle size={16} className="inline mr-2" />
-                    Category
-                  </label>
-                  <select
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                  >
-                    <option value="general">General Support</option>
-                    <option value="account">Account Issues</option>
-                    <option value="billing">Billing & Payments</option>
-                    <option value="technical">Technical Issues</option>
-                    <option value="content">Content & Downloads</option>
-                    <option value="suspension">Account Suspension</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  <MessageSquare size={16} className="inline mr-2" />
-                  Message *
-                </label>
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={6}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
-                  placeholder="Please provide detailed information about your issue or question..."
-                />
-              </div>
-
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      <Send size={16} className="mr-2" />
-                      Send Message
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
+          <SupportContactForm />
 
           {/* FAQ Section */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
@@ -389,7 +204,7 @@ export const Support = () => {
                 href="mailto:support@moostyle.com"
                 className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
               >
-                <Mail size={16} className="mr-2" />
+                <Mail size={16} color="#ffffff" className="mr-2" />
                 Email Support
               </a>
               {!isBanned && (
@@ -397,7 +212,7 @@ export const Support = () => {
                   to="/"
                   className="inline-flex items-center px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
                 >
-                  <User size={16} className="mr-2" />
+                  <User size={16} color="#ffffff" className="mr-2" />
                   Back to Home
                 </Link>
               )}
@@ -406,7 +221,7 @@ export const Support = () => {
                   onClick={() => window.location.href = '/'}
                   className="inline-flex items-center px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
                 >
-                  <User size={16} className="mr-2" />
+                  <User size={16} color="#ffffff" className="mr-2" />
                   Back to Account Status
                 </button>
               )}

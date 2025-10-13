@@ -32,7 +32,9 @@ import {
   Plus,
   ArrowUpRight,
   ArrowDownRight,
-  Server
+  Server,
+  Shield,
+  ArrowLeft
 } from 'lucide-react';
 
 export const AdminDashboard = () => {
@@ -71,6 +73,8 @@ export const AdminDashboard = () => {
   const [isUpdating, setIsUpdating] = useState(false); // Add state to prevent double updates
   const [isConfirming, setIsConfirming] = useState(false); // Add state to prevent double confirmations
   const [isSubmitting, setIsSubmitting] = useState(false); // Add state to prevent double form submissions
+  const [showRoleWarningModal, setShowRoleWarningModal] = useState(false);
+  const [pendingRoleUpdate, setPendingRoleUpdate] = useState(null);
 
   useEffect(() => {
     if (!isAdmin) {
@@ -192,14 +196,25 @@ export const AdminDashboard = () => {
       console.log('Updating user with ID:', userId);
       console.log('User data:', userData);
       
-      // Use the backend API instead of Better Auth client
+      // Handle role updates separately
+      if (userData.role) {
+        const roleResult = await setUserRole(userId, userData.role);
+        if (!roleResult.success) {
+          throw new Error(roleResult.error);
+        }
+      }
+      
+      // Remove role from userData for the regular update
+      const { role, ...userDataWithoutRole } = userData;
+      
+      // Use the backend API for other user data updates
       const response = await fetch(`/api/admin/users/${userId}`, {
         method: 'PUT',
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(userData)
+        body: JSON.stringify(userDataWithoutRole)
       });
 
       if (!response.ok) {
@@ -335,6 +350,65 @@ export const AdminDashboard = () => {
     }
   };
 
+  // Handle role update with admin warning
+  const handleRoleUpdate = async (userId, newRole, userData) => {
+    try {
+      const result = await setUserRole(userId, newRole);
+      
+      if (result.success) {
+        setNotification({
+          type: 'success',
+          message: `User role updated to ${newRole}`
+        });
+        await fetchDashboardData();
+        setShowRoleWarningModal(false);
+        setPendingRoleUpdate(null);
+        setShowEditUserModal(false);
+      } else {
+        throw new Error(result.error);
+      }
+    } catch (error) {
+      console.error('Error updating user role:', error);
+      setNotification({
+        type: 'error',
+        message: error.message || 'Failed to update user role'
+      });
+    }
+  };
+
+  // Check if role change requires admin warning
+  const checkRoleChange = (currentRole, newRole, userData) => {
+    if (currentRole !== 'admin' && newRole === 'admin') {
+      // Show admin warning modal
+      setPendingRoleUpdate({
+        userId: userData.userId || userData.id,
+        newRole: newRole,
+        userData: userData
+      });
+      setShowRoleWarningModal(true);
+      return true; // Indicates warning was shown
+    }
+    return false; // No warning needed
+  };
+
+  // Admin protection functions
+  const isUserAdmin = (user) => {
+    return user.role === 'admin';
+  };
+
+  const canModifyUser = (targetUser) => {
+    // Current user (logged in admin) cannot modify other admins
+    if (isUserAdmin(targetUser)) {
+      return false;
+    }
+    return true;
+  };
+
+  const isCurrentUser = (targetUser) => {
+    // Check if the target user is the current logged-in user
+    return targetUser.id === user?.id || targetUser._id?.toString() === user?.id;
+  };
+
   // Confirmation dialog helper
   const showConfirmation = (action, message) => {
     if (isConfirming) {
@@ -407,7 +481,7 @@ export const AdminDashboard = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <RefreshCw size={32} className="animate-spin text-teal-600 mx-auto mb-4" />
+          <RefreshCw size={32} color="#0d9488" className="animate-spin mx-auto mb-4" />
           <p className="text-gray-600">Loading dashboard...</p>
         </div>
       </div>
@@ -434,9 +508,9 @@ export const AdminDashboard = () => {
           }`}>
             <div className="flex items-center gap-2">
               {notification.type === 'success' ? (
-                <CheckCircle size={20} className="text-green-600" />
+                <CheckCircle size={20} color="#16a34a" />
               ) : (
-                <AlertCircle size={20} className="text-red-600" />
+                <AlertCircle size={20} color="#dc2626" />
               )}
               <span className="font-medium">{notification.message}</span>
               <button 
@@ -469,7 +543,7 @@ export const AdminDashboard = () => {
 
           {error && (
             <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
-              <AlertCircle size={20} className="text-red-600" />
+              <AlertCircle size={20} color="#dc2626" />
               <p className="text-red-800">{error}</p>
             </div>
           )}
@@ -483,7 +557,7 @@ export const AdminDashboard = () => {
                   <p className="text-2xl font-bold text-gray-900">{stats.totalUsers || 0}</p>
                 </div>
                 <div className="p-3 bg-blue-100 rounded-full">
-                  <Users size={24} className="text-blue-600" />
+                  <Users size={24} color="#2563eb" />
                 </div>
               </div>
               <div className="mt-4 flex items-center text-sm">
@@ -500,7 +574,7 @@ export const AdminDashboard = () => {
                   <p className="text-2xl font-bold text-red-600">{stats.bannedUsers || 0}</p>
                 </div>
                 <div className="p-3 bg-red-100 rounded-full">
-                  <AlertCircle size={24} className="text-red-600" />
+                  <AlertCircle size={24} color="#dc2626" />
                 </div>
               </div>
               <div className="mt-4 flex items-center text-sm">
@@ -515,11 +589,11 @@ export const AdminDashboard = () => {
                   <p className="text-2xl font-bold text-gray-900">{stats.totalCarts || 0}</p>
                 </div>
                 <div className="p-3 bg-green-100 rounded-full">
-                  <ShoppingBag size={24} className="text-green-600" />
+                  <ShoppingBag size={24} color="#16a34a" />
                 </div>
               </div>
               <div className="mt-4 flex items-center text-sm">
-                <ArrowUpRight size={16} className="text-green-500 mr-1" />
+                <ArrowUpRight size={16} color="#22c55e" className="mr-1" />
                 <span className="text-green-600">+8% from last month</span>
               </div>
             </div>
@@ -531,11 +605,11 @@ export const AdminDashboard = () => {
                   <p className="text-2xl font-bold text-gray-900">{(stats.totalPoints || 0).toLocaleString()}</p>
                 </div>
                 <div className="p-3 bg-yellow-100 rounded-full">
-                  <Star size={24} className="text-yellow-600" />
+                  <Star size={24} color="#ca8a04" />
                 </div>
               </div>
               <div className="mt-4 flex items-center text-sm">
-                <ArrowUpRight size={16} className="text-green-500 mr-1" />
+                <ArrowUpRight size={16} color="#22c55e" className="mr-1" />
                 <span className="text-green-600">+15% from last month</span>
               </div>
             </div>
@@ -547,11 +621,11 @@ export const AdminDashboard = () => {
                   <p className="text-2xl font-bold text-gray-900">{stats.totalTransactions || 0}</p>
                 </div>
                 <div className="p-3 bg-purple-100 rounded-full">
-                  <Activity size={24} className="text-purple-600" />
+                  <Activity size={24} color="#9333ea" />
                 </div>
               </div>
               <div className="mt-4 flex items-center text-sm">
-                <ArrowUpRight size={16} className="text-green-500 mr-1" />
+                <ArrowUpRight size={16} color="#22c55e" className="mr-1" />
                 <span className="text-green-600">+22% from last month</span>
               </div>
             </div>
@@ -638,7 +712,7 @@ export const AdminDashboard = () => {
                   <h3 className="text-lg font-semibold text-gray-900">User Management</h3>
                   <div className="flex items-center gap-2">
                     <div className="relative">
-                      <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                      <Search size={16} color="#9ca3af" className="absolute left-3 top-1/2 transform -translate-y-1/2" />
                       <input
                         type="text"
                         placeholder="Search users..."
@@ -674,7 +748,7 @@ export const AdminDashboard = () => {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
                               <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
-                                <UserCheck size={20} className="text-teal-600" />
+                                <UserCheck size={20} color="#0d9488" />
                               </div>
                               <div className="ml-4">
                                 <div className="text-sm font-medium text-gray-900">{user.username}</div>
@@ -694,7 +768,7 @@ export const AdminDashboard = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             <div className="flex items-center">
-                              <Star size={14} className="text-yellow-500 mr-1" />
+                              <Star size={14} color="#eab308" className="mr-1" />
                               {user.points || 0}
                             </div>
                           </td>
@@ -725,28 +799,45 @@ export const AdminDashboard = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div className="flex items-center gap-2">
-                              <button 
-                                onClick={() => {
-                                  setSelectedUser({...user, userId: user.id || user._id?.toString()});
-                                  setShowEditUserModal(true);
-                                }}
-                                className="text-teal-600 hover:text-teal-900"
-                                title="Edit User"
-                              >
-                                <Edit size={16} />
-                              </button>
-                              <button 
-                                onClick={() => {
-                                  showConfirmation(
-                                    () => deleteUser(user.id || user._id?.toString()),
-                                    `Are you sure you want to delete user "${user.username}"? This action cannot be undone.`
-                                  );
-                                }}
-                                className="text-red-600 hover:text-red-900"
-                                title="Delete User"
-                              >
-                                <Trash2 size={16} />
-                              </button>
+                              {canModifyUser(user) ? (
+                                <>
+                                  <button 
+                                    onClick={() => {
+                                      setSelectedUser({...user, userId: user.id || user._id?.toString()});
+                                      setShowEditUserModal(true);
+                                    }}
+                                    className="text-teal-600 hover:text-teal-900"
+                                    title="Edit User"
+                                  >
+                                    <Edit size={16} />
+                                  </button>
+                                  <button 
+                                    onClick={() => {
+                                      showConfirmation(
+                                        () => deleteUser(user.id || user._id?.toString()),
+                                        `Are you sure you want to delete user "${user.username}"? This action cannot be undone.`
+                                      );
+                                    }}
+                                    className="text-red-600 hover:text-red-900"
+                                    title="Delete User"
+                                  >
+                                    <Trash2 size={16} />
+                                  </button>
+                                </>
+                              ) : (
+                                <div className="flex items-center gap-2">
+                                  {isUserAdmin(user) && (
+                                    <div className="flex items-center gap-1" title="Admin Protected">
+                                      <Shield size={16} color="#ea580c" />
+                                    </div>
+                                  )}
+                                  {isCurrentUser(user) && (
+                                    <div className="flex items-center gap-1" title="Current User">
+                                      <ArrowLeft size={16} color="#dc2626" />
+                                    </div>
+                                  )}
+                                </div>
+                              )}
                               {!user.isActive ? (
                                 <div className="flex items-center gap-2">
                                   <span className="text-xs text-red-600 font-medium">BANNED</span>
@@ -755,35 +846,39 @@ export const AdminDashboard = () => {
                                       ({user.banReason.length > 20 ? user.banReason.substring(0, 20) + '...' : user.banReason})
                                     </span>
                                   )}
-                                  <button 
-                                    onClick={() => {
-                                      showConfirmation(
-                                        () => unbanUser(user.id || user._id?.toString()),
-                                        `Are you sure you want to unban user "${user.username}"?`
-                                      );
-                                    }}
-                                    className="text-green-600 hover:text-green-900"
-                                    title="Unban User"
-                                  >
-                                    <UserCheck size={16} />
-                                  </button>
+                                  {canModifyUser(user) && (
+                                    <button 
+                                      onClick={() => {
+                                        showConfirmation(
+                                          () => unbanUser(user.id || user._id?.toString()),
+                                          `Are you sure you want to unban user "${user.username}"?`
+                                        );
+                                      }}
+                                      className="text-green-600 hover:text-green-900"
+                                      title="Unban User"
+                                    >
+                                      <UserCheck size={16} />
+                                    </button>
+                                  )}
                                 </div>
                               ) : (
-                                <button 
-                                  onClick={() => {
-                                    const reason = prompt('Enter ban reason (optional):');
-                                    if (reason !== null) {
-                                      showConfirmation(
-                                        () => banUser(user.id || user._id?.toString(), reason || 'No reason provided'),
-                                        `Are you sure you want to ban user "${user.username}"?${reason ? `\n\nReason: ${reason}` : ''}`
-                                      );
-                                    }
-                                  }}
-                                  className="text-orange-600 hover:text-orange-900"
-                                  title="Ban User"
-                                >
-                                  <AlertCircle size={16} />
-                                </button>
+                                canModifyUser(user) && (
+                                  <button 
+                                    onClick={() => {
+                                      const reason = prompt('Enter ban reason (optional):');
+                                      if (reason !== null) {
+                                        showConfirmation(
+                                          () => banUser(user.id || user._id?.toString(), reason || 'No reason provided'),
+                                          `Are you sure you want to ban user "${user.username}"?${reason ? `\n\nReason: ${reason}` : ''}`
+                                        );
+                                      }
+                                    }}
+                                    className="text-orange-600 hover:text-orange-900"
+                                    title="Ban User"
+                                  >
+                                    <AlertCircle size={16} />
+                                  </button>
+                                )
                               )}
                             </div>
                           </td>
@@ -999,10 +1094,20 @@ export const AdminDashboard = () => {
                   username: formData.get('username'),
                   points: parseInt(formData.get('points')) || 0,
                   membershipLevel: formData.get('membershipLevel'),
+                  role: formData.get('role'),
                   notificationSettings: {
                     emailNotifications: formData.get('emailNotifications') === 'on'
                   }
                 };
+                
+                // Check if role is being changed to admin
+                const currentRole = selectedUser.role;
+                const newRole = userData.role;
+                
+                if (checkRoleChange(currentRole, newRole, selectedUser)) {
+                  // Warning modal will be shown, don't proceed with normal confirmation
+                  return;
+                }
                 
                 showConfirmation(
                   () => updateUser(selectedUser.userId || selectedUser.id, userData),
@@ -1023,6 +1128,13 @@ export const AdminDashboard = () => {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Username</label>
                     <input type="text" name="username" defaultValue={selectedUser.username} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                    <select name="role" defaultValue={selectedUser.role || 'user'} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
+                      <option value="user">User</option>
+                      <option value="admin">Admin</option>
+                    </select>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Points</label>
@@ -1085,6 +1197,84 @@ export const AdminDashboard = () => {
                   className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
                 >
                   Confirm
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Admin Role Warning Modal */}
+        {showRoleWarningModal && pendingRoleUpdate && (
+          <div className="fixed inset-0 backdrop-blur-sm bg-red-500 bg-opacity-20 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg border-2 border-red-500 p-6 w-full max-w-lg mx-4 shadow-xl">
+              <div className="flex items-center gap-3 mb-4 border-b border-red-200 pb-3">
+                <AlertCircle size={24} className="text-red-600" />
+                <h3 className="text-lg font-semibold text-red-800">⚠️ Admin Role Assignment Warning</h3>
+              </div>
+              
+              <div className="mb-6">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                  <h4 className="font-semibold text-red-800 mb-2">🚨 DANGER: Admin Privileges</h4>
+                  <p className="text-red-700 text-sm mb-2">
+                    You are about to grant <strong>ADMINISTRATOR</strong> privileges to this user. 
+                    This action will give them full access to:
+                  </p>
+                  <ul className="text-red-700 text-sm list-disc list-inside space-y-1">
+                    <li>View and modify all user accounts</li>
+                    <li>Delete users and data</li>
+                    <li>Access admin dashboard</li>
+                    <li>Modify system settings</li>
+                    <li>View sensitive information</li>
+                  </ul>
+                </div>
+
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-800 mb-3">👤 User Information</h4>
+                  <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div>
+                      <span className="font-medium text-gray-600">Username:</span>
+                      <p className="text-gray-900">{pendingRoleUpdate.userData.username}</p>
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-600">Email:</span>
+                      <p className="text-gray-900">{pendingRoleUpdate.userData.email}</p>
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-600">User ID:</span>
+                      <p className="text-gray-900 font-mono text-xs">{pendingRoleUpdate.userData.id || pendingRoleUpdate.userData._id?.toString()}</p>
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-600">Current Role:</span>
+                      <p className="text-gray-900">{pendingRoleUpdate.userData.role || 'user'}</p>
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-600">Member Since:</span>
+                      <p className="text-gray-900">{new Date(pendingRoleUpdate.userData.createdAt).toLocaleDateString()}</p>
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-600">Status:</span>
+                      <p className="text-gray-900">{pendingRoleUpdate.userData.isActive ? 'Active' : 'Inactive'}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-3">
+                <button 
+                  onClick={() => {
+                    setShowRoleWarningModal(false);
+                    setPendingRoleUpdate(null);
+                    setIsSubmitting(false);
+                  }}
+                  className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={() => handleRoleUpdate(pendingRoleUpdate.userId, pendingRoleUpdate.newRole, pendingRoleUpdate.userData)}
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
+                >
+                  ⚠️ Proceed with Admin Assignment
                 </button>
               </div>
             </div>

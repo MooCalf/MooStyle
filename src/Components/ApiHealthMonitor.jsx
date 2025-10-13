@@ -17,6 +17,7 @@ const ApiHealthMonitor = () => {
     { name: 'Cart Service', path: '/api/cart/health', icon: ShoppingCart },
     { name: 'User Service', path: '/api/users/health', icon: Users },
     { name: 'Better Auth', path: '/api/better-auth/health', icon: Lock },
+    { name: 'Email Service', path: '/api/email/health', icon: Mail },
   ];
 
   const addLog = (level, message, serviceName = 'System') => {
@@ -257,7 +258,12 @@ const ApiHealthMonitor = () => {
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 {React.createElement(service.icon, { 
-                  className: `h-5 w-5 ${service.iconColor || 'text-gray-500'} ${service.status === 'loading' ? 'animate-spin' : ''}` 
+                  size: 20,
+                  color: service.status === 'healthy' ? '#16a34a' : 
+                         service.status === 'warning' ? '#ca8a04' : 
+                         service.status === 'error' ? '#dc2626' : 
+                         service.status === 'loading' ? '#2563eb' : '#6b7280',
+                  className: service.status === 'loading' ? 'animate-spin' : ''
                 })}
                 <span className="font-medium text-gray-800">{service.name}</span>
               </div>

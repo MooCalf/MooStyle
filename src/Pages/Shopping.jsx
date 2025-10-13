@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { NavigationPrimary } from "@/Components/NavigationPrimary";
 import { NavigationSecondary } from "@/Components/NavigationSecondary";
 import { AdvancedSearch } from "@/Components/AdvancedSearch";
@@ -10,11 +10,13 @@ import { getGlobalSearchData } from "@/lib/globalSearchData";
 import { Metadata } from "@/Components/Metadata.jsx";
 import { Loader2, Grid, List, Star, Heart } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const Shopping = () => {
   const { category } = useParams();
   const navigate = useNavigate();
   const { addToCart, isInCart } = useCart();
+  const { isAuthenticated } = useAuth();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -400,6 +402,7 @@ export const Shopping = () => {
           </div>
         </div>
       </div>
+
     </>
   );
 };

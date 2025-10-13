@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 import { signOut } from '@/lib/betterAuthClient';
 import { User, LogOut, Settings, ShoppingCart, Menu, X, Heart, HelpCircle, Info, MessageCircle } from 'lucide-react';
 import SearchQuery from '@/Components/SearchQuery';
@@ -8,9 +9,11 @@ import { getGlobalSearchData } from '@/lib/globalSearchData';
 
 export const NavigationPrimary = () => {
   const { user, isAuthenticated, isAdmin } = useAuth();
+  const { cartItems } = useCart();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [hoveredIcon, setHoveredIcon] = useState(null);
 
   const handleSignOut = async () => {
     try {
@@ -30,6 +33,21 @@ export const NavigationPrimary = () => {
     setIsUserMenuOpen(!isUserMenuOpen);
   };
 
+  // Helper function to get icon color based on hover state
+  const getIconColor = (iconName) => {
+    return hoveredIcon === iconName ? '#111827' : '#374151'; // Darker gray on hover
+  };
+
+  // Helper function to get heart icon color (special case for Patreon)
+  const getHeartColor = () => {
+    return hoveredIcon === 'heart' ? '#ffffff' : '#374151'; // White on hover for Patreon
+  };
+
+  // Get cart count
+  const getCartCount = () => {
+    return cartItems ? cartItems.length : 0;
+  };
+
   return (
     <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,8 +59,10 @@ export const NavigationPrimary = () => {
               to="/common-questions"
               className="text-gray-700 hover:text-gray-900 transition-colors"
               title="Common Questions"
+              onMouseEnter={() => setHoveredIcon('help')}
+              onMouseLeave={() => setHoveredIcon(null)}
             >
-              <HelpCircle className="h-5 w-5" />
+              <HelpCircle size={20} color={getIconColor('help')} />
             </Link>
 
             {/* Support Icon */}
@@ -50,8 +70,10 @@ export const NavigationPrimary = () => {
               to="/support"
               className="text-gray-700 hover:text-gray-900 transition-colors"
               title="Support"
+              onMouseEnter={() => setHoveredIcon('support')}
+              onMouseLeave={() => setHoveredIcon(null)}
             >
-              <MessageCircle className="h-5 w-5" />
+              <MessageCircle size={20} color={getIconColor('support')} />
             </Link>
 
             {/* About Me Icon */}
@@ -59,8 +81,10 @@ export const NavigationPrimary = () => {
               to="/about"
               className="text-gray-700 hover:text-gray-900 transition-colors"
               title="About Me"
+              onMouseEnter={() => setHoveredIcon('about')}
+              onMouseLeave={() => setHoveredIcon(null)}
             >
-              <Info className="h-5 w-5" />
+              <Info size={20} color={getIconColor('about')} />
             </Link>
 
                   {/* Search Icon */}
@@ -117,17 +141,27 @@ export const NavigationPrimary = () => {
               rel="noopener noreferrer"
               className="text-gray-700 hover:text-white hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:from-orange-600 hover:to-red-600 transition-all duration-200 rounded-lg p-2"
               title="Support us on Patreon"
+              onMouseEnter={() => setHoveredIcon('heart')}
+              onMouseLeave={() => setHoveredIcon(null)}
             >
-              <Heart className="h-5 w-5" />
+              <Heart size={20} color={getHeartColor()} />
             </a>
 
-            {/* Cart Icon */}
+            {/* Cart Icon with Badge */}
             <Link
               to="/cart"
-              className="text-gray-700 hover:text-gray-900 transition-colors"
+              className="relative text-gray-700 hover:text-gray-900 transition-colors"
               title="Shopping Cart"
+              onMouseEnter={() => setHoveredIcon('cart')}
+              onMouseLeave={() => setHoveredIcon(null)}
             >
-              <ShoppingCart className="h-5 w-5" />
+              <ShoppingCart size={20} color={getIconColor('cart')} />
+              {/* Cart Count Badge */}
+              {isAuthenticated && getCartCount() > 0 && (
+                <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center min-w-[20px]">
+                  {getCartCount() > 99 ? '99+' : getCartCount()}
+                </span>
+              )}
             </Link>
 
             {/* User Menu */}
@@ -136,8 +170,10 @@ export const NavigationPrimary = () => {
                 <button
                   onClick={toggleUserMenu}
                   className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition-colors"
+                  onMouseEnter={() => setHoveredIcon('user')}
+                  onMouseLeave={() => setHoveredIcon(null)}
                 >
-                  <User className="h-5 w-5" />
+                  <User size={20} color={getIconColor('user')} />
                   <span>{user?.username || user?.name || 'User'}</span>
                 </button>
                 
@@ -148,7 +184,7 @@ export const NavigationPrimary = () => {
                       className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
-                      <Settings className="h-4 w-4 mr-2" />
+                      <Settings size={16} color="#374151" className="mr-2" />
                       My Account
                     </Link>
                     
@@ -159,7 +195,7 @@ export const NavigationPrimary = () => {
                         className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
-                        <Settings className="h-4 w-4 mr-2" />
+                        <Settings size={16} color="#374151" className="mr-2" />
                         Admin Dashboard
                       </Link>
                     )}
@@ -168,7 +204,7 @@ export const NavigationPrimary = () => {
                       onClick={handleSignOut}
                       className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
-                      <LogOut className="h-4 w-4 mr-2" />
+                      <LogOut size={16} color="#374151" className="mr-2" />
                       Sign Out
                     </button>
                   </div>
@@ -196,8 +232,10 @@ export const NavigationPrimary = () => {
           <button
             onClick={toggleMenu}
             className="md:hidden p-2 text-gray-700 hover:text-gray-900"
+            onMouseEnter={() => setHoveredIcon('menu')}
+            onMouseLeave={() => setHoveredIcon(null)}
           >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isMenuOpen ? <X size={24} color={getIconColor('menu')} /> : <Menu size={24} color={getIconColor('menu')} />}
           </button>
         </div>
 
@@ -274,7 +312,7 @@ export const NavigationPrimary = () => {
                     className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <Settings className="h-4 w-4 mr-2" />
+                    <Settings size={16} color="#374151" className="mr-2" />
                     My Account
                   </Link>
                   
@@ -285,7 +323,7 @@ export const NavigationPrimary = () => {
                       className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      <Settings className="h-4 w-4 mr-2" />
+                      <Settings size={16} color="#374151" className="mr-2" />
                       Admin Dashboard
                     </Link>
                   )}
@@ -295,7 +333,15 @@ export const NavigationPrimary = () => {
                     className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <ShoppingCart className="h-4 w-4 mr-2" />
+                    <div className="relative mr-2">
+                      <ShoppingCart size={16} color="#374151" />
+                      {/* Mobile Cart Count Badge */}
+                      {getCartCount() > 0 && (
+                        <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center min-w-[16px]">
+                          {getCartCount() > 99 ? '99+' : getCartCount()}
+                        </span>
+                      )}
+                    </div>
                     Cart
                   </Link>
                   
@@ -306,7 +352,7 @@ export const NavigationPrimary = () => {
                     className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <Heart className="h-4 w-4 mr-2" />
+                    <Heart size={16} color="#374151" className="mr-2" />
                     Support on Patreon
                   </a>
                   
@@ -317,7 +363,7 @@ export const NavigationPrimary = () => {
                     }}
                     className="flex items-center w-full px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
                   >
-                    <LogOut className="h-4 w-4 mr-2" />
+                    <LogOut size={16} color="#374151" className="mr-2" />
                     Sign Out
                   </button>
                 </div>

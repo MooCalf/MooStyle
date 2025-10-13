@@ -5,6 +5,7 @@ import { NavigationSecondary } from '@/Components/NavigationSecondary';
 import { Metadata } from '@/Components/Metadata.jsx';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { OverlayModal } from '@/Components/ui/OverlayModal';
 import { apiConfig } from '@/lib/apiConfig';
 import JSZip from 'jszip';
 import { 
@@ -19,7 +20,8 @@ import {
   AlertCircle,
   CheckCircle,
   XCircle,
-  Loader2
+  Loader2,
+  Check
 } from 'lucide-react';
 
 export const Cart = () => {
@@ -29,6 +31,8 @@ export const Cart = () => {
   const [downloading, setDownloading] = useState(false);
   const [error, setError] = useState(null);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   // Debug logging
   console.log('Cart component loaded, cartItems:', cartItems);
@@ -100,18 +104,17 @@ export const Cart = () => {
       return;
     }
 
+    // Check if user is authenticated
+    if (!isAuthenticated || !user) {
+      console.log('❌ User not authenticated, showing download modal');
+      setShowDownloadModal(true);
+      return;
+    }
+
     setDownloading(true);
     setError(null);
 
     try {
-      // Check if user is authenticated
-      if (!isAuthenticated || !user) {
-        console.log('❌ User not authenticated');
-        setError('Please log in to download mods. You need to be logged into an existing account in our database.');
-        setDownloading(false);
-        return;
-      }
-
       console.log('✅ User authenticated, proceeding with download');
 
       // Call the points API to award points and get download authorization
@@ -143,16 +146,9 @@ export const Cart = () => {
 
       // Show success message with points earned
       setError(null);
+      setSuccessMessage(`Download authorized! You earned ${pointsData.pointsAwarded} points!`);
       setDownloadSuccess(true);
       console.log(`✅ Download authorized! You earned ${pointsData.pointsAwarded} points!`);
-      
-      // Show success toast notification
-      if (window.showToast) {
-        window.showToast(`✅ Download authorized! You earned ${pointsData.pointsAwarded} points!`, 'success');
-      } else {
-        // Fallback to alert if toast system not available
-        alert(`✅ Download authorized! You earned ${pointsData.pointsAwarded} points!`);
-      }
 
       // Now proceed with the actual file download
       const zip = new JSZip();
@@ -422,6 +418,7 @@ export const Cart = () => {
     } catch (error) {
       console.error('Bulk download error:', error);
       setError(error.message || 'Failed to create download package. Please try again.');
+      setSuccessMessage(null);
     } finally {
       setDownloading(false);
     }
@@ -487,6 +484,13 @@ export const Cart = () => {
             <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-center gap-3">
               <AlertCircle size={20} className="text-red-600" />
               <p className="text-red-800">{error}</p>
+            </div>
+          )}
+
+          {successMessage && (
+            <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-3">
+              <CheckCircle size={20} className="text-green-600" />
+              <p className="text-green-800">{successMessage}</p>
             </div>
           )}
 
@@ -791,6 +795,56 @@ export const Cart = () => {
           )}
         </div>
       </div>
+
+      {/* Registration Modal for Non-Authenticated Users */}
+      <OverlayModal
+        isOpen={showDownloadModal}
+        onClose={() => setShowDownloadModal(false)}
+        title="Sign up to download your mods"
+        description="Create a free account to download the mods in your cart and earn points!"
+        icon={Download}
+        iconColor="#0d9488"
+      >
+        <div className="mb-6">
+          <h4 className="text-sm font-medium text-gray-900 mb-2">Benefits of signing up:</h4>
+          <ul className="space-y-1">
+            <li className="flex items-center gap-2 text-sm text-gray-700">
+              <Check size={14} color="#16a34a" />
+              Download unlimited mods
+            </li>
+            <li className="flex items-center gap-2 text-sm text-gray-700">
+              <Check size={14} color="#16a34a" />
+              Earn points with each download
+            </li>
+          </ul>
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Link
+            to="/register"
+            className="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
+            onClick={() => setShowDownloadModal(false)}
+          >
+            <User size={18} />
+            Sign Up Free
+          </Link>
+          <Link
+            to="/login"
+            className="flex-1 bg-white hover:bg-gray-50 text-teal-600 font-semibold py-3 px-4 rounded-lg border border-teal-600 transition-colors duration-200 flex items-center justify-center gap-2"
+            onClick={() => setShowDownloadModal(false)}
+          >
+            <User size={18} />
+            Sign In
+          </Link>
+        </div>
+
+        <button
+          onClick={() => setShowDownloadModal(false)}
+          className="w-full mt-3 text-gray-500 hover:text-gray-700 text-sm py-2"
+        >
+          Maybe later
+        </button>
+      </OverlayModal>
     </>
   );
 };

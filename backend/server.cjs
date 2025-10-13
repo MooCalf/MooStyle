@@ -142,6 +142,7 @@ app.get('/', (req, res) => {
 // Legacy routes (keep for backward compatibility during migration)
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/cart', require('./routes/cart'));
+app.use('/api/user', require('./routes/user'));
 app.use('/api', require('./routes/health')); // Re-enabled with Better Auth support
 
 // 404 handler

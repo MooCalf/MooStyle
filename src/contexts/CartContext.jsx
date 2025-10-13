@@ -85,8 +85,8 @@ const initialState = {
 
 // Cart provider component
 export const CartProvider = ({ children }) => {
+  const { isAuthenticated, user } = useAuth();
   const [state, dispatch] = useReducer(cartReducer, initialState);
-  const { user, isAuthenticated } = useAuth();
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -168,6 +168,11 @@ export const CartProvider = ({ children }) => {
 
   // Cart actions
   const addToCart = async (product) => {
+    // Block non-authenticated users from adding to cart
+    if (!isAuthenticated || !user) {
+      throw new Error('Please sign up or sign in to add items to your cart');
+    }
+    
     // Check if user is banned
     if (isAuthenticated && user && !user.isActive) {
       throw new Error('Your account has been suspended. You cannot add items to cart.');
