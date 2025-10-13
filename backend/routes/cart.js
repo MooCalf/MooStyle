@@ -351,7 +351,6 @@ router.post('/download', checkUserBanStatus, async (req, res) => {
     }
 
     const user = session.user;
-    console.log('Download request from user:', user.id, user.email);
 
     // Award points for download (1 point per item)
     const pointsToAward = 1; // Simple: 1 point per download

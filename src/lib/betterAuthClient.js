@@ -3,7 +3,7 @@ import { adminClient, emailOTPClient } from "better-auth/client/plugins";
 
 // Create Better Auth client with admin and emailOTP plugins
 export const authClient = createAuthClient({
-  baseURL: "http://localhost:5000",
+  baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:5000",
   plugins: [
     adminClient(),
     emailOTPClient()

@@ -78,11 +78,12 @@ export const Login = () => {
     setError('');
     setSuccess('');
     try {
+      const frontendUrl = window.location.origin;
       await signIn.social({
         provider: provider,
-        callbackURL: 'http://localhost:5173/',
-        errorCallbackURL: 'http://localhost:5173/login',
-        newUserCallbackURL: 'http://localhost:5173/',
+        callbackURL: `${frontendUrl}/`,
+        errorCallbackURL: `${frontendUrl}/login`,
+        newUserCallbackURL: `${frontendUrl}/`,
       });
     } catch (error) {
       setError(`Failed to sign in with ${provider}. Please try again.`);

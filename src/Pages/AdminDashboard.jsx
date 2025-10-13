@@ -89,7 +89,6 @@ export const AdminDashboard = () => {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      console.log('Fetching admin dashboard data...');
       
       const response = await fetch(`/api/admin/stats?t=${Date.now()}`, {
         method: 'GET',
@@ -101,27 +100,13 @@ export const AdminDashboard = () => {
       });
 
       if (!response.ok) {
-        console.error('Admin stats API failed:', response.status, response.statusText);
         const errorText = await response.text();
-        console.error('Error response:', errorText);
         throw new Error(`Failed to fetch dashboard data: ${response.status} ${response.statusText}`);
       }
 
       const data = await response.json();
-      console.log('Admin stats response:', data);
       if (data.success && data.stats) {
-        console.log('Recent carts data:', data.stats.recentCarts);
-        console.log('Cart count:', data.stats.recentCarts?.length || 0);
-        
-        // Debug each cart
-        data.stats.recentCarts?.forEach((cart, index) => {
-          console.log(`Cart ${index + 1}:`, {
-            id: cart._id?.toString().slice(-8),
-            userInfo: cart.userInfo,
-            displayName: cart.userInfo?.username || cart.userInfo?.name || 'Unknown User'
-          });
-        });
-            setStats({
+        setStats({
           totalUsers: data.stats.totalUsers || 0,
           adminUsers: data.stats.adminUsers || 0,
           regularUsers: data.stats.regularUsers || 0,
@@ -144,7 +129,6 @@ export const AdminDashboard = () => {
         throw new Error(data.message || 'Failed to fetch stats');
       }
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
       setError(error.message);
     } finally {
       setLoading(false);

@@ -1,6 +1,29 @@
 # 📚 **Guides and More - Documentation Index**
 
-Welcome to the central documentation hub for the Modding Website project. This folder contains all guides, documentation, and reference materials organized for easy access.
+Welcome to the central documentation hub for the MooStyle E-Commerce Platform. This folder contains all guides, documentation, and reference materials organized for easy access.
+
+## 🆕 **Recent Updates**
+
+### **Code Quality Improvements**
+- **Code Cleanup**: Removed 21+ unused files and components
+- **Debug Cleanup**: Eliminated 30+ console.log statements from production code
+- **Duplicate Code Removal**: Cleaned up duplicate authentication routes and test files
+- **Package Optimization**: Updated package name and cleaned up dependencies
+- **Linting Compliance**: All code now passes ESLint validation with zero errors
+
+### **Authentication System Upgrade**
+- **Better Auth Integration**: Migrated from custom JWT to Better Auth for enhanced security
+- **Email OTP Support**: Implemented secure password reset via email verification codes
+- **Session Management**: Improved session handling with automatic token refresh
+- **Admin Protection**: Added safeguards to prevent admin-to-admin modifications
+- **Role Management**: Enhanced user role system with proper validation
+
+### **User Experience Improvements**
+- **Registration Flow**: Streamlined sign-up process with strategic prompts
+- **Cart Management**: Enhanced cart functionality with real-time updates and badges
+- **Download Tracking**: Implemented comprehensive download history and point system
+- **Membership Progress**: Added visual progress bars for membership level advancement
+- **Form Integration**: Migrated support forms to Formspree for better reliability
 
 ## 📋 **Documentation Overview**
 
@@ -204,6 +227,6 @@ For questions about any documentation:
 
 ---
 
-**Last Updated**: October 8, 2025  
-**Version**: 1.0  
+**Last Updated**: January 13, 2025  
+**Version**: 2.0  
 **Maintained By**: Development Team

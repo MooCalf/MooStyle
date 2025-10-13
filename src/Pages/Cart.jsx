@@ -34,10 +34,6 @@ export const Cart = () => {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
 
-  // Debug logging
-  console.log('Cart component loaded, cartItems:', cartItems);
-  console.log('First cart item structure:', cartItems[0]);
-
   // Error boundary for cart context
   if (!cartItems) {
     console.error('Cart items not available');
@@ -74,12 +70,9 @@ export const Cart = () => {
   const handleRemoveItem = async (productId) => {
     try {
       setError(null);
-      console.log('Removing item with productId:', productId);
       
       // Remove from cart and wait for completion
       await removeFromCart(productId);
-      
-      console.log('Item removed successfully');
       
       // Don't reload the page - let React handle the state update
       
@@ -92,21 +85,15 @@ export const Cart = () => {
   const handleBulkDownload = async (event) => {
     // Prevent automatic execution
     if (!event || !event.isTrusted) {
-      console.log('❌ handleBulkDownload called without user interaction, ignoring');
       return;
     }
     
-    console.log('🚀 handleBulkDownload called by user - cartItems length:', cartItems.length);
-    console.log('🚀 handleBulkDownload called by user - cartItems:', cartItems);
-    
     if (cartItems.length === 0) {
-      console.log('❌ Cart is empty, returning early');
       return;
     }
 
     // Check if user is authenticated
     if (!isAuthenticated || !user) {
-      console.log('❌ User not authenticated, showing download modal');
       setShowDownloadModal(true);
       return;
     }
@@ -115,10 +102,7 @@ export const Cart = () => {
     setError(null);
 
     try {
-      console.log('✅ User authenticated, proceeding with download');
-
       // Call the points API to award points and get download authorization
-      console.log('🚀 Calling points API:', `${apiConfig.buildUrl(apiConfig.endpoints.cart.download)}`);
       const pointsResponse = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.cart.download)}`, {
         method: 'POST',
         headers: {
@@ -148,7 +132,6 @@ export const Cart = () => {
       setError(null);
       setSuccessMessage(`Download authorized! You earned ${pointsData.pointsAwarded} points!`);
       setDownloadSuccess(true);
-      console.log(`✅ Download authorized! You earned ${pointsData.pointsAwarded} points!`);
 
       // Now proceed with the actual file download
       const zip = new JSZip();
@@ -175,7 +158,6 @@ export const Cart = () => {
             
             if (response.ok) {
               const data = await response.json();
-              console.log(`Found ${data.files.length} files for folder: ${productData.folderPath}`);
               
               // Add each file to the zip
               for (const file of data.files) {
@@ -188,11 +170,9 @@ export const Cart = () => {
                       // File is in a subfolder
                       const subfolderZip = productFolder.folder(file.folder);
                       subfolderZip.file(file.name, fileBlob);
-                      console.log(`Added file: ${file.folder}/${file.name}`);
                     } else {
                       // File is in the main folder
                       productFolder.file(file.name, fileBlob);
-                      console.log(`Added file: ${file.name}`);
                     }
                     actualFilesFound = true;
                   }
@@ -321,7 +301,6 @@ export const Cart = () => {
               if (response.ok) {
                 const fileBlob = await response.blob();
                 productFolder.file(filename, fileBlob);
-                console.log(`Successfully added file: ${filename}`);
                 return true;
               }
             } catch (fileError) {
@@ -359,7 +338,6 @@ export const Cart = () => {
                       const fileBlob = await response.blob();
                       const subfolderZip = productFolder.folder(subfolder);
                       subfolderZip.file(filename, fileBlob);
-                      console.log(`Successfully added file: ${subfolder}/${filename}`);
                       filesFound = true;
                     }
                   } catch (fileError) {
@@ -502,7 +480,6 @@ export const Cart = () => {
               <p className="text-gray-600 mb-8">Browse our collection and add some items to your cart!</p>
               <button
                 onClick={() => {
-                  console.log('Back to Home button clicked');
                   navigate('/');
                 }}
                 className="inline-flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
@@ -732,8 +709,6 @@ export const Cart = () => {
                           <div className="flex gap-2">
                             <button
                               onClick={() => {
-                                console.log('Donate button clicked');
-                                // TODO: Add actual donation link
                                 window.open('https://ko-fi.com/moostyle', '_blank');
                               }}
                               className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
@@ -745,8 +720,6 @@ export const Cart = () => {
                             </button>
                             <button
                               onClick={() => {
-                                console.log('Tip button clicked');
-                                // TODO: Add actual tip link
                                 window.open('https://paypal.me/moostyle', '_blank');
                               }}
                               className="flex items-center gap-2 bg-pink-600 hover:bg-pink-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"

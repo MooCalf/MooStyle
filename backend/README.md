@@ -4,15 +4,31 @@ The MooStyle backend represents a sophisticated, production-ready API architectu
 
 The API architecture is designed around RESTful principles with comprehensive error handling, input validation, and security measures that ensure reliable operation in production environments. The system implements advanced features including real-time system monitoring, automated maintenance procedures, and comprehensive logging that provide administrators with complete visibility into platform operations.
 
+## 🆕 Recent Updates & Improvements
+
+### **Authentication System Upgrade**
+- **Better Auth Integration**: Migrated from custom JWT to Better Auth for enhanced security
+- **Email OTP Support**: Implemented secure password reset via email verification codes
+- **Session Management**: Improved session handling with automatic token refresh
+- **Admin Protection**: Added safeguards to prevent admin-to-admin modifications
+- **Role Management**: Enhanced user role system with proper validation
+
+### **Code Quality Improvements**
+- **Code Cleanup**: Removed unused files and components for improved performance
+- **Debug Cleanup**: Eliminated console.log statements from production code
+- **Duplicate Code Removal**: Cleaned up duplicate authentication routes and test files
+- **Package Optimization**: Updated dependencies and cleaned up unused packages
+- **Linting Compliance**: All code now passes ESLint validation with zero errors
+
 ## 🚀 Comprehensive API Features
 
 ### Advanced Authentication & Security Architecture
 
-The MooStyle backend implements a sophisticated authentication system that combines JWT token-based authentication with comprehensive security measures to ensure both user convenience and platform security. The system utilizes industry-standard bcrypt password hashing with 12 rounds of salt, ensuring that user credentials remain protected even in the event of database compromise. The platform includes advanced rate limiting mechanisms that prevent brute force attacks while maintaining legitimate user access.
+The MooStyle backend implements a sophisticated authentication system powered by Better Auth, providing enterprise-grade security with modern session management. The system utilizes secure session-based authentication with automatic token refresh and persistent login sessions that maintain user authentication state across browser sessions for up to seven days.
 
-The authentication system features a comprehensive password reset mechanism that generates cryptographically secure tokens with 15-minute expiration windows. This system includes professional email notifications with responsive HTML templates that maintain brand consistency while providing clear user guidance. The platform implements comprehensive input validation using express-validator middleware that sanitizes and validates all user inputs, preventing injection attacks and ensuring data integrity.
+The platform includes sophisticated password management capabilities, including secure password reset functionality through email-based OTP (One-Time Password) verification. When users forget their passwords, the system generates secure 6-digit codes that expire within 5 minutes, ensuring both security and usability. The password reset process includes comprehensive validation and user-friendly interfaces with spam folder warnings.
 
-User management includes sophisticated account lifecycle management with automated cleanup procedures for inactive accounts. The system maintains detailed audit logs of all authentication events, providing administrators with complete visibility into user activity patterns and security events. The platform also implements role-based access control that ensures appropriate permissions for different user types while maintaining security boundaries.
+User accounts are protected by advanced security measures including bcrypt password hashing with 12 rounds of salt, rate limiting to prevent brute force attacks, and comprehensive input validation. The system implements intelligent account lifecycle management with automated cleanup processes and email notifications for inactive accounts.
 
 ### Intelligent Product Management & Catalog System
 
@@ -51,11 +67,12 @@ Automated maintenance procedures handle various system tasks including database 
 - **Runtime**: Node.js
 - **Framework**: Express.js
 - **Database**: MongoDB with Mongoose ODM
-- **Authentication**: JWT (JSON Web Tokens)
+- **Authentication**: Better Auth (Modern authentication system)
 - **Password Hashing**: bcryptjs
 - **Validation**: express-validator
 - **File Upload**: Multer + Cloudinary
 - **Environment**: dotenv
+- **Email Service**: Nodemailer with Gmail SMTP
 
 ## 📦 Installation
 
@@ -84,9 +101,14 @@ Automated maintenance procedures handle various system tasks including database 
    PORT=5000
    NODE_ENV=development
    MONGODB_URI=mongodb://localhost:27017/your-database-name
-   JWT_SECRET=your-unique-secure-jwt-secret-key-here
-   JWT_EXPIRE=7d
+   BETTER_AUTH_SECRET=your-unique-secure-better-auth-secret-key-here
+   BETTER_AUTH_URL=http://localhost:5000
    FRONTEND_URL=http://localhost:5173
+   EMAIL_SERVICE=gmail
+   EMAIL_USER=your-email@gmail.com
+   EMAIL_PASS=your-app-specific-password
+   GOOGLE_CLIENT_ID=your-google-oauth-client-id
+   GOOGLE_CLIENT_SECRET=your-google-oauth-client-secret
    ```
 
    **For macOS/Linux:**
@@ -98,9 +120,14 @@ Automated maintenance procedures handle various system tasks including database 
    PORT=5000
    NODE_ENV=development
    MONGODB_URI=mongodb://localhost:27017/your-database-name
-   JWT_SECRET=your-unique-secure-jwt-secret-key-here
-   JWT_EXPIRE=7d
+   BETTER_AUTH_SECRET=your-unique-secure-better-auth-secret-key-here
+   BETTER_AUTH_URL=http://localhost:5000
    FRONTEND_URL=http://localhost:5173
+   EMAIL_SERVICE=gmail
+   EMAIL_USER=your-email@gmail.com
+   EMAIL_PASS=your-app-specific-password
+   GOOGLE_CLIENT_ID=your-google-oauth-client-id
+   GOOGLE_CLIENT_SECRET=your-google-oauth-client-secret
    ```
 
 4. **Start MongoDB**
@@ -156,78 +183,59 @@ Automated maintenance procedures handle various system tasks including database 
 
 ## 📚 API Endpoints
 
-### Authentication
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
-- `POST /api/auth/refresh` - Refresh token
-- `GET /api/auth/me` - Get current user
-- `POST /api/auth/logout` - Logout user
-- `POST /api/auth/forgot-password` - Forgot password
-- `POST /api/auth/reset-password` - Reset password
+### Authentication (Better Auth)
+- `POST /api/auth/sign-up/email` - User registration
+- `POST /api/auth/sign-in/email` - User login
+- `POST /api/auth/sign-in/social` - Social login (Google)
+- `POST /api/auth/sign-out` - User logout
+- `GET /api/auth/session` - Get current session
+- `POST /api/auth/forget-password/email-otp` - Send password reset OTP
+- `POST /api/auth/reset-password` - Reset password with OTP
 
-### Users
-- `GET /api/users/profile` - Get user profile
-- `PUT /api/users/profile` - Update user profile
-- `PUT /api/users/preferences` - Update preferences
-- `POST /api/users/addresses` - Add address
-- `PUT /api/users/addresses/:id` - Update address
-- `DELETE /api/users/addresses/:id` - Delete address
-- `PUT /api/users/password` - Change password
-- `POST /api/users/avatar` - Upload avatar
-- `DELETE /api/users/account` - Delete account
+### User Management
+- `GET /api/user/profile` - Get user profile
+- `PUT /api/user/profile` - Update user profile
+- `GET /api/user/stats` - Get user statistics
+- `PUT /api/user/change-password` - Change password
 
-### Products
-- `GET /api/products` - Get all products (with filters)
-- `GET /api/products/:id` - Get single product
-- `GET /api/products/slug/:slug` - Get product by slug
-- `GET /api/products/category/:category` - Get products by category
-- `GET /api/products/search` - Search products
-- `GET /api/products/related/:id` - Get related products
-- `GET /api/products/featured` - Get featured products
-- `GET /api/products/bestsellers` - Get bestseller products
-- `GET /api/products/new` - Get new products
-
-### Cart
+### Cart Management
 - `GET /api/cart` - Get user's cart
 - `POST /api/cart/add` - Add item to cart
 - `PUT /api/cart/update/:itemId` - Update cart item
 - `DELETE /api/cart/remove/:itemId` - Remove cart item
-- `DELETE /api/cart/clear` - Clear cart
-- `GET /api/cart/count` - Get cart count
+- `POST /api/cart/download` - Bulk download cart items
 
-### Wishlist
-- `GET /api/wishlist` - Get user's wishlist
-- `POST /api/wishlist/add` - Add to wishlist
-- `DELETE /api/wishlist/remove/:productId` - Remove from wishlist
-- `DELETE /api/wishlist/clear` - Clear wishlist
-- `GET /api/wishlist/check/:productId` - Check if in wishlist
-- `GET /api/wishlist/count` - Get wishlist count
+### Admin Management
+- `GET /api/admin/users` - Get all users (Admin only)
+- `PUT /api/admin/users/:userId` - Update user (Admin only)
+- `PUT /api/admin/users/:userId/role` - Update user role (Admin only)
+- `PUT /api/admin/users/:userId/ban` - Ban/unban user (Admin only)
+- `DELETE /api/admin/users/:userId` - Delete user (Admin only)
+- `GET /api/admin/carts` - Get all carts (Admin only)
 
-### Orders
-- `GET /api/orders` - Get user's orders
-- `GET /api/orders/:orderId` - Get single order
-- `POST /api/orders` - Create new order
-- `PUT /api/orders/:orderId/cancel` - Cancel order
-- `PUT /api/orders/:orderId/tracking` - Add tracking (Admin)
-- `GET /api/orders/stats/overview` - Get order stats (Admin)
-
-### Reviews
-- `GET /api/reviews/product/:productId` - Get product reviews
-- `POST /api/reviews` - Create review
-- `PUT /api/reviews/:reviewId` - Update review
-- `DELETE /api/reviews/:reviewId` - Delete review
-- `POST /api/reviews/:reviewId/helpful` - Mark helpful
-- `POST /api/reviews/:reviewId/not-helpful` - Mark not helpful
-- `GET /api/reviews/user` - Get user's reviews
-- `GET /api/reviews/stats/:productId` - Get review stats
+### Health Monitoring
+- `GET /api/health/database` - Database health check
+- `GET /api/health/auth` - Authentication system health
+- `GET /api/health/email` - Email service health
 
 ## 🔒 Authentication
 
-The API uses JWT (JSON Web Tokens) for authentication. Include the token in the Authorization header:
+The API uses Better Auth for authentication with session-based security. Sessions are automatically managed and include proper CSRF protection. For API calls, include credentials in requests:
 
+```javascript
+// Frontend API calls
+fetch('/api/user/profile', {
+  credentials: 'include' // Include session cookies
+})
 ```
-Authorization: Bearer <your-jwt-token>
-```
+
+Better Auth handles:
+- Session management
+- CSRF protection
+- Password hashing
+- Email verification
+- Social login (Google OAuth)
+- Password reset via OTP
 
 ## 📝 Request/Response Format
 
@@ -260,8 +268,14 @@ npm test
 ### Environment Variables for Production
 - `NODE_ENV=production`
 - `MONGODB_URI=<your-production-mongodb-uri>`
-- `JWT_SECRET=<your-strong-secret-key>`
+- `BETTER_AUTH_SECRET=<your-strong-secret-key>`
+- `BETTER_AUTH_URL=<your-production-backend-url>`
 - `FRONTEND_URL=<your-production-frontend-url>`
+- `EMAIL_SERVICE=gmail`
+- `EMAIL_USER=<your-email@gmail.com>`
+- `EMAIL_PASS=<your-app-specific-password>`
+- `GOOGLE_CLIENT_ID=<your-google-oauth-client-id>`
+- `GOOGLE_CLIENT_SECRET=<your-google-oauth-client-secret>`
 
 ### Cloudflare Workers (Recommended)
 1. Install Wrangler CLI
@@ -290,11 +304,22 @@ npm test
 ```
 backend/
 ├── models/          # Database models
+│   ├── Cart.js      # Cart schema
+│   └── PointTransaction.js # Points tracking
 ├── routes/          # API routes
+│   ├── admin.js     # Admin management
+│   ├── cart.js      # Cart operations
+│   ├── user.js      # User profile management
+│   └── health.js    # Health monitoring
 ├── middleware/      # Custom middleware
-├── utils/           # Utility functions
-├── server.js        # Main server file
-├── package.json     # Dependencies
+│   ├── banCheck.js  # Ban verification
+│   └── rateLimiter.js # Rate limiting
+├── services/        # Business logic
+│   ├── emailService.js # Email functionality
+│   └── cronService.js # Scheduled tasks
+├── scripts/         # Utility scripts
+├── server.cjs       # Main server file
+├── auth.js          # Better Auth configuration
 └── .env            # Environment variables
 ```
 

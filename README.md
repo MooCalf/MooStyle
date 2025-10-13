@@ -4,6 +4,29 @@ Welcome to MooStyle! 🌸 This comprehensive Asian fashion and beauty e-commerce
 
 The platform combines a sophisticated React frontend with a robust Node.js backend to deliver a seamless shopping experience. Users can browse an extensive catalog of Asian fashion and beauty products, manage their accounts with advanced security features, and enjoy personalized shopping experiences through our intelligent recommendation system. The platform also includes comprehensive administrative tools for managing users, products, and system health.
 
+## 🆕 Recent Updates & Improvements
+
+### Code Quality & Performance Enhancements
+- **Code Cleanup**: Removed 21+ unused files and components for improved performance
+- **Debug Cleanup**: Eliminated 30+ console.log statements from production code
+- **Duplicate Code Removal**: Cleaned up duplicate authentication routes and test files
+- **Package Optimization**: Updated package name and cleaned up dependencies
+- **Linting Compliance**: All code now passes ESLint validation with zero errors
+
+### Authentication System Upgrade
+- **Better Auth Integration**: Migrated from custom JWT to Better Auth for enhanced security
+- **Email OTP Support**: Implemented secure password reset via email verification codes
+- **Session Management**: Improved session handling with automatic token refresh
+- **Admin Protection**: Added safeguards to prevent admin-to-admin modifications
+- **Role Management**: Enhanced user role system with proper validation
+
+### User Experience Improvements
+- **Registration Flow**: Streamlined sign-up process with strategic prompts
+- **Cart Management**: Enhanced cart functionality with real-time updates and badges
+- **Download Tracking**: Implemented comprehensive download history and point system
+- **Membership Progress**: Added visual progress bars for membership level advancement
+- **Form Integration**: Migrated support forms to Formspree for better reliability
+
 ## 📚 Documentation
 
 This project includes comprehensive documentation for setup, deployment, and maintenance. All guides and documentation are organized in the **`Guides and More`** folder for easy access.
@@ -45,11 +68,11 @@ Guides and More/
 
 ### Advanced User Authentication & Security
 
-MooStyle implements a comprehensive authentication system that prioritizes both security and user experience. The platform utilizes JWT (JSON Web Token) authentication with secure token storage and automatic session management. Users benefit from persistent login sessions that maintain their authentication state across browser sessions for up to seven days, eliminating the need for frequent re-authentication while maintaining security standards.
+MooStyle implements a comprehensive authentication system powered by Better Auth, providing enterprise-grade security with modern session management. The platform utilizes secure session-based authentication with automatic token refresh and persistent login sessions that maintain user authentication state across browser sessions for up to seven days.
 
-The platform includes sophisticated password management capabilities, including secure password reset functionality through email-based token verification. When users forget their passwords, the system generates cryptographically secure 64-character tokens that expire within 15 minutes, ensuring both security and usability. The password reset process includes comprehensive validation to ensure new passwords meet strict security requirements, including uppercase letters, lowercase letters, numbers, and special characters.
+The platform includes sophisticated password management capabilities, including secure password reset functionality through email-based OTP (One-Time Password) verification. When users forget their passwords, the system generates secure 6-digit codes that expire within 5 minutes, ensuring both security and usability. The password reset process includes comprehensive validation and user-friendly interfaces with spam folder warnings.
 
-User accounts are protected by advanced security measures including bcrypt password hashing with 12 rounds of salt, rate limiting to prevent brute force attacks, and comprehensive input validation. The system also implements an intelligent account lifecycle management system that automatically handles inactive accounts through a 4-week inactivity policy, sending email notifications before account cleanup and maintaining database hygiene.
+User accounts are protected by advanced security measures including bcrypt password hashing with 12 rounds of salt, rate limiting to prevent brute force attacks, and comprehensive input validation. The system implements intelligent account lifecycle management with automated cleanup processes and email notifications for inactive accounts.
 
 ### Comprehensive Admin Dashboard & System Monitoring
 
@@ -259,8 +282,7 @@ localStorage.removeItem('user');   // Remove user data
 - **Node.js** - JavaScript runtime
 - **Express.js** - Web application framework
 - **MongoDB** - NoSQL database
-- **Mongoose** - MongoDB object modeling
-- **JWT** - JSON Web Tokens for authentication
+- **Better Auth** - Modern authentication system
 - **bcryptjs** - Password hashing
 - **Multer** - File upload handling
 - **Sharp.js** - Image processing and optimization
@@ -310,9 +332,14 @@ localStorage.removeItem('user');   // Remove user data
    PORT=5000
    NODE_ENV=development
    MONGODB_URI=mongodb://localhost:27017/your-database-name
-   JWT_SECRET=your-unique-secure-jwt-secret-key-here
-   JWT_EXPIRE=7d
+   BETTER_AUTH_SECRET=your-unique-secure-better-auth-secret-key-here
+   BETTER_AUTH_URL=http://localhost:5000
    FRONTEND_URL=http://localhost:5173
+   EMAIL_SERVICE=gmail
+   EMAIL_USER=your-email@gmail.com
+   EMAIL_PASS=your-app-specific-password
+   GOOGLE_CLIENT_ID=your-google-oauth-client-id
+   GOOGLE_CLIENT_SECRET=your-google-oauth-client-secret
    ```
 
    **For macOS/Linux:**
@@ -324,9 +351,14 @@ localStorage.removeItem('user');   // Remove user data
    PORT=5000
    NODE_ENV=development
    MONGODB_URI=mongodb://localhost:27017/your-database-name
-   JWT_SECRET=your-unique-secure-jwt-secret-key-here
-   JWT_EXPIRE=7d
+   BETTER_AUTH_SECRET=your-unique-secure-better-auth-secret-key-here
+   BETTER_AUTH_URL=http://localhost:5000
    FRONTEND_URL=http://localhost:5173
+   EMAIL_SERVICE=gmail
+   EMAIL_USER=your-email@gmail.com
+   EMAIL_PASS=your-app-specific-password
+   GOOGLE_CLIENT_ID=your-google-oauth-client-id
+   GOOGLE_CLIENT_SECRET=your-google-oauth-client-secret
    ```
 
 5. **Start MongoDB**
@@ -466,11 +498,13 @@ npm start
 MooStyle/
 ├── src/                          # Frontend React application
 │   ├── Components/               # Reusable React components
-│   │   ├── ui/                  # Basic UI components
+│   │   ├── ui/                  # Basic UI components (OverlayModal, toast)
+│   │   ├── HomepageComponents/   # Homepage-specific components
 │   │   ├── NavigationPrimary.jsx # Main navigation
 │   │   ├── NavigationSecondary.jsx # Secondary navigation
 │   │   ├── ProductCard.jsx      # Product display component
-│   │   ├── ProductManagement.jsx # Admin product management
+│   │   ├── ApiHealthMonitor.jsx # Admin health monitoring
+│   │   ├── SupportContactForm.jsx # Formspree contact form
 │   │   └── ...                  # Other components
 │   ├── Pages/                   # Page components
 │   │   ├── Home.jsx            # Landing page
@@ -483,24 +517,28 @@ MooStyle/
 │   │   ├── AdminDashboard.jsx  # Admin panel
 │   │   └── ...                 # Other pages
 │   ├── contexts/               # React contexts
+│   │   ├── AuthContext.jsx     # Authentication state
 │   │   └── CartContext.jsx     # Shopping cart state
 │   ├── hooks/                  # Custom React hooks
 │   ├── lib/                    # Utility functions
+│   │   ├── betterAuthClient.js # Better Auth client configuration
+│   │   ├── shoppingData.js     # Product data management
+│   │   ├── globalSearchData.js # Search functionality
+│   │   └── ...                 # Other utilities
 │   └── styles/                 # CSS styles
 ├── backend/                     # Backend Node.js application
 │   ├── models/                 # Database models
-│   │   ├── User.js             # User schema
-│   │   └── Cart.js             # Cart schema
+│   │   ├── Cart.js             # Cart schema
+│   │   └── PointTransaction.js # Points tracking
 │   ├── routes/                 # API routes
-│   │   ├── auth.js             # Authentication routes
+│   │   ├── admin.js            # Admin routes
 │   │   ├── cart.js             # Cart routes
-│   │   └── admin.js            # Admin routes
+│   │   ├── user.js             # User profile routes
+│   │   └── health.js           # Health monitoring
 │   ├── middleware/             # Custom middleware
 │   ├── services/               # Business logic
 │   │   ├── emailService.js     # Email functionality
 │   │   └── cronService.js      # Scheduled tasks
-│   ├── config/                 # Configuration files
-│   │   └── security.js         # Security settings
 │   ├── scripts/                # Utility scripts
 │   └── server.cjs              # Main server file
 ├── public/                      # Static assets
@@ -563,11 +601,14 @@ MooStyle/
 NODE_ENV=production
 PORT=5000
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/your-database-name
-JWT_SECRET=your-production-secret-key-change-this
-JWT_EXPIRE=7d
+BETTER_AUTH_SECRET=your-production-secret-key-change-this
+BETTER_AUTH_URL=https://yourdomain.com
 FRONTEND_URL=https://yourdomain.com
+EMAIL_SERVICE=gmail
 EMAIL_USER=your-email@domain.com
 EMAIL_PASS=your-app-specific-password
+GOOGLE_CLIENT_ID=your-google-oauth-client-id
+GOOGLE_CLIENT_SECRET=your-google-oauth-client-secret
 ```
 
 ### Deployment Options

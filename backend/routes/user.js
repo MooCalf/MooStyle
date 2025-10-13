@@ -92,10 +92,6 @@ router.put('/profile', verifySession, async (req, res) => {
 
     const user = req.user;
     const updates = req.body;
-    
-    console.log('=== USER PROFILE UPDATE REQUEST ===');
-    console.log('User Email:', user.email);
-    console.log('Updates:', updates);
 
     // Validate allowed fields - only allow username updates
     const allowedFields = ['username'];
@@ -115,8 +111,6 @@ router.put('/profile', verifySession, async (req, res) => {
       { email: user.email },
       { $set: filteredUpdates }
     );
-    
-    console.log('Update result:', result);
 
     if (result.matchedCount === 0) {
       return res.status(404).json({
@@ -127,7 +121,6 @@ router.put('/profile', verifySession, async (req, res) => {
 
     // Get updated user
     const updatedUser = await db.collection('user').findOne({ email: user.email });
-    console.log('Updated user found:', updatedUser);
 
     res.json({
       success: true,
