@@ -1,382 +1,360 @@
 const nodemailer = require('nodemailer');
-const crypto = require('crypto');
-const User = require('../models/User');
 
-// Email configuration
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: process.env.EMAIL_USER || 'your-email@gmail.com',
-    pass: process.env.EMAIL_PASS || 'your-app-password'
-  },
-  tls: {
-    rejectUnauthorized: false
+// Create reusable transporter object using SMTP transport
+const createTransporter = () => {
+  if (!process.env.EMAIL_SERVICE || !process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.warn('Email configuration missing. Email functionality will be disabled.');
+    return null;
   }
-});
 
-// Send account expiry notification
-const sendExpiryNotification = async (user) => {
-  try {
-    const daysUntilExpiry = Math.ceil((user.dataRetention.accountExpiresAt - new Date()) / (1000 * 60 * 60 * 24));
-    
-    const mailOptions = {
-      from: process.env.EMAIL_FROM || 'hello@moocalf.com',
-      to: user.email,
-      subject: 'Your MooStyle Account Will Expire Soon',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #0d9488;">MooStyle Account Expiry Notice</h2>
-          
-          <p>Dear ${user.firstName},</p>
-          
-          <p>We hope you've been enjoying your experience with MooStyle! We wanted to let you know that your account will expire in <strong>${daysUntilExpiry} days</strong>.</p>
-          
-          <div style="background-color: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="color: #0369a1; margin-top: 0;">Why is this happening?</h3>
-            <p>Due to data storage limitations and our commitment to privacy, we automatically remove inactive accounts after 4 weeks to ensure optimal performance and data security.</p>
-          </div>
-          
-          <div style="background-color: #f0fdf4; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="color: #166534; margin-top: 0;">How to keep your account active:</h3>
-            <p>Simply <strong>log in to your account</strong> within the next ${daysUntilExpiry} days, and your account will be automatically renewed for another 4 weeks!</p>
-            <p>No action needed - just visit our website and log in as usual.</p>
-          </div>
-          
-          <div style="text-align: center; margin: 30px 0;">
-            <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/login" 
-               style="background-color: #0d9488; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
-              Log In Now
-            </a>
-          </div>
-          
-          <div style="background-color: #fef3c7; padding: 15px; border-radius: 8px; margin: 20px 0;">
-            <h4 style="color: #92400e; margin-top: 0;">Important Information:</h4>
-            <ul style="color: #92400e;">
-              <li>Your account data will be permanently deleted after expiry</li>
-              <li>This includes your profile, preferences, and any saved information</li>
-              <li>You can always create a new account if needed</li>
-              <li>This policy helps us maintain fast performance and data security</li>
-            </ul>
-          </div>
-          
-          <p>If you have any questions, please don't hesitate to contact our support team.</p>
-          
-          <p>Best regards,<br>The MooStyle Team</p>
-          
-          <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
-          <p style="font-size: 12px; color: #6b7280;">
-            This is an automated message. Please do not reply to this email.
-          </p>
-        </div>
-      `
-    };
-
-    await transporter.sendMail(mailOptions);
-    console.log(`Expiry notification sent to ${user.email}`);
-    
-    // Mark notification as sent
-    user['dataRetention.emailNotificationSent'] = true;
-    await user.save();
-    
-    return true;
-  } catch (error) {
-    console.error('Error sending expiry notification:', error);
-    return false;
-  }
+  return nodemailer.createTransporter({
+    service: process.env.EMAIL_SERVICE,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS
+    }
+  });
 };
 
-// Send account deleted notification
-const sendDeletionNotification = async (user) => {
+/**
+ * Send email using nodemailer
+ * @param {Object} options - Email options
+ * @param {string} options.to - Recipient email
+ * @param {string} options.subject - Email subject
+ * @param {string} options.text - Plain text content
+ * @param {string} options.html - HTML content
+ * @returns {Promise<boolean>} - Success status
+ */
+const sendEmail = async ({ to, subject, text, html }) => {
   try {
-    const mailOptions = {
-      from: process.env.EMAIL_FROM || 'hello@moocalf.com',
-      to: user.email,
-      subject: 'Your MooStyle Account Has Been Removed',
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #dc2626;">MooStyle Account Removal Notice</h2>
-          
-          <p>Dear ${user.firstName},</p>
-          
-          <p>We wanted to inform you that your MooStyle account has been automatically removed due to inactivity.</p>
-          
-          <div style="background-color: #fef2f2; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="color: #dc2626; margin-top: 0;">What happened?</h3>
-            <p>Your account expired after 4 weeks of inactivity, and all associated data has been permanently deleted from our systems.</p>
-          </div>
-          
-          <div style="background-color: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="color: #0369a1; margin-top: 0;">Want to continue using MooStyle?</h3>
-            <p>No problem! You can create a new account anytime by visiting our website and registering again.</p>
-            <p>All your previous data has been securely removed, so you'll start fresh.</p>
-          </div>
-          
-          <div style="text-align: center; margin: 30px 0;">
-            <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/register" 
-               style="background-color: #0d9488; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
-              Create New Account
-            </a>
-          </div>
-          
-          <p>Thank you for being part of the MooStyle community!</p>
-          
-          <p>Best regards,<br>The MooStyle Team</p>
-          
-          <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
-          <p style="font-size: 12px; color: #6b7280;">
-            This is an automated message. Please do not reply to this email.
-          </p>
-        </div>
-      `
-    };
-
-    await transporter.sendMail(mailOptions);
-    console.log(`Deletion notification sent to ${user.email}`);
-    return true;
-  } catch (error) {
-    console.error('Error sending deletion notification:', error);
-    return false;
-  }
-};
-
-// Check and send notifications for users expiring soon
-const checkAndSendNotifications = async () => {
-  try {
-    const fiveDaysFromNow = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000);
-    
-    const usersExpiringSoon = await User.find({
-      role: 'customer',
-      'dataRetention.accountExpiresAt': { 
-        $gte: new Date(),
-        $lte: fiveDaysFromNow
-      },
-      'dataRetention.emailNotificationSent': false,
-      'dataRetention.isPermanent': false
-    });
-
-    console.log(`Found ${usersExpiringSoon.length} users expiring soon`);
-
-    for (const user of usersExpiringSoon) {
-      await sendExpiryNotification(user);
-      // Add a small delay between emails to avoid rate limiting
-      await new Promise(resolve => setTimeout(resolve, 1000));
+    const transporter = createTransporter();
+    if (!transporter) {
+      console.log(`[EMAIL DISABLED] Would send to ${to}: ${subject}`);
+      return true; // Return true for development when email is disabled
     }
 
-    return usersExpiringSoon.length;
+    const mailOptions = {
+      from: `"MooStyle" <${process.env.EMAIL_USER}>`,
+      to,
+      subject,
+      text,
+      html
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`Email sent to ${to}: ${info.messageId}`);
+    return true;
   } catch (error) {
-    console.error('Error checking notifications:', error);
-    return 0;
+    console.error('Error sending email:', error);
+    return false;
   }
 };
 
-// Clean up expired users
-const cleanupExpiredUsers = async () => {
-  try {
-    const expiredUsers = await User.find({
-      role: 'customer',
-      'dataRetention.accountExpiresAt': { $lt: new Date() },
-      'dataRetention.isPermanent': false
-    });
-
-    console.log(`Found ${expiredUsers.length} expired users to clean up`);
-
-    for (const user of expiredUsers) {
-      // Send deletion notification before removing
-      await sendDeletionNotification(user);
+/**
+ * Send password reset email
+ * @param {string} email - User's email address
+ * @param {string} resetUrl - Password reset URL
+ * @param {string} username - User's username
+ * @returns {Promise<boolean>} - Success status
+ */
+const sendPasswordResetEmail = async (email, resetUrl, username = 'User') => {
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
+        <h1 style="color: white; margin: 0; font-size: 28px;">MooStyle</h1>
+        <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Password Reset Request</p>
+      </div>
       
-      // Add a small delay between emails
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      <div style="padding: 30px; background: #f8f9fa;">
+        <h2 style="color: #333; margin-top: 0;">Hello ${username}!</h2>
+        
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">
+          We received a request to reset your password for your MooStyle account. 
+          If you made this request, click the button below to reset your password:
+        </p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${resetUrl}" 
+             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white; 
+                    padding: 15px 30px; 
+                    text-decoration: none; 
+                    border-radius: 8px; 
+                    font-weight: bold; 
+                    font-size: 16px;
+                    display: inline-block;">
+            Reset My Password
+          </a>
+        </div>
+        
+        <p style="color: #666; line-height: 1.6; font-size: 14px;">
+          If the button doesn't work, you can copy and paste this link into your browser:
+        </p>
+        <p style="color: #667eea; word-break: break-all; font-size: 14px; background: #f0f0f0; padding: 10px; border-radius: 4px;">
+          ${resetUrl}
+        </p>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+          <p style="color: #999; font-size: 12px; margin: 0;">
+            <strong>Important:</strong> This link will expire in 1 hour for security reasons.
+          </p>
+          <p style="color: #999; font-size: 12px; margin: 5px 0 0 0;">
+            If you didn't request this password reset, please ignore this email. Your password will remain unchanged.
+          </p>
+        </div>
+      </div>
+      
+      <div style="background: #333; padding: 20px; text-align: center;">
+        <p style="color: #999; margin: 0; font-size: 12px;">
+          © 2024 MooStyle. All rights reserved.
+        </p>
+      </div>
+    </div>
+  `;
+
+  return await sendEmail({
+    to: email,
+    subject: 'Reset your password - MooStyle',
+    text: `Click the link to reset your password: ${resetUrl}`,
+    html
+  });
+};
+
+/**
+ * Send email verification email
+ * @param {string} email - User's email address
+ * @param {string} verificationUrl - Email verification URL
+ * @param {string} username - User's username
+ * @returns {Promise<boolean>} - Success status
+ */
+const sendEmailVerificationEmail = async (email, verificationUrl, username = 'User') => {
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
+        <h1 style="color: white; margin: 0; font-size: 28px;">MooStyle</h1>
+        <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Verify Your Email</p>
+      </div>
+      
+      <div style="padding: 30px; background: #f8f9fa;">
+        <h2 style="color: #333; margin-top: 0;">Hello ${username}!</h2>
+        
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">
+          Thank you for signing up with MooStyle! To complete your registration, 
+          please verify your email address by clicking the button below:
+        </p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${verificationUrl}" 
+             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white; 
+                    padding: 15px 30px; 
+                    text-decoration: none; 
+                    border-radius: 8px; 
+                    font-weight: bold; 
+                    font-size: 16px;
+                    display: inline-block;">
+            Verify My Email
+          </a>
+        </div>
+        
+        <p style="color: #666; line-height: 1.6; font-size: 14px;">
+          If the button doesn't work, you can copy and paste this link into your browser:
+        </p>
+        <p style="color: #667eea; word-break: break-all; font-size: 14px; background: #f0f0f0; padding: 10px; border-radius: 4px;">
+          ${verificationUrl}
+        </p>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+          <p style="color: #999; font-size: 12px; margin: 0;">
+            <strong>Important:</strong> This verification link will expire in 24 hours.
+          </p>
+          <p style="color: #999; font-size: 12px; margin: 5px 0 0 0;">
+            If you didn't create an account with MooStyle, please ignore this email.
+          </p>
+        </div>
+      </div>
+      
+      <div style="background: #333; padding: 20px; text-align: center;">
+        <p style="color: #999; margin: 0; font-size: 12px;">
+          © 2024 MooStyle. All rights reserved.
+        </p>
+      </div>
+    </div>
+  `;
+
+  return await sendEmail({
+    to: email,
+    subject: 'Verify your email address - MooStyle',
+    text: `Click the link to verify your email: ${verificationUrl}`,
+    html
+  });
+};
+
+/**
+ * Test email configuration
+ * @returns {Promise<boolean>} - Success status
+ */
+const testEmailConfiguration = async () => {
+  try {
+    const transporter = createTransporter();
+    if (!transporter) {
+      return false;
     }
-
-    // Delete expired users
-    const result = await User.deleteMany({
-      role: 'customer',
-      'dataRetention.accountExpiresAt': { $lt: new Date() },
-      'dataRetention.isPermanent': false
-    });
-
-    console.log(`Cleaned up ${result.deletedCount} expired users`);
-    return result.deletedCount;
+    await transporter.verify();
+    console.log('Email configuration is valid');
+    return true;
   } catch (error) {
-    console.error('Error cleaning up expired users:', error);
-    return 0;
+    console.error('Email configuration test failed:', error);
+    return false;
   }
 };
 
-// Send password reset email
-const sendPasswordResetEmail = async (user, resetToken) => {
-  try {
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/reset-password?token=${resetToken}`;
-    
-    // For development/testing, log the email instead of sending it
-    if (false && (process.env.NODE_ENV === 'development' || !process.env.EMAIL_USER || process.env.EMAIL_USER === 'your-email@gmail.com')) {
-      console.log('\n📧 PASSWORD RESET EMAIL (Development Mode):');
-      console.log('==========================================');
-      console.log(`To: ${user.email}`);
-      console.log(`Subject: Reset Your MooStyle Password`);
-      console.log(`Reset URL: ${resetUrl}`);
-      console.log(`Token: ${resetToken}`);
-      console.log('==========================================\n');
-      return true;
-    }
-    
-    const mailOptions = {
-      from: process.env.EMAIL_FROM || 'hello@moocalf.com', // Custom sender address
-      to: user.email,
-      subject: '🔐 Reset Your MooStyle Password - Secure Account Recovery',
-      html: `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Password Reset - MooStyle</title>
-        </head>
-        <body style="margin: 0; padding: 0; background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-            
-            <!-- Header with Logo -->
-            <div style="background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); padding: 30px 20px; text-align: center;">
-              <div style="background-color: rgba(255, 255, 255, 0.1); border-radius: 50%; width: 80px; height: 80px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
-                <span style="font-size: 36px; color: white;">🌸</span>
-              </div>
-              <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 600; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">MooStyle</h1>
-              <p style="color: rgba(255, 255, 255, 0.9); margin: 5px 0 0; font-size: 16px;">Asian Fashion & Beauty</p>
-            </div>
-            
-            <!-- Main Content -->
-            <div style="padding: 40px 30px;">
-              
-              <!-- Security Icon -->
-              <div style="text-align: center; margin-bottom: 30px;">
-                <div style="background-color: #fef3c7; border-radius: 50%; width: 60px; height: 60px; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
-                  <span style="font-size: 24px;">🔐</span>
-                </div>
-              </div>
-              
-              <h2 style="color: #1f2937; text-align: center; margin: 0 0 20px; font-size: 24px; font-weight: 600;">Password Reset Request</h2>
-              
-              <p style="color: #4b5563; font-size: 16px; line-height: 1.6; margin: 0 0 20px;">Hello <strong style="color: #0d9488;">${user.username}</strong>,</p>
-              
-              <p style="color: #4b5563; font-size: 16px; line-height: 1.6; margin: 0 0 30px;">We received a request to reset your password for your MooStyle account. This is a secure process that will help you regain access to your account and continue enjoying our Asian fashion and beauty collection.</p>
-              
-              <!-- Reset Button -->
-              <div style="text-align: center; margin: 40px 0;">
-                <a href="${resetUrl}" 
-                   style="background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%); color: white; padding: 16px 32px; text-decoration: none; border-radius: 12px; display: inline-block; font-size: 18px; font-weight: 600; box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3); transition: all 0.3s ease;">
-                  🔑 Reset My Password
-                </a>
-              </div>
-              
-              <!-- Security Information -->
-              <div style="background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 20px; margin: 30px 0; border-radius: 8px;">
-                <h3 style="color: #166534; margin: 0 0 15px; font-size: 18px; display: flex; align-items: center;">
-                  <span style="margin-right: 8px;">⏰</span> Important Security Information
-                </h3>
-                <ul style="color: #166534; margin: 0; padding-left: 20px; line-height: 1.6;">
-                  <li><strong>Expires in 15 minutes</strong> - For your security, this link will automatically expire</li>
-                  <li><strong>One-time use only</strong> - The link can only be used once for security purposes</li>
-                  <li><strong>Secure connection</strong> - All password reset operations use encrypted connections</li>
-                  <li><strong>Account protection</strong> - Your account remains secure throughout this process</li>
-                </ul>
-              </div>
-              
-              <!-- What to Expect -->
-              <div style="background-color: #f0f9ff; border-left: 4px solid #3b82f6; padding: 20px; margin: 30px 0; border-radius: 8px;">
-                <h3 style="color: #1e40af; margin: 0 0 15px; font-size: 18px; display: flex; align-items: center;">
-                  <span style="margin-right: 8px;">📋</span> What Happens Next?
-                </h3>
-                <ol style="color: #1e40af; margin: 0; padding-left: 20px; line-height: 1.6;">
-                  <li>Click the "Reset My Password" button above</li>
-                  <li>You'll be taken to our secure password reset page</li>
-                  <li>Create a new, strong password for your account</li>
-                  <li>Log in with your new password and continue shopping</li>
-                </ol>
-              </div>
-              
-              <!-- Password Requirements -->
-              <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 20px; margin: 30px 0; border-radius: 8px;">
-                <h3 style="color: #92400e; margin: 0 0 15px; font-size: 18px; display: flex; align-items: center;">
-                  <span style="margin-right: 8px;">🛡️</span> Password Requirements
-                </h3>
-                <p style="color: #92400e; margin: 0 0 10px; font-weight: 600;">Your new password must include:</p>
-                <ul style="color: #92400e; margin: 0; padding-left: 20px; line-height: 1.6;">
-                  <li>At least 8 characters long</li>
-                  <li>One uppercase letter (A-Z)</li>
-                  <li>One lowercase letter (a-z)</li>
-                  <li>One number (0-9)</li>
-                  <li>One special character (@$!%*?&)</li>
-                </ul>
-              </div>
-              
-              <!-- Didn't Request This? -->
-              <div style="background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 20px; margin: 30px 0; border-radius: 8px;">
-                <h3 style="color: #dc2626; margin: 0 0 15px; font-size: 18px; display: flex; align-items: center;">
-                  <span style="margin-right: 8px;">⚠️</span> Didn't Request This Reset?
-                </h3>
-                <p style="color: #dc2626; margin: 0; line-height: 1.6;">If you didn't request a password reset, please:</p>
-                <ul style="color: #dc2626; margin: 10px 0 0; padding-left: 20px; line-height: 1.6;">
-                  <li>Ignore this email - your account remains secure</li>
-                  <li>Consider changing your password if you're concerned about security</li>
-                  <li>Contact our support team if you notice any suspicious activity</li>
-                </ul>
-              </div>
-              
-              <!-- Support Information -->
-              <div style="text-align: center; margin: 40px 0 20px;">
-                <p style="color: #6b7280; font-size: 14px; margin: 0 0 10px;">Need help? Our support team is here for you!</p>
-                <a href="mailto:support@moocalf.com" style="color: #0d9488; text-decoration: none; font-weight: 600;">📧 support@moocalf.com</a>
-              </div>
-              
-              <p style="color: #4b5563; font-size: 16px; line-height: 1.6; margin: 30px 0 0; text-align: center;">
-                Best regards,<br>
-                <strong style="color: #0d9488;">The MooStyle Team</strong><br>
-                <span style="color: #9ca3af; font-size: 14px;">Bringing you the finest Asian fashion and beauty</span>
-              </p>
-              
-            </div>
-            
-            <!-- Footer -->
-            <div style="background-color: #f9fafb; padding: 30px; text-align: center; border-top: 1px solid #e5e7eb;">
-              <div style="margin-bottom: 20px;">
-                <span style="font-size: 24px; margin: 0 10px;">🌸</span>
-                <span style="font-size: 24px; margin: 0 10px;">💄</span>
-                <span style="font-size: 24px; margin: 0 10px;">👗</span>
-                <span style="font-size: 24px; margin: 0 10px;">✨</span>
-              </div>
-              <p style="color: #6b7280; font-size: 12px; margin: 0 0 10px; line-height: 1.5;">
-                This is an automated security message from MooStyle.<br>
-                Please do not reply to this email address.
-              </p>
-              <p style="color: #9ca3af; font-size: 11px; margin: 0;">
-                © 2024 MooStyle. All rights reserved. | 
-                <a href="#" style="color: #9ca3af; text-decoration: none;">Privacy Policy</a> | 
-                <a href="#" style="color: #9ca3af; text-decoration: none;">Terms of Service</a>
-              </p>
-            </div>
-            
-          </div>
-        </body>
-        </html>
-      `
-    };
+/**
+ * Send ban notification email
+ * @param {string} email - User's email address
+ * @param {string} username - User's username
+ * @param {string} banReason - Reason for the ban
+ * @returns {Promise<boolean>} - Success status
+ */
+const sendBanNotificationEmail = async (email, username, banReason = 'No reason provided') => {
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%); padding: 30px; text-align: center;">
+        <h1 style="color: white; margin: 0; font-size: 28px;">MooStyle</h1>
+        <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Account Suspension Notice</p>
+      </div>
+      
+      <div style="padding: 30px; background: #f8f9fa;">
+        <h2 style="color: #333; margin-top: 0;">Hello ${username}!</h2>
+        
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">
+          We regret to inform you that your MooStyle account has been suspended due to a violation of our terms of service.
+        </p>
+        
+        <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; padding: 20px; margin: 20px 0;">
+          <h3 style="color: #856404; margin-top: 0;">Reason for Suspension:</h3>
+          <p style="color: #856404; margin: 0; font-style: italic;">"${banReason}"</p>
+        </div>
+        
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">
+          Your account access has been temporarily restricted. If you believe this action was taken in error, 
+          or if you would like to discuss the possibility of account reinstatement, please contact our support team.
+        </p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="mailto:support@moostyle.com" 
+             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white; 
+                    padding: 15px 30px; 
+                    text-decoration: none; 
+                    border-radius: 8px; 
+                    font-weight: bold; 
+                    font-size: 16px;
+                    display: inline-block;">
+            Contact Support
+          </a>
+        </div>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+          <p style="color: #999; font-size: 12px; margin: 0;">
+            <strong>Important:</strong> This suspension is temporary and can be reviewed upon request.
+          </p>
+          <p style="color: #999; font-size: 12px; margin: 5px 0 0 0;">
+            If you have any questions or concerns, please don't hesitate to reach out to our support team.
+          </p>
+        </div>
+      </div>
+      
+      <div style="background: #333; padding: 20px; text-align: center;">
+        <p style="color: #999; margin: 0; font-size: 12px;">
+          © 2024 MooStyle. All rights reserved.
+        </p>
+      </div>
+    </div>
+  `;
 
-    await transporter.sendMail(mailOptions);
-    console.log(`Password reset email sent to ${user.email}`);
-    return true;
-  } catch (error) {
-    console.error('Error sending password reset email:', error);
-    return false;
-  }
+  return await sendEmail({
+    to: email,
+    subject: 'Account Suspension Notice - MooStyle',
+    text: `Your MooStyle account has been suspended. Reason: ${banReason}. Please contact support for assistance.`,
+    html
+  });
+};
+
+/**
+ * Send unban notification email
+ * @param {string} email - User's email address
+ * @param {string} username - User's username
+ * @returns {Promise<boolean>} - Success status
+ */
+const sendUnbanNotificationEmail = async (email, username) => {
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); padding: 30px; text-align: center;">
+        <h1 style="color: white; margin: 0; font-size: 28px;">MooStyle</h1>
+        <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Account Reinstated</p>
+      </div>
+      
+      <div style="padding: 30px; background: #f8f9fa;">
+        <h2 style="color: #333; margin-top: 0;">Hello ${username}!</h2>
+        
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">
+          Great news! Your MooStyle account has been reinstated and you can now access all features again.
+        </p>
+        
+        <div style="background: #d4edda; border: 1px solid #c3e6cb; border-radius: 8px; padding: 20px; margin: 20px 0;">
+          <h3 style="color: #155724; margin-top: 0;">✅ Account Status: Active</h3>
+          <p style="color: #155724; margin: 0;">Your account is now fully functional and you can log in normally.</p>
+        </div>
+        
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">
+          We appreciate your patience during the review process. If you have any questions or need assistance, 
+          please don't hesitate to contact our support team.
+        </p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/login" 
+             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                    color: white; 
+                    padding: 15px 30px; 
+                    text-decoration: none; 
+                    border-radius: 8px; 
+                    font-weight: bold; 
+                    font-size: 16px;
+                    display: inline-block;">
+            Log In to Your Account
+          </a>
+        </div>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+          <p style="color: #999; font-size: 12px; margin: 0;">
+            <strong>Welcome back!</strong> We're glad to have you back in the MooStyle community.
+          </p>
+        </div>
+      </div>
+      
+      <div style="background: #333; padding: 20px; text-align: center;">
+        <p style="color: #999; margin: 0; font-size: 12px;">
+          © 2024 MooStyle. All rights reserved.
+        </p>
+      </div>
+    </div>
+  `;
+
+  return await sendEmail({
+    to: email,
+    subject: 'Account Reinstated - MooStyle',
+    text: `Your MooStyle account has been reinstated. You can now log in normally.`,
+    html
+  });
 };
 
 module.exports = {
-  sendExpiryNotification,
-  sendDeletionNotification,
-  checkAndSendNotifications,
-  cleanupExpiredUsers,
-  sendPasswordResetEmail
+  sendEmail,
+  sendPasswordResetEmail,
+  sendEmailVerificationEmail,
+  sendBanNotificationEmail,
+  sendUnbanNotificationEmail,
+  testEmailConfiguration,
+  createTransporter
 };

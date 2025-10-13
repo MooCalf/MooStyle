@@ -1,34 +1,15 @@
 const mongoose = require('mongoose');
 
 const cartItemSchema = new mongoose.Schema({
-  product: {
-    type: String, // Changed to String to handle both ObjectId and string IDs
-    required: true
-  },
-  productData: {
-    // Store product data at time of adding to cart
-    id: String,
-    name: String,
-    author: String,
-    description: String,
-    image: String,
-    category: String,
-    tags: [String],
-    downloadUrl: String,
-    fileSize: Number,
-    // Additional fields for regular products
-    price: Number,
-    brand: String,
-    originalPrice: Number,
-    sizes: [Object],
-    colors: [Object],
-    features: [String],
-    detailedDescription: String
+  productId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'Product'
   },
   quantity: {
     type: Number,
     required: true,
-    min: [1, 'Quantity must be at least 1'],
+    min: 1,
     default: 1
   },
   addedAt: {
@@ -40,137 +21,92 @@ const cartItemSchema = new mongoose.Schema({
 const cartSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
     required: true,
-    unique: true // One cart per user
+    ref: 'User'
   },
   items: [cartItemSchema],
+  isActive: {
+    type: Boolean,
+    default: true
+  },
   lastUpdated: {
     type: Date,
     default: Date.now
   },
-  isActive: {
-    type: Boolean,
-    default: true
+  totalItems: {
+    type: Number,
+    default: 0
+  },
+  totalPrice: {
+    type: Number,
+    default: 0
   }
 }, {
   timestamps: true
 });
 
-// Indexes for better query performance
-cartSchema.index({ user: 1 });
-cartSchema.index({ lastUpdated: -1 });
-cartSchema.index({ 'items.product': 1 });
-
-// Pre-save middleware to update lastUpdated
+// Update lastUpdated when items change
 cartSchema.pre('save', function(next) {
   this.lastUpdated = new Date();
+  this.totalItems = this.items.reduce((total, item) => total + item.quantity, 0);
   next();
 });
 
-// Instance method to add item to cart
-cartSchema.methods.addItem = async function(productData, quantity = 1) {
-  const existingItem = this.items.find(item => 
-    item.productData.id === productData.id
-  );
+// Static method to get cart by user
+cartSchema.statics.findByUser = function(userId) {
+  return this.findOne({ user: userId, isActive: true });
+};
 
+// Instance method to add item to cart
+cartSchema.methods.addItem = function(productId, quantity = 1) {
+  const existingItem = this.items.find(item => 
+    item.productId.toString() === productId.toString()
+  );
+  
   if (existingItem) {
     existingItem.quantity += quantity;
   } else {
-    this.items.push({
-      product: productData.id, // Use the string ID directly
-      productData: {
-        id: productData.id,
-        name: productData.name,
-        author: productData.author || productData.brand || 'Unknown',
-        description: productData.description,
-        image: productData.image,
-        category: productData.category,
-        tags: productData.tags || [],
-        downloadUrl: productData.downloadUrl || '',
-        fileSize: productData.fileSize || 0,
-        // Additional fields for regular products
-        price: productData.price || 0,
-        brand: productData.brand || '',
-        originalPrice: productData.originalPrice || productData.price || 0,
-        sizes: productData.sizes || [],
-        colors: productData.colors || [],
-        features: productData.features || [],
-        detailedDescription: productData.detailedDescription || productData.description || ''
-      },
-      quantity: quantity
-    });
+    this.items.push({ productId, quantity });
   }
-
-  return await this.save();
+  
+  return this.save();
 };
 
 // Instance method to remove item from cart
-cartSchema.methods.removeItem = async function(productId) {
-  this.items = this.items.filter(item => item.productData.id !== productId);
-  return await this.save();
+cartSchema.methods.removeItem = function(productId) {
+  this.items = this.items.filter(item => 
+    item.productId.toString() !== productId.toString()
+  );
+  return this.save();
 };
 
 // Instance method to update item quantity
-cartSchema.methods.updateItemQuantity = async function(productId, quantity) {
-  const item = this.items.find(item => item.productData.id === productId);
+cartSchema.methods.updateItemQuantity = function(productId, quantity) {
+  const item = this.items.find(item => 
+    item.productId.toString() === productId.toString()
+  );
   
   if (item) {
     if (quantity <= 0) {
-      return await this.removeItem(productId);
+      return this.removeItem(productId);
     } else {
       item.quantity = quantity;
-      return await this.save();
     }
   }
   
-  return this;
+  return this.save();
 };
 
 // Instance method to clear cart
-cartSchema.methods.clearCart = async function() {
+cartSchema.methods.clearCart = function() {
   this.items = [];
-  return await this.save();
+  return this.save();
 };
 
-// Instance method to get cart count
-cartSchema.methods.getCartCount = function() {
-  return this.items.reduce((total, item) => total + item.quantity, 0);
-};
-
-// Instance method to get cart total size
-cartSchema.methods.getCartTotalSize = function() {
-  return this.items.reduce((total, item) => {
-    return total + ((item.productData.fileSize || 0) * item.quantity);
-  }, 0);
-};
-
-// Instance method to check if product is in cart
-cartSchema.methods.isInCart = function(productId) {
-  return this.items.some(item => item.productData.id === productId);
-};
-
-// Instance method to get cart item
-cartSchema.methods.getCartItem = function(productId) {
-  return this.items.find(item => item.productData.id === productId);
-};
-
-// Static method to get or create user cart
-cartSchema.statics.getOrCreateUserCart = async function(userId) {
-  let cart = await this.findOne({ user: userId, isActive: true });
-  
-  if (!cart) {
-    cart = new this({ user: userId });
-    await cart.save();
-  }
-  
-  return cart;
-};
-
-// Static method to get user cart with populated data
-cartSchema.statics.getUserCart = async function(userId) {
-  const cart = await this.findOne({ user: userId, isActive: true });
-  return cart;
+// Instance method to deactivate cart
+cartSchema.methods.deactivate = function() {
+  this.isActive = false;
+  return this.save();
 };
 
 module.exports = mongoose.model('Cart', cartSchema);

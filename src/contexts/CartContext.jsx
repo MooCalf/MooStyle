@@ -1,8 +1,318 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { apiConfig } from '@/lib/apiConfig.js';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import { useAuth } from './AuthContext';
 
 const CartContext = createContext();
 
+// Cart reducer
+const cartReducer = (state, action) => {
+  switch (action.type) {
+    case 'ADD_TO_CART':
+      const existingItem = state.items.find(item => 
+        (item.productData?.id || item.product?.id || item.id) === action.payload.id
+      );
+      if (existingItem) {
+        return {
+          ...state,
+          items: state.items.map(item =>
+            (item.productData?.id || item.product?.id || item.id) === action.payload.id
+              ? { ...item, quantity: item.quantity + 1 }
+              : item
+          )
+        };
+      }
+      return {
+        ...state,
+        items: [...state.items, { 
+          productData: action.payload, // Wrap product in productData for compatibility
+          quantity: 1,
+          addedAt: new Date().toISOString()
+        }]
+      };
+
+    case 'REMOVE_FROM_CART':
+      return {
+        ...state,
+        items: state.items.filter(item => 
+          (item.productData?.id || item.product?.id || item.id) !== action.payload
+        )
+      };
+
+    case 'UPDATE_QUANTITY':
+      return {
+        ...state,
+        items: state.items.map(item =>
+          (item.productData?.id || item.product?.id || item.id) === action.payload.id
+            ? { ...item, quantity: action.payload.quantity }
+            : item
+        ).filter(item => item.quantity > 0)
+      };
+
+    case 'CLEAR_CART':
+      return {
+        ...state,
+        items: []
+      };
+
+    case 'SET_CART':
+      return {
+        ...state,
+        items: action.payload || []
+      };
+
+    case 'SET_LOADING':
+      return {
+        ...state,
+        loading: action.payload
+      };
+
+    case 'SET_ERROR':
+      return {
+        ...state,
+        error: action.payload
+      };
+
+    default:
+      return state;
+  }
+};
+
+// Initial state
+const initialState = {
+  items: [],
+  loading: false,
+  error: null
+};
+
+// Cart provider component
+export const CartProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(cartReducer, initialState);
+  const { user, isAuthenticated } = useAuth();
+
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      try {
+        const cartData = JSON.parse(savedCart);
+        dispatch({ type: 'SET_CART', payload: cartData });
+      } catch (error) {
+        console.error('Error loading cart from localStorage:', error);
+      }
+    }
+  }, []);
+
+  // Load cart from database when user is authenticated
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      loadCartFromDatabase();
+    }
+  }, [isAuthenticated, user]);
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(state.items));
+  }, [state.items]);
+
+  // Save cart to database whenever it changes (if user is authenticated)
+  useEffect(() => {
+    if (isAuthenticated && user && state.items.length > 0) {
+      saveCartToDatabase();
+    }
+  }, [state.items, isAuthenticated, user]);
+
+  // Load cart from database
+  const loadCartFromDatabase = async () => {
+    try {
+      // Use the MongoDB ObjectId (_id) instead of the custom ID
+      const response = await fetch(`/api/cart?userId=${user._id || user.id}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.cart && data.cart.items && data.cart.items.length > 0) {
+          dispatch({ type: 'SET_CART', payload: data.cart.items });
+        }
+      }
+    } catch (error) {
+      console.error('Error loading cart from database:', error);
+    }
+  };
+
+  // Save cart to database
+  const saveCartToDatabase = async () => {
+    try {
+      const response = await fetch('/api/cart/sync', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: user._id || user.id,
+          items: state.items
+        })
+      });
+
+      if (!response.ok) {
+        console.error('Failed to sync cart to database');
+      }
+    } catch (error) {
+      console.error('Error syncing cart to database:', error);
+    }
+  };
+
+  // Cart actions
+  const addToCart = async (product) => {
+    // Check if user is banned
+    if (isAuthenticated && user && !user.isActive) {
+      throw new Error('Your account has been suspended. You cannot add items to cart.');
+    }
+    
+    dispatch({ type: 'ADD_TO_CART', payload: product });
+    
+    // Also add to database if user is authenticated
+    if (isAuthenticated && user) {
+      try {
+        await fetch('/api/cart/add', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: user._id || user.id,
+            item: {
+              productId: product.id,
+              quantity: 1,
+              addedAt: new Date().toISOString()
+            }
+          })
+        });
+      } catch (error) {
+        console.error('Error adding item to database cart:', error);
+      }
+    }
+    
+    return true; // Return success for compatibility
+  };
+
+  const removeFromCart = async (productId) => {
+    // Check if user is banned
+    if (isAuthenticated && user && !user.isActive) {
+      throw new Error('Your account has been suspended. You cannot modify your cart.');
+    }
+    
+    dispatch({ type: 'REMOVE_FROM_CART', payload: productId });
+    
+    // Also remove from database if user is authenticated
+    if (isAuthenticated && user) {
+      try {
+        await fetch('/api/cart/remove', {
+          method: 'DELETE',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: user._id || user.id,
+            productId: productId
+          })
+        });
+      } catch (error) {
+        console.error('Error removing item from database cart:', error);
+      }
+    }
+  };
+
+  const updateQuantity = (productId, quantity) => {
+    // Check if user is banned
+    if (isAuthenticated && user && !user.isActive) {
+      throw new Error('Your account has been suspended. You cannot modify your cart.');
+    }
+    
+    dispatch({ type: 'UPDATE_QUANTITY', payload: { id: productId, quantity } });
+  };
+
+  const clearCart = () => {
+    dispatch({ type: 'CLEAR_CART' });
+  };
+
+  const setLoading = (loading) => {
+    dispatch({ type: 'SET_LOADING', payload: loading });
+  };
+
+  const setError = (error) => {
+    dispatch({ type: 'SET_ERROR', payload: error });
+  };
+
+  // Calculate totals
+  const getTotalItems = () => {
+    return state.items.reduce((total, item) => total + item.quantity, 0);
+  };
+
+  const getTotalPrice = () => {
+    return state.items.reduce((total, item) => {
+      const price = item.productData?.price || item.product?.price || item.price || 0;
+      return total + (price * item.quantity);
+    }, 0);
+  };
+
+  const getItemCount = (productId) => {
+    const item = state.items.find(item => 
+      (item.productData?.id || item.product?.id || item.id) === productId
+    );
+    return item ? item.quantity : 0;
+  };
+
+  const isInCart = (productId) => {
+    return state.items.some(item => 
+      (item.productData?.id || item.product?.id || item.id) === productId
+    );
+  };
+
+  const value = {
+    // State
+    items: state.items,
+    cartItems: state.items, // Alias for compatibility
+    loading: state.loading,
+    isLoading: state.loading, // Alias for compatibility
+    error: state.error,
+    
+    // Actions
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    setLoading,
+    setError,
+    
+    // Computed values
+    getTotalItems,
+    getTotalPrice,
+    getItemCount,
+    getCartCount: getTotalItems, // Alias for compatibility
+    isInCart,
+    
+    // Download functionality (placeholder)
+    downloadCart: async () => {
+      console.log('Download cart functionality not implemented yet');
+      return false;
+    }
+  };
+
+  return (
+    <CartContext.Provider value={value}>
+      {children}
+    </CartContext.Provider>
+  );
+};
+
+// Custom hook to use cart context
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
@@ -11,395 +321,4 @@ export const useCart = () => {
   return context;
 };
 
-export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
-  const [toast, setToast] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const showToast = (message, type = 'success') => {
-    setToast({ message, type });
-    setTimeout(() => setToast(null), 3000);
-  };
-
-  // Check if user is authenticated
-  const isAuthenticated = () => {
-    return apiConfig.isAuthenticated();
-  };
-
-  // Get auth headers for API calls
-  const getAuthHeaders = () => {
-    return apiConfig.getAuthHeaders();
-  };
-
-  // Load cart from backend or localStorage
-  useEffect(() => {
-    const loadCart = async () => {
-      if (isAuthenticated()) {
-        // Load from backend
-        try {
-          const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.cart.base), {
-            headers: getAuthHeaders()
-          });
-          
-          if (response.ok) {
-            const data = await response.json();
-            if (data.success) {
-              setCartItems(data.cart.items || []);
-              return;
-            }
-          }
-        } catch (error) {
-          console.error('Failed to load cart from backend:', error);
-        }
-      }
-      
-      // Fallback to localStorage
-      const savedCart = localStorage.getItem('moostyle-cart');
-      if (savedCart) {
-        try {
-          const parsedCart = JSON.parse(savedCart);
-          const cartTimestamp = parsedCart.timestamp;
-          const oneWeekAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
-          
-          if (cartTimestamp && cartTimestamp < oneWeekAgo) {
-            localStorage.removeItem('moostyle-cart');
-            setCartItems([]);
-          } else {
-            setCartItems(parsedCart.items || []);
-          }
-        } catch (error) {
-          console.error('Failed to parse saved cart:', error);
-          localStorage.removeItem('moostyle-cart');
-        }
-      }
-    };
-
-    loadCart();
-  }, []);
-
-  // Save cart to localStorage only (backend sync is handled in individual functions)
-  useEffect(() => {
-    const saveCart = async () => {
-      // Save to localStorage for offline support
-      const cartData = {
-        items: cartItems,
-        timestamp: Date.now()
-      };
-      localStorage.setItem('moostyle-cart', JSON.stringify(cartData));
-    };
-
-    if (cartItems.length > 0) {
-      saveCart();
-    }
-  }, [cartItems]);
-
-  const addToCart = async (product) => {
-    try {
-      setIsLoading(true);
-      
-      // Sync to backend first if authenticated
-      if (isAuthenticated()) {
-        try {
-          const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.cart.add), {
-            method: 'POST',
-            headers: getAuthHeaders(),
-            body: JSON.stringify({
-              product: product,
-              quantity: 1
-            })
-          });
-          
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error('Failed to add item to backend cart');
-          }
-          
-          const data = await response.json();
-          
-          // Update local state with backend response
-          if (data.success && data.cart) {
-            setCartItems(data.cart.items || []);
-            showToast(`Added ${product.name} to cart`, 'success');
-            return true;
-          }
-        } catch (error) {
-          console.error('Failed to sync add to cart:', error);
-          showToast('Failed to add item to cart', 'error');
-          return false;
-        }
-      } else {
-        // Not authenticated - use local storage only
-        const existingItem = cartItems.find(item => item.product.id === product.id);
-        
-        if (existingItem) {
-          // Update quantity
-          const newItems = cartItems.map(item => 
-            item.product.id === product.id 
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
-          );
-          setCartItems(newItems);
-          showToast(`Updated quantity for ${product.name}`, 'success');
-        } else {
-          // Add new item
-          const newItem = {
-            product: product,
-            quantity: 1,
-            addedAt: new Date().toISOString()
-          };
-          setCartItems(prev => [...prev, newItem]);
-          showToast(`Added ${product.name} to cart`, 'success');
-        }
-      }
-      
-      return true;
-    } catch (error) {
-      console.error('Failed to add to cart:', error);
-      showToast('Failed to add item to cart', 'error');
-      return false;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const removeFromCart = async (productId) => {
-    try {
-      setIsLoading(true);
-      
-      // Sync to backend first if authenticated
-      if (isAuthenticated()) {
-        try {
-          const response = await fetch(apiConfig.buildUrl(`${apiConfig.endpoints.cart.remove}/${productId}`), {
-            method: 'DELETE',
-            headers: getAuthHeaders()
-          });
-          
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error('Failed to remove item from backend');
-          }
-          
-          const data = await response.json();
-          
-          // Update local state with backend response
-          if (data.success && data.cart) {
-            setCartItems(data.cart.items || []);
-            showToast('Item removed from cart', 'success');
-            return;
-          }
-        } catch (error) {
-          console.error('Failed to sync remove from cart:', error);
-          showToast('Failed to remove item from cart', 'error');
-          return;
-        }
-      } else {
-        // Not authenticated - use local storage only
-        const newCartItems = cartItems.filter(item => item.product.id !== productId);
-        setCartItems(newCartItems);
-        showToast('Item removed from cart', 'success');
-      }
-      
-    } catch (error) {
-      console.error('Failed to remove from cart:', error);
-      showToast('Failed to remove item from cart', 'error');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const updateQuantity = async (productId, quantity) => {
-    try {
-      setIsLoading(true);
-      
-      if (quantity <= 0) {
-        await removeFromCart(productId);
-        return;
-      }
-      
-      // Sync to backend first if authenticated
-      if (isAuthenticated()) {
-        try {
-          const response = await fetch(apiConfig.buildUrl(`${apiConfig.endpoints.cart.update}/${productId}`), {
-            method: 'PUT',
-            headers: getAuthHeaders(),
-            body: JSON.stringify({ quantity })
-          });
-          
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error('Failed to update quantity in backend');
-          }
-          
-          const data = await response.json();
-          
-          // Update local state with backend response
-          if (data.success && data.cart) {
-            setCartItems(data.cart.items || []);
-            showToast('Quantity updated', 'success');
-            return;
-          }
-        } catch (error) {
-          console.error('Failed to sync quantity update:', error);
-          showToast('Failed to update quantity', 'error');
-          return;
-        }
-      } else {
-        // Not authenticated - use local storage only
-        const newItems = cartItems.map(item => 
-          item.product.id === productId 
-            ? { ...item, quantity }
-            : item
-        );
-        setCartItems(newItems);
-        showToast('Quantity updated', 'success');
-      }
-    } catch (error) {
-      console.error('Failed to update quantity:', error);
-      showToast('Failed to update quantity', 'error');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const clearCart = async () => {
-    try {
-      setIsLoading(true);
-      
-      setCartItems([]);
-      localStorage.removeItem('moostyle-cart');
-      showToast('Cart cleared', 'success');
-      
-      // Sync to backend if authenticated
-      if (isAuthenticated()) {
-        try {
-          await fetch(apiConfig.buildUrl(apiConfig.endpoints.cart.clear), {
-            method: 'DELETE',
-            headers: getAuthHeaders()
-          });
-        } catch (error) {
-          console.error('Failed to sync clear cart:', error);
-        }
-      }
-    } catch (error) {
-      console.error('Failed to clear cart:', error);
-      showToast('Failed to clear cart', 'error');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Clear cart on logout (without showing toast)
-  const clearCartOnLogout = () => {
-    setCartItems([]);
-    localStorage.removeItem('moostyle-cart');
-  };
-
-  const downloadCart = async () => {
-    try {
-      setIsLoading(true);
-      
-      if (!isAuthenticated()) {
-        showToast('Please log in to download mods', 'error');
-        return false;
-      }
-
-      const response = await fetch(apiConfig.buildUrl(apiConfig.endpoints.cart.download), {
-        method: 'POST',
-        headers: getAuthHeaders()
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        
-        if (data.success) {
-          // Clear local cart
-          setCartItems([]);
-          localStorage.removeItem('moostyle-cart');
-          
-          // Update user data with new points
-          const userData = JSON.parse(localStorage.getItem('user'));
-          if (userData) {
-            userData.points = data.totalPoints;
-            userData.membershipLevel = data.membershipLevel;
-            localStorage.setItem('user', JSON.stringify(userData));
-            
-            // Dispatch custom event to notify other components
-            window.dispatchEvent(new CustomEvent('userDataUpdated'));
-          }
-          
-          showToast(`Download initiated! You earned ${data.pointsAwarded} points!`, 'success');
-          
-          // Create mock download (replace with real download logic)
-          const link = document.createElement('a');
-          link.href = '#'; // Replace with actual download URL
-          link.download = `moostyle-mods-${Date.now()}.zip`;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          
-          return true;
-        } else {
-          showToast(data.message || 'Download failed', 'error');
-          return false;
-        }
-      } else {
-        const errorData = await response.json();
-        showToast(errorData.message || 'Download failed', 'error');
-        return false;
-      }
-    } catch (error) {
-      console.error('Download cart error:', error);
-      showToast('Failed to download mods', 'error');
-      return false;
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const getCartCount = () => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0);
-  };
-
-  const getCartTotal = () => {
-    return cartItems.reduce((total, item) => {
-      return total + item.quantity;
-    }, 0);
-  };
-
-  const isInCart = (productId) => {
-    return cartItems.some(item => item.product.id === productId);
-  };
-
-  const getCartItem = (productId) => {
-    return cartItems.find(item => item.product.id === productId);
-  };
-
-  const value = {
-    cartItems,
-    addToCart,
-    removeFromCart,
-    updateQuantity,
-    clearCart,
-    clearCartOnLogout,
-    downloadCart,
-    getCartCount,
-    getCartTotal,
-    isInCart,
-    getCartItem,
-    isLoading,
-    toast
-  };
-
-  return (
-    <CartContext.Provider value={value}>
-      {children}
-      {toast && (
-        <div className={`fixed top-4 right-4 z-50 p-4 rounded-md shadow-lg ${
-          toast.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
-        }`}>
-          {toast.message}
-        </div>
-      )}
-    </CartContext.Provider>
-  );
-};
+export default CartContext;

@@ -1,10 +1,24 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const User = require('../models/User');
 const Cart = require('../models/Cart');
-const jwt = require('jsonwebtoken');
+const PointTransaction = require('../models/PointTransaction');
+const { MongoClient } = require('mongodb');
 
 const router = express.Router();
+
+// MongoDB connection for health checks
+let db;
+const initializeDB = async () => {
+  try {
+    if (!db) {
+      const client = new MongoClient(process.env.MONGODB_URI);
+      await client.connect();
+      db = client.db();
+    }
+  } catch (error) {
+    console.error('Health check DB connection error:', error);
+  }
+};
 
 // Basic health check
 router.get('/health', (req, res) => {
@@ -23,6 +37,9 @@ router.get('/health/database', async (req, res) => {
   try {
     const startTime = Date.now();
     
+    // Initialize DB connection
+    await initializeDB();
+    
     // Test database connection
     const connectionState = mongoose.connection.readyState;
     const connectionStates = {
@@ -40,9 +57,10 @@ router.get('/health/database', async (req, res) => {
       });
     }
 
-    // Test database operations
-    const userCount = await User.countDocuments();
+    // Test database operations using Better Auth collections
+    const userCount = await db.collection('user').countDocuments();
     const cartCount = await Cart.countDocuments();
+    const accountCount = await db.collection('account').countDocuments();
     
     const responseTime = Date.now() - startTime;
     
@@ -52,6 +70,7 @@ router.get('/health/database', async (req, res) => {
       responseTime: `${responseTime}ms`,
       stats: {
         users: userCount,
+        accounts: accountCount,
         carts: cartCount,
         connectionState: connectionStates[connectionState]
       },
@@ -71,36 +90,34 @@ router.get('/auth/health', async (req, res) => {
   try {
     const startTime = Date.now();
     
-    // Test JWT secret
-    if (!process.env.JWT_SECRET) {
+    // Initialize DB connection
+    await initializeDB();
+    
+    // Test Better Auth configuration
+    if (!process.env.BETTER_AUTH_SECRET) {
       return res.status(503).json({
         status: 'error',
-        message: 'JWT_SECRET is not configured'
+        message: 'BETTER_AUTH_SECRET is not configured'
       });
     }
 
-    // Test JWT token creation and validation
-    const testPayload = { userId: 'test', username: 'test' };
-    const testToken = jwt.sign(testPayload, process.env.JWT_SECRET, { expiresIn: '1m' });
-    const decoded = jwt.verify(testToken, process.env.JWT_SECRET);
-
-    if (!decoded.userId) {
-      throw new Error('JWT verification failed');
-    }
-
-    // Test user model
-    const userCount = await User.countDocuments();
+    // Test Better Auth collections
+    const userCount = await db.collection('user').countDocuments();
+    const accountCount = await db.collection('account').countDocuments();
+    const sessionCount = await db.collection('session').countDocuments();
     
     const responseTime = Date.now() - startTime;
     
     res.json({
       status: 'healthy',
-      message: 'Authentication system is working properly',
+      message: 'Better Auth system is working properly',
       responseTime: `${responseTime}ms`,
       stats: {
-        jwtConfigured: true,
+        betterAuthConfigured: true,
         userCount: userCount,
-        tokenExpiry: process.env.JWT_EXPIRE || '7d'
+        accountCount: accountCount,
+        sessionCount: sessionCount,
+        secretConfigured: !!process.env.BETTER_AUTH_SECRET
       },
       warnings: responseTime > 500 ? ['Authentication response time is slow'] : []
     });
@@ -163,25 +180,14 @@ router.get('/users/health', async (req, res) => {
   try {
     const startTime = Date.now();
     
-    // Test user model and operations
-    const userCount = await User.countDocuments();
-    const adminCount = await User.countDocuments({ role: 'admin' });
-    const activeUsers = await User.countDocuments({ isActive: true });
+    // Initialize DB connection
+    await initializeDB();
     
-    // Test user creation (without saving)
-    const testUser = new User({
-      username: 'test_user',
-      email: 'test@example.com',
-      password: 'TestPassword123!',
-      role: 'user'
-    });
+    // Test Better Auth user collections
+    const userCount = await db.collection('user').countDocuments();
+    const adminCount = await db.collection('user').countDocuments({ role: 'admin' });
+    const activeUsers = await db.collection('user').countDocuments({ isActive: true });
     
-    // Validate user methods
-    const isValidUser = testUser.validateSync();
-    if (isValidUser) {
-      throw new Error('User model validation failed');
-    }
-
     const responseTime = Date.now() - startTime;
     
     res.json({
@@ -192,7 +198,7 @@ router.get('/users/health', async (req, res) => {
         totalUsers: userCount,
         adminUsers: adminCount,
         activeUsers: activeUsers,
-        userModelValid: true
+        betterAuthEnabled: true
       },
       warnings: responseTime > 500 ? ['User operations are slow'] : []
     });
@@ -205,42 +211,117 @@ router.get('/users/health', async (req, res) => {
   }
 });
 
-// Email service health check
+// Better Auth health check
+router.get('/better-auth/health', async (req, res) => {
+  try {
+    const startTime = Date.now();
+    
+    // Initialize DB connection
+    await initializeDB();
+    
+    // Test Better Auth configuration
+    const config = {
+      secret: !!process.env.BETTER_AUTH_SECRET,
+      url: !!process.env.BETTER_AUTH_URL,
+      googleClientId: !!process.env.GOOGLE_CLIENT_ID,
+      googleClientSecret: !!process.env.GOOGLE_CLIENT_SECRET
+    };
+
+    // Test Better Auth collections
+    const userCount = await db.collection('user').countDocuments();
+    const accountCount = await db.collection('account').countDocuments();
+    const sessionCount = await db.collection('session').countDocuments();
+    
+    const responseTime = Date.now() - startTime;
+    
+    res.json({
+      status: 'healthy',
+      message: 'Better Auth system is working properly',
+      responseTime: `${responseTime}ms`,
+      stats: {
+        users: userCount,
+        accounts: accountCount,
+        sessions: sessionCount,
+        configuration: config
+      },
+      warnings: responseTime > 500 ? ['Better Auth response time is slow'] : []
+    });
+  } catch (error) {
+    res.status(503).json({
+      status: 'error',
+      message: 'Better Auth health check failed',
+      error: error.message
+    });
+  }
+});
+
+// Email service health check (Better Auth integrated)
 router.get('/email/health', async (req, res) => {
   try {
     const startTime = Date.now();
     
-    // Check email configuration
-    const emailConfig = {
+    // Check Better Auth email configuration
+    const betterAuthEmailConfig = {
+      betterAuthSecret: !!process.env.BETTER_AUTH_SECRET,
+      betterAuthUrl: !!process.env.BETTER_AUTH_URL,
+      frontendUrl: process.env.FRONTEND_URL || 'http://localhost:5173'
+    };
+
+    // Check if Better Auth email functions are available
+    let betterAuthEmailAvailable = false;
+    let emailServiceAvailable = false;
+    try {
+      const { auth } = require('../auth');
+      // Check if Better Auth instance has email configuration
+      betterAuthEmailAvailable = auth && typeof auth === 'object';
+      
+      // Check if email service is available
+      const { testEmailConfiguration } = require('../services/emailService');
+      emailServiceAvailable = await testEmailConfiguration();
+    } catch (requireError) {
+      betterAuthEmailAvailable = false;
+      emailServiceAvailable = false;
+    }
+
+    // Check optional SMTP configuration for actual email sending
+    const smtpConfig = {
       service: process.env.EMAIL_SERVICE,
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS ? '***configured***' : 'not configured'
     };
 
-    // Check password reset email functionality
-    const { sendPasswordResetEmail } = require('../services/emailService');
-    const hasPasswordResetFunction = typeof sendPasswordResetEmail === 'function';
-
     const warnings = [];
-    if (!process.env.EMAIL_SERVICE) warnings.push('EMAIL_SERVICE not configured');
-    if (!process.env.EMAIL_USER) warnings.push('EMAIL_USER not configured');
-    if (!process.env.EMAIL_PASS) warnings.push('EMAIL_PASS not configured');
-    if (!hasPasswordResetFunction) warnings.push('Password reset email function not available');
+    if (!process.env.BETTER_AUTH_SECRET) warnings.push('BETTER_AUTH_SECRET not configured');
+    if (!process.env.BETTER_AUTH_URL) warnings.push('BETTER_AUTH_URL not configured');
+    
+    // Check email service availability
+    if (!emailServiceAvailable) {
+      if (!process.env.EMAIL_SERVICE) warnings.push('EMAIL_SERVICE not configured');
+      if (!process.env.EMAIL_USER) warnings.push('EMAIL_USER not configured');
+      if (!process.env.EMAIL_PASS) warnings.push('EMAIL_PASS not configured');
+    }
 
     const responseTime = Date.now() - startTime;
     
     res.json({
       status: warnings.length > 0 ? 'warning' : 'healthy',
-      message: warnings.length > 0 ? 'Email service has configuration issues' : 'Email service is properly configured',
+      message: warnings.length > 0 ? 'Email service has configuration issues' : 'Better Auth email service is properly configured',
       responseTime: `${responseTime}ms`,
       stats: {
-        serviceConfigured: !!process.env.EMAIL_SERVICE,
-        userConfigured: !!process.env.EMAIL_USER,
-        passwordConfigured: !!process.env.EMAIL_PASS,
-        passwordResetAvailable: hasPasswordResetFunction,
-        frontendUrl: process.env.FRONTEND_URL || 'http://localhost:5173'
+        betterAuthEmailAvailable: betterAuthEmailAvailable,
+        emailServiceAvailable: emailServiceAvailable,
+        betterAuthSecretConfigured: !!process.env.BETTER_AUTH_SECRET,
+        betterAuthUrlConfigured: !!process.env.BETTER_AUTH_URL,
+        smtpServiceConfigured: !!process.env.EMAIL_SERVICE,
+        smtpUserConfigured: !!process.env.EMAIL_USER,
+        smtpPasswordConfigured: !!process.env.EMAIL_PASS,
+        frontendUrl: process.env.FRONTEND_URL || 'http://localhost:5173',
+        emailProvider: emailServiceAvailable ? 'Better Auth + SMTP' : 'Better Auth (Log Only)'
       },
-      config: emailConfig,
+      config: {
+        betterAuth: betterAuthEmailConfig,
+        smtp: smtpConfig
+      },
       warnings: warnings
     });
   } catch (error) {
