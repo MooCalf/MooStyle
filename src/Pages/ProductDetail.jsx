@@ -133,6 +133,12 @@ export const ProductDetail = () => {
       <Metadata 
         pageTitle={`${product.name} - ${product.brand} | MooStyle`}
         pageDescription={product.description}
+        ogTitle={`${product.name} by ${product.brand} - Premium Asian Fashion | MooStyle`}
+        ogDescription={`${product.description} Shop now at MooStyle for authentic Asian fashion and beauty products. ${product.rating ? `⭐ ${product.rating}/5 stars` : ''} ${product.inStock ? 'In Stock' : 'Limited Stock'}.`}
+        ogImage={product.image}
+        ogType="product"
+        keywords={`${product.name}, ${product.brand}, ${product.tags?.join(', ') || ''}, Asian fashion, Korean beauty, Japanese streetwear, MooStyle`}
+        product={product}
       />
       
       <div className="min-h-screen bg-gray-50">

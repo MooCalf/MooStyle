@@ -39,13 +39,21 @@ import {
 
 export const AdminDashboard = () => {
   const { user, isAdmin } = useAuth();
+  
+  // Check if user is owner (highest privilege level)
+  const isOwner = user?.role === 'owner';
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     totalUsers: 0,
+    ownerUsers: 0,
     adminUsers: 0,
     regularUsers: 0,
     activeUsers: 0,
     inactiveUsers: 0,
+    bannedUsers: 0,
+    bannedUsersToday: 0,
+    bannedUsersYesterday: 0,
+    bannedUsersChange: 0,
     totalCarts: 0,
     totalPoints: 0,
     totalTransactions: 0,
@@ -57,7 +65,32 @@ export const AdminDashboard = () => {
     },
     recentUsers: [],
     recentCarts: [],
-    recentTransactions: []
+    recentTransactions: [],
+    dailyStats: {
+      activeUsersToday: 0,
+      activeUsersYesterday: 0,
+      activeUsersChange: 0,
+      newRegistrationsToday: 0,
+      newRegistrationsYesterday: 0,
+      newRegistrationsChange: 0,
+      downloadsToday: 0,
+      downloadsYesterday: 0,
+      downloadsChange: 0
+    },
+    monthlyStats: {
+      usersThisMonth: 0,
+      usersLastMonth: 0,
+      usersChange: 0,
+      cartsThisMonth: 0,
+      cartsLastMonth: 0,
+      cartsChange: 0,
+      transactionsThisMonth: 0,
+      transactionsLastMonth: 0,
+      transactionsChange: 0,
+      pointsThisMonth: 0,
+      pointsLastMonth: 0,
+      pointsChange: 0
+    }
   });
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
@@ -108,10 +141,15 @@ export const AdminDashboard = () => {
       if (data.success && data.stats) {
         setStats({
           totalUsers: data.stats.totalUsers || 0,
+          ownerUsers: data.stats.ownerUsers || 0,
           adminUsers: data.stats.adminUsers || 0,
           regularUsers: data.stats.regularUsers || 0,
           activeUsers: data.stats.activeUsers || 0,
           inactiveUsers: data.stats.inactiveUsers || 0,
+          bannedUsers: data.stats.bannedUsers || 0,
+          bannedUsersToday: data.stats.bannedUsersToday || 0,
+          bannedUsersYesterday: data.stats.bannedUsersYesterday || 0,
+          bannedUsersChange: data.stats.bannedUsersChange || 0,
           totalCarts: data.stats.totalCarts || 0,
           totalPoints: data.stats.totalPoints || 0,
           totalTransactions: data.stats.totalTransactions || 0,
@@ -123,7 +161,32 @@ export const AdminDashboard = () => {
           },
           recentUsers: data.stats.recentUsers || [],
           recentCarts: data.stats.recentCarts || [],
-          recentTransactions: data.stats.recentTransactions || []
+          recentTransactions: data.stats.recentTransactions || [],
+          dailyStats: data.stats.dailyStats || {
+            activeUsersToday: 0,
+            activeUsersYesterday: 0,
+            activeUsersChange: 0,
+            newRegistrationsToday: 0,
+            newRegistrationsYesterday: 0,
+            newRegistrationsChange: 0,
+            downloadsToday: 0,
+            downloadsYesterday: 0,
+            downloadsChange: 0
+          },
+          monthlyStats: data.stats.monthlyStats || {
+            usersThisMonth: 0,
+            usersLastMonth: 0,
+            usersChange: 0,
+            cartsThisMonth: 0,
+            cartsLastMonth: 0,
+            cartsChange: 0,
+            transactionsThisMonth: 0,
+            transactionsLastMonth: 0,
+            transactionsChange: 0,
+            pointsThisMonth: 0,
+            pointsLastMonth: 0,
+            pointsChange: 0
+          }
         });
       } else {
         throw new Error(data.message || 'Failed to fetch stats');
@@ -362,7 +425,8 @@ export const AdminDashboard = () => {
 
   // Check if role change requires admin warning
   const checkRoleChange = (currentRole, newRole, userData) => {
-    if (currentRole !== 'admin' && newRole === 'admin') {
+    // Show warning when promoting to admin (unless current user is owner)
+    if (currentRole !== 'admin' && newRole === 'admin' && !isOwner) {
       // Show admin warning modal
       setPendingRoleUpdate({
         userId: userData.userId || userData.id,
@@ -372,6 +436,19 @@ export const AdminDashboard = () => {
       setShowRoleWarningModal(true);
       return true; // Indicates warning was shown
     }
+    
+    // Show warning when promoting to owner (unless current user is owner)
+    if (currentRole !== 'owner' && newRole === 'owner' && !isOwner) {
+      // Show owner warning modal
+      setPendingRoleUpdate({
+        userId: userData.userId || userData.id,
+        newRole: newRole,
+        userData: userData
+      });
+      setShowRoleWarningModal(true);
+      return true; // Indicates warning was shown
+    }
+    
     return false; // No warning needed
   };
 
@@ -380,11 +457,21 @@ export const AdminDashboard = () => {
     return user.role === 'admin';
   };
 
+  const isUserOwner = (user) => {
+    return user.role === 'owner';
+  };
+
   const canModifyUser = (targetUser) => {
-    // Current user (logged in admin) cannot modify other admins
-    if (isUserAdmin(targetUser)) {
+    // Owners can modify everyone (including other owners and admins)
+    if (isOwner) {
+      return true;
+    }
+    
+    // Admins can only modify regular users, not other admins or owners
+    if (isUserAdmin(targetUser) || isUserOwner(targetUser)) {
       return false;
     }
+    
     return true;
   };
 
@@ -507,7 +594,7 @@ export const AdminDashboard = () => {
           </div>
         )}
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center justify-between">
@@ -533,7 +620,7 @@ export const AdminDashboard = () => {
           )}
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-6 mb-8">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -544,10 +631,40 @@ export const AdminDashboard = () => {
                   <Users size={24} color="#2563eb" />
                 </div>
               </div>
-              <div className="mt-4 flex items-center text-sm">
-                <span className="text-gray-600">Admins: {stats.adminUsers || 0}</span>
-                <span className="ml-4 text-gray-600">Regular: {stats.regularUsers || 0}</span>
-                <span className="ml-4 text-gray-600">Active: {stats.activeUsers || 0}</span>
+              <div className="mt-4 space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-4">
+                    <span className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                      <span className="text-gray-600">Owners: {stats.ownerUsers || 0}</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                      <span className="text-gray-600">Admins: {stats.adminUsers || 0}</span>
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-4">
+                    <span className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-gray-600">Users: {stats.regularUsers || 0}</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                      <span className="text-gray-600">Active: {stats.activeUsers || 0}</span>
+                    </span>
+                  </div>
+                </div>
+                <div className="pt-2 border-t border-gray-100">
+                  <div className="flex items-center justify-between text-xs text-gray-500">
+                    <span>Active Rate: {stats.totalUsers > 0 ? Math.round((stats.activeUsers / stats.totalUsers) * 100) : 0}%</span>
+                    <span className="flex items-center gap-1">
+                      <ArrowUpRight size={12} color="#22c55e" />
+                      <span className="text-green-600">+12% this month</span>
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -561,8 +678,37 @@ export const AdminDashboard = () => {
                   <AlertCircle size={24} color="#dc2626" />
                 </div>
               </div>
-              <div className="mt-4 flex items-center text-sm">
-                <span className="text-gray-600">Suspended accounts</span>
+              <div className="mt-4 space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-4">
+                    <span className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                      <span className="text-gray-600">Banned Today: {stats.bannedUsersToday || 0}</span>
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                      <span className="text-gray-600">Yesterday: {stats.bannedUsersYesterday || 0}</span>
+                    </span>
+                  </div>
+                </div>
+                <div className="pt-2 border-t border-gray-100">
+                  <div className="flex items-center justify-between text-xs text-gray-500">
+                    <span>Ban Rate: {stats.totalUsers > 0 ? Math.round((stats.bannedUsers / stats.totalUsers) * 100) : 0}%</span>
+                    <span className={`flex items-center gap-1 ${
+                      stats.bannedUsersChange > 0 ? 'text-red-600' : 
+                      stats.bannedUsersChange < 0 ? 'text-green-600' : 'text-gray-500'
+                    }`}>
+                      {stats.bannedUsersChange > 0 ? (
+                        <ArrowUpRight size={12} color="#dc2626" />
+                      ) : stats.bannedUsersChange < 0 ? (
+                        <ArrowDownRight size={12} color="#16a34a" />
+                      ) : null}
+                      <span>
+                        {stats.bannedUsersChange > 0 ? '+' : ''}{stats.bannedUsersChange || 0}% vs yesterday
+                      </span>
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -577,8 +723,20 @@ export const AdminDashboard = () => {
                 </div>
               </div>
               <div className="mt-4 flex items-center text-sm">
-                <ArrowUpRight size={16} color="#22c55e" className="mr-1" />
-                <span className="text-green-600">+8% from last month</span>
+                <span className="text-gray-600">Active shopping carts</span>
+                <span className="ml-auto flex items-center gap-1">
+                  {stats.monthlyStats?.cartsChange > 0 ? (
+                    <ArrowUpRight size={16} color="#22c55e" />
+                  ) : stats.monthlyStats?.cartsChange < 0 ? (
+                    <ArrowDownRight size={16} color="#dc2626" />
+                  ) : null}
+                  <span className={`${
+                    stats.monthlyStats?.cartsChange > 0 ? 'text-green-600' : 
+                    stats.monthlyStats?.cartsChange < 0 ? 'text-red-600' : 'text-gray-500'
+                  }`}>
+                    {stats.monthlyStats?.cartsChange > 0 ? '+' : ''}{stats.monthlyStats?.cartsChange || 0}% this month
+                  </span>
+                </span>
               </div>
             </div>
 
@@ -593,8 +751,20 @@ export const AdminDashboard = () => {
                 </div>
               </div>
               <div className="mt-4 flex items-center text-sm">
-                <ArrowUpRight size={16} color="#22c55e" className="mr-1" />
-                <span className="text-green-600">+15% from last month</span>
+                <span className="text-gray-600">Total points earned</span>
+                <span className="ml-auto flex items-center gap-1">
+                  {stats.monthlyStats?.pointsChange > 0 ? (
+                    <ArrowUpRight size={16} color="#22c55e" />
+                  ) : stats.monthlyStats?.pointsChange < 0 ? (
+                    <ArrowDownRight size={16} color="#dc2626" />
+                  ) : null}
+                  <span className={`${
+                    stats.monthlyStats?.pointsChange > 0 ? 'text-green-600' : 
+                    stats.monthlyStats?.pointsChange < 0 ? 'text-red-600' : 'text-gray-500'
+                  }`}>
+                    {stats.monthlyStats?.pointsChange > 0 ? '+' : ''}{stats.monthlyStats?.pointsChange || 0}% this month
+                  </span>
+                </span>
               </div>
             </div>
 
@@ -609,8 +779,20 @@ export const AdminDashboard = () => {
                 </div>
               </div>
               <div className="mt-4 flex items-center text-sm">
-                <ArrowUpRight size={16} color="#22c55e" className="mr-1" />
-                <span className="text-green-600">+22% from last month</span>
+                <span className="text-gray-600">Point transactions</span>
+                <span className="ml-auto flex items-center gap-1">
+                  {stats.monthlyStats?.transactionsChange > 0 ? (
+                    <ArrowUpRight size={16} color="#22c55e" />
+                  ) : stats.monthlyStats?.transactionsChange < 0 ? (
+                    <ArrowDownRight size={16} color="#dc2626" />
+                  ) : null}
+                  <span className={`${
+                    stats.monthlyStats?.transactionsChange > 0 ? 'text-green-600' : 
+                    stats.monthlyStats?.transactionsChange < 0 ? 'text-red-600' : 'text-gray-500'
+                  }`}>
+                    {stats.monthlyStats?.transactionsChange > 0 ? '+' : ''}{stats.monthlyStats?.transactionsChange || 0}% this month
+                  </span>
+                </span>
               </div>
             </div>
           </div>
@@ -647,11 +829,11 @@ export const AdminDashboard = () => {
           </div>
 
           {/* Tab Content */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 min-h-[600px]">
             {activeTab === 'overview' && (
               <div className="p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">System Overview</h3>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                   <div>
                     <h4 className="text-md font-medium text-gray-900 mb-3">Recent Activity</h4>
                     <div className="space-y-3">
@@ -664,7 +846,15 @@ export const AdminDashboard = () => {
                             <p className="text-sm font-medium text-gray-900">{user.username}</p>
                             <p className="text-xs text-gray-600">Joined {new Date(user.createdAt).toLocaleDateString()}</p>
                           </div>
-                          <span className="text-xs text-gray-500">{user.role}</span>
+                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                            user.role === 'owner'
+                              ? 'bg-red-100 text-red-800'
+                              : user.role === 'admin' 
+                              ? 'bg-purple-100 text-purple-800' 
+                              : 'bg-green-100 text-green-800'
+                          }`}>
+                            {user.role}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -673,16 +863,110 @@ export const AdminDashboard = () => {
                     <h4 className="text-md font-medium text-gray-900 mb-3">Quick Stats</h4>
                     <div className="space-y-3">
                       <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <span className="text-sm text-gray-600">Active Users Today</span>
-                        <span className="text-sm font-semibold text-gray-900">24</span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Active Users Today</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold text-gray-900">
+                            {stats.dailyStats?.activeUsersToday || 0}
+                          </span>
+                          {stats.dailyStats?.activeUsersChange !== undefined && (
+                            <span className={`text-xs flex items-center gap-1 ${
+                              stats.dailyStats.activeUsersChange > 0 ? 'text-green-600' : 
+                              stats.dailyStats.activeUsersChange < 0 ? 'text-red-600' : 'text-gray-500'
+                            }`}>
+                              {stats.dailyStats.activeUsersChange > 0 ? (
+                                <ArrowUpRight size={12} />
+                              ) : stats.dailyStats.activeUsersChange < 0 ? (
+                                <ArrowDownRight size={12} />
+                              ) : null}
+                              {stats.dailyStats.activeUsersChange > 0 ? '+' : ''}{stats.dailyStats.activeUsersChange}%
+                            </span>
+                          )}
+                        </div>
                       </div>
                       <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <span className="text-sm text-gray-600">Downloads Today</span>
-                        <span className="text-sm font-semibold text-gray-900">156</span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Downloads Today</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold text-gray-900">
+                            {stats.dailyStats?.downloadsToday || 0}
+                          </span>
+                          {stats.dailyStats?.downloadsChange !== undefined && (
+                            <span className={`text-xs flex items-center gap-1 ${
+                              stats.dailyStats.downloadsChange > 0 ? 'text-green-600' : 
+                              stats.dailyStats.downloadsChange < 0 ? 'text-red-600' : 'text-gray-500'
+                            }`}>
+                              {stats.dailyStats.downloadsChange > 0 ? (
+                                <ArrowUpRight size={12} />
+                              ) : stats.dailyStats.downloadsChange < 0 ? (
+                                <ArrowDownRight size={12} />
+                              ) : null}
+                              {stats.dailyStats.downloadsChange > 0 ? '+' : ''}{stats.dailyStats.downloadsChange}%
+                            </span>
+                          )}
+                        </div>
                       </div>
                       <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <span className="text-sm text-gray-600">New Registrations</span>
-                        <span className="text-sm font-semibold text-gray-900">8</span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-teal-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">New Registrations</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold text-gray-900">
+                            {stats.dailyStats?.newRegistrationsToday || 0}
+                          </span>
+                          {stats.dailyStats?.newRegistrationsChange !== undefined && (
+                            <span className={`text-xs flex items-center gap-1 ${
+                              stats.dailyStats.newRegistrationsChange > 0 ? 'text-green-600' : 
+                              stats.dailyStats.newRegistrationsChange < 0 ? 'text-red-600' : 'text-gray-500'
+                            }`}>
+                              {stats.dailyStats.newRegistrationsChange > 0 ? (
+                                <ArrowUpRight size={12} />
+                              ) : stats.dailyStats.newRegistrationsChange < 0 ? (
+                                <ArrowDownRight size={12} />
+                              ) : null}
+                              {stats.dailyStats.newRegistrationsChange > 0 ? '+' : ''}{stats.dailyStats.newRegistrationsChange}%
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-md font-medium text-gray-900 mb-3">Membership Levels</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-yellow-600 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Bronze</span>
+                        </div>
+                        <span className="text-sm font-semibold text-gray-900">{stats.membershipLevels?.Bronze || 0}</span>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Silver</span>
+                        </div>
+                        <span className="text-sm font-semibold text-gray-900">{stats.membershipLevels?.Silver || 0}</span>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Gold</span>
+                        </div>
+                        <span className="text-sm font-semibold text-gray-900">{stats.membershipLevels?.Gold || 0}</span>
+                      </div>
+                      <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                          <span className="text-sm text-gray-600">Diamond</span>
+                        </div>
+                        <span className="text-sm font-semibold text-gray-900">{stats.membershipLevels?.Diamond || 0}</span>
                       </div>
                     </div>
                   </div>
@@ -713,7 +997,7 @@ export const AdminDashboard = () => {
                   </div>
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
+                  <table className="w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
@@ -743,7 +1027,9 @@ export const AdminDashboard = () => {
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.email}</td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                              user.role === 'admin' 
+                              user.role === 'owner'
+                                ? 'bg-red-100 text-red-800'
+                                : user.role === 'admin' 
                                 ? 'bg-purple-100 text-purple-800' 
                                 : 'bg-green-100 text-green-800'
                             }`}>
@@ -1024,6 +1310,7 @@ export const AdminDashboard = () => {
                     <select name="role" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                       <option value="user">User</option>
                       <option value="admin">Admin</option>
+                      {isOwner && <option value="owner">Owner</option>}
                     </select>
                   </div>
                   <div>
@@ -1118,6 +1405,7 @@ export const AdminDashboard = () => {
                     <select name="role" defaultValue={selectedUser.role || 'user'} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
                       <option value="user">User</option>
                       <option value="admin">Admin</option>
+                      {isOwner && <option value="owner">Owner</option>}
                     </select>
                   </div>
                   <div>
@@ -1193,14 +1481,18 @@ export const AdminDashboard = () => {
             <div className="bg-white rounded-lg border-2 border-red-500 p-6 w-full max-w-lg mx-4 shadow-xl">
               <div className="flex items-center gap-3 mb-4 border-b border-red-200 pb-3">
                 <AlertCircle size={24} className="text-red-600" />
-                <h3 className="text-lg font-semibold text-red-800">⚠️ Admin Role Assignment Warning</h3>
+                <h3 className="text-lg font-semibold text-red-800">
+                  ⚠️ {pendingRoleUpdate.newRole === 'owner' ? 'Owner' : 'Admin'} Role Assignment Warning
+                </h3>
               </div>
               
               <div className="mb-6">
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-                  <h4 className="font-semibold text-red-800 mb-2">🚨 DANGER: Admin Privileges</h4>
+                  <h4 className="font-semibold text-red-800 mb-2">
+                    🚨 DANGER: {pendingRoleUpdate.newRole === 'owner' ? 'OWNER' : 'ADMINISTRATOR'} Privileges
+                  </h4>
                   <p className="text-red-700 text-sm mb-2">
-                    You are about to grant <strong>ADMINISTRATOR</strong> privileges to this user. 
+                    You are about to grant <strong>{pendingRoleUpdate.newRole.toUpperCase()}</strong> privileges to this user. 
                     This action will give them full access to:
                   </p>
                   <ul className="text-red-700 text-sm list-disc list-inside space-y-1">
@@ -1209,6 +1501,13 @@ export const AdminDashboard = () => {
                     <li>Access admin dashboard</li>
                     <li>Modify system settings</li>
                     <li>View sensitive information</li>
+                    {pendingRoleUpdate.newRole === 'owner' && (
+                      <>
+                        <li><strong>Edit admin and owner accounts</strong></li>
+                        <li><strong>Change roles of any user</strong></li>
+                        <li><strong>Ban/unban any user including admins</strong></li>
+                      </>
+                    )}
                   </ul>
                 </div>
 

@@ -33,10 +33,10 @@ export const authHelpers = {
     return session?.user || null;
   },
 
-  // Check if user is admin
+  // Check if user is admin or owner
   isAdmin: () => {
     const user = authHelpers.getCurrentUser();
-    return user?.role === 'admin';
+    return ['admin', 'owner'].includes(user?.role);
   },
 
   // Get user points

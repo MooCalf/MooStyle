@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
@@ -14,6 +14,24 @@ export const NavigationPrimary = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [hoveredIcon, setHoveredIcon] = useState(null);
+  const mobileMenuRef = useRef(null);
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   const handleSignOut = async () => {
     try {
@@ -52,8 +70,18 @@ export const NavigationPrimary = () => {
     <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Left side - 3 icons */}
-          <div className="flex items-center space-x-4">
+          {/* Mobile menu button - visible only on mobile */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden p-2 text-gray-700 hover:text-gray-900 transition-colors flex-shrink-0 px-4"
+            onMouseEnter={() => setHoveredIcon('menu')}
+            onMouseLeave={() => setHoveredIcon(null)}
+          >
+            {isMenuOpen ? <X size={24} color={getIconColor('menu')} /> : <Menu size={24} color={getIconColor('menu')} />}
+          </button>
+
+          {/* Left side - Desktop icons (hidden on mobile) */}
+          <div className="hidden md:flex items-center space-x-4 flex-shrink-0 px-4">
             {/* Question Mark Icon - Common Questions */}
             <Link
               to="/common-questions"
@@ -121,25 +149,25 @@ export const NavigationPrimary = () => {
           </div>
 
           {/* Center - Logo */}
-                <div className="flex items-center space-x-2">
-                  <Link to="/" className="flex items-center space-x-2">
-                    <img
-                      src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png"
-                      alt="MooStyle Logo"
-                      className="h-8 w-8"
-                    />
-                    <span className="text-xl font-bold text-gray-900">MOOSTYLE</span>
-                  </Link>
-                </div>
+          <div className="flex items-center justify-center flex-1 min-w-0">
+            <Link to="/" className="flex items-center space-x-2">
+              <img
+                src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png"
+                alt="MooStyle Logo"
+                className="h-8 w-8 flex-shrink-0"
+              />
+              <span className="text-lg sm:text-xl font-bold text-gray-900 whitespace-nowrap">MOOSTYLE</span>
+            </Link>
+          </div>
 
           {/* Right side - User menu, Heart, Cart */}
-          <div className="flex items-center space-x-4">
-            {/* Heart Icon - Patreon Link */}
+          <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0 px-4">
+            {/* Heart Icon - Patreon Link (hidden on mobile) */}
             <a
               href="https://www.patreon.com/MOOSTYLES"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-700 hover:text-white hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:from-orange-600 hover:to-red-600 transition-all duration-200 rounded-lg p-2"
+              className="hidden sm:block text-gray-700 hover:text-white hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:from-orange-600 hover:to-red-600 transition-all duration-200 rounded-lg p-2"
               title="Support us on Patreon"
               onMouseEnter={() => setHoveredIcon('heart')}
               onMouseLeave={() => setHoveredIcon(null)}
@@ -169,12 +197,12 @@ export const NavigationPrimary = () => {
               <div className="relative">
                 <button
                   onClick={toggleUserMenu}
-                  className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition-colors"
+                  className="flex items-center space-x-1 sm:space-x-2 text-gray-700 hover:text-gray-900 transition-colors"
                   onMouseEnter={() => setHoveredIcon('user')}
                   onMouseLeave={() => setHoveredIcon(null)}
                 >
                   <User size={20} color={getIconColor('user')} />
-                  <span>{user?.username || user?.name || 'User'}</span>
+                  <span className="hidden sm:inline">{user?.username || user?.name || 'User'}</span>
                 </button>
                 
                 {isUserMenuOpen && (
@@ -211,58 +239,51 @@ export const NavigationPrimary = () => {
                 )}
               </div>
             ) : (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1 sm:space-x-2">
                 <Link
                   to="/login"
-                  className="text-gray-700 hover:text-gray-900 transition-colors"
+                  className="text-sm sm:text-base text-gray-700 hover:text-gray-900 transition-colors px-2 py-1 sm:px-0"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/register"
-                  className="text-gray-700 hover:text-gray-900 transition-colors px-4 py-2 rounded-md border border-gray-300 hover:border-gray-400"
+                  className="text-sm sm:text-base text-gray-700 hover:text-gray-900 transition-colors px-2 py-1 sm:px-4 sm:py-2 rounded-md border border-gray-300 hover:border-gray-400"
                 >
                   Sign Up
                 </Link>
               </div>
             )}
           </div>
-
-          {/* Mobile menu button */}
-          <button
-            onClick={toggleMenu}
-            className="md:hidden p-2 text-gray-700 hover:text-gray-900"
-            onMouseEnter={() => setHoveredIcon('menu')}
-            onMouseLeave={() => setHoveredIcon(null)}
-          >
-            {isMenuOpen ? <X size={24} color={getIconColor('menu')} /> : <Menu size={24} color={getIconColor('menu')} />}
-          </button>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4">
-            <div className="space-y-2">
+          <div ref={mobileMenuRef} className="md:hidden border-t border-gray-200 py-4 animate-in slide-in-from-top-2 duration-200">
+            <div className="space-y-3 px-4">
               {/* Mobile navigation links */}
               <Link
                 to="/common-questions"
-                className="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
+                <HelpCircle size={18} className="mr-3" />
                 Common Questions
               </Link>
               <Link
                 to="/support"
-                className="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
+                <MessageCircle size={18} className="mr-3" />
                 Support
               </Link>
               <Link
                 to="/about"
-                className="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
+                <Info size={18} className="mr-3" />
                 About Me
               </Link>
               <div className="block px-3 py-2">
@@ -301,18 +322,18 @@ export const NavigationPrimary = () => {
             </div>
 
             {/* Mobile User Menu */}
-            <div className="mt-4 pt-4 border-t border-gray-200">
+            <div className="mt-6 pt-4 border-t border-gray-200">
               {isAuthenticated ? (
-                <div className="space-y-2">
-                  <div className="px-3 py-2 text-sm text-gray-500">
+                <div className="space-y-3">
+                  <div className="px-3 py-2 text-sm text-gray-500 bg-gray-50 rounded-lg text-center">
                     Signed in as {user?.username || user?.name || 'User'}
                   </div>
                   <Link
                     to="/my-account"
-                    className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                    className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <Settings size={16} color="#374151" className="mr-2" />
+                    <Settings size={18} className="mr-3" />
                     My Account
                   </Link>
                   
@@ -320,21 +341,21 @@ export const NavigationPrimary = () => {
                   {isAdmin && (
                     <Link
                       to="/admin/dashboard"
-                      className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                      className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      <Settings size={16} color="#374151" className="mr-2" />
+                      <Settings size={18} className="mr-3" />
                       Admin Dashboard
                     </Link>
                   )}
                   
                   <Link
                     to="/cart"
-                    className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                    className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <div className="relative mr-2">
-                      <ShoppingCart size={16} color="#374151" />
+                    <div className="relative mr-3">
+                      <ShoppingCart size={18} />
                       {/* Mobile Cart Count Badge */}
                       {getCartCount() > 0 && (
                         <span className="absolute -top-2 -right-2 bg-teal-600 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center min-w-[16px]">
@@ -342,17 +363,17 @@ export const NavigationPrimary = () => {
                         </span>
                       )}
                     </div>
-                    Cart
+                    Cart ({getCartCount()})
                   </Link>
                   
                   <a
                     href="https://www.patreon.com/MOOSTYLES"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                    className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <Heart size={16} color="#374151" className="mr-2" />
+                    <Heart size={18} className="mr-3" />
                     Support on Patreon
                   </a>
                   
@@ -361,24 +382,24 @@ export const NavigationPrimary = () => {
                       handleSignOut();
                       setIsMenuOpen(false);
                     }}
-                    className="flex items-center w-full px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                    className="flex items-center w-full px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
                   >
-                    <LogOut size={16} color="#374151" className="mr-2" />
+                    <LogOut size={18} className="mr-3" />
                     Sign Out
                   </button>
                 </div>
               ) : (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <Link
                     to="/login"
-                    className="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                    className="flex items-center justify-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors border border-gray-300"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Sign In
                   </Link>
                   <Link
                     to="/register"
-                    className="block px-3 py-2 text-gray-700 hover:text-gray-900 rounded-md border border-gray-300 hover:border-gray-400"
+                    className="flex items-center justify-center px-3 py-3 text-white bg-teal-600 hover:bg-teal-700 rounded-lg transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Sign Up

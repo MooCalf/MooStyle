@@ -172,6 +172,12 @@ export const Shopping = () => {
       <Metadata 
         pageTitle={`${categoryData.name} - MooStyle`}
         pageDescription={categoryData.description}
+        ogTitle={`Shop ${categoryData.name} - Premium Asian Fashion & Beauty | MooStyle`}
+        ogDescription={`Discover the latest ${categoryData.name.toLowerCase()} products at MooStyle. ${categoryData.description} Premium quality, authentic Asian style.`}
+        ogImage={categoryData.image || "/projects/Brand Medias/Promotional Content/Promo Poster.png"}
+        ogType="website"
+        keywords={`${categoryData.name}, Asian fashion, Korean beauty, Japanese streetwear, ${categoryData.subcategories?.join(', ') || ''}, MooStyle`}
+        category={categoryData}
       />
       
       <div className="min-h-screen bg-gray-50">
