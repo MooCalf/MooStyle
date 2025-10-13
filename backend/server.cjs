@@ -4,6 +4,11 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const { securityLogger, detectSuspiciousActivity, requestMonitor, errorLogger } = require('./middleware/securityLogger');
+const securityMetrics = require('./middleware/securityMetrics');
+const { auditTrail, auditCriticalOperation } = require('./middleware/auditTrail');
+const backupSecurity = require('./middleware/backupSecurity');
+const disasterRecovery = require('./middleware/disasterRecovery');
 
 // Load environment variables
 dotenv.config();
@@ -36,18 +41,35 @@ app.use((req, res, next) => {
   next();
 });
 
-// Security middleware - simplified
+// Enhanced Security Headers
 app.use(helmet({
-  contentSecurityPolicy: false, // Disable CSP for development
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://accounts.google.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      imgSrc: ["'self'", "data:", "https:", "blob:"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com"],
+      connectSrc: ["'self'", "https://accounts.google.com"],
+      frameSrc: ["'self'", "https://accounts.google.com"],
+    },
+  },
   crossOriginEmbedderPolicy: false,
   crossOriginResourcePolicy: { policy: "cross-origin" },
-  hsts: false // Disable HSTS for development
+  xFrameOptions: { action: 'deny' },
+  xContentTypeOptions: true,
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+  hsts: process.env.NODE_ENV === 'production' ? {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true
+  } : false
 }));
 
-// Rate limiting - simplified
-const limiter = rateLimit({
+// Enhanced Rate Limiting - Tiered approach
+const generalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 200, // Increased limit for testing
+  max: 100, // Reduced from 200 for better security
   message: {
     error: 'Too many requests from this IP, please try again later.',
     retryAfter: '15 minutes'
@@ -56,7 +78,60 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
-app.use(limiter);
+// Strict rate limiting for authentication endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Very strict for auth attempts
+  message: {
+    error: 'Too many authentication attempts, please try again later.',
+    retryAfter: '15 minutes'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Moderate rate limiting for admin operations
+const adminLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 50, // Moderate for admin operations
+  message: {
+    error: 'Too many admin requests, please try again later.',
+    retryAfter: '15 minutes'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Apply general rate limiting to all routes
+app.use(generalLimiter);
+
+// Apply security logging and monitoring middleware
+app.use(securityLogger);
+app.use(detectSuspiciousActivity);
+app.use(requestMonitor);
+
+// Security metrics collection middleware
+app.use((req, res, next) => {
+  const originalSend = res.send;
+  
+  res.send = function(data) {
+    // Record request metrics
+    securityMetrics.recordRequest(req, res);
+    
+    // Record suspicious activity if detected
+    if (res.statusCode >= 400) {
+      securityMetrics.recordSuspiciousActivity('HTTP_ERROR', {
+        statusCode: res.statusCode,
+        url: req.url,
+        method: req.method
+      });
+    }
+    
+    originalSend.call(this, data);
+  };
+  
+  next();
+});
 
 // CORS configuration
 app.use(cors({
@@ -139,6 +214,126 @@ app.get('/', (req, res) => {
   });
 });
 
+// Apply specific rate limiters to routes
+app.use('/api/auth', authLimiter);
+app.use('/api/admin', adminLimiter);
+
+// Security admin routes
+app.get('/api/admin/security/metrics', (req, res) => {
+  try {
+    const metrics = securityMetrics.getSecurityMetrics();
+    res.json({
+      success: true,
+      metrics
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve security metrics',
+      error: error.message
+    });
+  }
+});
+
+app.get('/api/admin/security/report', (req, res) => {
+  try {
+    const report = securityMetrics.generateSecurityReport('daily');
+    res.json({
+      success: true,
+      report
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to generate security report',
+      error: error.message
+    });
+  }
+});
+
+app.get('/api/admin/backup/status', (req, res) => {
+  try {
+    const status = backupSecurity.getBackupStatus();
+    res.json({
+      success: true,
+      status
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve backup status',
+      error: error.message
+    });
+  }
+});
+
+app.post('/api/admin/backup/create', async (req, res) => {
+  try {
+    const { type } = req.body;
+    let result;
+    
+    switch (type) {
+      case 'user-data':
+        result = await backupSecurity.createUserDataBackup();
+        break;
+      case 'system-config':
+        result = await backupSecurity.createSystemConfigBackup();
+        break;
+      case 'security-logs':
+        result = await backupSecurity.createSecurityLogsBackup();
+        break;
+      default:
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid backup type. Use: user-data, system-config, or security-logs'
+        });
+    }
+    
+    res.json({
+      success: true,
+      result
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to create backup',
+      error: error.message
+    });
+  }
+});
+
+app.get('/api/admin/recovery/procedures', (req, res) => {
+  try {
+    const procedures = disasterRecovery.getRecoveryProcedures();
+    res.json({
+      success: true,
+      procedures
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to retrieve recovery procedures',
+      error: error.message
+    });
+  }
+});
+
+app.post('/api/admin/recovery/test', async (req, res) => {
+  try {
+    const testResults = await disasterRecovery.testRecoveryProcedures();
+    res.json({
+      success: true,
+      testResults
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Failed to test recovery procedures',
+      error: error.message
+    });
+  }
+});
+
 // Legacy routes (keep for backward compatibility during migration)
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/cart', require('./routes/cart'));
@@ -157,7 +352,8 @@ app.use((req, res) => {
   });
 });
 
-// Global error handler
+// Global error handler with security logging
+app.use(errorLogger);
 app.use((err, req, res, next) => {
   console.error('Global error handler:', err.message);
   

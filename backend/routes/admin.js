@@ -3,6 +3,8 @@ const Cart = require('../models/Cart');
 const PointTransaction = require('../models/PointTransaction');
 const { MongoClient, ObjectId } = require('mongodb');
 const router = express.Router();
+const { auditCriticalOperation } = require('../middleware/auditTrail');
+const securityMetrics = require('../middleware/securityMetrics');
 
 // MongoDB connection for direct database access
 let db;
@@ -14,7 +16,6 @@ const initializeDB = async () => {
       client = new MongoClient(process.env.MONGODB_URI);
       await client.connect();
       db = client.db();
-      console.log('Admin routes: MongoDB connected');
     }
   } catch (error) {
     console.error('Admin routes: MongoDB connection error:', error);
@@ -111,7 +112,6 @@ router.get('/stats', verifyAdminSession, async (req, res) => {
               try {
                 user = await db.collection('user').findOne(query);
                 if (user) {
-                  console.log('Cart user found with query:', query);
                   break;
                 }
               } catch (error) {
@@ -119,14 +119,6 @@ router.get('/stats', verifyAdminSession, async (req, res) => {
                 continue;
               }
             }
-            
-            console.log('Cart user lookup:', { 
-              cartUserId: cart.user, 
-              cartUserIdType: typeof cart.user,
-              foundUser: user ? { username: user.username, email: user.email } : null 
-            });
-          } else {
-            console.log('Cart has no user field:', cart);
           }
           
           return {
@@ -305,10 +297,6 @@ router.put('/users/:userId', verifyAdminSession, async (req, res) => {
   try {
     const { userId } = req.params;
     const updates = req.body;
-    
-    console.log('=== USER UPDATE REQUEST ===');
-    console.log('User ID:', userId);
-    console.log('Updates:', updates);
 
     // Ensure db is connected
     if (!db) {
@@ -320,16 +308,13 @@ router.put('/users/:userId', verifyAdminSession, async (req, res) => {
     if (userId.match(/^[0-9a-fA-F]{24}$/)) {
       // If it's a MongoDB ObjectId, search by _id
       query = { _id: new ObjectId(userId) };
-      console.log('Using MongoDB ObjectId query:', query);
     } else {
       // Otherwise, search by custom id field
       query = { id: userId };
-      console.log('Using custom ID query:', query);
     }
 
     // First, get the user to find their Better Auth ID
     const user = await db.collection('user').findOne(query);
-    console.log('Found user:', user);
     
     if (!user) {
       return res.status(404).json({
@@ -359,8 +344,6 @@ router.put('/users/:userId', verifyAdminSession, async (req, res) => {
       }
     );
     
-    console.log('Update result:', result);
-
     if (result.matchedCount === 0) {
       return res.status(404).json({
         success: false,
@@ -370,7 +353,6 @@ router.put('/users/:userId', verifyAdminSession, async (req, res) => {
 
     // Get updated user using the same query logic
     const updatedUser = await db.collection('user').findOne(query);
-    console.log('Updated user found:', updatedUser);
 
     res.json({
       success: true,
@@ -387,7 +369,7 @@ router.put('/users/:userId', verifyAdminSession, async (req, res) => {
 });
 
 // Set user role
-router.put('/users/:userId/role', verifyAdminSession, async (req, res) => {
+router.put('/users/:userId/role', verifyAdminSession, auditCriticalOperation('USER_ROLE_UPDATE'), async (req, res) => {
   try {
     const { userId } = req.params;
     const { role } = req.body;
@@ -450,6 +432,13 @@ router.put('/users/:userId/role', verifyAdminSession, async (req, res) => {
       message: `User role updated to ${role}`,
       user: updatedUser
     });
+    
+    // Record admin action in security metrics
+    securityMetrics.recordAdminAction('ROLE_UPDATE', req.user.id, {
+      targetUserId: userId,
+      newRole: role,
+      previousRole: targetUser.role
+    });
   } catch (error) {
     console.error('Error setting user role:', error);
     res.status(500).json({
@@ -460,7 +449,7 @@ router.put('/users/:userId/role', verifyAdminSession, async (req, res) => {
 });
 
 // Ban/Unban user
-router.put('/users/:userId/ban', verifyAdminSession, async (req, res) => {
+router.put('/users/:userId/ban', verifyAdminSession, auditCriticalOperation('USER_BAN_UNBAN'), async (req, res) => {
   try {
     const { userId } = req.params;
     const { ban, banReason } = req.body;
@@ -540,14 +529,12 @@ router.put('/users/:userId/ban', verifyAdminSession, async (req, res) => {
           userBeforeUpdate.username || userBeforeUpdate.name, 
           banReason || 'No reason provided'
         );
-        console.log(`Ban notification sent to ${userBeforeUpdate.email}`);
       } else {
         // Send unban notification
         await sendUnbanNotificationEmail(
           userBeforeUpdate.email, 
           userBeforeUpdate.username || userBeforeUpdate.name
         );
-        console.log(`Unban notification sent to ${userBeforeUpdate.email}`);
       }
     } catch (emailError) {
       console.error('Error sending ban/unban notification:', emailError);
@@ -568,7 +555,6 @@ router.put('/users/:userId/ban', verifyAdminSession, async (req, res) => {
             } 
           }
         );
-        console.log(`Invalidated ${sessions.length} sessions for user ${userBeforeUpdate.username}`);
       }
     } catch (sessionError) {
       console.error('Error invalidating sessions:', sessionError);
@@ -579,6 +565,13 @@ router.put('/users/:userId/ban', verifyAdminSession, async (req, res) => {
       success: true,
       message: `User ${ban ? 'banned' : 'unbanned'} successfully`,
       user: updatedUser
+    });
+    
+    // Record admin action in security metrics
+    securityMetrics.recordAdminAction(ban ? 'USER_BAN' : 'USER_UNBAN', req.user.id, {
+      targetUserId: userId,
+      banReason: banReason,
+      targetUserEmail: userBeforeUpdate.email
     });
   } catch (error) {
     console.error('Error banning/unbanning user:', error);
