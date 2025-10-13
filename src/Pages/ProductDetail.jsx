@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { NavigationPrimary } from "@/Components/NavigationPrimary";
 import { NavigationSecondary } from "@/Components/NavigationSecondary";
 import { ProductCard } from "@/Components/ProductCard";
-import { getProductById, getRelatedProducts, getProductCategory } from "@/lib/shoppingData";
+import { getProductById, getRelatedProducts, getProductCategory, getAllProducts } from "@/lib/shoppingData";
 import { Metadata } from "@/Components/Metadata.jsx";
 import { useCart } from "@/contexts/CartContext";
 import { 
@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 
 export const ProductDetail = () => {
-  const { productId } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart, isInCart } = useCart();
   const [product, setProduct] = useState(null);
@@ -39,21 +39,24 @@ export const ProductDetail = () => {
   const [addedToCart, setAddedToCart] = useState(false);
 
   useEffect(() => {
-    if (productId) {
+    if (id) {
       setLoading(true);
-      // Simulate loading delay
-      setTimeout(() => {
-        const productData = getProductById(productId);
+      try {
+        const productData = getProductById(id);
+        
         if (productData) {
           setProduct(productData);
           setSelectedSize(productData.sizes?.[0] || null);
           setSelectedColor(productData.colors?.[0] || null);
-          setRelatedProducts(getRelatedProducts(productId));
+          setRelatedProducts(getRelatedProducts(id));
         }
+      } catch (error) {
+        console.error('Error loading product:', error);
+      } finally {
         setLoading(false);
-      }, 500);
+      }
     }
-  }, [productId]);
+  }, [id]);
 
   const handleAddToCart = async () => {
     if (!product) return;
@@ -109,11 +112,30 @@ export const ProductDetail = () => {
   }
 
   if (!product) {
+    const allProducts = getAllProducts();
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
+        <div className="text-center max-w-md mx-auto px-4">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
-          <p className="text-gray-600 mb-6">The product you're looking for doesn't exist.</p>
+          <p className="text-gray-600 mb-4">
+            The product with ID "{id}" doesn't exist.
+          </p>
+          <div className="bg-gray-100 rounded-lg p-4 mb-6 text-left">
+            <h3 className="font-semibold text-gray-800 mb-2">Available Products:</h3>
+            <div className="text-sm text-gray-600 space-y-1 max-h-32 overflow-y-auto">
+              {allProducts.slice(0, 10).map(p => (
+                <div key={p.id} className="flex justify-between">
+                  <span>{p.name}</span>
+                  <span className="text-gray-500">ID: {p.id}</span>
+                </div>
+              ))}
+              {allProducts.length > 10 && (
+                <div className="text-gray-500 italic">
+                  ... and {allProducts.length - 10} more
+                </div>
+              )}
+            </div>
+          </div>
           <button
             onClick={() => navigate("/")}
             className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
@@ -126,7 +148,7 @@ export const ProductDetail = () => {
   }
 
   const currentPrice = selectedSize ? selectedSize.price : product.price;
-  const category = getProductCategory(productId);
+  const category = getProductCategory(id);
 
   return (
     <>

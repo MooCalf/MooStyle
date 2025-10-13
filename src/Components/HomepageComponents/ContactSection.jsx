@@ -46,7 +46,7 @@ const SocialLink = ({ icon: Icon, href, label }) => (
 
 export const ContactSection = () => {
   const socialLinks = [
-    { icon: Youtube, href: "https://www.youtube.com/@MooCalf", label: "Youtube" },
+    { icon: Youtube, href: "https://www.youtube.com/@MooCalf", label: "YouTube" },
     { icon: Twitch, href: "https://www.twitch.tv/moocalf_", label: "Twitch" },
     { icon: Instagram, href: "https://www.instagram.com/cypher._01", label: "Instagram" },
     { icon: Twitter, href: "https://x.com/MooCalf_", label: "Twitter/X" },
@@ -59,28 +59,21 @@ export const ContactSection = () => {
       title: "General Inquiries:",
       content: "hello@moocalf.com",
       href: "mailto:hello@moocalf.com",
-      description: "For general questions, mod requests, or community discussions"
+      description: "For general questions, mod requests, community discussions, and support"
     },
     {
       icon: UserSearch,
       title: "Business & Collaborations:",
-      content: "hello@moocalf.com",
-      href: "mailto:hello@moocalf.com",
-      description: "Partnerships, sponsorships, and business opportunities"
+      content: "business@moocalf.com",
+      href: "mailto:business@moocalf.com",
+      description: "Partnerships, sponsorships, brand collaborations, and business opportunities"
     },
     {
-      icon: MessageCircle,
-      title: "Discord Community:",
-      content: "@MooCalf",
-      href: "https://discord.gg/moocalf",
-      description: "Join our Discord server for real-time discussions and support"
-    },
-    {
-      icon: Globe,
-      title: "Personal Website:",
-      content: "moocalf.com",
-      href: "https://moocalf.com",
-      description: "Visit my personal portfolio and learn more about my work"
+      icon: Shield,
+      title: "Technical Support:",
+      content: "support@moocalf.com",
+      href: "mailto:support@moocalf.com",
+      description: "Mod installation help, troubleshooting, and technical assistance"
     }
   ];
 
@@ -88,8 +81,14 @@ export const ContactSection = () => {
     {
       icon: Shield,
       title: "Privacy & Security",
-      content: "Your data is safe",
-      description: "All communications are kept confidential and secure"
+      content: "Your data is protected",
+      description: "All communications are encrypted and kept confidential"
+    },
+    {
+      icon: Globe,
+      title: "Response Time",
+      content: "24-48 hours",
+      description: "Typical response time for emails and business inquiries"
     }
   ];
 
@@ -100,8 +99,9 @@ export const ContactSection = () => {
           Get In <span className="text-teal-600">Touch</span>
         </h2>
         <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-          Have questions about mods, want to collaborate, or need support? I'm here to help! 
-          Reach out through any of the channels below for the fastest response.
+          Have questions about MooStyle mods, want to collaborate, or need support? I'm here to help! 
+          Reach out through any of the channels below for the fastest response. Whether you're a fellow modder, 
+          content creator, or just a fan of Asian fashion and beauty, I'd love to hear from you!
         </p>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="space-y-8">
@@ -160,15 +160,23 @@ export const ContactSection = () => {
                 </li>
                 <li className="flex items-start">
                   <span className="text-teal-600 mr-2">•</span>
-                  <span>Content creation opportunities</span>
+                  <span>Content creation and streaming opportunities</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-teal-600 mr-2">•</span>
-                  <span>Community building and engagement</span>
+                  <span>Brand partnerships for Asian fashion & beauty</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-teal-600 mr-2">•</span>
-                  <span>Technical consulting and tutorials</span>
+                  <span>Community building and engagement projects</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-teal-600 mr-2">•</span>
+                  <span>Technical consulting and modding tutorials</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-teal-600 mr-2">•</span>
+                  <span>InZoi modding community initiatives</span>
                 </li>
               </ul>
             </div>
@@ -176,9 +184,9 @@ export const ContactSection = () => {
             <div className="bg-gray-50 rounded-lg p-6">
               <h4 className="font-semibold text-gray-900 mb-3">Best Ways to Reach Me</h4>
               <div className="space-y-3 text-gray-600">
-                <p><strong>Email:</strong> Most reliable for business inquiries and detailed discussions</p>
-                <p><strong>Discord:</strong> Best for quick questions and community interaction</p>
+                <p><strong>Email:</strong> Most reliable for business inquiries, detailed discussions, and formal partnerships</p>
                 <p><strong>Social Media:</strong> Great for updates, announcements, and casual conversations</p>
+                <p><strong>Patreon:</strong> Direct support and access to exclusive content and early releases</p>
               </div>
             </div>
           </div>
