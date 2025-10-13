@@ -9,18 +9,12 @@ const rateLimit = require('express-rate-limit');
 dotenv.config();
 
 // Environment variable validation
-const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET'];
+const requiredEnvVars = ['MONGODB_URI'];
 const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
 
 if (missingVars.length > 0) {
   console.error('❌ Missing required environment variables:', missingVars.join(', '));
   console.error('Please check your .env file and ensure all required variables are set.');
-  process.exit(1);
-}
-
-// Validate JWT secret strength
-if (process.env.JWT_SECRET && process.env.JWT_SECRET.length < 32) {
-  console.error('❌ JWT_SECRET must be at least 32 characters long for security');
   process.exit(1);
 }
 
@@ -114,12 +108,6 @@ const connectDB = async () => {
 // Connect to database
 connectDB();
 
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/admin', require('./routes/admin'));
-app.use('/api/cart', require('./routes/cart'));
-app.use('/api', require('./routes/health'));
-
 // Basic health check endpoint (legacy)
 app.get('/api/health', (req, res) => {
   res.json({ 
@@ -129,10 +117,32 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Test endpoint
-app.get('/api/auth/test', (req, res) => {
-  res.json({ success: true, message: 'Auth routes are working!' });
+// Better Auth integration
+const { auth } = require('./auth');
+const { toNodeHandler } = require('better-auth/node');
+
+// Mount Better Auth handler
+app.use('/api/auth', toNodeHandler(auth));
+
+// Google OAuth callback route
+app.get('/api/auth/callback/google', (req, res) => {
+  // This will be handled by Better Auth, but we need to ensure it exists
+  res.redirect('/');
 });
+
+// Root route handler for OAuth redirects
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'MooStyle API Server',
+    status: 'running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Legacy routes (keep for backward compatibility during migration)
+app.use('/api/admin', require('./routes/admin'));
+app.use('/api/cart', require('./routes/cart'));
+app.use('/api', require('./routes/health')); // Re-enabled with Better Auth support
 
 // 404 handler
 app.use((req, res) => {

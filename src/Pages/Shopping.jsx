@@ -72,26 +72,23 @@ export const Shopping = () => {
 
   // Handle SearchQuery selection
   const handleSearchSelect = (result) => {
+    // Handle search result selection with proper navigation
     if (result.url) {
-      navigate(result.url);
+      // Use the URL from the search result
+      window.location.href = result.url;
+    } else if (result.path) {
+      window.location.href = result.path;
+    } else if (result.type === 'product') {
+      window.location.href = `/product/${result.id}`;
+    } else if (result.type === 'category') {
+      window.location.href = `/shopping/${result.subcategory || result.category}`;
+    } else if (result.type === 'blog') {
+      window.location.href = '/blog';
+    } else if (result.type === 'page') {
+      window.location.href = result.url || '/';
     } else {
-      // Fallback navigation based on type
-      switch (result.type) {
-        case 'product':
-          navigate(`/product/${result.id}`);
-          break;
-        case 'category':
-          navigate(`/shopping/${result.subcategory || result.category}`);
-          break;
-        case 'blog':
-          navigate('/blog');
-          break;
-        case 'page':
-          navigate(result.url || '/');
-          break;
-        default:
-          navigate('/');
-      }
+      // Fallback to home page
+      window.location.href = '/';
     }
   };
 

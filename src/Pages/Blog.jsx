@@ -11,6 +11,7 @@ import SearchQuery from '@/Components/SearchQuery';
 import BlogPostCard from '@/Components/BlogPostCard';
 import BlogPostDetails from '@/Components/BlogPostDetails';
 import { BlogPostCardSkeleton } from '@/Components/LoadingStates';
+import { getGlobalSearchData } from '@/lib/globalSearchData';
 
 const Blog = () => {
   const [selectedPost, setSelectedPost] = useState(null);
@@ -277,11 +278,31 @@ const Blog = () => {
   };
 
   const handleSearchSelect = (result) => {
-    if (result.type === 'blog') {
+    // Handle search result selection with proper navigation
+    if (result.url) {
+      // Use the URL from the search result
+      window.location.href = result.url;
+    } else if (result.path) {
+      window.location.href = result.path;
+    } else if (result.type === 'blog') {
+      // For blog posts, try to find the specific post
       const post = blogPosts.find(p => p.id === result.id);
       if (post) {
         setSelectedPost(post);
+      } else {
+        window.location.href = '/blog';
       }
+    } else if (result.type === 'product') {
+      window.location.href = `/product/${result.id}`;
+    } else if (result.type === 'brand') {
+      window.location.href = `/brand/${result.id}`;
+    } else if (result.type === 'category') {
+      window.location.href = `/shopping/${result.subcategory || result.category}`;
+    } else if (result.type === 'page') {
+      window.location.href = result.url || '/';
+    } else {
+      // Fallback to home page
+      window.location.href = '/';
     }
   };
 
@@ -356,12 +377,13 @@ const Blog = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <SearchQuery
-                searchData={blogPosts}
+                searchData={getGlobalSearchData()}
                 onSearchSelect={handleSearchSelect}
-                placeholder="Search blog posts..."
+                placeholder="Search products, brands, blog posts..."
+                showFilters={true}
                 className="max-w-2xl"
-                searchFields={['title', 'content', 'tags', 'category', 'author', 'excerpt']}
-                resultLimit={8}
+                searchFields={['title', 'description', 'content', 'tags', 'category', 'subcategory', 'author', 'brand']}
+                resultLimit={20}
               />
             </motion.div>
 

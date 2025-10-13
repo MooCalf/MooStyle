@@ -1,184 +1,176 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 const Cart = require('../models/Cart');
-const User = require('../models/User');
-const PointTransaction = require('../models/PointTransaction');
-const fs = require('fs').promises;
-const path = require('path');
-const { downloadRateLimit } = require('../middleware/rateLimiter');
-
+const { MongoClient, ObjectId } = require('mongodb');
 const router = express.Router();
 
-// Middleware to verify JWT token
-const authenticateToken = async (req, res, next) => {
+// MongoDB connection for ban checking
+let db = null;
+const initializeDB = async () => {
+  if (!db) {
+    const client = new MongoClient(process.env.MONGODB_URI);
+    await client.connect();
+    db = client.db();
+  }
+  return db;
+};
+
+// Middleware to check if user is banned
+const checkUserBanStatus = async (req, res, next) => {
   try {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
+    const { userId } = req.query || req.body;
     
-    if (!token) {
-      return res.status(401).json({
+    if (!userId) {
+      return next(); // Let the route handle missing userId
+    }
+
+    // Ensure db is connected
+    if (!db) {
+      await initializeDB();
+    }
+
+    // Look up user in database
+    let query = {};
+    if (userId.match(/^[0-9a-fA-F]{24}$/)) {
+      query = { _id: new ObjectId(userId) };
+    } else {
+      query = { id: userId };
+    }
+
+    const user = await db.collection('user').findOne(query);
+    
+    if (user && !user.isActive) {
+      // User is banned
+      return res.status(403).json({
         success: false,
-        message: 'No token provided'
+        message: 'Your account has been suspended. You cannot access cart features.',
+        banReason: user.banReason || 'No reason provided',
+        bannedAt: user.bannedAt
       });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.userId);
-    
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: 'User not found'
-      });
-    }
-
-    req.user = user;
     next();
   } catch (error) {
-    res.status(401).json({
-      success: false,
-      message: 'Invalid token'
-    });
+    console.error('Error checking ban status:', error);
+    next(); // Continue on error to avoid breaking the app
   }
 };
 
 // Get user's cart
-router.get('/', authenticateToken, async (req, res) => {
+router.get('/', checkUserBanStatus, async (req, res) => {
   try {
-    const cart = await Cart.getUserCart(req.user._id);
+    const { userId } = req.query;
+    
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: 'User ID is required'
+      });
+    }
+
+    // Convert userId to ObjectId if it's a string
+    const mongoose = require('mongoose');
+    const userObjectId = mongoose.Types.ObjectId.isValid(userId) ? userId : new mongoose.Types.ObjectId(userId);
+
+    let cart = await Cart.findOne({ user: userObjectId, isActive: true });
     
     if (!cart) {
-      return res.json({
-        success: true,
-        cart: {
-          items: [],
-          count: 0,
-          totalSize: 0
-        }
+      // Create new cart if none exists
+      cart = new Cart({
+        user: userObjectId,
+        items: [],
+        lastUpdated: new Date(),
+        isActive: true
       });
+      await cart.save();
     }
 
     res.json({
       success: true,
-      cart: {
-        items: cart.items,
-        count: cart.getCartCount(),
-        totalSize: cart.getCartTotalSize(),
-        lastUpdated: cart.lastUpdated
-      }
+      cart: cart
     });
-
   } catch (error) {
-    console.error('Get cart error:', error);
+    console.error('Error fetching cart:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to fetch cart',
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+      message: 'Failed to fetch cart'
     });
   }
 });
 
 // Add item to cart
-router.post('/add', authenticateToken, async (req, res) => {
+router.post('/add', checkUserBanStatus, async (req, res) => {
   try {
-    const { product, quantity = 1 } = req.body;
-
-    if (!product) {
+    const { userId, item } = req.body;
+    
+    if (!userId || !item) {
       return res.status(400).json({
         success: false,
-        message: 'Product data is required'
+        message: 'User ID and item are required'
       });
     }
 
-    if (!product.id) {
-      return res.status(400).json({
-        success: false,
-        message: 'Product ID is required'
-      });
-    }
+    // Convert userId to ObjectId if it's a string
+    const mongoose = require('mongoose');
+    const userObjectId = mongoose.Types.ObjectId.isValid(userId) ? userId : new mongoose.Types.ObjectId(userId);
 
-    if (!product.name) {
-      return res.status(400).json({
-        success: false,
-        message: 'Product name is required'
-      });
-    }
-
-    const cart = await Cart.getOrCreateUserCart(req.user._id);
-    await cart.addItem(product, quantity);
-
-    console.log(`Added ${product.name} to cart for user ${req.user.username}`);
-
-    res.json({
-      success: true,
-      message: `Added ${product.name} to cart`,
-      cart: {
-        items: cart.items,
-        count: cart.getCartCount(),
-        totalSize: cart.getCartTotalSize()
-      }
-    });
-
-  } catch (error) {
-    console.error('Add to cart error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to add item to cart',
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
-    });
-  }
-});
-
-// Update cart item quantity
-router.put('/update/:productId', authenticateToken, async (req, res) => {
-  try {
-    const { productId } = req.params;
-    const { quantity } = req.body;
-
-    if (!quantity || quantity < 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Valid quantity is required'
-      });
-    }
-
-    const cart = await Cart.getUserCart(req.user._id);
+    let cart = await Cart.findOne({ user: userObjectId, isActive: true });
     
     if (!cart) {
-      return res.status(404).json({
-        success: false,
-        message: 'Cart not found'
+      cart = new Cart({
+        user: userObjectId,
+        items: [],
+        lastUpdated: new Date(),
+        isActive: true
       });
     }
 
-    await cart.updateItemQuantity(productId, quantity);
+    // Check if item already exists in cart
+    const existingItemIndex = cart.items.findIndex(cartItem => 
+      cartItem.productId.toString() === item.productId
+    );
+
+    if (existingItemIndex >= 0) {
+      // Update quantity
+      cart.items[existingItemIndex].quantity += item.quantity || 1;
+    } else {
+      // Add new item
+      cart.items.push({
+        ...item,
+        quantity: item.quantity || 1,
+        addedAt: new Date()
+      });
+    }
+
+    cart.lastUpdated = new Date();
+    await cart.save();
 
     res.json({
       success: true,
-      message: 'Cart item updated',
-      cart: {
-        items: cart.items,
-        count: cart.getCartCount(),
-        totalSize: cart.getCartTotalSize()
-      }
+      message: 'Item added to cart',
+      cart: cart
     });
-
   } catch (error) {
-    console.error('Update cart item error:', error);
+    console.error('Error adding item to cart:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to update cart item',
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+      message: 'Failed to add item to cart'
     });
   }
 });
 
 // Remove item from cart
-router.delete('/remove/:productId', authenticateToken, async (req, res) => {
+router.delete('/remove', checkUserBanStatus, async (req, res) => {
   try {
-    const { productId } = req.params;
+    const { userId, productId } = req.body;
+    
+    if (!userId || !productId) {
+      return res.status(400).json({
+        success: false,
+        message: 'User ID and product ID are required'
+      });
+    }
 
-    const cart = await Cart.getUserCart(req.user._id);
+    const cart = await Cart.findOne({ user: userId, isActive: true });
     
     if (!cart) {
       return res.status(404).json({
@@ -187,32 +179,37 @@ router.delete('/remove/:productId', authenticateToken, async (req, res) => {
       });
     }
 
-    await cart.removeItem(productId);
+    cart.items = cart.items.filter(item => item.productId !== productId);
+    cart.lastUpdated = new Date();
+    await cart.save();
 
     res.json({
       success: true,
       message: 'Item removed from cart',
-      cart: {
-        items: cart.items,
-        count: cart.getCartCount(),
-        totalSize: cart.getCartTotalSize()
-      }
+      cart: cart
     });
-
   } catch (error) {
-    console.error('Remove from cart error:', error);
+    console.error('Error removing item from cart:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to remove item from cart',
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+      message: 'Failed to remove item from cart'
     });
   }
 });
 
-// Clear entire cart
-router.delete('/clear', authenticateToken, async (req, res) => {
+// Update item quantity
+router.put('/update', checkUserBanStatus, async (req, res) => {
   try {
-    const cart = await Cart.getUserCart(req.user._id);
+    const { userId, productId, quantity } = req.body;
+    
+    if (!userId || !productId || quantity === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: 'User ID, product ID, and quantity are required'
+      });
+    }
+
+    const cart = await Cart.findOne({ user: userId, isActive: true });
     
     if (!cart) {
       return res.status(404).json({
@@ -221,376 +218,183 @@ router.delete('/clear', authenticateToken, async (req, res) => {
       });
     }
 
-    await cart.clearCart();
+    const itemIndex = cart.items.findIndex(item => item.productId === productId);
+    
+    if (itemIndex === -1) {
+      return res.status(404).json({
+        success: false,
+        message: 'Item not found in cart'
+      });
+    }
+
+    if (quantity <= 0) {
+      // Remove item if quantity is 0 or negative
+      cart.items.splice(itemIndex, 1);
+    } else {
+      // Update quantity
+      cart.items[itemIndex].quantity = quantity;
+    }
+
+    cart.lastUpdated = new Date();
+    await cart.save();
+
+    res.json({
+      success: true,
+      message: 'Cart updated',
+      cart: cart
+    });
+  } catch (error) {
+    console.error('Error updating cart:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to update cart'
+    });
+  }
+});
+
+// Clear cart
+router.delete('/clear', checkUserBanStatus, async (req, res) => {
+  try {
+    const { userId } = req.body;
+    
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: 'User ID is required'
+      });
+    }
+
+    const cart = await Cart.findOne({ user: userId, isActive: true });
+    
+    if (!cart) {
+      return res.status(404).json({
+        success: false,
+        message: 'Cart not found'
+      });
+    }
+
+    cart.items = [];
+    cart.lastUpdated = new Date();
+    await cart.save();
 
     res.json({
       success: true,
       message: 'Cart cleared',
-      cart: {
-        items: [],
-        count: 0,
-        totalSize: 0
-      }
+      cart: cart
     });
-
   } catch (error) {
-    console.error('Clear cart error:', error);
+    console.error('Error clearing cart:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to clear cart',
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+      message: 'Failed to clear cart'
     });
   }
 });
 
-// Get cart count
-router.get('/count', authenticateToken, async (req, res) => {
+// Sync cart with database
+router.post('/sync', checkUserBanStatus, async (req, res) => {
   try {
-    const cart = await Cart.getUserCart(req.user._id);
-    const count = cart ? cart.getCartCount() : 0;
-
-    res.json({
-      success: true,
-      count: count
-    });
-
-  } catch (error) {
-    console.error('Get cart count error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to get cart count',
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
-    });
-  }
-});
-
-// Download cart items and award points with atomic transaction
-router.post('/download', downloadRateLimit, authenticateToken, async (req, res) => {
-  const session = await mongoose.startSession();
-  
-  try {
-    await session.withTransaction(async () => {
-      // Get user cart within transaction
-      const cart = await Cart.findOne({ user: req.user._id, isActive: true }).session(session);
-      
-      if (!cart || cart.items.length === 0) {
-        throw new Error('Cart is empty');
-      }
-
-      const modCount = cart.getCartCount();
-      
-      // Validate mod count
-      if (modCount <= 0) {
-        throw new Error('Invalid mod count');
-      }
-
-      // Check for recent downloads to prevent abuse (within last 5 minutes)
-      const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-      const recentDownloads = await User.findOne({
-        _id: req.user._id,
-        lastDownloaded: { $gte: fiveMinutesAgo }
-      }).session(session);
-
-      if (recentDownloads) {
-        throw new Error('Please wait before downloading again to prevent abuse');
-      }
-
-      // Award points for downloads (2 points per mod) - atomic operation
-      const pointsToAdd = modCount * 2;
-      const pointsBefore = req.user.points;
-      const membershipLevelBefore = req.user.membershipLevel;
-      
-      const updatedUser = await User.findByIdAndUpdate(
-        req.user._id,
-        { 
-          $inc: { points: pointsToAdd },
-          $set: { lastDownloaded: new Date() }
-        },
-        { 
-          new: true,
-          session: session
-        }
-      );
-
-      if (!updatedUser) {
-        throw new Error('User not found');
-      }
-
-      // Clear cart after successful point award
-      await cart.clearCart();
-
-      // Log the transaction for audit trail
-      await PointTransaction.logTransaction({
-        userId: req.user._id,
-        username: req.user.username,
-        transactionType: 'download',
-        pointsAwarded: pointsToAdd,
-        pointsBefore: pointsBefore,
-        pointsAfter: updatedUser.points,
-        membershipLevelBefore: membershipLevelBefore,
-        membershipLevelAfter: updatedUser.membershipLevel,
-        modCount: modCount,
-        downloadData: {
-          modCount: modCount,
-          totalSize: cart.getCartTotalSize(),
-          items: cart.items.map(item => ({
-            name: item.productData.name,
-            author: item.productData.author,
-            downloadUrl: item.productData.downloadUrl
-          }))
-        },
-        ipAddress: req.ip || req.connection.remoteAddress,
-        userAgent: req.get('User-Agent') || '',
-        metadata: {
-          sessionId: req.sessionID,
-          timestamp: new Date().toISOString()
-        }
-      });
-
-      console.log(`✅ ATOMIC TRANSACTION: Awarded ${pointsToAdd} points to user ${updatedUser.username} for downloading ${modCount} mods. New total: ${updatedUser.points}`);
-
-      // Return success response
-      res.json({
-        success: true,
-        message: `Download initiated for ${modCount} mods`,
-        pointsAwarded: pointsToAdd,
-        totalPoints: updatedUser.points,
-        membershipLevel: updatedUser.membershipLevel,
-        downloadData: {
-          modCount: modCount,
-          totalSize: cart.getCartTotalSize(),
-          items: cart.items.map(item => ({
-            name: item.productData.name,
-            author: item.productData.author,
-            downloadUrl: item.productData.downloadUrl
-          }))
-        }
-      });
-    });
-
-  } catch (error) {
-    console.error('Download cart error:', error);
+    const { userId, items } = req.body;
     
-    // Handle specific error cases
-    if (error.message === 'Cart is empty') {
+    if (!userId) {
       return res.status(400).json({
         success: false,
-        message: 'Cart is empty'
+        message: 'User ID is required'
       });
     }
+
+    // Convert userId to ObjectId if it's a string
+    const mongoose = require('mongoose');
+    const userObjectId = mongoose.Types.ObjectId.isValid(userId) ? userId : new mongoose.Types.ObjectId(userId);
+
+    let cart = await Cart.findOne({ user: userObjectId, isActive: true });
     
-    if (error.message === 'Invalid mod count') {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid mod count'
+    if (!cart) {
+      cart = new Cart({ 
+        user: userObjectId, 
+        items: items || [],
+        isActive: true,
+        lastUpdated: new Date()
       });
+    } else {
+      cart.items = items || [];
+      cart.lastUpdated = new Date();
     }
     
-    if (error.message.includes('Please wait')) {
-      return res.status(429).json({
-        success: false,
-        message: error.message
-      });
-    }
-    
-    res.status(500).json({
-      success: false,
-      message: 'Failed to process download',
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
-    });
-  } finally {
-    await session.endSession();
+    await cart.save();
+    res.json({ success: true, cart });
+  } catch (error) {
+    console.error('Error syncing cart:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-// Path validation function to prevent directory traversal
-const validateFolderPath = (folderPath) => {
-  // Remove any path traversal attempts
-  const cleanPath = folderPath.replace(/\.\./g, '').replace(/\/\//g, '/');
-  
-  // Only allow alphanumeric, hyphens, underscores, and forward slashes
-  if (!/^[a-zA-Z0-9\/\-_]+$/.test(cleanPath)) {
-    throw new Error('Invalid folder path');
-  }
-  
-  // Ensure path starts with Products/
-  if (!cleanPath.startsWith('Products/')) {
-    throw new Error('Path must start with Products/');
-  }
-  
-  return cleanPath;
-};
-
-// Get product folder contents for bulk download by folder path
-router.get('/product-files-by-path/:folderPath', authenticateToken, async (req, res) => {
+// Download cart items and award points
+router.post('/download', checkUserBanStatus, async (req, res) => {
   try {
-    const folderPath = validateFolderPath(req.params.folderPath);
-    const productPath = path.join(process.cwd(), 'public', 'projects', folderPath);
+    // Ensure db is connected
+    if (!db) {
+      await initializeDB();
+    }
+
+    // Get user from Better Auth session via cookies
+    const { auth } = require('../auth');
+    const session = await auth.api.getSession({
+      headers: req.headers
+    });
+
+    if (!session || !session.user) {
+      return res.status(401).json({
+        success: false,
+        message: 'Authentication required. Please log in to download mods.'
+      });
+    }
+
+    const user = session.user;
+    console.log('Download request from user:', user.id, user.email);
+
+    // Award points for download (1 point per item)
+    const pointsToAward = 1; // Simple: 1 point per download
+    const newPoints = (user.points || 0) + pointsToAward;
     
-    const files = [];
-    
-    try {
-      // Read the main product folder
-      const items = await fs.readdir(productPath, { withFileTypes: true });
-      
-      for (const item of items) {
-        const itemPath = path.join(productPath, item.name);
-        
-        if (item.isFile()) {
-          // It's a file
-          const stats = await fs.stat(itemPath);
-          files.push({
-            name: item.name,
-            type: 'file',
-            size: stats.size,
-            path: `/projects/${folderPath}/${item.name}`,
-            relativePath: item.name
-          });
-        } else if (item.isDirectory()) {
-          // It's a directory - read its contents
-          try {
-            const subItems = await fs.readdir(itemPath, { withFileTypes: true });
-            for (const subItem of subItems) {
-              if (subItem.isFile()) {
-                const subItemPath = path.join(itemPath, subItem.name);
-                const stats = await fs.stat(subItemPath);
-                files.push({
-                  name: subItem.name,
-                  type: 'file',
-                  size: stats.size,
-                  path: `/projects/${folderPath}/${item.name}/${subItem.name}`,
-                  relativePath: `${item.name}/${subItem.name}`,
-                  folder: item.name
-                });
-              }
-            }
-          } catch (subError) {
-            console.warn(`Could not read subdirectory ${item.name}:`, subError);
-          }
+    // Determine membership level based on points
+    let membershipLevel = 'Bronze';
+    if (newPoints >= 1000) membershipLevel = 'Diamond';
+    else if (newPoints >= 500) membershipLevel = 'Gold';
+    else if (newPoints >= 100) membershipLevel = 'Silver';
+
+    // Update user points in database
+    const updateResult = await db.collection('user').updateOne(
+      { id: user.id },
+      { 
+        $set: { 
+          points: newPoints,
+          membershipLevel: membershipLevel,
+          lastDownloadAt: new Date()
         }
       }
-    } catch (error) {
-      console.warn(`Could not read product folder ${folderPath}:`, error);
-    }
-    
-    res.json({
-      success: true,
-      folderPath,
-      files,
-      count: files.length
-    });
-    
-  } catch (error) {
-    console.error('Get product files by path error:', error);
-    
-    // Handle validation errors differently
-    if (error.message.includes('Invalid folder path') || error.message.includes('Path must start with Products/')) {
-      return res.status(400).json({
+    );
+
+    if (updateResult.matchedCount === 0) {
+      return res.status(404).json({
         success: false,
-        message: 'Invalid folder path',
-        error: error.message
+        message: 'User not found in database'
       });
     }
-    
-    res.status(500).json({
-      success: false,
-      message: 'Failed to get product files',
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
-    });
-  }
-});
-
-// Get product folder contents for bulk download
-router.get('/product-files/:brand/:product', authenticateToken, async (req, res) => {
-  try {
-    const { brand, product } = req.params;
-    const productPath = path.join(process.cwd(), 'public', 'projects', 'Products', brand, product);
-    
-    const files = [];
-    
-    try {
-      // Read the main product folder
-      const items = await fs.readdir(productPath, { withFileTypes: true });
-      
-      for (const item of items) {
-        const itemPath = path.join(productPath, item.name);
-        
-        if (item.isFile()) {
-          // It's a file
-          const stats = await fs.stat(itemPath);
-          files.push({
-            name: item.name,
-            type: 'file',
-            size: stats.size,
-            path: `/projects/Products/${brand}/${product}/${item.name}`,
-            relativePath: item.name
-          });
-        } else if (item.isDirectory()) {
-          // It's a directory - read its contents
-          try {
-            const subItems = await fs.readdir(itemPath, { withFileTypes: true });
-            for (const subItem of subItems) {
-              if (subItem.isFile()) {
-                const subItemPath = path.join(itemPath, subItem.name);
-                const stats = await fs.stat(subItemPath);
-                files.push({
-                  name: subItem.name,
-                  type: 'file',
-                  size: stats.size,
-                  path: `/projects/Products/${brand}/${product}/${item.name}/${subItem.name}`,
-                  relativePath: `${item.name}/${subItem.name}`,
-                  folder: item.name
-                });
-              }
-            }
-          } catch (subError) {
-            console.warn(`Could not read subdirectory ${item.name}:`, subError);
-          }
-        }
-      }
-    } catch (error) {
-      console.warn(`Could not read product folder ${brand}/${product}:`, error);
-    }
-    
-    res.json({
-      success: true,
-      brand,
-      product,
-      files,
-      count: files.length
-    });
-    
-  } catch (error) {
-    console.error('Get product files error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to get product files',
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
-    });
-  }
-});
-
-// Check if product is in cart
-router.get('/check/:productId', authenticateToken, async (req, res) => {
-  try {
-    const { productId } = req.params;
-    const cart = await Cart.getUserCart(req.user._id);
-    
-    const isInCart = cart ? cart.isInCart(productId) : false;
-    const cartItem = cart ? cart.getCartItem(productId) : null;
 
     res.json({
       success: true,
-      isInCart: isInCart,
-      cartItem: cartItem
+      message: 'Download authorized',
+      pointsAwarded: pointsToAward,
+      totalPoints: newPoints,
+      membershipLevel: membershipLevel
     });
 
   } catch (error) {
-    console.error('Check cart item error:', error);
+    console.error('Error processing download:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to check cart item',
-      error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
+      message: 'Failed to process download'
     });
   }
 });

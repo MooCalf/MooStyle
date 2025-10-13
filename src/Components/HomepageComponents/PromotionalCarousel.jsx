@@ -11,6 +11,11 @@ export const PromotionalCarousel = () => {
   const carouselContent = [
     {
       type: 'image',
+      src: "/projects/Brand Medias/Promotional Content/Betatesting.png",
+      alt: "MooStyle Beta Testing - Website Under Development"
+    },
+    {
+      type: 'image',
       src: "/projects/Brand Medias/Promotional Content/Promo Landscape.png",
       alt: "Promo Landscape"
     },

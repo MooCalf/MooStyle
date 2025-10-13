@@ -1,43 +1,42 @@
 const rateLimit = require('express-rate-limit');
 
-// Rate limiter for download endpoints
+// Download rate limiter - more restrictive for downloads
 const downloadRateLimit = rateLimit({
   windowMs: 5 * 60 * 1000, // 5 minutes
-  max: 10, // Increased to 10 downloads per 5 minutes for testing
+  max: 3, // Limit each IP to 3 download requests per windowMs
   message: {
     success: false,
-    message: 'Too many download attempts. Please wait 5 minutes before trying again.'
+    message: 'Too many download requests, please try again later.',
+    retryAfter: '5 minutes'
   },
   standardHeaders: true,
   legacyHeaders: false,
-  skip: (req) => {
-    // Skip rate limiting for admin users
-    return req.user && req.user.role === 'admin';
-  }
 });
 
-// Rate limiter for general API endpoints
+// General API rate limiter
 const apiRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Maximum 100 requests per 15 minutes per IP
+  max: 100, // Limit each IP to 100 requests per windowMs
   message: {
     success: false,
-    message: 'Too many requests. Please wait before trying again.'
+    message: 'Too many requests, please try again later.',
+    retryAfter: '15 minutes'
   },
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
 });
 
-// Rate limiter for authentication endpoints
+// Auth rate limiter - more restrictive for authentication
 const authRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // Maximum 5 login attempts per 15 minutes per IP
+  max: 5, // Limit each IP to 5 auth requests per windowMs
   message: {
     success: false,
-    message: 'Too many authentication attempts. Please wait 15 minutes before trying again.'
+    message: 'Too many authentication attempts, please try again later.',
+    retryAfter: '15 minutes'
   },
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
 });
 
 module.exports = {
@@ -45,3 +44,51 @@ module.exports = {
   apiRateLimit,
   authRateLimit
 };
+
+
+// Download rate limiter - more restrictive for downloads
+const downloadRateLimit = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 3, // Limit each IP to 3 download requests per windowMs
+  message: {
+    success: false,
+    message: 'Too many download requests, please try again later.',
+    retryAfter: '5 minutes'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// General API rate limiter
+const apiRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: {
+    success: false,
+    message: 'Too many requests, please try again later.',
+    retryAfter: '15 minutes'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Auth rate limiter - more restrictive for authentication
+const authRateLimit = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 5, // Limit each IP to 5 auth requests per windowMs
+  message: {
+    success: false,
+    message: 'Too many authentication attempts, please try again later.',
+    retryAfter: '15 minutes'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+module.exports = {
+  downloadRateLimit,
+  apiRateLimit,
+  authRateLimit
+};
+
+

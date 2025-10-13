@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle, AlertTriangle, XCircle, RefreshCw, Activity, Database, Lock, ShoppingCart, Users, Mail, Loader2 } from 'lucide-react';
+import { CheckCircle, AlertTriangle, XCircle, RefreshCw, Activity, Database, Lock, ShoppingCart, Users, Mail, Loader2, Server } from 'lucide-react';
 import { apiConfig } from '@/lib/apiConfig.js';
 
 const ApiHealthMonitor = () => {
@@ -12,11 +12,11 @@ const ApiHealthMonitor = () => {
   const [isInitialized, setIsInitialized] = useState(false);
 
   const endpoints = [
-    { name: 'Database', path: '/api/health/database', icon: Database },
-    { name: 'Authentication', path: '/api/auth/health', icon: Lock },
-    { name: 'Email Service', path: '/api/email/health', icon: Mail },
+    { name: 'Server Health', path: '/api/health', icon: Server },
+    { name: 'Database Health', path: '/api/health/database', icon: Database },
     { name: 'Cart Service', path: '/api/cart/health', icon: ShoppingCart },
     { name: 'User Service', path: '/api/users/health', icon: Users },
+    { name: 'Better Auth', path: '/api/better-auth/health', icon: Lock },
   ];
 
   const addLog = (level, message, serviceName = 'System') => {
@@ -32,7 +32,12 @@ const ApiHealthMonitor = () => {
   const checkSingleEndpoint = async (endpoint, index) => {
     const startTime = performance.now();
     try {
-      const response = await fetch(`${apiConfig.baseURL}${endpoint.path}`);
+      const response = await fetch(`${apiConfig.baseURL}${endpoint.path}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       const endTime = performance.now();
       const responseTime = Math.round(endTime - startTime);
       const data = await response.json();

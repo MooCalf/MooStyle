@@ -4,6 +4,7 @@ import { NavigationPrimary } from '@/Components/NavigationPrimary';
 import { NavigationSecondary } from '@/Components/NavigationSecondary';
 import { Metadata } from '@/Components/Metadata.jsx';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { apiConfig } from '@/lib/apiConfig';
 import JSZip from 'jszip';
 import { 
@@ -24,6 +25,7 @@ import {
 export const Cart = () => {
   const navigate = useNavigate();
   const { cartItems, removeFromCart, clearCart, getCartCount, downloadCart, isLoading } = useCart();
+  const { user, isAuthenticated } = useAuth();
   const [downloading, setDownloading] = useState(false);
   const [error, setError] = useState(null);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
@@ -102,25 +104,24 @@ export const Cart = () => {
     setError(null);
 
     try {
-      // First, call the backend API to award points and get download data
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.log('❌ No authentication token found');
-        setError('Please log in to download mods');
+      // Check if user is authenticated
+      if (!isAuthenticated || !user) {
+        console.log('❌ User not authenticated');
+        setError('Please log in to download mods. You need to be logged into an existing account in our database.');
         setDownloading(false);
         return;
       }
 
-      console.log('✅ Authentication token found, proceeding with download');
+      console.log('✅ User authenticated, proceeding with download');
 
       // Call the points API to award points and get download authorization
       console.log('🚀 Calling points API:', `${apiConfig.buildUrl(apiConfig.endpoints.cart.download)}`);
       const pointsResponse = await fetch(`${apiConfig.buildUrl(apiConfig.endpoints.cart.download)}`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
-        }
+        },
+        credentials: 'include' // Include cookies for Better Auth session
       });
 
       console.log('📡 Points API response status:', pointsResponse.status);
@@ -136,16 +137,9 @@ export const Cart = () => {
         throw new Error(pointsData.message || 'Download failed');
       }
 
-      // Update user data with new points
-      const userData = JSON.parse(localStorage.getItem('user'));
-      if (userData) {
-        userData.points = pointsData.totalPoints;
-        userData.membershipLevel = pointsData.membershipLevel;
-        localStorage.setItem('user', JSON.stringify(userData));
-        
-        // Dispatch custom event to notify other components
-        window.dispatchEvent(new CustomEvent('userDataUpdated'));
-      }
+      // Update user data with new points (Better Auth handles this automatically)
+      // Dispatch custom event to notify other components
+      window.dispatchEvent(new CustomEvent('userDataUpdated'));
 
       // Show success message with points earned
       setError(null);
@@ -178,12 +172,9 @@ export const Cart = () => {
         
         // Fetch all actual files from the Products folder structure using exact folder path
         try {
-          const token = localStorage.getItem('token');
-          if (token && productData.folderPath) {
+          if (productData.folderPath) {
             const response = await fetch(`/api/cart/product-files-by-path/${encodeURIComponent(productData.folderPath)}`, {
-              headers: {
-                'Authorization': `Bearer ${token}`
-              }
+              credentials: 'include' // Include cookies for Better Auth session
             });
             
             if (response.ok) {
@@ -229,7 +220,7 @@ export const Cart = () => {
               actualFilesFound = await fetchKnownFiles(productFolder, productData.folderPath, productData);
             }
           } else {
-            console.warn('No authentication token or folder path found');
+            console.warn('No folder path found');
             // Fallback to manual file fetching
             actualFilesFound = await fetchKnownFiles(productFolder, productData.folderPath, productData);
           }

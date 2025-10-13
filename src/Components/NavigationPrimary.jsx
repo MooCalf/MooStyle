@@ -1,238 +1,348 @@
-import { useState, useEffect } from "react";
-import { HelpCircle, User, Heart, ShoppingBag, LogOut } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
-import { useCart } from "@/contexts/CartContext";
-import { motion, AnimatePresence } from "framer-motion";
-import SearchQuery from "./SearchQuery";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { signOut } from '@/lib/betterAuthClient';
+import { User, LogOut, Settings, ShoppingCart, Menu, X, Heart, HelpCircle, Info, MessageCircle } from 'lucide-react';
+import SearchQuery from '@/Components/SearchQuery';
 import { getGlobalSearchData } from '@/lib/globalSearchData';
 
 export const NavigationPrimary = () => {
-  const { getCartCount, clearCartOnLogout } = useCart();
+  const { user, isAuthenticated, isAdmin } = useAuth();
   const navigate = useNavigate();
-  const [showHelpDropdown, setShowHelpDropdown] = useState(false);
-  const [showUserDropdown, setShowUserDropdown] = useState(false);
-  const [user, setUser] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
-  // Search data for the SearchQuery component
-  const searchData = getGlobalSearchData();
-
-  // Check if user is logged in
-  useEffect(() => {
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      try {
-        setUser(JSON.parse(userData));
-      } catch {
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-      }
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    clearCartOnLogout(); // Clear cart when logging out
-    setUser(null);
-    navigate('/');
-  };
-
-  // Handle search selection
-  const handleSearchSelect = (result) => {
-    if (result.url) {
-      navigate(result.url);
-    } else {
-      // Fallback navigation based on type
-      switch (result.type) {
-        case 'product':
-          navigate('/shopping');
-          break;
-        case 'blog':
-          navigate('/blog');
-          break;
-        case 'page':
-          navigate(result.url || '/');
-          break;
-        default:
-          navigate('/');
-      }
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      navigate('/');
+      setIsUserMenuOpen(false);
+    } catch (error) {
+      console.error('Sign out error:', error);
     }
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleUserMenu = () => {
+    setIsUserMenuOpen(!isUserMenuOpen);
+  };
 
   return (
-    <div className="bg-white border-b border-gray-200 relative">
+    <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          
-          {/* Left Section - Help and Search */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
-            {/* Help Dropdown */}
-            <div className="relative">
-                <button
-                  onClick={() => setShowHelpDropdown(!showHelpDropdown)}
-                  className="nav-primary-icon"
-                  aria-label="Help"
-                >
-                <HelpCircle size={18} className="sm:w-5 sm:h-5" />
-              </button>
-              <AnimatePresence>
-                {showHelpDropdown && (
-                  <motion.div 
-                    className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50"
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
-                  >
-                    <div className="py-1">
-                      <Link
-                        to="/common-questions"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200"
-                        onClick={() => setShowHelpDropdown(false)}
-                      >
-                        Common Questions
-                      </Link>
-                      <Link
-                        to="/about-me"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200"
-                        onClick={() => setShowHelpDropdown(false)}
-                      >
-                        About Me
-                      </Link>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* Search Component */}
-            <SearchQuery
-              searchData={searchData}
-              onSearchSelect={handleSearchSelect}
-              placeholder="Search products, blog posts, pages..."
-              showFilters={true}
-              className="nav-search"
-              searchFields={['title', 'content', 'tags', 'category', 'author']}
-              resultLimit={8}
-              iconOnly={true}
-            />
-          </div>
-
-          {/* Middle Section - Logo and Brand */}
-          <div className="flex items-center">
-            <Link to="/" className="brand-logo-link flex items-center space-x-2 sm:space-x-3 focus:outline-none focus:ring-0 hover:opacity-80 transition-opacity duration-200">
-              <img
-                src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png"
-                alt="MOOSTYLE Logo"
-                className="h-6 w-6 sm:h-8 sm:w-8 object-contain"
-              />
-              <span className="text-lg sm:text-xl lg:text-2xl font-bold text-teal-600">MOOSTYLE</span>
+        <div className="flex justify-between items-center h-16">
+          {/* Left side - 3 icons */}
+          <div className="flex items-center space-x-4">
+            {/* Question Mark Icon - Common Questions */}
+            <Link
+              to="/common-questions"
+              className="text-gray-700 hover:text-gray-900 transition-colors"
+              title="Common Questions"
+            >
+              <HelpCircle className="h-5 w-5" />
             </Link>
+
+            {/* Support Icon */}
+            <Link
+              to="/support"
+              className="text-gray-700 hover:text-gray-900 transition-colors"
+              title="Support"
+            >
+              <MessageCircle className="h-5 w-5" />
+            </Link>
+
+            {/* About Me Icon */}
+            <Link
+              to="/about"
+              className="text-gray-700 hover:text-gray-900 transition-colors"
+              title="About Me"
+            >
+              <Info className="h-5 w-5" />
+            </Link>
+
+                  {/* Search Icon */}
+                  <SearchQuery
+                    iconOnly={true}
+                    placeholder="Search products, brands, blog posts..."
+                    searchData={getGlobalSearchData()}
+                    onSearchSelect={(result) => {
+                      // Handle search result selection with proper navigation
+                      if (result.url) {
+                        // Use the URL from the search result
+                        window.location.href = result.url;
+                      } else if (result.path) {
+                        window.location.href = result.path;
+                      } else if (result.type === 'blog') {
+                        window.location.href = '/blog';
+                      } else if (result.type === 'product') {
+                        window.location.href = `/product/${result.id}`;
+                      } else if (result.type === 'brand') {
+                        window.location.href = `/brand/${result.id}`;
+                      } else if (result.type === 'category') {
+                        window.location.href = `/shopping/${result.subcategory || result.category}`;
+                      } else if (result.type === 'page') {
+                        window.location.href = result.url || '/';
+                      } else {
+                        // Fallback to home page
+                        window.location.href = '/';
+                      }
+                    }}
+                    showFilters={true}
+                    searchFields={['title', 'description', 'content', 'tags', 'category', 'subcategory', 'author', 'brand']}
+                    resultLimit={20}
+                  />
           </div>
 
-          {/* Right Section - User, Heart, Shopping Bag */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
-            {/* User Dropdown */}
-            <div className="relative">
-                <button
-                  onClick={() => setShowUserDropdown(!showUserDropdown)}
-                  className="nav-primary-icon"
-                  aria-label="User Account"
-                >
-                <User size={18} className="sm:w-5 sm:h-5" />
-              </button>
-              <AnimatePresence>
-                {showUserDropdown && (
-                  <motion.div 
-                    className="absolute top-full right-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50"
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
-                  >
-                    <div className="py-1">
-                      {user ? (
-                        <>
-                          <div className="px-4 py-2 text-sm text-gray-700 border-b border-gray-200">
-                            <p className="font-medium">{user.username}</p>
-                            <p className="text-xs text-gray-500">{user.email}</p>
-                          </div>
-                          <Link
-                            to="/my-account"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200"
-                            onClick={() => setShowUserDropdown(false)}
-                          >
-                            My Account
-                          </Link>
-                          {user.role === 'admin' && (
-                            <Link
-                              to="/admin/dashboard"
-                              className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200"
-                              onClick={() => setShowUserDropdown(false)}
-                            >
-                              Admin Dashboard
-                            </Link>
-                          )}
-                          <button
-                            onClick={handleLogout}
-                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-700 transition-colors duration-200 flex items-center gap-2"
-                          >
-                            <LogOut size={16} />
-                            Logout
-                          </button>
-                        </>
-                      ) : (
-                        <>
-                          <Link
-                            to="/login"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200"
-                            onClick={() => setShowUserDropdown(false)}
-                          >
-                            Sign In
-                          </Link>
-                          <Link
-                            to="/register"
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-700 transition-colors duration-200"
-                            onClick={() => setShowUserDropdown(false)}
-                          >
-                            Sign Up
-                          </Link>
-                        </>
-                      )}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+          {/* Center - Logo */}
+                <div className="flex items-center space-x-2">
+                  <Link to="/" className="flex items-center space-x-2">
+                    <img
+                      src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png"
+                      alt="MooStyle Logo"
+                      className="h-8 w-8"
+                    />
+                    <span className="text-xl font-bold text-gray-900">MOOSTYLE</span>
+                  </Link>
+                </div>
 
-            {/* Patreon Support Button */}
-              <a
-                href="https://www.patreon.com/MOOSTYLES"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="nav-primary-icon hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:text-white transition-all duration-200"
-                aria-label="Support on Patreon"
-              >
-              <Heart size={18} className="sm:w-5 sm:h-5" />
+          {/* Right side - User menu, Heart, Cart */}
+          <div className="flex items-center space-x-4">
+            {/* Heart Icon - Patreon Link */}
+            <a
+              href="https://www.patreon.com/MOOSTYLES"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-700 hover:text-white hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:from-orange-600 hover:to-red-600 transition-all duration-200 rounded-lg p-2"
+              title="Support us on Patreon"
+            >
+              <Heart className="h-5 w-5" />
             </a>
 
-                {/* Shopping Bag Icon */}
+            {/* Cart Icon */}
+            <Link
+              to="/cart"
+              className="text-gray-700 hover:text-gray-900 transition-colors"
+              title="Shopping Cart"
+            >
+              <ShoppingCart className="h-5 w-5" />
+            </Link>
+
+            {/* User Menu */}
+            {isAuthenticated ? (
+              <div className="relative">
+                <button
+                  onClick={toggleUserMenu}
+                  className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 transition-colors"
+                >
+                  <User className="h-5 w-5" />
+                  <span>{user?.username || user?.name || 'User'}</span>
+                </button>
+                
+                {isUserMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                    <Link
+                      to="/my-account"
+                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsUserMenuOpen(false)}
+                    >
+                      <Settings className="h-4 w-4 mr-2" />
+                      My Account
+                    </Link>
+                    
+                    {/* Admin Dashboard Link - Only show for admins */}
+                    {isAdmin && (
+                      <Link
+                        to="/admin/dashboard"
+                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <Settings className="h-4 w-4 mr-2" />
+                        Admin Dashboard
+                      </Link>
+                    )}
+                    
+                    <button
+                      onClick={handleSignOut}
+                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Link
+                  to="/login"
+                  className="text-gray-700 hover:text-gray-900 transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  className="text-gray-700 hover:text-gray-900 transition-colors px-4 py-2 rounded-md border border-gray-300 hover:border-gray-400"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Mobile menu button */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden p-2 text-gray-700 hover:text-gray-900"
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
+
+        {/* Mobile Navigation */}
+        {isMenuOpen && (
+          <div className="md:hidden border-t border-gray-200 py-4">
+            <div className="space-y-2">
+              {/* Mobile navigation links */}
+              <Link
+                to="/common-questions"
+                className="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Common Questions
+              </Link>
+              <Link
+                to="/support"
+                className="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Support
+              </Link>
+              <Link
+                to="/about"
+                className="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                About Me
+              </Link>
+              <div className="block px-3 py-2">
+                <SearchQuery
+                  iconOnly={false} // Full search bar in mobile menu
+                  placeholder="Search products, brands, blog posts..."
+                  searchData={getGlobalSearchData()}
+                  onSearchSelect={(result) => {
+                    // Handle search result selection with proper navigation
+                    if (result.url) {
+                      // Use the URL from the search result
+                      window.location.href = result.url;
+                    } else if (result.path) {
+                      window.location.href = result.path;
+                    } else if (result.type === 'blog') {
+                      window.location.href = '/blog';
+                    } else if (result.type === 'product') {
+                      window.location.href = `/product/${result.id}`;
+                    } else if (result.type === 'brand') {
+                      window.location.href = `/brand/${result.id}`;
+                    } else if (result.type === 'category') {
+                      window.location.href = `/shopping/${result.subcategory || result.category}`;
+                    } else if (result.type === 'page') {
+                      window.location.href = result.url || '/';
+                    } else {
+                      // Fallback to home page
+                      window.location.href = '/';
+                    }
+                    setIsMenuOpen(false);
+                  }}
+                  showFilters={true}
+                  searchFields={['title', 'description', 'content', 'tags', 'category', 'subcategory', 'author', 'brand']}
+                  resultLimit={20}
+                />
+              </div>
+            </div>
+
+            {/* Mobile User Menu */}
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              {isAuthenticated ? (
+                <div className="space-y-2">
+                  <div className="px-3 py-2 text-sm text-gray-500">
+                    Signed in as {user?.username || user?.name || 'User'}
+                  </div>
+                  <Link
+                    to="/my-account"
+                    className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Settings className="h-4 w-4 mr-2" />
+                    My Account
+                  </Link>
+                  
+                  {/* Admin Dashboard Link - Mobile - Only show for admins */}
+                  {isAdmin && (
+                    <Link
+                      to="/admin/dashboard"
+                      className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Settings className="h-4 w-4 mr-2" />
+                      Admin Dashboard
+                    </Link>
+                  )}
+                  
                   <Link
                     to="/cart"
-                    className="nav-primary-icon relative"
-                    aria-label="Shopping Cart"
+                    className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                    onClick={() => setIsMenuOpen(false)}
                   >
-                  <ShoppingBag size={18} className="sm:w-5 sm:h-5" />
-                  {getCartCount() > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-teal-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                      {getCartCount()}
-                    </span>
-                  )}
-                </Link>
+                    <ShoppingCart className="h-4 w-4 mr-2" />
+                    Cart
+                  </Link>
+                  
+                  <a
+                    href="https://www.patreon.com/MOOSTYLES"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Heart className="h-4 w-4 mr-2" />
+                    Support on Patreon
+                  </a>
+                  
+                  <button
+                    onClick={() => {
+                      handleSignOut();
+                      setIsMenuOpen(false);
+                    }}
+                    className="flex items-center w-full px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <Link
+                    to="/login"
+                    className="block px-3 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="block px-3 py-2 text-gray-700 hover:text-gray-900 rounded-md border border-gray-300 hover:border-gray-400"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
-    </div>
+    </nav>
   );
 };
