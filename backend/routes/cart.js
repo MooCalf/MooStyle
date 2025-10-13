@@ -357,6 +357,9 @@ router.post('/download', checkUserBanStatus, async (req, res) => {
     const pointsToAward = 1; // Simple: 1 point per download
     const newPoints = (user.points || 0) + pointsToAward;
     
+    // Increment download count
+    const newDownloadCount = (user.totalDownloads || 0) + 1;
+    
     // Determine membership level based on points
     let membershipLevel = 'Bronze';
     if (newPoints >= 1000) membershipLevel = 'Diamond';
@@ -365,10 +368,11 @@ router.post('/download', checkUserBanStatus, async (req, res) => {
 
     // Update user points in database
     const updateResult = await db.collection('user').updateOne(
-      { id: user.id },
+      { email: user.email },
       { 
         $set: { 
           points: newPoints,
+          totalDownloads: newDownloadCount,
           membershipLevel: membershipLevel,
           lastDownloadAt: new Date()
         }

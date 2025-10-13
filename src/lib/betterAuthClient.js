@@ -1,11 +1,12 @@
 import { createAuthClient } from "better-auth/react";
-import { adminClient } from "better-auth/client/plugins";
+import { adminClient, emailOTPClient } from "better-auth/client/plugins";
 
-// Create Better Auth client with admin plugin
+// Create Better Auth client with admin and emailOTP plugins
 export const authClient = createAuthClient({
   baseURL: "http://localhost:5000",
   plugins: [
-    adminClient()
+    adminClient(),
+    emailOTPClient()
   ]
 });
 

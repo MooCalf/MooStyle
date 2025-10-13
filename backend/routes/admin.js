@@ -332,12 +332,21 @@ router.put('/users/:userId', verifyAdminSession, async (req, res) => {
     console.log('Found user:', user);
     
     if (!user) {
-      console.log('User not found with query:', query);
       return res.status(404).json({
         success: false,
         message: 'User not found'
       });
     }
+
+    // Admin protection: Prevent modifying other admins
+    if (user.role === 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot modify admin users. Admin accounts are protected.'
+      });
+    }
+    
+    // Get Better Auth user ID for updates
 
     // Update user directly in MongoDB (safer approach)
     const result = await db.collection('user').updateOne(
@@ -396,6 +405,23 @@ router.put('/users/:userId/role', verifyAdminSession, async (req, res) => {
     } else {
       // Otherwise, search by custom id field
       query = { id: userId };
+    }
+
+    // Get the target user first
+    const targetUser = await db.collection('user').findOne(query);
+    if (!targetUser) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Admin protection: Prevent modifying other admins
+    if (targetUser.role === 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot modify admin users. Admin accounts are protected.'
+      });
     }
 
     // Update role directly in MongoDB
@@ -460,6 +486,14 @@ router.put('/users/:userId/ban', verifyAdminSession, async (req, res) => {
       return res.status(404).json({
         success: false,
         message: 'User not found'
+      });
+    }
+
+    // Admin protection: Prevent banning/unbanning other admins
+    if (userBeforeUpdate.role === 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot ban/unban admin users. Admin accounts are protected.'
       });
     }
 
@@ -573,6 +607,23 @@ router.delete('/users/:userId', verifyAdminSession, async (req, res) => {
     } else {
       // Otherwise, search by custom id field
       query = { id: userId };
+    }
+
+    // Get user first to check admin protection
+    const userToDelete = await db.collection('user').findOne(query);
+    if (!userToDelete) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    // Admin protection: Prevent deleting other admins
+    if (userToDelete.role === 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot delete admin users. Admin accounts are protected.'
+      });
     }
 
     // Delete user and related data directly from MongoDB

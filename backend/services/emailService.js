@@ -7,12 +7,18 @@ const createTransporter = () => {
     return null;
   }
 
-  return nodemailer.createTransporter({
+  return nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
-    }
+    },
+    // Add additional options for better delivery
+    tls: {
+      rejectUnauthorized: false
+    },
+    debug: true, // Enable debug logging
+    logger: true // Enable logging
   });
 };
 
@@ -38,7 +44,19 @@ const sendEmail = async ({ to, subject, text, html }) => {
       to,
       subject,
       text,
-      html
+      html,
+      // Add headers to prevent spam filtering
+      headers: {
+        'X-Mailer': 'MooStyle',
+        'X-Priority': '3',
+        'X-MSMail-Priority': 'Normal',
+        'Importance': 'Normal',
+        'X-Report-Abuse': 'Please report abuse to support@moostyle.com',
+        'List-Unsubscribe': '<mailto:unsubscribe@moostyle.com>',
+        'Return-Path': process.env.EMAIL_USER
+      },
+      // Add message ID for better tracking
+      messageId: `<${Date.now()}.${Math.random().toString(36).substr(2, 9)}@moostyle.com>`
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -62,7 +80,7 @@ const sendPasswordResetEmail = async (email, resetUrl, username = 'User') => {
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
         <h1 style="color: white; margin: 0; font-size: 28px;">MooStyle</h1>
-        <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Password Reset Request</p>
+        <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Password Reset Code</p>
       </div>
       
       <div style="padding: 30px; background: #f8f9fa;">
@@ -70,33 +88,23 @@ const sendPasswordResetEmail = async (email, resetUrl, username = 'User') => {
         
         <p style="color: #666; line-height: 1.6; font-size: 16px;">
           We received a request to reset your password for your MooStyle account. 
-          If you made this request, click the button below to reset your password:
+          If you made this request, use the code below to reset your password:
         </p>
         
         <div style="text-align: center; margin: 30px 0;">
-          <a href="${resetUrl}" 
-             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                    color: white; 
-                    padding: 15px 30px; 
-                    text-decoration: none; 
-                    border-radius: 8px; 
-                    font-weight: bold; 
-                    font-size: 16px;
-                    display: inline-block;">
-            Reset My Password
-          </a>
+          <div style="background: #fff; border: 2px solid #667eea; border-radius: 8px; padding: 20px; display: inline-block;">
+            <p style="color: #333; font-size: 14px; margin: 0 0 10px 0; font-weight: bold;">Your Reset Code:</p>
+            <p style="color: #667eea; font-size: 32px; font-weight: bold; margin: 0; letter-spacing: 4px; font-family: monospace;">${resetUrl}</p>
+          </div>
         </div>
         
         <p style="color: #666; line-height: 1.6; font-size: 14px;">
-          If the button doesn't work, you can copy and paste this link into your browser:
-        </p>
-        <p style="color: #667eea; word-break: break-all; font-size: 14px; background: #f0f0f0; padding: 10px; border-radius: 4px;">
-          ${resetUrl}
+          Copy and paste this code into the password reset form to complete the process.
         </p>
         
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
           <p style="color: #999; font-size: 12px; margin: 0;">
-            <strong>Important:</strong> This link will expire in 1 hour for security reasons.
+            <strong>Important:</strong> This code will expire in 1 hour for security reasons.
           </p>
           <p style="color: #999; font-size: 12px; margin: 5px 0 0 0;">
             If you didn't request this password reset, please ignore this email. Your password will remain unchanged.
@@ -114,8 +122,8 @@ const sendPasswordResetEmail = async (email, resetUrl, username = 'User') => {
 
   return await sendEmail({
     to: email,
-    subject: 'Reset your password - MooStyle',
-    text: `Click the link to reset your password: ${resetUrl}`,
+    subject: 'Your MooStyle Password Reset Code',
+    text: `Your password reset code is: ${resetUrl}`,
     html
   });
 };
