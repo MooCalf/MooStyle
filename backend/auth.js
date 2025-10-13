@@ -20,7 +20,7 @@ const auth = betterAuth({
   plugins: [
     admin({
       defaultRole: "user",
-      adminRoles: ["admin"],
+      adminRoles: ["admin", "owner"],
       adminUserIds: [], // We'll add your admin email here
     }),
     emailOTP({

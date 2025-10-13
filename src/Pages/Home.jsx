@@ -10,16 +10,18 @@ import { LocalArtisans } from "@/Components/HomepageComponents/LocalArtisans";
 import { ContactSection } from "@/Components/HomepageComponents/ContactSection";
 import { Background } from "@/Components/Background";
 import { Footer } from "@/Components/Footer";
-import SEO from "@/Components/SEO";
+import { Metadata } from "@/Components/Metadata";
 
 export const Home = () => (
   <>
-    <SEO
-      title="MOOSTYLE - Premier Asian Fashion & Beauty Platform | InZoi Mods"
-      description="Discover the latest Asian fashion, beauty products, and lifestyle items at MOOSTYLE. High-quality InZoi mods, Korean skincare, Japanese streetwear, Chinese traditional items, and more. Free downloads, community-driven platform."
+    <Metadata
+      pageTitle="MOOSTYLE - Premier Asian Fashion & Beauty Platform | InZoi Mods"
+      pageDescription="Discover the latest Asian fashion, beauty products, and lifestyle items at MOOSTYLE. High-quality InZoi mods, Korean skincare, Japanese streetwear, Chinese traditional items, and more. Free downloads, community-driven platform."
+      ogTitle="MOOSTYLE - Premier Asian Fashion & Beauty Platform"
+      ogDescription="Discover authentic Asian fashion, beauty products, and lifestyle items. High-quality InZoi mods, Korean skincare, Japanese streetwear. Free downloads, community-driven platform."
+      ogImage="/projects/Brand Medias/Promotional Content/Promo Poster.png"
+      ogType="website"
       keywords="Asian fashion, Korean beauty, Japanese streetwear, InZoi mods, K-beauty, Asian lifestyle, fashion mods, beauty products, Korean skincare, Japanese fashion, Chinese traditional, modding community, free mods"
-      url="/"
-      type="website"
     />
     
     {/* Skip Links for Accessibility */}

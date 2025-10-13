@@ -25,7 +25,7 @@ const initializeDB = async () => {
 // Initialize DB connection
 initializeDB();
 
-// Middleware to verify Better Auth admin session
+// Middleware to verify Better Auth admin session (admin or owner)
 const verifyAdminSession = async (req, res, next) => {
   try {
     // Get session from Better Auth
@@ -45,10 +45,10 @@ const verifyAdminSession = async (req, res, next) => {
 
     const sessionData = await sessionResponse.json();
     
-    if (!sessionData?.user || sessionData.user.role !== 'admin') {
+    if (!sessionData?.user || !['admin', 'owner'].includes(sessionData.user.role)) {
       return res.status(403).json({
         success: false,
-        message: 'Admin access required'
+        message: 'Admin or Owner access required'
       });
     }
 
@@ -56,6 +56,44 @@ const verifyAdminSession = async (req, res, next) => {
     next();
   } catch (error) {
     console.error('Admin session verification error:', error);
+    res.status(401).json({
+      success: false,
+      message: 'Session verification failed'
+    });
+  }
+};
+
+// Middleware to verify owner-only access
+const verifyOwnerSession = async (req, res, next) => {
+  try {
+    // Get session from Better Auth
+    const sessionResponse = await fetch(`${process.env.BETTER_AUTH_URL || 'http://localhost:5000'}/api/auth/get-session`, {
+      headers: {
+        'Cookie': req.headers.cookie || '',
+        'Authorization': req.headers.authorization || ''
+      }
+    });
+
+    if (!sessionResponse.ok) {
+      return res.status(401).json({
+        success: false,
+        message: 'No valid session found'
+      });
+    }
+
+    const sessionData = await sessionResponse.json();
+    
+    if (!sessionData?.user || sessionData.user.role !== 'owner') {
+      return res.status(403).json({
+        success: false,
+        message: 'Owner access required'
+      });
+    }
+
+    req.user = sessionData.user;
+    next();
+  } catch (error) {
+    console.error('Owner session verification error:', error);
     res.status(401).json({
       success: false,
       message: 'Session verification failed'
@@ -145,13 +183,107 @@ router.get('/stats', verifyAdminSession, async (req, res) => {
       .limit(5)
       .lean();
 
+    // Calculate daily metrics
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    // Active users today (users who logged in today)
+    const activeUsersToday = await db.collection('user').countDocuments({
+      lastLogin: { $gte: today }
+    });
+
+    // Active users yesterday for comparison
+    const activeUsersYesterday = await db.collection('user').countDocuments({
+      lastLogin: { $gte: yesterday, $lt: today }
+    });
+
+    // New registrations today
+    const newRegistrationsToday = await db.collection('user').countDocuments({
+      createdAt: { $gte: today }
+    });
+
+    // New registrations yesterday for comparison
+    const newRegistrationsYesterday = await db.collection('user').countDocuments({
+      createdAt: { $gte: yesterday, $lt: today }
+    });
+
+    // Downloads today (from cart downloads)
+    const downloadsToday = await Cart.countDocuments({
+      lastDownloaded: { $gte: today }
+    });
+
+    // Downloads yesterday for comparison
+    const downloadsYesterday = await Cart.countDocuments({
+      lastDownloaded: { $gte: yesterday, $lt: today }
+    });
+
+    // Monthly comparison data
+    const thisMonth = new Date();
+    thisMonth.setDate(1);
+    thisMonth.setHours(0, 0, 0, 0);
+    
+    const lastMonth = new Date(thisMonth);
+    lastMonth.setMonth(lastMonth.getMonth() - 1);
+
+    // Monthly user registrations
+    const usersThisMonth = await db.collection('user').countDocuments({
+      createdAt: { $gte: thisMonth }
+    });
+    const usersLastMonth = await db.collection('user').countDocuments({
+      createdAt: { $gte: lastMonth, $lt: thisMonth }
+    });
+
+    // Monthly cart activity
+    const cartsThisMonth = await Cart.countDocuments({
+      lastUpdated: { $gte: thisMonth }
+    });
+    const cartsLastMonth = await Cart.countDocuments({
+      lastUpdated: { $gte: lastMonth, $lt: thisMonth }
+    });
+
+    // Monthly transactions
+    const transactionsThisMonth = await PointTransaction.countDocuments({
+      createdAt: { $gte: thisMonth }
+    });
+    const transactionsLastMonth = await PointTransaction.countDocuments({
+      createdAt: { $gte: lastMonth, $lt: thisMonth }
+    });
+
+    // Monthly points earned
+    const pointsThisMonth = await PointTransaction.aggregate([
+      { $match: { createdAt: { $gte: thisMonth }, type: 'earn' } },
+      { $group: { _id: null, total: { $sum: '$points' } } }
+    ]);
+    const pointsLastMonth = await PointTransaction.aggregate([
+      { $match: { createdAt: { $gte: lastMonth, $lt: thisMonth }, type: 'earn' } },
+      { $group: { _id: null, total: { $sum: '$points' } } }
+    ]);
+
+    // Banned users statistics
+    const bannedUsers = users.filter(u => !u.isActive);
+    const bannedUsersToday = await db.collection('user').countDocuments({
+      bannedAt: { $gte: today },
+      isActive: false
+    });
+    const bannedUsersYesterday = await db.collection('user').countDocuments({
+      bannedAt: { $gte: yesterday, $lt: today },
+      isActive: false
+    });
+
     // Calculate comprehensive stats
     const stats = {
       totalUsers: users.length,
+      ownerUsers: users.filter(u => u.role === 'owner').length,
       adminUsers: users.filter(u => u.role === 'admin').length,
       regularUsers: users.filter(u => u.role === 'user').length,
       activeUsers: users.filter(u => u.isActive).length,
-      bannedUsers: users.filter(u => !u.isActive).length,
+      bannedUsers: bannedUsers.length,
+      bannedUsersToday: bannedUsersToday,
+      bannedUsersYesterday: bannedUsersYesterday,
+      bannedUsersChange: bannedUsersYesterday > 0 ? 
+        Math.round(((bannedUsersToday - bannedUsersYesterday) / bannedUsersYesterday) * 100) : 0,
       totalCarts: totalCarts,
       totalPoints: users.reduce((sum, u) => sum + (u.points || 0), 0),
       totalTransactions: totalTransactions,
@@ -163,7 +295,41 @@ router.get('/stats', verifyAdminSession, async (req, res) => {
       },
       recentUsers: recentUsers,
       recentCarts: cartsWithUsers,
-      recentTransactions: recentTransactions
+      recentTransactions: recentTransactions,
+      // Daily metrics
+      dailyStats: {
+        activeUsersToday: activeUsersToday,
+        activeUsersYesterday: activeUsersYesterday,
+        activeUsersChange: activeUsersYesterday > 0 ? 
+          Math.round(((activeUsersToday - activeUsersYesterday) / activeUsersYesterday) * 100) : 0,
+        newRegistrationsToday: newRegistrationsToday,
+        newRegistrationsYesterday: newRegistrationsYesterday,
+        newRegistrationsChange: newRegistrationsYesterday > 0 ? 
+          Math.round(((newRegistrationsToday - newRegistrationsYesterday) / newRegistrationsYesterday) * 100) : 0,
+        downloadsToday: downloadsToday,
+        downloadsYesterday: downloadsYesterday,
+        downloadsChange: downloadsYesterday > 0 ? 
+          Math.round(((downloadsToday - downloadsYesterday) / downloadsYesterday) * 100) : 0
+      },
+      // Monthly comparison data
+      monthlyStats: {
+        usersThisMonth: usersThisMonth,
+        usersLastMonth: usersLastMonth,
+        usersChange: usersLastMonth > 0 ? 
+          Math.round(((usersThisMonth - usersLastMonth) / usersLastMonth) * 100) : 0,
+        cartsThisMonth: cartsThisMonth,
+        cartsLastMonth: cartsLastMonth,
+        cartsChange: cartsLastMonth > 0 ? 
+          Math.round(((cartsThisMonth - cartsLastMonth) / cartsLastMonth) * 100) : 0,
+        transactionsThisMonth: transactionsThisMonth,
+        transactionsLastMonth: transactionsLastMonth,
+        transactionsChange: transactionsLastMonth > 0 ? 
+          Math.round(((transactionsThisMonth - transactionsLastMonth) / transactionsLastMonth) * 100) : 0,
+        pointsThisMonth: pointsThisMonth[0]?.total || 0,
+        pointsLastMonth: pointsLastMonth[0]?.total || 0,
+        pointsChange: pointsLastMonth[0]?.total > 0 ? 
+          Math.round(((pointsThisMonth[0]?.total - pointsLastMonth[0]?.total) / pointsLastMonth[0]?.total) * 100) : 0
+      }
     };
 
     res.json({
@@ -323,11 +489,19 @@ router.put('/users/:userId', verifyAdminSession, async (req, res) => {
       });
     }
 
-    // Admin protection: Prevent modifying other admins
-    if (user.role === 'admin') {
+    // Role hierarchy protection: Only owners can modify admins and owners
+    if (user.role === 'admin' && req.user.role !== 'owner') {
       return res.status(403).json({
         success: false,
-        message: 'Cannot modify admin users. Admin accounts are protected.'
+        message: 'Cannot modify admin users. Only owners can modify admin accounts.'
+      });
+    }
+    
+    // Prevent non-owners from modifying owner accounts
+    if (user.role === 'owner' && req.user.role !== 'owner') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot modify owner accounts. Owner access required.'
       });
     }
     
@@ -398,11 +572,27 @@ router.put('/users/:userId/role', verifyAdminSession, auditCriticalOperation('US
       });
     }
 
-    // Admin protection: Prevent modifying other admins
-    if (targetUser.role === 'admin') {
+    // Role hierarchy protection: Only owners can modify admins and owners
+    if (targetUser.role === 'admin' && req.user.role !== 'owner') {
       return res.status(403).json({
         success: false,
-        message: 'Cannot modify admin users. Admin accounts are protected.'
+        message: 'Cannot modify admin users. Only owners can modify admin accounts.'
+      });
+    }
+    
+    // Prevent non-owners from modifying owner accounts
+    if (targetUser.role === 'owner' && req.user.role !== 'owner') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot modify owner accounts. Owner access required.'
+      });
+    }
+    
+    // Prevent owners from demoting themselves
+    if (targetUser.id === req.user.id && targetUser.role === 'owner' && role !== 'owner') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot demote yourself from owner role.'
       });
     }
 
@@ -478,11 +668,19 @@ router.put('/users/:userId/ban', verifyAdminSession, auditCriticalOperation('USE
       });
     }
 
-    // Admin protection: Prevent banning/unbanning other admins
-    if (userBeforeUpdate.role === 'admin') {
+    // Role hierarchy protection: Only owners can modify admins and owners
+    if (userBeforeUpdate.role === 'admin' && req.user.role !== 'owner') {
       return res.status(403).json({
         success: false,
-        message: 'Cannot ban/unban admin users. Admin accounts are protected.'
+        message: 'Cannot ban/unban admin users. Only owners can modify admin accounts.'
+      });
+    }
+    
+    // Prevent non-owners from modifying owner accounts
+    if (userBeforeUpdate.role === 'owner' && req.user.role !== 'owner') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot ban/unban owner accounts. Owner access required.'
       });
     }
 
@@ -611,11 +809,27 @@ router.delete('/users/:userId', verifyAdminSession, async (req, res) => {
       });
     }
 
-    // Admin protection: Prevent deleting other admins
-    if (userToDelete.role === 'admin') {
+    // Role hierarchy protection: Only owners can modify admins and owners
+    if (userToDelete.role === 'admin' && req.user.role !== 'owner') {
       return res.status(403).json({
         success: false,
-        message: 'Cannot delete admin users. Admin accounts are protected.'
+        message: 'Cannot delete admin users. Only owners can modify admin accounts.'
+      });
+    }
+    
+    // Prevent non-owners from modifying owner accounts
+    if (userToDelete.role === 'owner' && req.user.role !== 'owner') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot delete owner accounts. Owner access required.'
+      });
+    }
+    
+    // Prevent owners from deleting themselves
+    if (userToDelete.id === req.user.id && userToDelete.role === 'owner') {
+      return res.status(403).json({
+        success: false,
+        message: 'Cannot delete your own owner account.'
       });
     }
 

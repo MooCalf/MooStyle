@@ -925,15 +925,22 @@ export const MyAccount = () => {
                     </label>
                     <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                       <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                        user?.role === 'admin' ? 'bg-purple-100' : 'bg-green-100'
+                        user?.role === 'owner' ? 'bg-red-100' : user?.role === 'admin' ? 'bg-purple-100' : 'bg-green-100'
                       }`}>
-                        {user?.role === 'admin' ? (
+                        {user?.role === 'owner' ? (
+                          <Crown size={16} className="text-red-600" />
+                        ) : user?.role === 'admin' ? (
                           <Crown size={16} className="text-purple-600" />
                         ) : (
                           <User size={16} className="text-green-600" />
                         )}
                       </div>
                       <span className="text-gray-900 capitalize">{user?.role || 'User'}</span>
+                      {user?.role === 'owner' && (
+                        <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full font-medium">
+                          Owner
+                        </span>
+                      )}
                       {user?.role === 'admin' && (
                         <span className="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded-full font-medium">
                           Administrator

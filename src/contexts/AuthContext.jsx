@@ -11,7 +11,8 @@ export const AuthProvider = ({ children }) => {
     user: session?.user || null,
     isAuthenticated: !!session?.user,
     isLoading: isPending,
-    isAdmin: session?.user?.role === 'admin',
+    isAdmin: ['admin', 'owner'].includes(session?.user?.role),
+    isOwner: session?.user?.role === 'owner',
     isBanned: session?.user && !session?.user?.isActive,
   };
 
