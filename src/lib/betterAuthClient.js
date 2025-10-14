@@ -31,8 +31,8 @@ export const authClient = createAuthClient({
     secure: true,
     sameSite: 'none', // Allow cross-origin requests
     httpOnly: false, // Allow client-side access for debugging
-    // Remove domain restriction for cross-origin
-    // domain: '.moostyles.com',
+    // Set domain to Railway domain for cross-origin
+    domain: 'moostyle-production.up.railway.app',
   }
 });
 
