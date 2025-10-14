@@ -42,6 +42,75 @@ export const {
   getSession,
 } = authClient;
 
+// Add debugging wrappers
+export const debugSignIn = async (email, password) => {
+  console.log('🔐 Debug SignIn - Starting with:', { email });
+  try {
+    const result = await signIn.email({ email, password });
+    console.log('🔐 Debug SignIn - Result:', result);
+    console.log('🔐 Debug SignIn - Cookies after signin:', document.cookie);
+    console.log('🔐 Debug SignIn - BetterAuth cookies:', authClient.getCookie());
+    return result;
+  } catch (error) {
+    console.error('🔐 Debug SignIn - Error:', error);
+    throw error;
+  }
+};
+
+export const debugSignUp = async (email, password, name) => {
+  console.log('🔐 Debug SignUp - Starting with:', { email, name });
+  try {
+    const result = await signUp.email({ email, password, name });
+    console.log('🔐 Debug SignUp - Result:', result);
+    console.log('🔐 Debug SignUp - Cookies after signup:', document.cookie);
+    console.log('🔐 Debug SignUp - BetterAuth cookies:', authClient.getCookie());
+    return result;
+  } catch (error) {
+    console.error('🔐 Debug SignUp - Error:', error);
+    throw error;
+  }
+};
+
+// Test function to check BetterAuth connectivity
+export const testBetterAuth = async () => {
+  console.log('🧪 Testing BetterAuth connectivity...');
+  try {
+    // Test 1: Check if authClient is working
+    console.log('🧪 AuthClient:', authClient);
+    
+    // Test 2: Check current session
+    const session = authClient.getSession();
+    console.log('🧪 Current session:', session);
+    
+    // Test 3: Check cookies
+    const cookies = authClient.getCookie();
+    console.log('🧪 BetterAuth cookies:', cookies);
+    console.log('🧪 Document cookies:', document.cookie);
+    
+    // Test 4: Test API call
+    const response = await fetch('https://moostyle-production.up.railway.app/api/debug/cookies', {
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    const data = await response.json();
+    console.log('🧪 API test response:', data);
+    
+    return {
+      authClient: !!authClient,
+      session: session,
+      cookies: cookies,
+      documentCookies: document.cookie,
+      apiTest: data
+    };
+  } catch (error) {
+    console.error('🧪 BetterAuth test error:', error);
+    return { error: error.message };
+  }
+};
+
 // Helper functions for common auth operations
 export const authHelpers = {
   // Get properly formatted cookies for API requests
