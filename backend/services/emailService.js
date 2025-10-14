@@ -51,12 +51,12 @@ const sendEmail = async ({ to, subject, text, html }) => {
         'X-Priority': '3',
         'X-MSMail-Priority': 'Normal',
         'Importance': 'Normal',
-        'X-Report-Abuse': 'Please report abuse to support@moostyle.com',
-        'List-Unsubscribe': '<mailto:unsubscribe@moostyle.com>',
+        'X-Report-Abuse': 'Please report abuse to support@moostyles.com',
+        'List-Unsubscribe': '<mailto:unsubscribe@moostyles.com>',
         'Return-Path': process.env.EMAIL_USER
       },
       // Add message ID for better tracking
-      messageId: `<${Date.now()}.${Math.random().toString(36).substr(2, 9)}@moostyle.com>`
+      messageId: `<${Date.now()}.${Math.random().toString(36).substr(2, 9)}@moostyles.com>`
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -250,7 +250,7 @@ const sendBanNotificationEmail = async (email, username, banReason = 'No reason 
         </p>
         
         <div style="text-align: center; margin: 30px 0;">
-          <a href="mailto:support@moostyle.com" 
+          <a href="mailto:support@moostyles.com" 
              style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                     color: white; 
                     padding: 15px 30px; 

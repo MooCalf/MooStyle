@@ -57,22 +57,22 @@ export const ContactSection = () => {
     {
       icon: Mail,
       title: "General Inquiries:",
-      content: "hello@moocalf.com",
-      href: "mailto:hello@moocalf.com",
+      content: "hello@moostyles.com",
+      href: "mailto:hello@moostyles.com",
       description: "For general questions, mod requests, community discussions, and support"
     },
     {
       icon: UserSearch,
       title: "Business & Collaborations:",
-      content: "business@moocalf.com",
-      href: "mailto:business@moocalf.com",
+      content: "business@moostyles.com",
+      href: "mailto:business@moostyles.com",
       description: "Partnerships, sponsorships, brand collaborations, and business opportunities"
     },
     {
       icon: Shield,
       title: "Technical Support:",
-      content: "support@moocalf.com",
-      href: "mailto:support@moocalf.com",
+      content: "support@moostyles.com",
+      href: "mailto:support@moostyles.com",
       description: "Mod installation help, troubleshooting, and technical assistance"
     }
   ];
