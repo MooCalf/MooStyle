@@ -8,6 +8,13 @@ const { sendPasswordResetEmail, sendEmailVerificationEmail } = require("./servic
 const client = new MongoClient(process.env.MONGODB_URI);
 const db = client.db();
 
+// Test database connection
+client.connect().then(() => {
+  console.log('✅ Better Auth MongoDB connected successfully');
+}).catch((error) => {
+  console.error('❌ Better Auth MongoDB connection failed:', error);
+});
+
 // Better Auth configuration
 const auth = betterAuth({
   // Database configuration with MongoDB adapter
@@ -130,6 +137,13 @@ const auth = betterAuth({
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
     updateAge: 60 * 60 * 24, // Update session every 24h
+    // Add debugging for session creation
+    onCreate: async (session, request) => {
+      console.log('🔍 Session created:', { sessionId: session.id, userId: session.userId });
+    },
+    onUpdate: async (session, request) => {
+      console.log('🔍 Session updated:', { sessionId: session.id, userId: session.userId });
+    },
   },
 
   // User configuration with custom fields

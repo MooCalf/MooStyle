@@ -2,7 +2,7 @@ import { createAuthClient } from "better-auth/react";
 import { adminClient, emailOTPClient } from "better-auth/client/plugins";
 
 // Create Better Auth client with admin and emailOTP plugins
-const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+const backendUrl = "https://moostyle-production.up.railway.app"; // Hardcoded for testing
 console.log('🔧 Better Auth Client Base URL:', backendUrl);
 console.log('🔧 Environment:', import.meta.env.MODE);
 console.log('🔧 All env vars:', import.meta.env);
