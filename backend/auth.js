@@ -146,22 +146,6 @@ const auth = betterAuth({
       domain: '.moostyles.com', // Allow subdomain access
       path: '/',
     },
-    // Add session debugging
-    onCreate: async (session, request) => {
-      console.log('🔍 Session created:', { 
-        sessionId: session.id, 
-        userId: session.userId,
-        cookieValue: request.headers.cookie,
-        origin: request.headers.origin
-      });
-    },
-    onUpdate: async (session, request) => {
-      console.log('🔍 Session updated:', { 
-        sessionId: session.id, 
-        userId: session.userId,
-        cookieValue: request.headers.cookie
-      });
-    },
   },
 
   // User configuration with custom fields

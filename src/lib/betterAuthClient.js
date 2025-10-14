@@ -40,48 +40,6 @@ export const {
   getSession,
 } = authClient;
 
-// Helper function to get session with disabled cookie cache (workaround for Better Auth bug)
-export const getSessionWithoutCache = async () => {
-  try {
-    return await authClient.getSession({ 
-      query: { disableCookieCache: true } 
-    });
-  } catch (error) {
-    console.error('Error getting session without cache:', error);
-    return null;
-  }
-};
-
-// Direct backend session check (bypass Better Auth client entirely)
-export const getSessionDirect = async () => {
-  try {
-    console.log('🔍 Attempting direct backend session check...');
-    const response = await fetch(`${backendUrl}/api/auth/get-session`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    });
-    
-    console.log('🔍 Direct session response status:', response.status);
-    console.log('🔍 Direct session response headers:', Object.fromEntries(response.headers.entries()));
-    
-    if (!response.ok) {
-      console.error('🔍 Direct session check failed:', response.status, response.statusText);
-      return null;
-    }
-    
-    const data = await response.json();
-    console.log('🔍 Direct session data:', data);
-    return data;
-  } catch (error) {
-    console.error('🔍 Direct session check error:', error);
-    return null;
-  }
-};
-
 // Helper functions for common auth operations
 export const authHelpers = {
   // Check if user is authenticated
