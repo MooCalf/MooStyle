@@ -197,6 +197,21 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Debug endpoint to check cookies and session
+app.get('/api/debug/session', (req, res) => {
+  console.log('🔍 Debug session endpoint called');
+  console.log('🔍 Request headers:', req.headers);
+  console.log('🔍 Request cookies:', req.cookies);
+  console.log('🔍 Raw cookie header:', req.headers.cookie);
+  
+  res.json({
+    headers: req.headers,
+    cookies: req.cookies,
+    rawCookieHeader: req.headers.cookie,
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Better Auth integration
 const { auth } = require('./auth');
 const { toNodeHandler } = require('better-auth/node');

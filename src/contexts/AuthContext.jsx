@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useSession, getSessionWithoutCache } from '@/lib/betterAuthClient';
+import { useSession, getSessionWithoutCache, getSessionDirect } from '@/lib/betterAuthClient';
 import { BanNotice } from '@/Components/BanNotice';
 
 const AuthContext = createContext();
@@ -13,12 +13,26 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (!session && !isPending && !isLoadingFallback) {
       setIsLoadingFallback(true);
-      getSessionWithoutCache().then(fallback => {
-        console.log('🔍 Fallback session result:', fallback);
-        setFallbackSession(fallback);
+      
+      // Try multiple approaches
+      Promise.allSettled([
+        getSessionWithoutCache(),
+        getSessionDirect()
+      ]).then(results => {
+        console.log('🔍 All session attempts:', results);
+        
+        // Use the first successful result
+        for (const result of results) {
+          if (result.status === 'fulfilled' && result.value) {
+            console.log('🔍 Found valid session:', result.value);
+            setFallbackSession(result.value);
+            break;
+          }
+        }
+        
         setIsLoadingFallback(false);
       }).catch(error => {
-        console.error('🔍 Fallback session error:', error);
+        console.error('🔍 All session attempts failed:', error);
         setIsLoadingFallback(false);
       });
     }
