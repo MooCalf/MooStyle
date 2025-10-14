@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { useSession } from '@/lib/betterAuthClient';
+import { useSession, authClient } from '@/lib/betterAuthClient';
 import { BanNotice } from '@/Components/BanNotice';
 
 const AuthContext = createContext();
@@ -13,6 +13,25 @@ export const AuthProvider = ({ children }) => {
     user: session?.user,
     isAuthenticated: !!session?.user
   });
+
+  // Add debugging for session loading
+  React.useEffect(() => {
+    console.log('🔍 Auth Session Effect - isPending changed:', isPending);
+    console.log('🔍 Auth Session Effect - session changed:', session);
+    
+    if (!isPending && !session) {
+      console.log('🔍 Auth Session Effect - No session found, checking cookies...');
+      console.log('🔍 Document cookies:', document.cookie);
+      
+      // Check if BetterAuth client is working
+      try {
+        console.log('🔍 AuthClient available:', !!authClient);
+        console.log('🔍 AuthClient getCookie():', authClient?.getCookie?.());
+      } catch (error) {
+        console.error('🔍 Error accessing authClient:', error);
+      }
+    }
+  }, [session, isPending]);
 
   const value = {
     user: session?.user || null,

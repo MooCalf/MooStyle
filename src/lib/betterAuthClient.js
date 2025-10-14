@@ -2,11 +2,14 @@ import { createAuthClient } from "better-auth/react";
 import { adminClient, emailOTPClient } from "better-auth/client/plugins";
 
 // Create Better Auth client with admin and emailOTP plugins
-const backendUrl = "https://moostyle-production.up.railway.app"; // Hardcoded for testing
+import { envConfig } from './envConfig.js';
+
+const backendUrl = envConfig.apiBaseUrl;
 console.log('🔧 Better Auth Client Base URL:', backendUrl);
 console.log('🔧 Environment:', import.meta.env.MODE);
 console.log('🔧 All env vars:', import.meta.env);
-console.log('🔧 VITE_BACKEND_URL:', import.meta.env.VITE_BACKEND_URL);
+console.log('🔧 VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
+console.log('🔧 EnvConfig API Base URL:', envConfig.apiBaseUrl);
 
 export const authClient = createAuthClient({
   baseURL: backendUrl,
@@ -231,4 +234,12 @@ export const authHelpers = {
 
 // Export default client
 export default authClient;
+
+// Make test function available globally for console testing
+if (typeof window !== 'undefined') {
+  window.testBetterAuth = testBetterAuth;
+  window.debugSignIn = debugSignIn;
+  window.debugSignUp = debugSignUp;
+  window.authClient = authClient;
+}
 
