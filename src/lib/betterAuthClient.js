@@ -2,8 +2,12 @@ import { createAuthClient } from "better-auth/react";
 import { adminClient, emailOTPClient } from "better-auth/client/plugins";
 
 // Create Better Auth client with admin and emailOTP plugins
+const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+console.log('🔧 Better Auth Client Base URL:', backendUrl);
+console.log('🔧 Environment:', import.meta.env.MODE);
+
 export const authClient = createAuthClient({
-  baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:5000",
+  baseURL: backendUrl,
   plugins: [
     adminClient(),
     emailOTPClient()

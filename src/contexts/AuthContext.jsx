@@ -7,6 +7,13 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const { data: session, isPending } = useSession();
 
+  console.log('🔍 Auth Session Debug:', {
+    session: session,
+    isPending: isPending,
+    user: session?.user,
+    isAuthenticated: !!session?.user
+  });
+
   const value = {
     user: session?.user || null,
     isAuthenticated: !!session?.user,
