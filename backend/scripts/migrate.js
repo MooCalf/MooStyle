@@ -152,7 +152,7 @@ const runMigrations = async () => {
 
 // Run migrations if called directly
 if (require.main === module) {
-  mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://MooCalf:MooCalf101!@moostyles.ilo9smk.mongodb.net/moostyle?retryWrites=true&w=majority&appName=MooStyles')
+  mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/moostyle')
     .then(() => {
       console.log('🔗 Connected to database');
       return runMigrations();
