@@ -142,8 +142,8 @@ const auth = betterAuth({
     cookieOptions: {
       httpOnly: false, // Allow client-side access for debugging
       secure: true, // HTTPS only
-      sameSite: 'lax', // Allow cross-site requests
-      // Remove domain restriction for Railway deployment
+      sameSite: 'none', // Allow cross-origin requests
+      // Remove domain restriction for cross-origin
       // domain: '.moostyles.com', // Allow subdomain access
       path: '/',
     },

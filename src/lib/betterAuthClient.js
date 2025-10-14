@@ -29,9 +29,9 @@ export const authClient = createAuthClient({
   // Cookie configuration
   cookieOptions: {
     secure: true,
-    sameSite: 'lax',
+    sameSite: 'none', // Allow cross-origin requests
     httpOnly: false, // Allow client-side access for debugging
-    // Remove domain restriction for Railway deployment
+    // Remove domain restriction for cross-origin
     // domain: '.moostyles.com',
   }
 });
