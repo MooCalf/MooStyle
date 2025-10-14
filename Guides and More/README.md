@@ -40,28 +40,7 @@ Welcome to the central documentation hub for the MooStyle E-Commerce Platform. T
   - Performance optimization
 - **Use When**: Setting up products, understanding the system architecture, troubleshooting product issues
 
-#### **AI_MOD_UPLOAD_README.md**
-- **Purpose**: Private README for AI assistant mod upload process
-- **Contents**:
-  - Step-by-step upload process
-  - Required information templates
-  - Question sequences
-  - Error handling procedures
-  - Automated actions checklist
-- **Use When**: Uploading new mods through AI assistant, understanding the upload workflow
-
 ### **🔐 Security & Authentication**
-
-#### **PASSWORD_RESET_SYSTEM.md**
-- **Purpose**: Comprehensive guide to the password reset system architecture and implementation
-- **Contents**:
-  - Token generation and security mechanisms
-  - Email communication system integration
-  - Frontend and backend implementation details
-  - User experience flow and troubleshooting
-  - Security best practices and configuration
-  - Gmail SMTP setup and email masking
-- **Use When**: Understanding password reset functionality, troubleshooting reset issues, implementing security measures
 
 #### **ADMIN_DASHBOARD_GUIDE.md**
 - **Purpose**: Complete documentation of the admin dashboard features and capabilities
@@ -76,15 +55,6 @@ Welcome to the central documentation hub for the MooStyle E-Commerce Platform. T
 
 ### **🔧 Technical Guides**
 
-#### **NETWORK_ERROR_FIXED.md**
-- **Purpose**: Documentation of network error fixes and solutions
-- **Contents**: 
-  - Network connectivity issues
-  - API endpoint troubleshooting
-  - CORS configuration fixes
-  - Database connection problems
-- **Use When**: Experiencing network-related issues, debugging API calls
-
 #### **NETWORK_ERROR_TROUBLESHOOTING.md**
 - **Purpose**: Comprehensive troubleshooting guide for network issues
 - **Contents**:
@@ -93,18 +63,6 @@ Welcome to the central documentation hub for the MooStyle E-Commerce Platform. T
   - Configuration checks
   - Environment setup verification
 - **Use When**: Debugging persistent network issues, setting up development environment
-
-### **📊 Project Management**
-
-#### **PRODUCT_MANAGEMENT_COMPLETE.md**
-- **Purpose**: Complete product management implementation guide
-- **Contents**:
-  - Product CRUD operations
-  - Admin dashboard features
-  - Search and filtering systems
-  - Pagination implementation
-  - Status management
-- **Use When**: Managing products, understanding admin features, implementing new product features
 
 ### **🔒 Security & Compliance**
 
@@ -173,13 +131,10 @@ Welcome to the central documentation hub for the MooStyle E-Commerce Platform. T
 
 **Managing Products:**
 1. `PRODUCT_MANAGEMENT_SYSTEM.md` - System architecture
-2. `PRODUCT_MANAGEMENT_COMPLETE.md` - Implementation details
-3. `AI_MOD_UPLOAD_README.md` - Upload process
 
 **Troubleshooting:**
 1. `NETWORK_ERROR_TROUBLESHOOTING.md` - Network issues
-2. `NETWORK_ERROR_FIXED.md` - Known fixes
-3. `SECURITY_REPORT.md` - Security issues
+2. `SECURITY_REPORT.md` - Security issues
 
 **Database Management:**
 1. `backend/DATABASE_MIGRATION_GUIDE.md` - Schema changes
@@ -194,9 +149,8 @@ Welcome to the central documentation hub for the MooStyle E-Commerce Platform. T
 - `NETWORK_ERROR_TROUBLESHOOTING.md`
 
 **Administrators:**
-- `PRODUCT_MANAGEMENT_COMPLETE.md`
+- `ADMIN_DASHBOARD_GUIDE.md`
 - `SECURITY_REPORT.md`
-- `AI_MOD_UPLOAD_README.md`
 
 **End Users:**
 - `README.md` (Authentication section)
