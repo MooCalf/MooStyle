@@ -5,6 +5,8 @@ import { adminClient, emailOTPClient } from "better-auth/client/plugins";
 const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 console.log('🔧 Better Auth Client Base URL:', backendUrl);
 console.log('🔧 Environment:', import.meta.env.MODE);
+console.log('🔧 All env vars:', import.meta.env);
+console.log('🔧 VITE_BACKEND_URL:', import.meta.env.VITE_BACKEND_URL);
 
 export const authClient = createAuthClient({
   baseURL: backendUrl,
@@ -43,6 +45,7 @@ export const authHelpers = {
   // Get current user
   getCurrentUser: () => {
     const session = getSession();
+    console.log('🔍 getCurrentUser:', { session, user: session?.user });
     return session?.user || null;
   },
 
