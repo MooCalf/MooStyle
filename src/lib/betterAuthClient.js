@@ -26,13 +26,12 @@ export const authClient = createAuthClient({
   session: {
     updateAge: 60 * 60 * 24, // Update session every 24h
   },
-  // Cookie configuration
+  // Cookie configuration - correct for BetterAuth v1.3.27
   cookieOptions: {
     secure: true,
-    sameSite: 'none', // Allow cross-origin requests
+    sameSite: 'lax',
     httpOnly: false, // Allow client-side access for debugging
-    // Remove domain restriction - let BetterAuth handle it
-    // domain: 'moostyle-production.up.railway.app',
+    path: '/',
   }
 });
 
@@ -45,34 +44,7 @@ export const {
   getSession,
 } = authClient;
 
-// Add debugging wrappers
-export const debugSignIn = async (email, password) => {
-  console.log('🔐 Debug SignIn - Starting with:', { email });
-  try {
-    const result = await signIn.email({ email, password });
-    console.log('🔐 Debug SignIn - Result:', result);
-    console.log('🔐 Debug SignIn - Cookies after signin:', document.cookie);
-    console.log('🔐 Debug SignIn - BetterAuth cookies:', authClient.getCookie());
-    return result;
-  } catch (error) {
-    console.error('🔐 Debug SignIn - Error:', error);
-    throw error;
-  }
-};
-
-export const debugSignUp = async (email, password, name) => {
-  console.log('🔐 Debug SignUp - Starting with:', { email, name });
-  try {
-    const result = await signUp.email({ email, password, name });
-    console.log('🔐 Debug SignUp - Result:', result);
-    console.log('🔐 Debug SignUp - Cookies after signup:', document.cookie);
-    console.log('🔐 Debug SignUp - BetterAuth cookies:', authClient.getCookie());
-    return result;
-  } catch (error) {
-    console.error('🔐 Debug SignUp - Error:', error);
-    throw error;
-  }
-};
+// Debug functions removed - using standard BetterAuth API
 
 // Test function to check BetterAuth connectivity
 export const testBetterAuth = async () => {
@@ -238,8 +210,6 @@ export default authClient;
 // Make test function available globally for console testing
 if (typeof window !== 'undefined') {
   window.testBetterAuth = testBetterAuth;
-  window.debugSignIn = debugSignIn;
-  window.debugSignUp = debugSignUp;
   window.authClient = authClient;
 }
 

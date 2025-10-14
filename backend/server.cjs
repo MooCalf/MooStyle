@@ -278,30 +278,6 @@ const { toNodeHandler } = require('better-auth/node');
 // Mount Better Auth handler
 app.use('/api/auth', toNodeHandler(auth));
 
-// Add missing get-cookie endpoint that BetterAuth expects
-app.get('/api/auth/get-cookie', async (req, res) => {
-  try {
-    console.log('🔍 get-cookie endpoint called');
-    console.log('🔍 Headers:', req.headers);
-    
-    // Let BetterAuth handle this
-    const session = await auth.api.getSession({
-      headers: req.headers
-    });
-    
-    console.log('🔍 get-cookie session result:', session);
-    
-    if (session) {
-      res.json({ success: true, session });
-    } else {
-      res.json({ success: false, session: null });
-    }
-  } catch (error) {
-    console.error('🔍 get-cookie error:', error);
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
 // Google OAuth callback route
 app.get('/api/auth/callback/google', (req, res) => {
   // This will be handled by Better Auth, but we need to ensure it exists

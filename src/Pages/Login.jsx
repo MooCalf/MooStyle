@@ -4,7 +4,7 @@ import { NavigationPrimary } from '@/Components/NavigationPrimary';
 import { NavigationSecondary } from '@/Components/NavigationSecondary';
 import { Metadata } from '@/Components/Metadata.jsx';
 import { Eye, EyeOff, AlertCircle, CheckCircle, Info, X } from 'lucide-react';
-import { signIn, authClient, debugSignIn } from '@/lib/betterAuthClient';
+import { signIn, authClient } from '@/lib/betterAuthClient';
 import { useAuth } from '@/contexts/AuthContext';
 
 export const Login = () => {
@@ -48,7 +48,10 @@ export const Login = () => {
 
     try {
       console.log('🔐 Login - Starting sign in process');
-      const result = await debugSignIn(formData.email, formData.password);
+      const result = await signIn.email({ 
+        email: formData.email, 
+        password: formData.password 
+      });
 
       if (result.error) {
         console.error('🔐 Login - Sign in failed:', result.error);
