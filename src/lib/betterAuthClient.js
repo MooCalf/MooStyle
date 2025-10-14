@@ -31,8 +31,8 @@ export const authClient = createAuthClient({
     secure: true,
     sameSite: 'none', // Allow cross-origin requests
     httpOnly: false, // Allow client-side access for debugging
-    // Set domain to Railway domain for cross-origin
-    domain: 'moostyle-production.up.railway.app',
+    // Remove domain restriction - let BetterAuth handle it
+    // domain: 'moostyle-production.up.railway.app',
   }
 });
 

@@ -143,7 +143,7 @@ const auth = betterAuth({
       httpOnly: false, // Allow client-side access for debugging
       secure: true, // HTTPS only
       sameSite: 'none', // Allow cross-origin requests
-      // Remove domain restriction for cross-origin
+      // Remove domain restriction - let BetterAuth handle it
       // domain: '.moostyles.com', // Allow subdomain access
       path: '/',
     },
