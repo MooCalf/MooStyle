@@ -2,6 +2,7 @@
 // Centralized configuration for all API endpoints
 
 import { envConfig } from './envConfig.js';
+import { authHelpers } from './betterAuthClient.js';
 
 // Get API base URL from environment or use default
 const getApiBaseUrl = () => {
@@ -71,19 +72,24 @@ export const apiConfig = {
     return `${apiConfig.baseURL}${endpoint}`;
   },
   
-  // Helper function to get auth headers
+  // Helper function to get auth headers (BetterAuth uses cookies)
   getAuthHeaders: () => {
-    const token = localStorage.getItem('token');
     return {
       'Content-Type': 'application/json',
-      'Authorization': token ? `Bearer ${token}` : ''
+      // BetterAuth handles authentication via cookies automatically
     };
+  },
+
+  // Helper function to make authenticated requests
+  makeAuthenticatedRequest: async (url, options = {}) => {
+    return authHelpers.makeAuthenticatedRequest(url, options);
   },
   
   // Helper function to check if user is authenticated
+  // Note: This should use BetterAuth's useSession hook instead
   isAuthenticated: () => {
-    const token = localStorage.getItem('token');
-    return !!token;
+    console.warn('apiConfig.isAuthenticated() is deprecated. Use BetterAuth useSession hook instead.');
+    return false; // Always return false to force migration to BetterAuth
   }
 };
 

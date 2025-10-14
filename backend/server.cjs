@@ -197,6 +197,39 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Debug endpoint for cookie testing
+app.get('/api/debug/cookies', async (req, res) => {
+  try {
+    const { auth } = require('./auth');
+    
+    // Test session validation
+    const session = await auth.api.getSession({
+      headers: req.headers
+    });
+    
+    res.json({
+      success: true,
+      debug: {
+        rawHeaders: req.headers,
+        cookieHeader: req.headers.cookie,
+        sessionResult: session,
+        hasUser: !!session?.user,
+        timestamp: new Date().toISOString()
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      debug: {
+        rawHeaders: req.headers,
+        cookieHeader: req.headers.cookie,
+        timestamp: new Date().toISOString()
+      }
+    });
+  }
+});
+
 // Better Auth integration
 const { auth } = require('./auth');
 const { toNodeHandler } = require('better-auth/node');

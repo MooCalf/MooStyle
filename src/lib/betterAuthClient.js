@@ -27,7 +27,8 @@ export const authClient = createAuthClient({
   cookieOptions: {
     secure: true,
     sameSite: 'lax',
-    domain: '.moostyles.com',
+    // Remove domain restriction for Railway deployment
+    // domain: '.moostyles.com',
   }
 });
 
@@ -42,6 +43,30 @@ export const {
 
 // Helper functions for common auth operations
 export const authHelpers = {
+  // Get properly formatted cookies for API requests
+  getCookieHeaders: () => {
+    try {
+      const cookies = authClient.getCookie();
+      return cookies ? { 'Cookie': cookies } : {};
+    } catch (error) {
+      console.error('Error getting auth cookies:', error);
+      return {};
+    }
+  },
+
+  // Make authenticated API request with proper cookies
+  makeAuthenticatedRequest: async (url, options = {}) => {
+    const cookieHeaders = authHelpers.getCookieHeaders();
+    return fetch(url, {
+      ...options,
+      credentials: 'include', // Always include cookies
+      headers: {
+        'Content-Type': 'application/json',
+        ...cookieHeaders,
+        ...options.headers,
+      },
+    });
+  },
   // Check if user is authenticated
   isAuthenticated: () => {
     const session = getSession();

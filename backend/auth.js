@@ -143,7 +143,8 @@ const auth = betterAuth({
       httpOnly: true,
       secure: true, // HTTPS only
       sameSite: 'lax', // Allow cross-site requests
-      domain: '.moostyles.com', // Allow subdomain access
+      // Remove domain restriction for Railway deployment
+      // domain: '.moostyles.com', // Allow subdomain access
       path: '/',
     },
   },
