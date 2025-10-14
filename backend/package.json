@@ -7,7 +7,6 @@
     "start": "node server.cjs",
     "dev": "nodemon server.cjs",
     "migrate": "node scripts/migrate.js",
-    "create-owner": "node scripts/createOwnerAccountBetterAuth.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
