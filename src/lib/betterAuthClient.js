@@ -40,6 +40,18 @@ export const {
   getSession,
 } = authClient;
 
+// Helper function to get session with disabled cookie cache (workaround for Better Auth bug)
+export const getSessionWithoutCache = async () => {
+  try {
+    return await authClient.getSession({ 
+      query: { disableCookieCache: true } 
+    });
+  } catch (error) {
+    console.error('Error getting session without cache:', error);
+    return null;
+  }
+};
+
 // Helper functions for common auth operations
 export const authHelpers = {
   // Check if user is authenticated

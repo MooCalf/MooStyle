@@ -1,26 +1,51 @@
-import React, { createContext, useContext } from 'react';
-import { useSession } from '@/lib/betterAuthClient';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useSession, getSessionWithoutCache } from '@/lib/betterAuthClient';
 import { BanNotice } from '@/Components/BanNotice';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const { data: session, isPending } = useSession();
+  const [fallbackSession, setFallbackSession] = useState(null);
+  const [isLoadingFallback, setIsLoadingFallback] = useState(false);
+
+  // Try fallback session if main session is null
+  useEffect(() => {
+    if (!session && !isPending && !isLoadingFallback) {
+      setIsLoadingFallback(true);
+      getSessionWithoutCache().then(fallback => {
+        console.log('🔍 Fallback session result:', fallback);
+        setFallbackSession(fallback);
+        setIsLoadingFallback(false);
+      }).catch(error => {
+        console.error('🔍 Fallback session error:', error);
+        setIsLoadingFallback(false);
+      });
+    }
+  }, [session, isPending, isLoadingFallback]);
+
+  // Use fallback session if main session is null
+  const effectiveSession = session || fallbackSession;
+  const effectiveIsPending = isPending || isLoadingFallback;
 
   console.log('🔍 Auth Session Debug:', {
     session: session,
+    fallbackSession: fallbackSession,
+    effectiveSession: effectiveSession,
     isPending: isPending,
-    user: session?.user,
-    isAuthenticated: !!session?.user
+    isLoadingFallback: isLoadingFallback,
+    effectiveIsPending: effectiveIsPending,
+    user: effectiveSession?.user,
+    isAuthenticated: !!effectiveSession?.user
   });
 
   const value = {
-    user: session?.user || null,
-    isAuthenticated: !!session?.user,
-    isLoading: isPending,
-    isAdmin: ['admin', 'owner'].includes(session?.user?.role),
-    isOwner: session?.user?.role === 'owner',
-    isBanned: session?.user && !session?.user?.isActive,
+    user: effectiveSession?.user || null,
+    isAuthenticated: !!effectiveSession?.user,
+    isLoading: effectiveIsPending,
+    isAdmin: ['admin', 'owner'].includes(effectiveSession?.user?.role),
+    isOwner: effectiveSession?.user?.role === 'owner',
+    isBanned: effectiveSession?.user && !effectiveSession?.user?.isActive,
   };
 
   // If user is banned, show ban notice instead of the app
