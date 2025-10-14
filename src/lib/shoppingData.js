@@ -15,11 +15,9 @@ export const shoppingCategories = {
         folderPath: "Products/LunaGlow/Korean Glass Skin Set", // Exact folder path for downloads
         price: 89.99,
         originalPrice: 129.99,
-        image: "/projects/BETATESTINGIMAGES/M_p0217730395.jpg",
+        image: "/projects/Products/LunaGlow/Korean Glass Skin Set/Lunaglow - Kit Promotional Cover.png",
         images: [
-          "/projects/BETATESTINGIMAGES/M_p0217730395.jpg",
-          "/projects/BETATESTINGIMAGES/M_p0219136879.png",
-          "/projects/BETATESTINGIMAGES/M_p0194400752.jpg"
+          "/projects/Products/LunaGlow/Korean Glass Skin Set/Lunaglow - Kit Promotional Cover.png"
         ],
         description: "Complete Korean skincare routine for glass skin effect",
         detailedDescription: "Transform your skin with our premium Korean Glass Skin Set. This comprehensive 4-step routine combines the best of Korean skincare innovation to achieve that coveted glass skin effect. Formulated with hyaluronic acid, niacinamide, and traditional Korean ingredients like ginseng and green tea extract.",
@@ -66,11 +64,7 @@ export const shoppingCategories = {
         brand: "TokyoVibe",
         price: 45.00,
         originalPrice: 60.00,
-        image: "/projects/BETATESTINGIMAGES/M_p0153126832.jpg",
-        images: [
-          "/projects/BETATESTINGIMAGES/M_p0153126832.jpg",
-          "/projects/BETATESTINGIMAGES/M_p0173471010.jpg"
-        ],
+        image: "/Shopping Contents/Beauty/bb-cream-1.jpg",
         description: "Lightweight Japanese BB cream with SPF protection",
         tags: ["Makeup", "Japanese", "BB Cream", "SPF"],
         rating: 4.6,
@@ -92,11 +86,7 @@ export const shoppingCategories = {
         brand: "CelestialBeauty",
         price: 35.00,
         originalPrice: 50.00,
-        image: "/projects/BETATESTINGIMAGES/M_p0188313813.jpg",
-        images: [
-          "/projects/BETATESTINGIMAGES/M_p0188313813.jpg",
-          "/projects/BETATESTINGIMAGES/M_p0212227403.jpg"
-        ],
+        image: "/Shopping Contents/Beauty/hair-mask-1.jpg",
         description: "Traditional Chinese herbal hair treatment",
         tags: ["Hair Care", "Chinese", "Herbal", "Repair"],
         rating: 4.7,
@@ -118,11 +108,7 @@ export const shoppingCategories = {
         brand: "PearlEssence",
         price: 28.00,
         originalPrice: 40.00,
-        image: "/projects/BETATESTINGIMAGES/M_p0219369326.jpg",
-        images: [
-          "/projects/BETATESTINGIMAGES/M_p0219369326.jpg",
-          "/projects/BETATESTINGIMAGES/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png"
-        ],
+        image: "/Shopping Contents/Beauty/lip-tint-1.jpg",
         description: "Set of 3 Korean lip tints in popular shades",
         tags: ["Makeup", "Korean", "Lip Tint", "Set"],
         rating: 4.9,
@@ -144,10 +130,11 @@ export const shoppingCategories = {
         brand: "GlossyLips",
         price: 32.00,
         originalPrice: 45.00,
-        image: "/projects/BETATESTINGIMAGES/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
+        image: "/Shopping Contents/Beauty/lip-gloss-1.jpg",
         images: [
-          "/projects/BETATESTINGIMAGES/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
-          "/projects/BETATESTINGIMAGES/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png"
+          "/Shopping Contents/Beauty/lip-gloss-1.jpg",
+          "/Shopping Contents/Beauty/lip-gloss-2.jpg",
+          "/Shopping Contents/Beauty/lip-gloss-3.jpg"
         ],
         description: "High-shine Korean lip gloss set with 5 trendy shades",
         detailedDescription: "Achieve the perfect Korean glass lip look with our premium lip gloss set. Each gloss is formulated with hyaluronic acid and vitamin E for long-lasting moisture and shine. The non-sticky formula provides comfortable wear while delivering intense color payoff.",
@@ -195,10 +182,11 @@ export const shoppingCategories = {
         brand: "TokyoGlow",
         price: 68.00,
         originalPrice: 85.00,
-        image: "/projects/BETATESTINGIMAGES/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
+        image: "/Shopping Contents/Beauty/serum-essence-1.jpg",
         images: [
-          "/projects/BETATESTINGIMAGES/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
-          "/projects/BETATESTINGIMAGES/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png"
+          "/Shopping Contents/Beauty/serum-essence-1.jpg",
+          "/Shopping Contents/Beauty/serum-essence-2.jpg",
+          "/Shopping Contents/Beauty/serum-essence-3.jpg"
         ],
         description: "Premium Japanese serum essence for radiant skin",
         detailedDescription: "Experience the power of Japanese skincare innovation with our premium serum essence. Formulated with fermented rice extract and sake, this lightweight essence penetrates deep into the skin to deliver intense hydration and brightening benefits.",
@@ -244,9 +232,10 @@ export const shoppingCategories = {
         brand: "HerbalGlow",
         price: 28.00,
         originalPrice: 40.00,
-        image: "/projects/BETATESTINGIMAGES/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
+        image: "/Shopping Contents/Beauty/herbal-mask-1.jpg",
         images: [
-          "/projects/BETATESTINGIMAGES/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png"
+          "/Shopping Contents/Beauty/herbal-mask-1.jpg",
+          "/Shopping Contents/Beauty/herbal-mask-2.jpg"
         ],
         description: "Traditional Chinese herbal face mask for detoxifying",
         detailedDescription: "Rejuvenate your skin with our traditional Chinese herbal face mask. Made with ancient Chinese herbs including ginseng, goji berry, and pearl powder, this mask helps detoxify and brighten the skin while providing deep nourishment.",
@@ -299,11 +288,7 @@ export const shoppingCategories = {
         brand: "SeoulStyle",
         price: 75.00,
         originalPrice: 100.00,
-        image: "/projects/BETATESTINGIMAGES/M_p0217730395.jpg",
-        images: [
-          "/projects/BETATESTINGIMAGES/M_p0217730395.jpg",
-          "/projects/BETATESTINGIMAGES/M_p0219136879.png"
-        ],
+        image: "/Shopping Contents/Women/dress-1.jpg",
         description: "Elegant Korean A-line dress perfect for any occasion",
         tags: ["Dresses", "Korean", "A-Line", "Elegant"],
         rating: 4.8,
@@ -325,11 +310,7 @@ export const shoppingCategories = {
         brand: "TokyoFashion",
         price: 55.00,
         originalPrice: 70.00,
-        image: "/projects/BETATESTINGIMAGES/M_p0153126832.jpg",
-        images: [
-          "/projects/BETATESTINGIMAGES/M_p0153126832.jpg",
-          "/projects/BETATESTINGIMAGES/M_p0173471010.jpg"
-        ],
+        image: "/Shopping Contents/Women/blouse-1.jpg",
         description: "Lightweight Japanese blouse with unique patterns",
         tags: ["Tops", "Japanese", "Blouse", "Pattern"],
         rating: 4.5,
@@ -351,11 +332,7 @@ export const shoppingCategories = {
         brand: "SilkRoad",
         price: 45.00,
         originalPrice: 65.00,
-        image: "/projects/BETATESTINGIMAGES/M_p0188313813.jpg",
-        images: [
-          "/projects/BETATESTINGIMAGES/M_p0188313813.jpg",
-          "/projects/BETATESTINGIMAGES/M_p0212227403.jpg"
-        ],
+        image: "/Shopping Contents/Women/scarf-1.jpg",
         description: "Luxurious Chinese silk scarf with traditional patterns",
         tags: ["Accessories", "Chinese", "Silk", "Traditional"],
         rating: 4.9,
@@ -378,11 +355,7 @@ export const shoppingCategories = {
         brand: "TokyoVibe",
         price: 85.00,
         originalPrice: 110.00,
-        image: "/projects/BETATESTINGIMAGES/M_p0219369326.jpg",
-        images: [
-          "/projects/BETATESTINGIMAGES/M_p0219369326.jpg",
-          "/projects/BETATESTINGIMAGES/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png"
-        ],
+        image: "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
         description: "Modern Japanese fashion collection",
         tags: ["Fashion", "Japanese", "Streetwear", "Modern"],
         rating: 4.7,
@@ -404,11 +377,7 @@ export const shoppingCategories = {
         brand: "UrbanHarbor",
         price: 95.00,
         originalPrice: 125.00,
-        image: "/projects/BETATESTINGIMAGES/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
-        images: [
-          "/projects/BETATESTINGIMAGES/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
-          "/projects/BETATESTINGIMAGES/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png"
-        ],
+        image: "/projects/BrandCovers/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
         description: "Contemporary Asian urban style",
         tags: ["Fashion", "Urban", "Contemporary", "Asian"],
         rating: 4.8,
@@ -437,11 +406,7 @@ export const shoppingCategories = {
         brand: "UrbanHarbor",
         price: 65.00,
         originalPrice: 85.00,
-        image: "/projects/BETATESTINGIMAGES/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
-        images: [
-          "/projects/BETATESTINGIMAGES/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
-          "/projects/BETATESTINGIMAGES/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png"
-        ],
+        image: "/Shopping Contents/Men/hoodie-1.jpg",
         description: "Comfortable Korean streetwear hoodie",
         tags: ["Outerwear", "Korean", "Hoodie", "Streetwear"],
         rating: 4.7,
@@ -463,10 +428,7 @@ export const shoppingCategories = {
         brand: "TokyoDenim",
         price: 95.00,
         originalPrice: 120.00,
-        image: "/projects/BETATESTINGIMAGES/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
-        images: [
-          "/projects/BETATESTINGIMAGES/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png"
-        ],
+        image: "/Shopping Contents/Men/jeans-1.jpg",
         description: "Premium Japanese denim jeans",
         tags: ["Pants", "Japanese", "Denim", "Premium"],
         rating: 4.6,
@@ -608,11 +570,7 @@ export const shoppingCategories = {
         brand: "ZenLifestyle",
         price: 85.00,
         originalPrice: 110.00,
-        image: "/projects/BETATESTINGIMAGES/M_p0217730395.jpg",
-        images: [
-          "/projects/BETATESTINGIMAGES/M_p0217730395.jpg",
-          "/projects/BETATESTINGIMAGES/M_p0219136879.png"
-        ],
+        image: "/Shopping Contents/Lifestyle/tea-set-1.jpg",
         description: "Traditional Japanese ceramic tea set",
         tags: ["Kitchen", "Japanese", "Tea Set", "Ceramic"],
         rating: 4.8,
@@ -634,11 +592,7 @@ export const shoppingCategories = {
         brand: "HarmonyWell",
         price: 35.00,
         originalPrice: 50.00,
-        image: "/projects/BETATESTINGIMAGES/M_p0153126832.jpg",
-        images: [
-          "/projects/BETATESTINGIMAGES/M_p0153126832.jpg",
-          "/projects/BETATESTINGIMAGES/M_p0173471010.jpg"
-        ],
+        image: "/Shopping Contents/Lifestyle/incense-1.jpg",
         description: "Korean traditional incense for meditation",
         tags: ["Wellness", "Korean", "Incense", "Meditation"],
         rating: 4.5,
@@ -661,11 +615,7 @@ export const shoppingCategories = {
         brand: "ZenLifestyle",
         price: 45.00,
         originalPrice: 60.00,
-        image: "/projects/BETATESTINGIMAGES/M_p0188313813.jpg",
-        images: [
-          "/projects/BETATESTINGIMAGES/M_p0188313813.jpg",
-          "/projects/BETATESTINGIMAGES/M_p0212227403.jpg"
-        ],
+        image: "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
         description: "Mindful wellness products",
         tags: ["Lifestyle", "Wellness", "Mindful", "Zen"],
         rating: 4.6,
@@ -694,11 +644,7 @@ export const shoppingCategories = {
         brand: "WellnessCore",
         price: 45.00,
         originalPrice: 60.00,
-        image: "/projects/BETATESTINGIMAGES/M_p0219369326.jpg",
-        images: [
-          "/projects/BETATESTINGIMAGES/M_p0219369326.jpg",
-          "/projects/BETATESTINGIMAGES/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png"
-        ],
+        image: "/Shopping Contents/Health/ginseng-1.jpg",
         description: "Premium Korean ginseng extract for energy",
         tags: ["Supplements", "Korean", "Ginseng", "Energy"],
         rating: 4.7,
@@ -720,11 +666,7 @@ export const shoppingCategories = {
         brand: "TraditionalWell",
         price: 25.00,
         originalPrice: 35.00,
-        image: "/projects/BETATESTINGIMAGES/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
-        images: [
-          "/projects/BETATESTINGIMAGES/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
-          "/projects/BETATESTINGIMAGES/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png"
-        ],
+        image: "/Shopping Contents/Health/herbal-tea-1.jpg",
         description: "Traditional Chinese herbal tea blend",
         tags: ["Traditional Medicine", "Chinese", "Herbal Tea", "Wellness"],
         rating: 4.6,
@@ -753,11 +695,7 @@ export const shoppingCategories = {
         brand: "MooStyle Blog",
         price: 0,
         originalPrice: 0,
-        image: "/projects/BETATESTINGIMAGES/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
-        images: [
-          "/projects/BETATESTINGIMAGES/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
-          "/projects/BETATESTINGIMAGES/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png"
-        ],
+        image: "/Shopping Contents/Blog/skincare-guide-1.jpg",
         description: "Complete guide to Korean skincare routines",
         tags: ["Beauty Tips", "Korean", "Skincare", "Guide"],
         rating: 4.9,
@@ -779,10 +717,7 @@ export const shoppingCategories = {
         brand: "MooStyle Blog",
         price: 0,
         originalPrice: 0,
-        image: "/projects/BETATESTINGIMAGES/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
-        images: [
-          "/projects/BETATESTINGIMAGES/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png"
-        ],
+        image: "/Shopping Contents/Blog/fashion-trends-1.jpg",
         description: "Latest Japanese streetwear and fashion trends",
         tags: ["Fashion Trends", "Japanese", "Streetwear", "Trends"],
         rating: 4.7,

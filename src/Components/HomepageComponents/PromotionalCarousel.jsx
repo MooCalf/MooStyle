@@ -23,6 +23,21 @@ export const PromotionalCarousel = () => {
       type: 'image',
       src: "/projects/Brand Medias/Promotional Content/Promo Banner - Patreon.png",
       alt: "Promo Banner - Patreon"
+    },
+    {
+      type: 'image',
+      src: "/projects/Carousell Images/image1.jpg",
+      alt: "Carousel Image 1"
+    },
+    {
+      type: 'image',
+      src: "/projects/Carousell Images/image2.jpg",
+      alt: "Carousel Image 2"
+    },
+    {
+      type: 'image',
+      src: "/projects/Carousell Images/image3.jpg",
+      alt: "Carousel Image 3"
     }
   ];
 

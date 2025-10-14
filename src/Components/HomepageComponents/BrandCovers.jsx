@@ -52,14 +52,14 @@ export const BrandCovers = () => {
     },
     {
       id: 7,
-      image: "/projects/BETATESTINGIMAGES/M_p0217730395.jpg",
+      image: "/projects/BrandCovers/brand7.jpg",
       name: "SilkRoad",
       description: "Traditional Chinese elegance",
       discount: "22% OFF"
     },
     {
       id: 8,
-      image: "/projects/BETATESTINGIMAGES/M_p0219136879.png",
+      image: "/projects/BrandCovers/brand8.jpg",
       name: "HarmonyWell",
       description: "Holistic Asian wellness",
       discount: "18% OFF"
