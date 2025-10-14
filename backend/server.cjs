@@ -142,6 +142,8 @@ app.use(cors({
     // In production, be more restrictive
     if (process.env.NODE_ENV === 'production') {
       const allowedOrigins = [
+        'https://moostyles.com',
+        'https://www.moostyles.com',
         'https://moostyle.pages.dev',
         'https://moostyles.pages.dev',
         'https://moostyle-eub.pages.dev',
