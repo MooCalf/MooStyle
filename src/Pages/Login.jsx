@@ -79,6 +79,7 @@ export const Login = () => {
     setSuccess('');
     try {
       const frontendUrl = window.location.origin;
+      
       await signIn.social({
         provider: provider,
         callbackURL: `${frontendUrl}/`,
