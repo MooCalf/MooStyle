@@ -18,7 +18,7 @@ const createAdminAccount = async () => {
       process.exit(1);
     }
     
-    const adminPassword = 'Admin123!'; // Default password - should be changed
+    const adminPassword = process.env.ADMIN_DEFAULT_PASSWORD || 'Admin123!'; // Default password - should be changed
     const saltRounds = 12;
     const hashedPassword = await bcrypt.hash(adminPassword, saltRounds);
     
@@ -105,7 +105,7 @@ const createAdminAccount = async () => {
       process.exit(1);
     }
     
-    const adminPassword = 'Admin123!'; // Default password - should be changed
+    const adminPassword = process.env.ADMIN_DEFAULT_PASSWORD || 'Admin123!'; // Default password - should be changed
     const saltRounds = 12;
     const hashedPassword = await bcrypt.hash(adminPassword, saltRounds);
     
