@@ -202,10 +202,16 @@ app.get('/api/debug/cookies', async (req, res) => {
   try {
     const { auth } = require('./auth');
     
+    console.log('🔍 Debug endpoint called');
+    console.log('🔍 Raw headers:', req.headers);
+    console.log('🔍 Cookie header:', req.headers.cookie);
+    
     // Test session validation
     const session = await auth.api.getSession({
       headers: req.headers
     });
+    
+    console.log('🔍 Session result:', session);
     
     res.json({
       success: true,
@@ -218,6 +224,7 @@ app.get('/api/debug/cookies', async (req, res) => {
       }
     });
   } catch (error) {
+    console.error('🔍 Debug endpoint error:', error);
     res.status(500).json({
       success: false,
       error: error.message,
@@ -226,6 +233,40 @@ app.get('/api/debug/cookies', async (req, res) => {
         cookieHeader: req.headers.cookie,
         timestamp: new Date().toISOString()
       }
+    });
+  }
+});
+
+// Debug endpoint for session creation testing
+app.post('/api/debug/test-signin', async (req, res) => {
+  try {
+    const { auth } = require('./auth');
+    
+    console.log('🔍 Test signin endpoint called');
+    console.log('🔍 Request body:', req.body);
+    
+    // Test email/password signin
+    const result = await auth.api.signInEmail({
+      body: {
+        email: req.body.email || 'test@example.com',
+        password: req.body.password || 'testpassword'
+      },
+      headers: req.headers
+    });
+    
+    console.log('🔍 Signin result:', result);
+    
+    res.json({
+      success: true,
+      result: result,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('🔍 Test signin error:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      timestamp: new Date().toISOString()
     });
   }
 });
