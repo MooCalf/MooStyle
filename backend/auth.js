@@ -137,6 +137,15 @@ const auth = betterAuth({
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
     updateAge: 60 * 60 * 24, // Update session every 24h
+    // Fix cookie settings for cross-domain
+    cookieName: "better-auth.session_token",
+    cookieOptions: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax', // Changed from 'strict' to 'lax' for cross-domain
+      domain: process.env.NODE_ENV === 'production' ? '.moostyles.com' : undefined,
+      path: '/',
+    },
     // Add debugging for session creation
     onCreate: async (session, request) => {
       console.log('🔍 Session created:', { sessionId: session.id, userId: session.userId });
