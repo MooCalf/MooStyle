@@ -95,7 +95,7 @@ npm run dev
    # Test login endpoint
    curl -X POST http://localhost:5000/api/auth/login \
      -H "Content-Type: application/json" \
-     -d '{"email":"moocalf@admin.com","password":"MooCalf101?"}'
+     -d '{"email":"admin@example.com","password":"YourPassword123!"}'
    ```
 
 ### **If Login Still Fails:**

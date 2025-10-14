@@ -168,7 +168,7 @@ npm run lint
 ### Required Environment Variables:
 ```bash
 # Backend (.env file)
-MONGODB_URI=mongodb+srv://MooCalf:MooCalf101!@moostyles.ilo9smk.mongodb.net/moostyle?retryWrites=true&w=majority&appName=MooStyles
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/moostyle?retryWrites=true&w=majority&appName=MooStyles
 JWT_SECRET=moostyle-super-secret-jwt-key-2024-change-in-production
 PORT=5000
 NODE_ENV=development
