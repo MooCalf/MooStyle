@@ -129,6 +129,7 @@ const auth = betterAuth({
       google: {
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        redirectURI: "https://moostyles.com/api/auth/callback/google"
       }
     } : {}),
   },
@@ -137,6 +138,14 @@ const auth = betterAuth({
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
     updateAge: 60 * 60 * 24, // Update session every 24h
+    cookieName: "better-auth.session_token",
+    cookieOptions: {
+      httpOnly: true,
+      secure: true, // HTTPS only
+      sameSite: 'lax', // Allow cross-site requests
+      domain: '.moostyles.com', // Allow subdomain access
+      path: '/',
+    },
   },
 
   // User configuration with custom fields
@@ -233,7 +242,7 @@ const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET || process.env.JWT_SECRET || "fallback-secret-change-in-production",
 
   // Base URL for the auth server
-  baseURL: process.env.BETTER_AUTH_URL || process.env.FRONTEND_URL || "http://localhost:5000",
+  baseURL: "https://moostyle-production.up.railway.app",
 });
 
 module.exports = { auth };

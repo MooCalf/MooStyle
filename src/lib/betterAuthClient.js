@@ -14,13 +14,20 @@ export const authClient = createAuthClient({
     adminClient(),
     emailOTPClient()
   ],
-  // Add production configuration
+  // Production configuration for cross-domain
   fetchOptions: {
     credentials: 'include',
+    mode: 'cors',
   },
-  // Ensure proper session handling
+  // Session configuration
   session: {
     updateAge: 60 * 60 * 24, // Update session every 24h
+  },
+  // Cookie configuration
+  cookieOptions: {
+    secure: true,
+    sameSite: 'lax',
+    domain: '.moostyles.com',
   }
 });
 
