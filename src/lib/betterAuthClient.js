@@ -11,7 +11,15 @@ export const authClient = createAuthClient({
   plugins: [
     adminClient(),
     emailOTPClient()
-  ]
+  ],
+  // Add production configuration
+  fetchOptions: {
+    credentials: 'include',
+  },
+  // Ensure proper session handling
+  session: {
+    updateAge: 60 * 60 * 24, // Update session every 24h
+  }
 });
 
 // Export auth methods for easy use
@@ -28,6 +36,7 @@ export const authHelpers = {
   // Check if user is authenticated
   isAuthenticated: () => {
     const session = getSession();
+    console.log('🔍 isAuthenticated check:', { session, hasUser: !!session?.user });
     return !!session?.user;
   },
 
