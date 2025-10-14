@@ -9,7 +9,9 @@ export const authClient = createAuthClient({
   plugins: [
     adminClient(),
     emailOTPClient()
-  ]
+  ],
+  // BetterAuth v1.3.27 handles cookies automatically
+  // No need for custom cookie configuration
 });
 
 // Export auth methods for easy use
