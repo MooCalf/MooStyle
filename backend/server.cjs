@@ -203,11 +203,6 @@ const { toNodeHandler } = require('better-auth/node');
 // Mount Better Auth handler
 app.use('/api/auth', toNodeHandler(auth));
 
-// Google OAuth callback route
-app.get('/api/auth/callback/google', (req, res) => {
-  // This will be handled by Better Auth, but we need to ensure it exists
-  res.redirect('/');
-});
 
 // Root route handler for OAuth redirects
 app.get('/', (req, res) => {

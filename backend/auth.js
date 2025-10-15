@@ -2,18 +2,51 @@ const { betterAuth } = require("better-auth");
 const { MongoClient } = require("mongodb");
 const { mongodbAdapter } = require("better-auth/adapters/mongodb");
 const { admin, emailOTP } = require("better-auth/plugins");
-const { sendPasswordResetEmail, sendEmailVerificationEmail } = require("./services/emailService");
+const { sendPasswordResetEmail, sendEmailVerificationEmail, sendOtpEmail } = require("./services/emailService");
 
-// MongoDB connection
-const client = new MongoClient(process.env.MONGODB_URI);
+// MongoDB connection (ensure proper lifecycle management)
+const client = new MongoClient(process.env.MONGODB_URI, {
+  maxPoolSize: 10,
+});
 const db = client.db();
+
+// Connect once at startup
+client.connect()
+  .then(() => console.log("✅ MongoDB client connected for Better Auth"))
+  .catch((err) => {
+    console.error("❌ Failed to connect MongoDB client for Better Auth:", err);
+  });
+
+process.on('SIGINT', async () => {
+  try {
+    await client.close();
+    console.log('🔌 MongoDB client closed (SIGINT)');
+  } finally {
+    process.exit(0);
+  }
+});
+
+// Environment safety checks
+const isProd = process.env.NODE_ENV === 'production';
+if (isProd) {
+  const required = [
+    'BETTER_AUTH_SECRET',
+    'BETTER_AUTH_URL',
+    'FRONTEND_URL',
+    'MONGODB_URI',
+  ];
+  const missing = required.filter((k) => !process.env[k]);
+  if (missing.length) {
+    console.error(`❌ Missing required env vars in production: ${missing.join(', ')}`);
+  }
+}
 
 // Better Auth configuration
 const auth = betterAuth({
   // Database configuration with MongoDB adapter
   database: mongodbAdapter(db, {
-    // Optional: if you don't provide a client, database transactions won't be enabled.
-    client
+    // Passing the connected client enables transactions (if MongoDB supports it)
+    client,
   }),
 
   // Plugins
@@ -21,37 +54,27 @@ const auth = betterAuth({
     admin({
       defaultRole: "user",
       adminRoles: ["admin", "owner"],
-      adminUserIds: [], // We'll add your admin email here
+      adminUserIds: process.env.ADMIN_USER_IDS
+        ? process.env.ADMIN_USER_IDS.split(',').map((s) => s.trim()).filter(Boolean)
+        : [],
     }),
     emailOTP({
       otpLength: 6,
       expiresIn: 300, // 5 minutes
       allowedAttempts: 3,
       async sendVerificationOTP({ email, otp, type }) {
-        console.log(`Sending OTP to ${email}: ${otp} (type: ${type})`);
-        
         try {
           if (type === "sign-in") {
-            // Send OTP for sign in
-            await sendPasswordResetEmail(email, `Your sign-in code is: ${otp}`, `Sign-in Code: ${otp}`);
+            await sendOtpEmail(email, otp, 'sign-in');
           } else if (type === "email-verification") {
-            // Send OTP for email verification
-            await sendEmailVerificationEmail(email, `Your verification code is: ${otp}`, `Verification Code: ${otp}`);
+            await sendOtpEmail(email, otp, 'email-verification');
           } else if (type === "forget-password") {
-            // Send OTP for password reset
-            await sendPasswordResetEmail(email, `Your password reset code is: ${otp}`, `Password Reset Code: ${otp}`);
+            await sendOtpEmail(email, otp, 'password-reset');
           }
-          
-          return {
-            success: true,
-            message: `OTP sent to ${email}`
-          };
+          return true;
         } catch (error) {
           console.error('Error sending OTP:', error);
-          return {
-            success: false,
-            message: 'Failed to send OTP'
-          };
+          throw new Error('Failed to send OTP');
         }
       }
     })
@@ -72,57 +95,55 @@ const auth = betterAuth({
       return user;
     },
     sendResetPassword: async ({ user, url, token }, request) => {
-      // Use Better Auth's built-in email functionality
       const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
       const resetLink = url || `${frontendUrl}/reset-password?token=${token}`;
-      
-      console.log(`Password reset link for ${user.email}: ${resetLink}`);
-      
-      // Send actual email using our email service
-      const emailSent = await sendPasswordResetEmail(user.email, resetLink, user.username || user.name);
-      
-      return {
-        success: emailSent,
-        message: emailSent ? `Password reset email sent to ${user.email}` : `Failed to send email to ${user.email}`
-      };
+
+      const emailSent = await sendPasswordResetEmail(
+        user.email,
+        resetLink,
+        user.username || user.name
+      );
+
+      if (!emailSent) {
+        throw new Error(`Failed to send password reset email to ${user.email}`);
+      }
+
+      return true;
     },
   },
 
   // Email verification configuration
   emailVerification: {
-    sendOnSignUp: false, // Don't require verification on signup for now
-    autoSignInAfterVerification: true, // Auto sign in after verification
+    sendOnSignUp: false,
+    autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url, token }, request) => {
       const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
       const verificationLink = url || `${frontendUrl}/verify-email?token=${token}`;
-      
-      console.log(`Email verification link for ${user.email}: ${verificationLink}`);
-      
-      // Send actual email using our email service
-      const emailSent = await sendEmailVerificationEmail(user.email, verificationLink, user.username || user.name);
-      
-      return {
-        success: emailSent,
-        message: emailSent ? `Verification email sent to ${user.email}` : `Failed to send email to ${user.email}`
-      };
+
+      const emailSent = await sendEmailVerificationEmail(
+        user.email,
+        verificationLink,
+        user.username || user.name
+      );
+
+      if (!emailSent) {
+        throw new Error(`Failed to send verification email to ${user.email}`);
+      }
+
+      return true;
     },
     afterEmailVerification: async (user, request) => {
-      console.log(`Email verified for user: ${user.email}`);
-      // You can add custom logic here, like:
-      // - Grant access to premium features
-      // - Send welcome email
-      // - Update user status
+      // Optional post-verification logic
     }
   },
 
   // Social providers
   socialProviders: {
-    // Google OAuth - only enable if credentials are provided
     ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? {
       google: {
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        redirectURI: `${process.env.BETTER_AUTH_URL || "https://moostyle-production.up.railway.app"}/api/auth/callback/google`,
+        redirectURI: `${process.env.BETTER_AUTH_URL || 'http://localhost:5000'}/api/auth/callback/google`,
       }
     } : {}),
   },
@@ -133,27 +154,30 @@ const auth = betterAuth({
     updateAge: 60 * 60 * 24, // Update session every 24h
     cookieCache: {
       enabled: true,
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 60 * 24 * 7,
     },
     cookie: {
-      secure: true,
-      sameSite: 'none',
-      domain: undefined, // Allow cross-domain cookies
+      secure: isProd,
+      sameSite: process.env.AUTH_COOKIE_SAMESITE || (isProd ? (process.env.AUTH_COOKIE_DOMAIN ? 'lax' : 'none') : 'lax'),
+      domain: process.env.AUTH_COOKIE_DOMAIN || undefined,
+      path: '/',
     },
   },
 
-  // User configuration with custom fields
+  // User configuration with custom fields and validation
   user: {
     additionalFields: {
       username: {
         type: "string",
         required: true,
         unique: true,
+        validate: (v) => typeof v === 'string' && /^[a-zA-Z0-9_]{3,20}$/.test(v),
       },
       role: {
         type: "string",
         required: true,
         defaultValue: "user",
+        validate: (v) => ['user', 'admin', 'owner'].includes(v),
       },
       isActive: {
         type: "boolean",
@@ -164,16 +188,19 @@ const auth = betterAuth({
         type: "number",
         required: true,
         defaultValue: 0,
+        validate: (v) => Number.isFinite(v) && v >= 0,
       },
       membershipLevel: {
         type: "string",
         required: true,
         defaultValue: "Bronze",
+        validate: (v) => ['Bronze', 'Silver', 'Gold', 'Diamond'].includes(v),
       },
       notificationSettings: {
         type: "object",
         required: true,
         defaultValue: { emailNotifications: false },
+        validate: (v) => v && typeof v === 'object' && typeof v.emailNotifications === 'boolean',
       },
       lastDownloaded: {
         type: "date",
@@ -192,36 +219,23 @@ const auth = betterAuth({
         required: false,
       }
     },
-    // Enable user management features
     changeEmail: {
       enabled: true,
       sendChangeEmailVerification: async ({ user, newEmail, url, token }, request) => {
-        console.log(`Email change verification for ${user.email} to ${newEmail}: ${url}`);
-        return {
-          success: true,
-          message: `Email change verification sent to ${user.email}`
-        };
+        return true;
       }
     },
     deleteUser: {
       enabled: true,
       sendDeleteAccountVerification: async ({ user, url, token }, request) => {
-        console.log(`Account deletion verification for ${user.email}: ${url}`);
-        return {
-          success: true,
-          message: `Account deletion verification sent to ${user.email}`
-        };
+        return true;
       },
       beforeDelete: async (user, request) => {
-        // Prevent deletion of admin accounts
         if (user.role === 'admin') {
           throw new Error("Admin accounts cannot be deleted");
         }
-        console.log(`User ${user.email} is being deleted`);
       },
-      afterDelete: async (user, request) => {
-        console.log(`User ${user.email} has been deleted`);
-      }
+      afterDelete: async (user, request) => {}
     }
   },
 
@@ -237,13 +251,11 @@ const auth = betterAuth({
     "http://localhost:3001"
   ],
 
-
   // Secret for signing tokens
-  secret: process.env.BETTER_AUTH_SECRET || process.env.JWT_SECRET || "moostyle-super-secret-jwt-key-2024-change-in-production",
+  secret: process.env.BETTER_AUTH_SECRET || (!isProd ? (process.env.JWT_SECRET || 'dev-only-insecure-secret') : undefined),
 
   // Base URL for the auth server
-  baseURL: process.env.BETTER_AUTH_URL || "https://moostyle-production.up.railway.app",
+  baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:5000',
 });
 
 module.exports = { auth };
-
