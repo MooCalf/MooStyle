@@ -134,6 +134,11 @@ const auth = betterAuth({
       enabled: true,
       maxAge: 60 * 60 * 24 * 7, // 7 days
     },
+    cookie: {
+      secure: true,
+      sameSite: 'none',
+      domain: undefined, // Allow cross-domain cookies
+    },
   },
 
   // User configuration with custom fields
@@ -222,6 +227,9 @@ const auth = betterAuth({
   // Trusted origins for CORS
   trustedOrigins: [
     process.env.FRONTEND_URL || "http://localhost:5173",
+    "https://moostyles.pages.dev",
+    "https://moostyles.com",
+    "https://www.moostyles.com",
     "http://localhost:3000",
     "http://localhost:5174",
     "http://localhost:5175",

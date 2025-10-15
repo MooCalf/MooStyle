@@ -7,7 +7,11 @@ export const authClient = createAuthClient({
   plugins: [
     adminClient(),
     emailOTPClient()
-  ]
+  ],
+  // Enable cross-domain session handling
+  fetchOptions: {
+    credentials: 'include',
+  },
 });
 
 // Export auth methods for easy use
