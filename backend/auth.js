@@ -241,7 +241,7 @@ const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET || process.env.JWT_SECRET || "fallback-secret-change-in-production",
 
   // Base URL for the auth server
-  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:5000",
+  baseURL: process.env.BETTER_AUTH_URL || "https://moostyle-production.up.railway.app",
 });
 
 module.exports = { auth };
