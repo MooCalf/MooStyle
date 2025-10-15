@@ -3,7 +3,7 @@ import { adminClient, emailOTPClient } from "better-auth/client/plugins";
 
 // Create Better Auth client with admin and emailOTP plugins
 export const authClient = createAuthClient({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://moostyle-production.up.railway.app",
   plugins: [
     adminClient(),
     emailOTPClient()

@@ -142,9 +142,11 @@ app.use(cors({
     // In production, be more restrictive
     if (process.env.NODE_ENV === 'production') {
       const allowedOrigins = [
-        'https://yourdomain.com',
-        'https://www.yourdomain.com'
-      ];
+        'https://moostyles.com',
+        'https://www.moostyles.com',
+        'https://moostyles.pages.dev',
+        process.env.FRONTEND_URL
+      ].filter(Boolean); // Remove any undefined values
       
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
