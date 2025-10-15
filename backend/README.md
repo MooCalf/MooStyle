@@ -269,13 +269,20 @@ npm test
 - `NODE_ENV=production`
 - `MONGODB_URI=<your-production-mongodb-uri>`
 - `BETTER_AUTH_SECRET=<your-strong-secret-key>`
-- `BETTER_AUTH_URL=<your-production-backend-url>`
-- `FRONTEND_URL=<your-production-frontend-url>`
+- `BETTER_AUTH_URL=<https://api.moostyles.com>`
+- `FRONTEND_URL=<https://moostyles.com>`
 - `EMAIL_SERVICE=gmail`
 - `EMAIL_USER=<your-email@gmail.com>`
 - `EMAIL_PASS=<your-app-specific-password>`
 - `GOOGLE_CLIENT_ID=<your-google-oauth-client-id>`
 - `GOOGLE_CLIENT_SECRET=<your-google-oauth-client-secret>`
+- `ADMIN_USER_IDS=<comma-separated-better-auth-user-ids>`
+- `AUTH_COOKIE_DOMAIN=.moostyles.com` (recommended when backend is on a subdomain of the main site)
+- `AUTH_COOKIE_SAMESITE=lax` (use `none` only if backend is on a different site)
+
+Note:
+- To avoid third-party cookie blocking in modern browsers, host the API under the same site, e.g. `https://api.moostyles.com`, and set `BETTER_AUTH_URL` accordingly.
+- In the frontend, set `VITE_AUTH_BASE_URL` to your API origin so Better Auth client uses the correct base URL.
 
 ### Cloudflare Workers (Recommended)
 1. Install Wrangler CLI

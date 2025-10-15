@@ -69,62 +69,102 @@ const sendEmail = async ({ to, subject, text, html }) => {
 };
 
 /**
- * Send password reset email
- * @param {string} email - User's email address
- * @param {string} resetUrl - Password reset URL
- * @param {string} username - User's username
- * @returns {Promise<boolean>} - Success status
+ * Send password reset email (link preferred; falls back to code layout if not a URL)
  */
-const sendPasswordResetEmail = async (email, resetUrl, username = 'User') => {
-  const html = `
+const sendPasswordResetEmail = async (email, resetUrlOrCode, username = 'User') => {
+  const isUrl = typeof resetUrlOrCode === 'string' && /^https?:\/\//i.test(resetUrlOrCode);
+  const resetHtml = isUrl
+    ? `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
+        <h1 style="color: white; margin: 0; font-size: 28px;">MooStyle</h1>
+        <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Password Reset</p>
+      </div>
+      <div style="padding: 30px; background: #f8f9fa;">
+        <h2 style="color: #333; margin-top: 0;">Hello ${username}!</h2>
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">Click the button below to reset your password:</p>
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${resetUrlOrCode}"
+             style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 30px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 16px; display: inline-block;">
+            Reset Password
+          </a>
+        </div>
+        <p style="color: #666; line-height: 1.6; font-size: 14px;">If the button doesn't work, copy and paste this link into your browser:</p>
+        <p style="color: #667eea; word-break: break-all; font-size: 14px; background: #f0f0f0; padding: 10px; border-radius: 4px;">${resetUrlOrCode}</p>
+      </div>
+      <div style="background: #333; padding: 20px; text-align: center;">
+        <p style="color: #999; margin: 0; font-size: 12px;">© 2024 MooStyle. All rights reserved.</p>
+      </div>
+    </div>`
+    : `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
         <h1 style="color: white; margin: 0; font-size: 28px;">MooStyle</h1>
         <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Password Reset Code</p>
       </div>
-      
       <div style="padding: 30px; background: #f8f9fa;">
         <h2 style="color: #333; margin-top: 0;">Hello ${username}!</h2>
-        
-        <p style="color: #666; line-height: 1.6; font-size: 16px;">
-          We received a request to reset your password for your MooStyle account. 
-          If you made this request, use the code below to reset your password:
-        </p>
-        
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">Use the code below to reset your password:</p>
         <div style="text-align: center; margin: 30px 0;">
           <div style="background: #fff; border: 2px solid #667eea; border-radius: 8px; padding: 20px; display: inline-block;">
             <p style="color: #333; font-size: 14px; margin: 0 0 10px 0; font-weight: bold;">Your Reset Code:</p>
-            <p style="color: #667eea; font-size: 32px; font-weight: bold; margin: 0; letter-spacing: 4px; font-family: monospace;">${resetUrl}</p>
+            <p style="color: #667eea; font-size: 32px; font-weight: bold; margin: 0; letter-spacing: 4px; font-family: monospace;">${resetUrlOrCode}</p>
           </div>
         </div>
-        
-        <p style="color: #666; line-height: 1.6; font-size: 14px;">
-          Copy and paste this code into the password reset form to complete the process.
-        </p>
-        
-        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
-          <p style="color: #999; font-size: 12px; margin: 0;">
-            <strong>Important:</strong> This code will expire in 1 hour for security reasons.
-          </p>
-          <p style="color: #999; font-size: 12px; margin: 5px 0 0 0;">
-            If you didn't request this password reset, please ignore this email. Your password will remain unchanged.
-          </p>
-        </div>
+        <p style="color: #666; line-height: 1.6; font-size: 14px;">Copy and paste this code into the password reset form. This code will expire in 1 hour.</p>
       </div>
-      
       <div style="background: #333; padding: 20px; text-align: center;">
-        <p style="color: #999; margin: 0; font-size: 12px;">
-          © 2024 MooStyle. All rights reserved.
-        </p>
+        <p style="color: #999; margin: 0; font-size: 12px;">© 2024 MooStyle. All rights reserved.</p>
       </div>
-    </div>
-  `;
+    </div>`;
 
   return await sendEmail({
     to: email,
-    subject: 'Your MooStyle Password Reset Code',
-    text: `Your password reset code is: ${resetUrl}`,
-    html
+    subject: isUrl ? 'Reset your MooStyle password' : 'Your MooStyle Password Reset Code',
+    text: isUrl ? `Reset your password: ${resetUrlOrCode}` : `Your password reset code is: ${resetUrlOrCode}`,
+    html: resetHtml,
+  });
+};
+
+/**
+ * Dedicated OTP email sender (sign-in, verification, password reset)
+ */
+const sendOtpEmail = async (email, otp, kind = 'sign-in') => {
+  const titleMap = {
+    'sign-in': 'Sign-in Code',
+    'email-verification': 'Verification Code',
+    'password-reset': 'Password Reset Code',
+  };
+  const subjectMap = {
+    'sign-in': 'Your MooStyle sign-in code',
+    'email-verification': 'Verify your email - code inside',
+    'password-reset': 'Your password reset code',
+  };
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;">
+        <h1 style="color: white; margin: 0; font-size: 28px;">MooStyle</h1>
+        <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">${titleMap[kind] || 'Your Code'}</p>
+      </div>
+      <div style="padding: 30px; background: #f8f9fa;">
+        <p style="color: #666; line-height: 1.6; font-size: 16px;">Use the code below to continue:</p>
+        <div style="text-align: center; margin: 30px 0;">
+          <div style="background: #fff; border: 2px solid #667eea; border-radius: 8px; padding: 20px; display: inline-block;">
+            <p style="color: #333; font-size: 14px; margin: 0 0 10px 0; font-weight: bold;">Your Code:</p>
+            <p style="color: #667eea; font-size: 32px; font-weight: bold; margin: 0; letter-spacing: 4px; font-family: monospace;">${otp}</p>
+          </div>
+        </div>
+        <p style="color: #666; line-height: 1.6; font-size: 14px;">This code expires in 5 minutes.</p>
+      </div>
+      <div style="background: #333; padding: 20px; text-align: center;">
+        <p style="color: #999; margin: 0; font-size: 12px;">© 2024 MooStyle. All rights reserved.</p>
+      </div>
+    </div>`;
+  return await sendEmail({
+    to: email,
+    subject: subjectMap[kind] || 'Your verification code',
+    text: `Your code is: ${otp}`,
+    html,
   });
 };
 
@@ -342,9 +382,7 @@ const sendUnbanNotificationEmail = async (email, username) => {
       </div>
       
       <div style="background: #333; padding: 20px; text-align: center;">
-        <p style="color: #999; margin: 0; font-size: 12px;">
-          © 2024 MooStyle. All rights reserved.
-        </p>
+        <p style="color: #999; margin: 0; font-size: 12px;">© 2024 MooStyle. All rights reserved.</p>
       </div>
     </div>
   `;
@@ -364,5 +402,6 @@ module.exports = {
   sendBanNotificationEmail,
   sendUnbanNotificationEmail,
   testEmailConfiguration,
-  createTransporter
+  createTransporter,
+  sendOtpEmail,
 };
