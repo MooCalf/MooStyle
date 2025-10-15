@@ -139,27 +139,29 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
-    // In production, be more restrictive
-    if (process.env.NODE_ENV === 'production') {
-      const allowedOrigins = [
-        'https://moostyles.com',
-        'https://www.moostyles.com',
-        'https://moostyles.pages.dev',
-        process.env.FRONTEND_URL
-      ].filter(Boolean); // Remove any undefined values
-      
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error('Not allowed by CORS'));
-      }
+    // Always allow these origins
+    const allowedOrigins = [
+      'https://moostyles.com',
+      'https://www.moostyles.com',
+      'https://moostyles.pages.dev',
+      'http://localhost:5173',
+      'http://localhost:3000',
+      'http://localhost:5174',
+      'http://localhost:5175',
+      'http://localhost:3001'
+    ];
+    
+    // Add environment variable if it exists
+    if (process.env.FRONTEND_URL) {
+      allowedOrigins.push(process.env.FRONTEND_URL);
     }
     
-    // In development, allow localhost
-    if (origin.match(/^http:\/\/localhost:\d+$/)) {
+    if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
     
+    // Log the blocked origin for debugging
+    console.log('🚫 CORS blocked origin:', origin);
     callback(new Error('Not allowed by CORS'));
   },
   credentials: true,
