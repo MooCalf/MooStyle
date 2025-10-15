@@ -122,7 +122,7 @@ const auth = betterAuth({
       google: {
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        redirectURI: `${process.env.BETTER_AUTH_URL || "http://localhost:5000"}/api/auth/callback/google`,
+        redirectURI: `${process.env.BETTER_AUTH_URL || "https://moostyle-production.up.railway.app"}/api/auth/callback/google`,
       }
     } : {}),
   },
@@ -236,6 +236,22 @@ const auth = betterAuth({
     "http://localhost:5175",
     "http://localhost:3001"
   ],
+
+  // OAuth callback configuration
+  callbacks: {
+    onSuccess: async (user, request) => {
+      console.log('OAuth success for user:', user.email);
+      // Redirect to frontend after successful OAuth
+      const frontendUrl = process.env.FRONTEND_URL || "https://moostyles.pages.dev";
+      return `${frontendUrl}/`;
+    },
+    onError: async (error, request) => {
+      console.error('OAuth error:', error);
+      // Redirect to frontend login page with error
+      const frontendUrl = process.env.FRONTEND_URL || "https://moostyles.pages.dev";
+      return `${frontendUrl}/login?error=oauth_failed`;
+    }
+  },
 
   // Secret for signing tokens
   secret: process.env.BETTER_AUTH_SECRET || process.env.JWT_SECRET || "fallback-secret-change-in-production",
