@@ -85,7 +85,6 @@ export const Login = () => {
         callbackURL: `${frontendUrl}/`,
         errorCallbackURL: `${frontendUrl}/login`,
         newUserCallbackURL: `${frontendUrl}/`,
-        redirectURI: "https://moostyle-production.up.railway.app/api/auth/callback/google",
       });
     } catch (error) {
       setError(`Failed to sign in with ${provider}. Please try again.`);

@@ -237,24 +237,9 @@ const auth = betterAuth({
     "http://localhost:3001"
   ],
 
-  // OAuth callback configuration
-  callbacks: {
-    onSuccess: async (user, request) => {
-      console.log('OAuth success for user:', user.email);
-      // Redirect to frontend after successful OAuth
-      const frontendUrl = process.env.FRONTEND_URL || "https://moostyles.pages.dev";
-      return `${frontendUrl}/`;
-    },
-    onError: async (error, request) => {
-      console.error('OAuth error:', error);
-      // Redirect to frontend login page with error
-      const frontendUrl = process.env.FRONTEND_URL || "https://moostyles.pages.dev";
-      return `${frontendUrl}/login?error=oauth_failed`;
-    }
-  },
 
   // Secret for signing tokens
-  secret: process.env.BETTER_AUTH_SECRET || process.env.JWT_SECRET || "fallback-secret-change-in-production",
+  secret: process.env.BETTER_AUTH_SECRET || process.env.JWT_SECRET || "moostyle-super-secret-jwt-key-2024-change-in-production",
 
   // Base URL for the auth server
   baseURL: process.env.BETTER_AUTH_URL || "https://moostyle-production.up.railway.app",
