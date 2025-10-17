@@ -93,25 +93,25 @@ export const ContactSection = () => {
   ];
 
   return (
-    <section id="contact" className="contact-section py-24 px-4 relative">
+    <section id="contact" className="contact-section py-16 px-4 relative">
       <div className="container mx-auto max-w-5xl">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-gray-900">
           Get In <span className="text-teal-600">Touch</span>
         </h2>
-        <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
+        <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
           Have questions about MooStyle mods, want to collaborate, or need support? I'm here to help! 
           Reach out through any of the channels below for the fastest response. Whether you're a fellow modder, 
           content creator, or just a fan of Asian fashion and beauty, I'd love to hear from you!
         </p>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="space-y-6">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900">Contact Information</h3>
-            <div className="space-y-6">
+            <div className="space-y-4">
               {contactInfoItems.map((item, index) => (
                 <ContactInfoItem key={index} {...item} />
               ))}
             </div>
-            <div className="pt-8">
+            <div className="pt-6">
               <h4 className="font-medium mb-4 text-gray-900">Follow Me</h4>
               <div className="flex space-x-4">
                 {socialLinks.map((socialLink) => (
@@ -121,7 +121,7 @@ export const ContactSection = () => {
             </div>
             
             {/* Patreon Support Section */}
-            <div className="pt-8">
+            <div className="pt-6">
               <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-6 border border-orange-200">
                 <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
                   <Heart className="h-5 w-5 text-orange-500 mr-2" />
@@ -143,15 +143,15 @@ export const ContactSection = () => {
             </div>
           </div>
           
-          <div className="space-y-8">
+          <div className="space-y-6">
             <h3 className="text-2xl font-semibold mb-6 text-gray-900">Business Information</h3>
-            <div className="space-y-6">
+            <div className="space-y-4">
               {businessInfo.map((item, index) => (
                 <ContactInfoItem key={index} {...item} />
               ))}
             </div>
             
-            <div className="bg-teal-50 rounded-lg p-6">
+            <div className="bg-teal-50 rounded-lg p-4">
               <h4 className="font-semibold text-gray-900 mb-3">What I'm Looking For</h4>
               <ul className="space-y-2 text-gray-600">
                 <li className="flex items-start">
@@ -164,7 +164,7 @@ export const ContactSection = () => {
                 </li>
                 <li className="flex items-start">
                   <span className="text-teal-600 mr-2">•</span>
-                  <span>Brand partnerships for Asian fashion & beauty</span>
+                  <span>Brand partnerships for exclusive and creative brands</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-teal-600 mr-2">•</span>
@@ -172,16 +172,12 @@ export const ContactSection = () => {
                 </li>
                 <li className="flex items-start">
                   <span className="text-teal-600 mr-2">•</span>
-                  <span>Technical consulting and modding tutorials</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-teal-600 mr-2">•</span>
-                  <span>InZoi modding community initiatives</span>
+                  <span>Modding and Brand Identity creation and redefinition</span>
                 </li>
               </ul>
             </div>
             
-            <div className="bg-gray-50 rounded-lg p-6">
+            <div className="bg-gray-50 rounded-lg p-4">
               <h4 className="font-semibold text-gray-900 mb-3">Best Ways to Reach Me</h4>
               <div className="space-y-3 text-gray-600">
                 <p><strong>Email:</strong> Most reliable for business inquiries, detailed discussions, and formal partnerships</p>

@@ -25,18 +25,6 @@ export const Support = () => {
       color: "bg-blue-50 border-blue-200 hover:bg-blue-100"
     },
     {
-      icon: <CreditCard size={24} color="#9333ea" />,
-      title: "Billing & Payments",
-      description: "Payment issues, refunds, subscription questions",
-      color: "bg-purple-50 border-purple-200 hover:bg-purple-100"
-    },
-    {
-      icon: <Settings size={24} color="#ea580c" />,
-      title: "Account Settings",
-      description: "Profile updates, preferences, account management",
-      color: "bg-orange-50 border-orange-200 hover:bg-orange-100"
-    },
-    {
       icon: <HelpCircle size={24} color="#6b7280" />,
       title: "General Support",
       description: "Other questions, feedback, technical issues",
@@ -88,13 +76,13 @@ export const Support = () => {
           </div>
 
           {/* Contact Methods */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
               <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Mail size={24} color="#0d9488" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Email Support</h3>
-              <p className="text-gray-600 mb-4">Directly contact us to get help via email</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Technical Support</h3>
+              <p className="text-gray-600 mb-4">For technical issues and general help</p>
               <a 
                 href="mailto:support@moostyle.com"
                 className="inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
@@ -105,19 +93,50 @@ export const Support = () => {
             </div>
 
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock size={24} color="#16a34a" />
+              <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Mail size={24} color="#9333ea" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Response Time</h3>
-              <p className="text-gray-600 mb-4">We typically respond within</p>
-              <div className="text-2xl font-bold text-green-600">24-48 hours</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Business Inquiries</h3>
+              <p className="text-gray-600 mb-4">For partnerships and business opportunities</p>
+              <a 
+                href="mailto:business@moostyles.com"
+                className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                <Mail size={16} className="mr-2" />
+                business@moostyles.com
+              </a>
             </div>
+
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center">
+              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Mail size={24} color="#2563eb" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">General Contact</h3>
+              <p className="text-gray-600 mb-4">For general questions and feedback</p>
+              <a 
+                href="mailto:hello@moostyles.com"
+                className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <Mail size={16} className="mr-2" />
+                hello@moostyles.com
+              </a>
+            </div>
+          </div>
+
+          {/* Response Time */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 text-center mb-12">
+            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Clock size={24} color="#16a34a" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Response Time</h3>
+            <p className="text-gray-600 mb-4">We typically respond within</p>
+            <div className="text-2xl font-bold text-green-600">24-48 hours</div>
           </div>
 
           {/* Support Categories */}
           <div className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">What can we help you with?</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {supportCategories.map((category, index) => (
                 <div 
                   key={index}
@@ -163,7 +182,21 @@ export const Support = () => {
                 className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
               >
                 <Mail size={16} color="#ffffff" className="mr-2" />
-                Email Support
+                Technical Support
+              </a>
+              <a
+                href="mailto:business@moostyles.com"
+                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              >
+                <Mail size={16} color="#ffffff" className="mr-2" />
+                Business Inquiries
+              </a>
+              <a
+                href="mailto:hello@moostyles.com"
+                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <Mail size={16} color="#ffffff" className="mr-2" />
+                General Contact
               </a>
               <Link
                 to="/"
