@@ -138,16 +138,13 @@ const auth = betterAuth({
   },
 
   // Social providers
-  socialProviders: {
-    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? {
-      google: {
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        redirectURI: `${process.env.BETTER_AUTH_URL}/api/auth/callback/google`,
-        scope: ["openid", "email", "profile"],
-      }
-    } : {}),
-  },
+  socialProviders: process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      scope: ["openid", "email", "profile"],
+    }
+  } : {},
 
   // Debug logging
   onAPIError: {
@@ -292,12 +289,17 @@ async function initializeDatabase() {
     console.log('🔍 Expected Google Callback URL:', `${process.env.BETTER_AUTH_URL || 'http://localhost:5000'}/api/auth/callback/google`);
     console.log('🔍 Better Auth Configuration:');
     console.log('  - Base URL:', auth.baseURL);
-    console.log('  - Google Config:', auth.socialProviders?.google);
+    console.log('  - Google Config (providers):', auth.providers?.google);
+    console.log('  - Google Config (socialProviders):', auth.socialProviders?.google);
+    console.log('  - All Providers:', Object.keys(auth.providers || {}));
     console.log('  - All Social Providers:', Object.keys(auth.socialProviders || {}));
     console.log('  - Auth Object Keys:', Object.keys(auth));
     console.log('  - Google Client ID exists:', !!process.env.GOOGLE_CLIENT_ID);
     console.log('  - Google Client Secret exists:', !!process.env.GOOGLE_CLIENT_SECRET);
     console.log('  - BETTER_AUTH_URL:', process.env.BETTER_AUTH_URL);
+    console.log('  - Providers Object:', auth.providers);
+    console.log('  - Social Providers Object:', auth.socialProviders);
+    console.log('  - Auth Options:', auth.options);
     console.log('✅ Better Auth database initialization complete');
   } catch (error) {
     console.error('❌ Error initializing Better Auth database:', error);
