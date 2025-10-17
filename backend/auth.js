@@ -148,6 +148,15 @@ const auth = betterAuth({
     } : {}),
   },
 
+  // Debug logging
+  onAPIError: {
+    onError: (error, ctx) => {
+      console.log('🔍 Better Auth Error:', error);
+      console.log('🔍 Better Auth URL:', process.env.BETTER_AUTH_URL);
+      console.log('🔍 Generated Callback URL:', `${process.env.BETTER_AUTH_URL || 'http://localhost:5000'}/api/auth/callback/google`);
+    },
+  },
+
   // Session configuration
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
