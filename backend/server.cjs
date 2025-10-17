@@ -210,6 +210,16 @@ app.use('/api/auth/callback/google', (req, res, next) => {
   next();
 });
 
+// Add logging for OAuth initiation
+app.use('/api/auth/sign-in/social', (req, res, next) => {
+  console.log('🔍 OAuth Sign-in Request:');
+  console.log('  - URL:', req.url);
+  console.log('  - Method:', req.method);
+  console.log('  - Body:', req.body);
+  console.log('  - Query:', req.query);
+  next();
+});
+
 // Mount Better Auth handler
 app.use('/api/auth', toNodeHandler(auth));
 
