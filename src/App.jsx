@@ -1,16 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { AuthProvider } from './contexts/AuthContext';
-import { CartProvider } from './contexts/CartContext';
 
 // Pages
 import { Home } from './Pages/Home';
-import { Login } from './Pages/Login';
-import { Register } from './Pages/Register';
-import { MyAccount } from './Pages/MyAccount';
-import { AdminDashboard } from './Pages/AdminDashboard';
-import { Cart } from './Pages/Cart';
 import { Shopping } from './Pages/Shopping';
 import { ProductDetail } from './Pages/ProductDetail';
 import { BrandDetail } from './Pages/BrandDetail';
@@ -30,41 +23,32 @@ function App() {
   return (
     <ErrorBoundary>
       <HelmetProvider>
-        <AuthProvider>
-          <CartProvider>
-            <Router>
-              <div className="App">
-                <Routes>
-                {/* Main Routes */}
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/my-account" element={<MyAccount />} />
-                <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/support" element={<Support />} />
-                
-                {/* Shopping Routes */}
-                <Route path="/shopping" element={<Shopping />} />
-                <Route path="/shopping/:category" element={<Shopping />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-                <Route path="/brand/:id" element={<BrandDetail />} />
-                <Route path="/brands" element={<Brands />} />
-                
-                {/* Content Routes */}
-                <Route path="/artisans" element={<Artisans />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/about" element={<AboutMe />} />
-                <Route path="/my-projects" element={<MyProjects />} />
-                <Route path="/common-questions" element={<CommonQuestions />} />
-                
-                {/* 404 Route */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </div>
-          </Router>
-        </CartProvider>
-      </AuthProvider>
+        <Router>
+          <div className="App">
+            <Routes>
+            {/* Main Routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/support" element={<Support />} />
+            
+            {/* Shopping Routes */}
+            <Route path="/shopping" element={<Shopping />} />
+            <Route path="/shopping/:category" element={<Shopping />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/brand/:id" element={<BrandDetail />} />
+            <Route path="/brands" element={<Brands />} />
+            
+            {/* Content Routes */}
+            <Route path="/artisans" element={<Artisans />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/about" element={<AboutMe />} />
+            <Route path="/my-projects" element={<MyProjects />} />
+            <Route path="/common-questions" element={<CommonQuestions />} />
+            
+            {/* 404 Route */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </div>
+      </Router>
       </HelmetProvider>
     </ErrorBoundary>
   );
