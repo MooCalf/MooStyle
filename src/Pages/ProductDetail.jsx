@@ -53,6 +53,27 @@ export const ProductDetail = () => {
     }
   }, [id]);
 
+  // Keyboard navigation for image carousel
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (!product?.images || product.images.length <= 1) return;
+      
+      if (e.key === 'ArrowLeft') {
+        setSelectedImage(prev => prev === 0 ? product.images.length - 1 : prev - 1);
+      } else if (e.key === 'ArrowRight') {
+        setSelectedImage(prev => prev === product.images.length - 1 ? 0 : prev + 1);
+      }
+    };
+
+    // Add event listener when component mounts
+    document.addEventListener('keydown', handleKeyDown);
+    
+    // Cleanup event listener when component unmounts
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [product?.images]);
+
   const handleToggleFavorite = () => {
     setIsFavorite(!isFavorite);
     console.log("Toggling favorite for:", product.name);
@@ -166,8 +187,8 @@ export const ProductDetail = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Product Images */}
             <div className="space-y-4">
-              {/* Main Image */}
-              <div className="aspect-square bg-white rounded-lg overflow-hidden border border-gray-200">
+              {/* Main Image with Carousel Navigation */}
+              <div className="aspect-square bg-white rounded-lg overflow-hidden border border-gray-200 relative group">
                 <img
                   src={product.images?.[selectedImage] || product.image}
                   alt={product.name}
@@ -176,6 +197,34 @@ export const ProductDetail = () => {
                     e.target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyMCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlByb2R1Y3QgSW1hZ2U8L3RleHQ+PC9zdmc+";
                   }}
                 />
+                
+                {/* Carousel Navigation Arrows - Only show if multiple images */}
+                {product.images && product.images.length > 1 && (
+                  <>
+                    {/* Previous Button */}
+                    <button
+                      onClick={() => setSelectedImage(prev => prev === 0 ? product.images.length - 1 : prev - 1)}
+                      className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 rounded-full p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                      aria-label="Previous image"
+                    >
+                      <ChevronLeft size={24} />
+                    </button>
+
+                    {/* Next Button */}
+                    <button
+                      onClick={() => setSelectedImage(prev => prev === product.images.length - 1 ? 0 : prev + 1)}
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/90 hover:bg-white text-gray-700 hover:text-gray-900 rounded-full p-3 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"
+                      aria-label="Next image"
+                    >
+                      <ChevronRight size={24} />
+                    </button>
+
+                    {/* Image Counter */}
+                    <div className="absolute bottom-4 right-4 bg-black/70 text-white text-sm px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {selectedImage + 1} / {product.images.length}
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Thumbnail Images */}

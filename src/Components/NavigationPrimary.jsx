@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, Menu, X, HelpCircle, Info, MessageCircle, Bookmark } from 'lucide-react';
+import { motion } from 'framer-motion';
 import SearchQuery from '@/Components/SearchQuery';
 import { getGlobalSearchData } from '@/lib/globalSearchData';
 import { getSavedProductsCount } from '@/lib/savedProducts';
@@ -74,49 +75,70 @@ export const NavigationPrimary = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Mobile menu button - visible only on mobile */}
-          <button
+          <motion.button
             onClick={toggleMenu}
             className="md:hidden p-2 text-gray-700 hover:text-gray-900 transition-colors flex-shrink-0 px-4"
             onMouseEnter={() => setHoveredIcon('menu')}
             onMouseLeave={() => setHoveredIcon(null)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
             {isMenuOpen ? <X size={24} color={getIconColor('menu')} /> : <Menu size={24} color={getIconColor('menu')} />}
-          </button>
+          </motion.button>
 
           {/* Left side - Desktop icons (hidden on mobile) */}
           <div className="hidden md:flex items-center space-x-4 flex-shrink-0 px-4">
-            {/* Question Mark Icon - Common Questions */}
-            <Link
-              to="/common-questions"
-              className="text-gray-700 hover:text-gray-900 transition-colors"
-              title="Common Questions"
-              onMouseEnter={() => setHoveredIcon('help')}
-              onMouseLeave={() => setHoveredIcon(null)}
+            {/* Question Mark Icon - General Information */}
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              <HelpCircle size={20} color={getIconColor('help')} />
-            </Link>
+              <Link
+                to="/common-questions"
+                className="text-gray-700 hover:text-gray-900 transition-colors"
+                title="General Information"
+                onMouseEnter={() => setHoveredIcon('help')}
+                onMouseLeave={() => setHoveredIcon(null)}
+              >
+                <HelpCircle size={20} color={getIconColor('help')} />
+              </Link>
+            </motion.div>
 
             {/* Support Icon */}
-            <Link
-              to="/support"
-              className="text-gray-700 hover:text-gray-900 transition-colors"
-              title="Support"
-              onMouseEnter={() => setHoveredIcon('support')}
-              onMouseLeave={() => setHoveredIcon(null)}
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              <MessageCircle size={20} color={getIconColor('support')} />
-            </Link>
+              <Link
+                to="/support"
+                className="text-gray-700 hover:text-gray-900 transition-colors"
+                title="Support"
+                onMouseEnter={() => setHoveredIcon('support')}
+                onMouseLeave={() => setHoveredIcon(null)}
+              >
+                <MessageCircle size={20} color={getIconColor('support')} />
+              </Link>
+            </motion.div>
 
             {/* About Me Icon */}
-            <Link
-              to="/about"
-              className="text-gray-700 hover:text-gray-900 transition-colors"
-              title="About Me"
-              onMouseEnter={() => setHoveredIcon('about')}
-              onMouseLeave={() => setHoveredIcon(null)}
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              <Info size={20} color={getIconColor('about')} />
-            </Link>
+              <Link
+                to="/about"
+                className="text-gray-700 hover:text-gray-900 transition-colors"
+                title="About Me"
+                onMouseEnter={() => setHoveredIcon('about')}
+                onMouseLeave={() => setHoveredIcon(null)}
+              >
+                <Info size={20} color={getIconColor('about')} />
+              </Link>
+            </motion.div>
 
             {/* Search Icon */}
             <SearchQuery
@@ -153,46 +175,70 @@ export const NavigationPrimary = () => {
 
           {/* Center - Logo */}
           <div className="flex items-center justify-center flex-1 min-w-0">
-            <Link to="/" className="flex items-center space-x-2">
-              <img
-                src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png"
-                alt="MooStyle Logo"
-                className="h-8 w-8 flex-shrink-0"
-              />
-              <span className="text-lg sm:text-xl font-bold text-gray-900 whitespace-nowrap">MOOSTYLE</span>
-            </Link>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              <Link to="/" className="flex items-center space-x-2">
+                <img
+                  src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png"
+                  alt="MooStyle Logo"
+                  className="h-8 w-8 flex-shrink-0"
+                />
+                <span className="text-lg sm:text-xl font-bold text-gray-900 whitespace-nowrap">MOOSTYLE</span>
+              </Link>
+            </motion.div>
           </div>
 
           {/* Right side - Icons */}
           <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0 px-4">
             {/* Saved Products Icon */}
-            <Link
-              to="/saved-products"
-              className="relative text-gray-700 hover:text-gray-900 transition-colors p-2"
-              title="Saved Products"
-              onMouseEnter={() => setHoveredIcon('saved')}
-              onMouseLeave={() => setHoveredIcon(null)}
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              className="relative"
             >
-              <Bookmark size={20} color={getIconColor('saved')} />
-              {savedProductsCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                  {savedProductsCount > 99 ? '99+' : savedProductsCount}
-                </span>
-              )}
-            </Link>
+              <Link
+                to="/saved-products"
+                className="text-gray-700 hover:text-gray-900 transition-colors p-2"
+                title="Saved Products"
+                onMouseEnter={() => setHoveredIcon('saved')}
+                onMouseLeave={() => setHoveredIcon(null)}
+              >
+                <Bookmark size={20} color={getIconColor('saved')} />
+                {savedProductsCount > 0 && (
+                  <motion.span 
+                    className="absolute top-4 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium z-10"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                  >
+                    {savedProductsCount > 99 ? '99+' : savedProductsCount}
+                  </motion.span>
+                )}
+              </Link>
+            </motion.div>
 
             {/* Heart Icon - Patreon Link */}
-            <a
-              href="https://www.patreon.com/MOOSTYLES"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-700 hover:text-white hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:from-orange-600 hover:to-red-600 transition-all duration-200 rounded-lg p-2"
-              title="Support us on Patreon"
-              onMouseEnter={() => setHoveredIcon('heart')}
-              onMouseLeave={() => setHoveredIcon(null)}
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              <Heart size={20} color={getHeartColor()} />
-            </a>
+              <a
+                href="https://www.patreon.com/MOOSTYLES"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-700 hover:text-white hover:bg-gradient-to-r hover:from-orange-500 hover:to-red-500 hover:from-orange-600 hover:to-red-600 transition-all duration-200 rounded-lg p-2 block"
+                title="Support us on Patreon"
+                onMouseEnter={() => setHoveredIcon('heart')}
+                onMouseLeave={() => setHoveredIcon(null)}
+              >
+                <Heart size={20} color={getHeartColor()} />
+              </a>
+            </motion.div>
           </div>
         </div>
 
@@ -201,43 +247,72 @@ export const NavigationPrimary = () => {
           <div ref={mobileMenuRef} className="md:hidden border-t border-gray-200 py-4 animate-in slide-in-from-top-2 duration-200">
             <div className="space-y-3 px-4">
               {/* Mobile navigation links */}
-              <Link
-                to="/common-questions"
-                className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 }}
               >
-                <HelpCircle size={18} className="mr-3" />
-                Common Questions
-              </Link>
-              <Link
-                to="/support"
-                className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                <Link
+                  to="/common-questions"
+                  className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <HelpCircle size={18} className="mr-3" />
+                  General Information
+                </Link>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
               >
-                <MessageCircle size={18} className="mr-3" />
-                Support
-              </Link>
-              <Link
-                to="/about"
-                className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                <Link
+                  to="/support"
+                  className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <MessageCircle size={18} className="mr-3" />
+                  Support
+                </Link>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 }}
               >
-                <Info size={18} className="mr-3" />
-                About Me
-              </Link>
-              <Link
-                to="/saved-products"
-                className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                <Link
+                  to="/about"
+                  className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Info size={18} className="mr-3" />
+                  About Me
+                </Link>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 }}
               >
-                <Bookmark size={18} className="mr-3" />
-                Saved Products
-                {savedProductsCount > 0 && (
-                  <span className="ml-auto bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
-                    {savedProductsCount > 99 ? '99+' : savedProductsCount}
-                  </span>
-                )}
-              </Link>
+                <Link
+                  to="/saved-products"
+                  className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Bookmark size={18} className="mr-3" />
+                  Saved Products
+                  {savedProductsCount > 0 && (
+                    <motion.span 
+                      className="ml-auto bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                    >
+                      {savedProductsCount > 99 ? '99+' : savedProductsCount}
+                    </motion.span>
+                  )}
+                </Link>
+              </motion.div>
               <div className="block px-3 py-2">
                 <SearchQuery
                   iconOnly={false} // Full search bar in mobile menu

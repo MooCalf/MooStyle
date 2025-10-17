@@ -338,7 +338,7 @@ const getBrandDescription = (brandName) => {
     "TokyoVibe": "Japanese beauty brand bringing authentic Tokyo street style and innovative makeup products.",
     "CelestialBeauty": "Chinese herbal beauty brand combining traditional medicine with modern skincare science.",
     "PearlEssence": "Korean makeup brand known for natural, dewy finishes and long-lasting color products.",
-    "GlossyLips": "Korean lip care specialist creating high-shine, hydrating lip products for the perfect pout.",
+    "MLOO": "An online store specializing in delicious pastries, little snack bites, and typical cafe-style foods. MLOO brings you the perfect blend of comfort and indulgence with our carefully crafted baked goods and delightful treats.",
     "TokyoGlow": "Japanese skincare brand focused on fermented ingredients and radiant, healthy skin.",
     "HerbalGlow": "Traditional Chinese beauty brand using ancient herbal wisdom for modern skincare needs.",
     "SeoulStyle": "Korean fashion brand bringing Seoul's trendy street style to global audiences.",
@@ -361,7 +361,7 @@ const getBrandCategory = (brandName) => {
     "TokyoVibe": "Beauty", 
     "CelestialBeauty": "Beauty",
     "PearlEssence": "Beauty",
-    "GlossyLips": "Beauty",
+    "MLOO": "Food & Beverage",
     "TokyoGlow": "Beauty",
     "HerbalGlow": "Beauty",
     "SeoulStyle": "Fashion",
@@ -380,23 +380,23 @@ const getBrandCategory = (brandName) => {
 
 const getBrandLogoImage = (brandName) => {
   const logoImages = {
-    "LunaGlow": "/projects/BrandButtons/luna-glow-logo.png",
-    "TokyoVibe": "/projects/BrandButtons/tokyo-vibe-logo.png",
-    "CelestialBeauty": "/projects/BrandButtons/celestial-beauty-logo.png",
-    "PearlEssence": "/projects/BrandButtons/pearl-essence-logo.png",
-    "GlossyLips": "/projects/BrandButtons/glossy-lips-logo.png",
-    "TokyoGlow": "/projects/BrandButtons/tokyo-glow-logo.png",
-    "HerbalGlow": "/projects/BrandButtons/herbal-glow-logo.png",
-    "SeoulStyle": "/projects/BrandButtons/seoul-style-logo.png",
-    "TokyoFashion": "/projects/BrandButtons/tokyo-fashion-logo.png",
-    "SilkRoad": "/projects/BrandButtons/silk-road-logo.png",
-    "UrbanHarbor": "/projects/BrandButtons/urban-harbor-logo.png",
-    "TokyoDenim": "/projects/BrandButtons/tokyo-denim-logo.png",
-    "ZenLifestyle": "/projects/BrandButtons/zen-lifestyle-logo.png",
-    "HarmonyWell": "/projects/BrandButtons/harmony-well-logo.png",
-    "WellnessCore": "/projects/BrandButtons/wellness-core-logo.png",
-    "TraditionalWell": "/projects/BrandButtons/traditional-well-logo.png",
-    "ARNOO": "/projects/Brand Medias/Arnoo/Branding/Arnoo - Logo (Black and White).png"
+    "LunaGlow": "/projects/BrandCovers/More Brands/BrandButtons - LUNAGLOW.png",
+    "TokyoVibe": "/projects/BrandCovers/More Brands/BrandButtons - TOKYOVIBE.png",
+    "CelestialBeauty": "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
+    "PearlEssence": "/projects/BrandCovers/More Brands/BrandButtons - PEARLESENCE.png",
+    "MLOO": "/projects/Brand Medias/Mloo/Branding/Mloo - Logo (Black and White).webp",
+    "TokyoGlow": "/projects/BrandCovers/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png",
+    "HerbalGlow": "/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
+    "SeoulStyle": "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
+    "TokyoFashion": "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
+    "SilkRoad": "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
+    "UrbanHarbor": "/projects/BrandCovers/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
+    "TokyoDenim": "/projects/BrandCovers/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png",
+    "ZenLifestyle": "/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
+    "HarmonyWell": "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
+    "WellnessCore": "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
+    "TraditionalWell": "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
+    "ARNOO": "/projects/Brand Medias/Arnoo/Branding/Arnoo - Logo (Black and White).webp"
   };
-  return logoImages[brandName] || "/projects/BrandButtons/default-logo.png";
+  return logoImages[brandName] || "/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png";
 };

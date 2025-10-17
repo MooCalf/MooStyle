@@ -1,67 +1,40 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { NavigationPrimary } from "@/Components/NavigationPrimary";
 import { NavigationSecondary } from "@/Components/NavigationSecondary";
 import { AdvancedSearch } from "@/Components/AdvancedSearch";
 import SearchQuery from "@/Components/SearchQuery";
-import { ProductCard } from "@/Components/ProductCard";
-import { getCategoryData, getProductsByCategory, searchProducts, getAllProducts } from "@/lib/shoppingData";
+import { ProductDisplay, ProductResultsHeader, LoadMoreButton } from "@/Components/ShoppingProducts";
+import { useProductData } from "@/hooks/useProductData";
 import { getGlobalSearchData } from "@/lib/globalSearchData";
 import { Metadata } from "@/Components/Metadata.jsx";
-import { Loader2, Grid, List, Star, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
 
 export const Shopping = () => {
   const { category } = useParams();
   const navigate = useNavigate();
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState("grid"); // "grid" or "list"
-  const [currentPage, setCurrentPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
   const [filters, setFilters] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [isSearchActive, setIsSearchActive] = useState(false);
 
-  const itemsPerPage = 12;
-  const categoryData = getCategoryData(category);
+  // Use custom hook for product data management
+  const {
+    products,
+    filteredProducts,
+    loading,
+    hasMore,
+    isSearchActive,
+    categoryData,
+    setSearchResults,
+    loadMoreProducts,
+    clearFilters
+  } = useProductData(category, searchQuery, filters);
 
   // Prepare search data for SearchQuery component - use global search data
   const searchData = getGlobalSearchData();
 
-  useEffect(() => {
-    if (category && categoryData) {
-      setLoading(true);
-      // Simulate loading delay
-      setTimeout(() => {
-        const categoryProducts = getProductsByCategory(category);
-        setProducts(categoryProducts);
-        setFilteredProducts(categoryProducts.slice(0, itemsPerPage));
-        setCurrentPage(1);
-        setHasMore(categoryProducts.length > itemsPerPage);
-        setLoading(false);
-      }, 500);
-    } else if (!category) {
-      // Handle case when no category is provided (e.g., /shopping)
-      setLoading(true);
-      setTimeout(() => {
-        const allProducts = getAllProducts();
-        setProducts(allProducts);
-        setFilteredProducts(allProducts.slice(0, itemsPerPage));
-        setCurrentPage(1);
-        setHasMore(allProducts.length > itemsPerPage);
-        setLoading(false);
-      }, 500);
-    } else {
-      navigate("/");
-    }
-  }, [category, navigate]);
-
   const handleSearchResults = (results) => {
-    setFilteredProducts(results.slice(0, itemsPerPage));
-    setCurrentPage(1);
-    setHasMore(results.length > itemsPerPage);
+    setSearchResults(results);
   };
 
   const handleFiltersChange = (newFilters) => {
@@ -93,39 +66,6 @@ export const Shopping = () => {
   // Handle SearchQuery search
   const handleSearchQueryChange = (query) => {
     setSearchQuery(query);
-    if (query.trim()) {
-      setIsSearchActive(true);
-      // Use the existing searchProducts function
-      const results = searchProducts(query, { ...filters, category });
-      setSearchResults(results);
-      setFilteredProducts(results.slice(0, itemsPerPage));
-      setCurrentPage(1);
-      setHasMore(results.length > itemsPerPage);
-    } else {
-      setIsSearchActive(false);
-      setSearchResults([]);
-      // Reset to original products
-      const originalProducts = category ? getProductsByCategory(category) : getAllProducts();
-      setFilteredProducts(originalProducts.slice(0, itemsPerPage));
-      setCurrentPage(1);
-      setHasMore(originalProducts.length > itemsPerPage);
-    }
-  };
-
-  const loadMoreProducts = () => {
-    if (!hasMore) return;
-
-    setLoading(true);
-    setTimeout(() => {
-      const startIndex = currentPage * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-      const newProducts = products.slice(startIndex, endIndex);
-      
-      setFilteredProducts(prev => [...prev, ...newProducts]);
-      setCurrentPage(prev => prev + 1);
-      setHasMore(endIndex < products.length);
-      setLoading(false);
-    }, 300);
   };
 
   const handleToggleFavorite = (productId) => {
@@ -187,182 +127,58 @@ export const Shopping = () => {
           {/* Products Section */}
           <div className="flex-1 p-6">
             {/* Header */}
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h1 className="page-title capitalize">
-                    {category ? categoryData.name : "All Products"}
-                  </h1>
-                  <p className="page-description">
-                    {category ? categoryData.description : "Discover amazing products from all categories"}
-                  </p>
-                </div>
-                
-                {/* View Mode Toggle */}
-                <div className="view-toggle">
-                  <button
-                    onClick={() => setViewMode("grid")}
-                    className={`view-toggle-button ${viewMode === "grid" ? "active" : ""}`}
-                  >
-                    <Grid size={20} />
-                  </button>
-                  <button
-                    onClick={() => setViewMode("list")}
-                    className={`view-toggle-button ${viewMode === "list" ? "active" : ""}`}
-                  >
-                    <List size={20} />
-                  </button>
-                </div>
-              </div>
+            <ProductResultsHeader
+              categoryData={categoryData}
+              category={category}
+              filteredProducts={filteredProducts}
+              products={products}
+              isSearchActive={isSearchActive}
+              searchQuery={searchQuery}
+              viewMode={viewMode}
+              onViewModeChange={setViewMode}
+            />
 
-              {/* SearchQuery Component */}
-              <div className="mb-4">
-                <SearchQuery
-                  searchData={searchData}
-                  onSearchSelect={handleSearchSelect}
-                  placeholder={`Search ${category ? categoryData.name : 'all products'}...`}
-                  showFilters={true}
-                  className="w-full"
-                  searchFields={['title', 'description', 'content', 'tags', 'category', 'subcategory', 'author', 'brand']}
-                  resultLimit={20}
-                />
-              </div>
-
-              {/* Results Count */}
-              <div className="text-sm text-gray-600">
-                {isSearchActive ? (
-                  <>Showing {filteredProducts.length} search results for "{searchQuery}"</>
-                ) : (
-                  <>Showing {filteredProducts.length} of {products.length} products</>
-                )}
-              </div>
+            {/* SearchQuery Component */}
+            <div className="mb-4">
+              <SearchQuery
+                searchData={searchData}
+                onSearchSelect={handleSearchSelect}
+                placeholder={`Search ${category ? categoryData?.name : 'all products'}...`}
+                showFilters={true}
+                className="w-full"
+                searchFields={['title', 'description', 'content', 'tags', 'category', 'subcategory', 'author', 'brand']}
+                resultLimit={20}
+              />
             </div>
 
-            {/* Products Grid */}
-            {loading && filteredProducts.length === 0 ? (
-              <div className="flex items-center justify-center py-12">
-                <Loader2 size={32} className="animate-spin text-teal-600" />
-                <span className="ml-3 text-gray-600">Loading products...</span>
+            {/* Products Display */}
+            <ProductDisplay
+              products={filteredProducts}
+              viewMode={viewMode}
+              onToggleFavorite={handleToggleFavorite}
+              onQuickView={handleQuickView}
+              loading={loading}
+              enableVirtualization={true}
+              virtualizationThreshold={50}
+            />
+
+            {/* Load More Button */}
+            <LoadMoreButton
+              hasMore={hasMore}
+              loading={loading}
+              onLoadMore={loadMoreProducts}
+            />
+
+            {/* Clear Filters Button */}
+            {filteredProducts.length === 0 && !loading && (
+              <div className="text-center py-12">
+                <button
+                  onClick={clearFilters}
+                  className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors"
+                >
+                  Clear Filters
+                </button>
               </div>
-            ) : (
-              <>
-                <div className={`${
-                  viewMode === "grid" 
-                    ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" 
-                    : "space-y-3"
-                }`}>
-                  {filteredProducts.map((product) => (
-                    viewMode === "grid" ? (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                        onToggleFavorite={handleToggleFavorite}
-                        onQuickView={handleQuickView}
-                      />
-            ) : (
-              <div key={product.id} className="list-item">
-                <div className="flex items-center gap-4">
-                  {/* Small Product Image */}
-                  <div className="list-item-image">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      onError={(e) => {
-                        e.target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2YzZjRmNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2NjY2NjYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5JbWFnZTwvdGV4dD48L3N2Zz4=";
-                      }}
-                    />
-                  </div>
-                  
-                  {/* Product Info */}
-                  <div className="list-item-content">
-                    <h3 className="list-item-title">{product.name}</h3>
-                    <p className="list-item-description">{product.description}</p>
-                    <div className="list-item-meta">
-                      <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            size={12}
-                            className={i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"}
-                          />
-                        ))}
-                      </div>
-                      <span>({product.reviewCount})</span>
-                    </div>
-                  </div>
-                  
-                  {/* Price */}
-                  <div className="text-right flex-shrink-0">
-                    <div className="text-lg font-semibold text-gray-900">${product.price}</div>
-                    {product.originalPrice && product.originalPrice > product.price && (
-                      <div className="text-sm text-gray-500 line-through">${product.originalPrice}</div>
-                    )}
-                  </div>
-                  
-                  {/* Action Buttons */}
-                  <div className="list-item-actions">
-                    <button
-                      onClick={() => handleToggleFavorite(product.id)}
-                      className="p-2 text-gray-400 hover:text-red-500 transition-colors"
-                    >
-                      <Heart size={16} />
-                    </button>
-                    <button
-                      onClick={() => navigate(`/product/${product.id}`)}
-                      className="btn-primary text-sm"
-                    >
-                      View Details
-                    </button>
-                  </div>
-                        </div>
-                      </div>
-                    )
-                  ))}
-                </div>
-
-                {/* Load More Button */}
-                {hasMore && (
-                  <div className="text-center mt-8">
-                    <button
-                      onClick={loadMoreProducts}
-                      disabled={loading}
-                      className="bg-teal-600 hover:bg-teal-700 disabled:bg-teal-400 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center gap-2 mx-auto"
-                    >
-                      {loading ? (
-                        <>
-                          <Loader2 size={20} className="animate-spin" />
-                          Loading...
-                        </>
-                      ) : (
-                        "Load More Products"
-                      )}
-                    </button>
-                  </div>
-                )}
-
-                {/* No Results */}
-                {filteredProducts.length === 0 && !loading && (
-                  <div className="text-center py-12">
-                    <div className="text-gray-400 mb-4">
-                      <Grid size={48} className="mx-auto" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">No products found</h3>
-                    <p className="text-gray-600 mb-4">
-                      Try adjusting your search criteria or filters
-                    </p>
-                    <button
-                      onClick={() => {
-                        setSearchQuery("");
-                        setFilters({});
-                        setFilteredProducts(products.slice(0, itemsPerPage));
-                      }}
-                      className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-lg font-semibold transition-colors"
-                    >
-                      Clear Filters
-                    </button>
-                  </div>
-                )}
-              </>
             )}
             
             {/* Patreon Support Section */}
