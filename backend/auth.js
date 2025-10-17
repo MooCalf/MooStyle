@@ -288,6 +288,7 @@ async function initializeDatabase() {
     console.log('  - GOOGLE_CLIENT_ID:', process.env.GOOGLE_CLIENT_ID ? 'SET' : 'NOT SET');
     console.log('  - GOOGLE_CLIENT_SECRET:', process.env.GOOGLE_CLIENT_SECRET ? 'SET' : 'NOT SET');
     console.log('  - MONGODB_URI:', process.env.MONGODB_URI ? 'SET' : 'NOT SET');
+    console.log('🔍 Expected Google Callback URL:', `${process.env.BETTER_AUTH_URL || 'http://localhost:5000'}/api/auth/callback/google`);
     console.log('✅ Better Auth database initialization complete');
   } catch (error) {
     console.error('❌ Error initializing Better Auth database:', error);
