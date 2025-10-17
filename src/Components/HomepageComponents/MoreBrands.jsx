@@ -26,106 +26,112 @@ export const MoreBrands = () => {
     },
     {
       id: 4,
+      image: "/projects/Brand Medias/Arnoo/Branding/Brand Buttons - ARNOO.png",
+      name: "ARNOO",
+      brandPage: "/brand/arnoo"
+    },
+    {
+      id: 5,
       image: "/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
       name: "Moonbeam"
     },
     {
-      id: 5,
+      id: 6,
       image: "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
       name: "SakuraStyle"
     },
     {
-      id: 6,
+      id: 7,
       image: "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
       name: "DragonPearl"
     },
     {
-      id: 7,
+      id: 8,
       image: "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
       name: "BambooZen"
     },
     {
-      id: 8,
+      id: 9,
       image: "/projects/BrandCovers/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png", 
       name: "NeonHarbor"
     },
     {
-      id: 9,
+      id: 10,
       image: "/projects/BrandCovers/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png",
       name: "CrystalGlow"
     },
     {
-      id: 10,
+      id: 11,
       image: "/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
       name: "Starlight"
     },
     {
-      id: 11,
+      id: 12,
       image: "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
       name: "CherryBlossom"
     },
     {
-      id: 12,
+      id: 13,
       image: "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
       name: "GoldenPhoenix"
     },
     {
-      id: 13,
+      id: 14,
       image: "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
       name: "LotusBloom"
     },
     {
-      id: 14,
+      id: 15,
       image: "/projects/BrandCovers/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png", 
       name: "CyberWave"
     },
     {
-      id: 15,
+      id: 16,
       image: "/projects/BrandCovers/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png",
       name: "MysticGlow"
     },
     {
-      id: 16,
+      id: 17,
       image: "/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
       name: "CosmicBeauty"
     },
     {
-      id: 17,
+      id: 18,
       image: "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
       name: "SpringBreeze"
     },
     {
-      id: 18,
+      id: 19,
       image: "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
       name: "RoyalJade"
     },
     {
-      id: 19,
+      id: 20,
       image: "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
       name: "Serenity"
     },
     {
-      id: 20,
+      id: 21,
       image: "/projects/BrandCovers/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png", 
       name: "UrbanZen"
     },
     {
-      id: 21,
+      id: 22,
       image: "/projects/BrandCovers/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png",
       name: "PrismLight"
     },
     {
-      id: 22,
+      id: 23,
       image: "/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
       name: "Ethereal"
     },
     {
-      id: 23,
+      id: 24,
       image: "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
       name: "BlossomDream"
     },
     {
-      id: 24,
+      id: 25,
       image: "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
       name: "ImperialGold"
     }

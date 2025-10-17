@@ -16,13 +16,18 @@ export const PromotionalCarousel = () => {
     },
     {
       type: 'image',
-      src: "/projects/Brand Medias/Promotional Content/Promo Landscape.png",
-      alt: "Promo Landscape"
+      src: "/projects/Brand Medias/Promotional Content/Banner - Moostyles.webp",
+      alt: "MooStyle Banner"
     },
     {
       type: 'image',
       src: "/projects/Brand Medias/Promotional Content/Promo Banner - Patreon.png",
       alt: "Promo Banner - Patreon"
+    },
+    {
+      type: 'image',
+      src: "/projects/Brand Medias/Arnoo/Branding/Arnoo - Branding Advertising.webp",
+      alt: "Arnoo - Branding Advertising"
     }
   ];
 
@@ -70,19 +75,18 @@ export const PromotionalCarousel = () => {
 
   return (
     <div className="promotional-carousel-container">
-      {/* Promotional Banner */}
-      <div className="promotional-banner">
-        <div className="promotional-content">
-          <span className="promotional-text">Feature your brand with us!</span>
-        </div>
-      </div>
-
       {/* Carousel Box */}
       <div 
         className="carousel-box"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
+        {/* Promotional Banner Overlay */}
+        <div className="promotional-banner-overlay">
+          <div className="promotional-content">
+            <span className="promotional-text">Feature your brand with us!</span>
+          </div>
+        </div>
         {/* Left Arrow */}
         <motion.button 
           className="carousel-arrow carousel-arrow-left"

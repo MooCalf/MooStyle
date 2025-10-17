@@ -407,6 +407,25 @@ img {
   }
 }
 
+.promotional-banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(13, 148, 136, 0.95);
+  padding: 20px 16px;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+  z-index: 20;
+  backdrop-filter: blur(4px);
+}
+
+@media (min-width: 640px) {
+  .promotional-banner-overlay {
+    padding: 28px 20px;
+  }
+}
+
 .promotional-content {
   display: flex;
   justify-content: center;
@@ -417,12 +436,12 @@ img {
 .promotional-text {
   color: white;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 18px;
 }
 
 @media (min-width: 640px) {
   .promotional-text {
-    font-size: 20px;
+    font-size: 26px;
   }
 }
 
@@ -449,10 +468,12 @@ img {
 
 .carousel-box {
   background-color: white;
-  border-radius: 0 0 8px 8px;
+  border-radius: 8px;
   position: relative;
   overflow: hidden;
-  height: 200px;
+  min-height: 200px;
+  max-height: 500px;
+  aspect-ratio: 16/9;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -460,19 +481,22 @@ img {
 
 @media (min-width: 480px) {
   .carousel-box {
-    height: 250px;
+    min-height: 250px;
+    max-height: 600px;
   }
 }
 
 @media (min-width: 640px) {
   .carousel-box {
-    height: 350px;
+    min-height: 300px;
+    max-height: 700px;
   }
 }
 
 @media (min-width: 768px) {
   .carousel-box {
-    height: 400px;
+    min-height: 350px;
+    max-height: 800px;
   }
 }
 
@@ -496,7 +520,7 @@ img {
 .carousel-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: scale-down;
   object-position: center;
   transition: transform 0.5s ease;
   display: block;
@@ -507,7 +531,7 @@ img {
 /* Ensure images scale properly on very small screens */
 @media (max-width: 480px) {
   .carousel-image {
-    object-fit: cover;
+    object-fit: scale-down;
     object-position: center;
   }
 }
