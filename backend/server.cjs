@@ -203,6 +203,16 @@ const { toNodeHandler } = require('better-auth/node');
 // Mount Better Auth handler
 app.use('/api/auth', toNodeHandler(auth));
 
+// Custom error route for Better Auth
+app.get('/auth-error', (req, res) => {
+  const error = req.query.error || 'unknown_error';
+  console.log('🔍 Better Auth Error Route Hit:', error);
+  console.log('🔍 Query Parameters:', req.query);
+  
+  // Redirect to frontend with error
+  const frontendUrl = process.env.FRONTEND_URL || 'https://moostyles.pages.dev';
+  res.redirect(`${frontendUrl}/login?error=${error}`);
+});
 
 // Root route handler for OAuth redirects
 app.get('/', (req, res) => {

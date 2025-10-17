@@ -152,9 +152,13 @@ const auth = betterAuth({
   onAPIError: {
     onError: (error, ctx) => {
       console.log('🔍 Better Auth Error:', error);
+      console.log('🔍 Error Message:', error.message);
+      console.log('🔍 Error Code:', error.code);
       console.log('🔍 Better Auth URL:', process.env.BETTER_AUTH_URL);
       console.log('🔍 Generated Callback URL:', `${process.env.BETTER_AUTH_URL || 'http://localhost:5000'}/api/auth/callback/google`);
       console.log('🔍 Request Context:', ctx);
+      console.log('🔍 Request URL:', ctx?.request?.url);
+      console.log('🔍 Request Method:', ctx?.request?.method);
     },
     errorURL: "/auth-error", // Custom error page
   },
