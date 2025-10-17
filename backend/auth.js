@@ -154,7 +154,9 @@ const auth = betterAuth({
       console.log('🔍 Better Auth Error:', error);
       console.log('🔍 Better Auth URL:', process.env.BETTER_AUTH_URL);
       console.log('🔍 Generated Callback URL:', `${process.env.BETTER_AUTH_URL || 'http://localhost:5000'}/api/auth/callback/google`);
+      console.log('🔍 Request Context:', ctx);
     },
+    errorURL: "/auth-error", // Custom error page
   },
 
   // Session configuration
@@ -271,8 +273,12 @@ const auth = betterAuth({
 async function initializeDatabase() {
   try {
     console.log('🔄 Initializing Better Auth database tables...');
-    // Better Auth will automatically create tables when first accessed
-    // This is a placeholder for any manual initialization if needed
+    console.log('🔍 Environment Variables:');
+    console.log('  - BETTER_AUTH_URL:', process.env.BETTER_AUTH_URL);
+    console.log('  - BETTER_AUTH_SECRET:', process.env.BETTER_AUTH_SECRET ? 'SET' : 'NOT SET');
+    console.log('  - GOOGLE_CLIENT_ID:', process.env.GOOGLE_CLIENT_ID ? 'SET' : 'NOT SET');
+    console.log('  - GOOGLE_CLIENT_SECRET:', process.env.GOOGLE_CLIENT_SECRET ? 'SET' : 'NOT SET');
+    console.log('  - MONGODB_URI:', process.env.MONGODB_URI ? 'SET' : 'NOT SET');
     console.log('✅ Better Auth database initialization complete');
   } catch (error) {
     console.error('❌ Error initializing Better Auth database:', error);
