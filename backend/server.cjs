@@ -208,9 +208,12 @@ app.get('/auth-error', (req, res) => {
   const error = req.query.error || 'unknown_error';
   console.log('🔍 Better Auth Error Route Hit:', error);
   console.log('🔍 Query Parameters:', req.query);
+  console.log('🔍 Full URL:', req.url);
+  console.log('🔍 Headers:', req.headers);
   
   // Redirect to frontend with error
   const frontendUrl = process.env.FRONTEND_URL || 'https://moostyles.pages.dev';
+  console.log('🔍 Redirecting to:', `${frontendUrl}/login?error=${error}`);
   res.redirect(`${frontendUrl}/login?error=${error}`);
 });
 
