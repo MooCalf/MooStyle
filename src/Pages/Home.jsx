@@ -12,6 +12,7 @@ import { BetaTestingSection } from "@/Components/HomepageComponents/BetaTestingS
 import { Background } from "@/Components/Background";
 import { Footer } from "@/Components/Footer";
 import { Metadata } from "@/Components/Metadata";
+import { DevelopmentWarning } from "@/Components/DevelopmentWarning";
 
 export const Home = () => (
   <>
@@ -35,6 +36,9 @@ export const Home = () => (
     
     <div className="min-h-screen text-gray-900 overflow-x-hidden relative">
       <Background showEffects={false} />
+      
+      {/* Development Warning Ribbon */}
+      <DevelopmentWarning />
       
       {/* Navigation Bars */}
       <div id="navigation">
