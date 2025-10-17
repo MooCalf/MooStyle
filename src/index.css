@@ -889,7 +889,9 @@ img {
 
 .recommended-carousel-container {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  min-height: 400px;
+  padding: 1rem 0;
 }
 
 .recommended-grid {

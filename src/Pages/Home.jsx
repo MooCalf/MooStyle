@@ -8,6 +8,7 @@ import { RecommendedCategories } from "@/Components/HomepageComponents/Recommend
 import { MoreBrands } from "@/Components/HomepageComponents/MoreBrands";
 import { LocalArtisans } from "@/Components/HomepageComponents/LocalArtisans";
 import { ContactSection } from "@/Components/HomepageComponents/ContactSection";
+import { BetaTestingSection } from "@/Components/HomepageComponents/BetaTestingSection";
 import { Background } from "@/Components/Background";
 import { Footer } from "@/Components/Footer";
 import { Metadata } from "@/Components/Metadata";
@@ -64,7 +65,9 @@ export const Home = () => (
         {/* Recommended Categories Section */}
         <RecommendedCategories />
         
-              
+        {/* Beta Testing Section */}
+        <BetaTestingSection />
+        
         {/* Contact Section */}
         <ContactSection />
         

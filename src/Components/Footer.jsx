@@ -1,9 +1,7 @@
-import { useState } from "react";
-import { ArrowUp, HelpCircle, Instagram, Twitter, Youtube, Mail, Globe } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUp } from "lucide-react";
+import { motion } from "framer-motion";
 
 export const Footer = () => {
-  const [showHelpDropdown, setShowHelpDropdown] = useState(false);
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -23,7 +21,8 @@ export const Footer = () => {
     {
       title: "Socials",
       links: [
-        { name: "Patreon", href: "https://www.patreon.com/MOOSTYLES" }
+        { name: "Patreon", href: "https://www.patreon.com/MOOSTYLES" },
+        { name: "Beta Testing Questionnaire", href: "https://forms.gle/3WK96XVj8fUKGDuHA" }
       ]
     },
     {
@@ -48,8 +47,8 @@ export const Footer = () => {
       links: [
         { name: "About Me", href: "/about" },
         { name: "Moocalf.com", href: "https://moocalf.com" },
-        { name: "Privacy Policy", href: "#privacy" },
-        { name: "Terms of Service", href: "#terms" }
+        { name: "Privacy Policy", href: "/privacy-policy" },
+        { name: "Terms of Service", href: "/terms-of-service" }
       ]
     }
   ];
@@ -57,8 +56,8 @@ export const Footer = () => {
   return (
     <footer className="footer-main mt-16">
       {/* Row 1: 5 Columns with Footer Sections */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           {footerSections.map((section, index) => (
             <div key={index} className="footer-section">
               <h3 className="footer-section-title text-sm">
@@ -82,10 +81,10 @@ export const Footer = () => {
       </div>
 
       {/* Row 2: Logo and Large MOOSTYLE Text */}
-      <div className="py-8 sm:py-12 lg:py-16">
+      <div className="py-6 sm:py-8 lg:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* MOOSTYLE Logo */}
-          <div className="mb-6 sm:mb-8">
+          <div className="mb-4 sm:mb-6">
             <img
               src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL DARKCOLOR.png"
               alt="MOOSTYLE Logo"
@@ -99,8 +98,8 @@ export const Footer = () => {
         </div>
       </div>
 
-      {/* Row 3: Copyright and Icons */}
-      <div className="py-6">
+      {/* Row 3: Copyright and Scroll to Top Button */}
+      <div className="py-4">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
             {/* Left: Copyright */}
@@ -108,9 +107,8 @@ export const Footer = () => {
               Copyright © 2025 MOOSTYLE.COM. All rights reserved.
             </div>
 
-            {/* Right: Icons */}
-            <div className="flex items-center space-x-4">
-              {/* Scroll to Top Button */}
+            {/* Right: Scroll to Top Button */}
+            <div className="flex items-center">
               <motion.button
                 onClick={scrollToTop}
                 className="footer-icon p-2 bg-white bg-opacity-20 rounded-full shadow-sm hover:shadow-md hover:bg-opacity-30"
@@ -121,58 +119,10 @@ export const Footer = () => {
               >
                 <ArrowUp size={20} />
               </motion.button>
-
-              {/* Help Dropdown */}
-              <div className="relative">
-                <motion.button
-                  onClick={() => setShowHelpDropdown(!showHelpDropdown)}
-                  className="footer-icon p-2 bg-white bg-opacity-20 rounded-full shadow-sm hover:shadow-md hover:bg-opacity-30"
-                  aria-label="Help"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                >
-                  <HelpCircle size={20} />
-                </motion.button>
-                <AnimatePresence>
-                  {showHelpDropdown && (
-                    <motion.div 
-                      className="absolute bottom-full right-0 mb-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50"
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
-                    >
-                      <div className="py-1">
-                        <a
-                          href="#common-questions"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          General Information
-                        </a>
-                        <a
-                          href="#about-me"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                        >
-                          About Me
-                        </a>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Click outside to close help dropdown */}
-      {showHelpDropdown && (
-        <div
-          className="fixed inset-0 z-30"
-          onClick={() => setShowHelpDropdown(false)}
-        />
-      )}
     </footer>
   );
 };

@@ -1,23 +1,23 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, Filter, SortAsc } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export const Recommended = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [sortBy, setSortBy] = useState("recommended");
-  const [showFilters, setShowFilters] = useState(false);
+  const navigate = useNavigate();
 
-  // Enhanced recommended data with more product information
+  // Enhanced recommended data with actual product IDs from shopping data
   const recommendedData = [
     {
-      id: 1,
+      id: "beauty-001",
       image: "/projects/Products/LunaGlow/Korean Glass Skin Set/Lunaglow - Kit Promotional Cover.png",
-      name: "LunaGlow Radiance Set",
+      name: "Korean Glass Skin Set",
       description: "Complete Korean skincare routine",
       brand: "LunaGlow",
       category: "Skincare"
     },
     {
-      id: 2,
+      id: "women-004",
       image: "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png", 
       name: "TokyoVibe Streetwear",
       description: "Modern Japanese fashion collection",
@@ -25,7 +25,7 @@ export const Recommended = () => {
       category: "Fashion"
     },
     {
-      id: 3,
+      id: "beauty-010",
       image: "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
       name: "CelestialBeauty Luxe", 
       description: "Premium Chinese cosmetics line",
@@ -33,7 +33,7 @@ export const Recommended = () => {
       category: "Beauty"
     },
     {
-      id: 4,
+      id: "lifestyle-004",
       image: "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
       name: "ZenLifestyle Essentials",
       description: "Mindful wellness products",
@@ -41,7 +41,7 @@ export const Recommended = () => {
       category: "Lifestyle"
     },
     {
-      id: 5,
+      id: "women-005",
       image: "/projects/BrandCovers/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
       name: "UrbanHarbor Collection",
       description: "Contemporary Asian urban style",
@@ -49,7 +49,7 @@ export const Recommended = () => {
       category: "Fashion"
     },
     {
-      id: 6,
+      id: "beauty-009",
       image: "/projects/BrandCovers/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png",
       name: "PearlEssence Rituals",
       description: "Korean beauty traditions",
@@ -68,32 +68,16 @@ export const Recommended = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % recommendedData.length);
   };
 
-  const handleSortChange = (newSortBy) => {
-    setSortBy(newSortBy);
-    // In a real app, this would trigger a re-sort of the data
-    console.log("Sorting by:", newSortBy);
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
   };
-
-  // Sort data based on selected option
-  const sortedData = [...recommendedData].sort((a, b) => {
-    switch (sortBy) {
-      case "name":
-        return a.name.localeCompare(b.name);
-      case "category":
-        return a.category.localeCompare(b.category);
-      case "brand":
-        return a.brand.localeCompare(b.brand);
-      default:
-        return 0; // Keep original order for "recommended"
-    }
-  });
 
   // Calculate which 6 images to show (showing all 6 at once)
   const getVisibleItems = () => {
     const items = [];
     for (let i = 0; i < 6; i++) {
-      const index = (currentIndex + i) % sortedData.length;
-      items.push(sortedData[index]);
+      const index = (currentIndex + i) % recommendedData.length;
+      items.push(recommendedData[index]);
     }
     return items;
   };
@@ -108,44 +92,6 @@ export const Recommended = () => {
           <p className="text-lg text-gray-700 max-w-2xl mx-auto">
             Discover products tailored to your style preferences
           </p>
-          
-          {/* Sorting and Filter Controls */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-6">
-            <div className="flex items-center gap-2">
-              <SortAsc size={16} className="text-gray-500" />
-              <select
-                value={sortBy}
-                onChange={(e) => handleSortChange(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              >
-                <option value="recommended">Recommended</option>
-                <option value="name">Name A-Z</option>
-                <option value="category">Category</option>
-                <option value="brand">Brand</option>
-              </select>
-            </div>
-            
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-md text-sm hover:bg-gray-50 transition-colors"
-            >
-              <Filter size={16} className="text-gray-500" />
-              Filters
-            </button>
-          </div>
-          
-          {/* Quick Filter Tags */}
-          <div className="flex flex-wrap justify-center gap-2 mt-4">
-            {["All", "Skincare", "Fashion", "Beauty", "Lifestyle"].map((category) => (
-              <button
-                key={category}
-                onClick={() => console.log("Filter by:", category)}
-                className="px-3 py-1 text-sm border border-gray-300 rounded-full hover:bg-teal-50 hover:border-teal-300 transition-colors"
-              >
-                {category}
-              </button>
-            ))}
-          </div>
         </div>
 
         <div className="recommended-carousel-container relative">
@@ -173,7 +119,11 @@ export const Recommended = () => {
           {/* Recommended Items Grid */}
           <div className="recommended-grid">
             {getVisibleItems().map((item, index) => (
-              <div key={`${item.id}-${currentIndex}-${index}`} className="recommended-item group relative">
+              <div 
+                key={`${item.id}-${currentIndex}-${index}`} 
+                className="recommended-item group relative cursor-pointer hover:transform hover:scale-105 transition-transform duration-200"
+                onClick={() => handleProductClick(item.id)}
+              >
                 <div className="recommended-image-container">
                   <img
                     src={item.image}

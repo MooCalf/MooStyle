@@ -15,6 +15,8 @@ import { MyProjects } from './Pages/MyProjects';
 import CommonQuestions from './Pages/CommonQuestions';
 import { Support } from './Pages/Support';
 import { SavedProducts } from './Pages/SavedProducts';
+import { PrivacyPolicy } from './Pages/PrivacyPolicy';
+import { TermsOfService } from './Pages/TermsOfService';
 import { NotFound } from './Pages/NotFound';
 
 // Components
@@ -31,6 +33,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/support" element={<Support />} />
             <Route path="/saved-products" element={<SavedProducts />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
             
             {/* Shopping Routes */}
             <Route path="/shopping" element={<Shopping />} />
