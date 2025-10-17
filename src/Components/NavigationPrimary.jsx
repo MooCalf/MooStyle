@@ -1,13 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, Menu, X, HelpCircle, Info, MessageCircle } from 'lucide-react';
+import { Heart, Menu, X, HelpCircle, Info, MessageCircle, Bookmark } from 'lucide-react';
 import SearchQuery from '@/Components/SearchQuery';
 import { getGlobalSearchData } from '@/lib/globalSearchData';
+import { getSavedProductsCount } from '@/lib/savedProducts';
 
 export const NavigationPrimary = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredIcon, setHoveredIcon] = useState(null);
+  const [savedProductsCount, setSavedProductsCount] = useState(0);
   const mobileMenuRef = useRef(null);
+
+  // Update saved products count
+  useEffect(() => {
+    const updateSavedCount = () => {
+      setSavedProductsCount(getSavedProductsCount());
+    };
+
+    // Initial load
+    updateSavedCount();
+
+    // Listen for storage changes (when products are saved/unsaved)
+    const handleStorageChange = (e) => {
+      if (e.key === 'moostyle_saved_products') {
+        updateSavedCount();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also listen for custom events (for same-tab updates)
+    window.addEventListener('savedProductsChanged', updateSavedCount);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('savedProductsChanged', updateSavedCount);
+    };
+  }, []);
 
   // Close mobile menu when clicking outside
   useEffect(() => {
@@ -134,8 +163,24 @@ export const NavigationPrimary = () => {
             </Link>
           </div>
 
-          {/* Right side - Heart Icon */}
+          {/* Right side - Icons */}
           <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0 px-4">
+            {/* Saved Products Icon */}
+            <Link
+              to="/saved-products"
+              className="relative text-gray-700 hover:text-gray-900 transition-colors p-2"
+              title="Saved Products"
+              onMouseEnter={() => setHoveredIcon('saved')}
+              onMouseLeave={() => setHoveredIcon(null)}
+            >
+              <Bookmark size={20} color={getIconColor('saved')} />
+              {savedProductsCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                  {savedProductsCount > 99 ? '99+' : savedProductsCount}
+                </span>
+              )}
+            </Link>
+
             {/* Heart Icon - Patreon Link */}
             <a
               href="https://www.patreon.com/MOOSTYLES"
@@ -179,6 +224,19 @@ export const NavigationPrimary = () => {
               >
                 <Info size={18} className="mr-3" />
                 About Me
+              </Link>
+              <Link
+                to="/saved-products"
+                className="flex items-center px-3 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <Bookmark size={18} className="mr-3" />
+                Saved Products
+                {savedProductsCount > 0 && (
+                  <span className="ml-auto bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-medium">
+                    {savedProductsCount > 99 ? '99+' : savedProductsCount}
+                  </span>
+                )}
               </Link>
               <div className="block px-3 py-2">
                 <SearchQuery
