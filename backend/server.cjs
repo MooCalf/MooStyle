@@ -239,6 +239,14 @@ app.get('/auth-error', (req, res) => {
 
 // Root route handler for OAuth redirects
 app.get('/', (req, res) => {
+  // Check if this is an OAuth callback (has state and code parameters)
+  if (req.query.state && req.query.code) {
+    console.log('🔍 OAuth callback detected at root path, redirecting to proper endpoint');
+    // Redirect to the proper OAuth callback endpoint
+    const callbackUrl = `/api/auth/callback/google?${new URLSearchParams(req.query).toString()}`;
+    return res.redirect(callbackUrl);
+  }
+  
   res.json({ 
     message: 'MooStyle API Server',
     status: 'running',

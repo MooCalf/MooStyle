@@ -143,6 +143,7 @@ const auth = betterAuth({
       google: {
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        redirectURI: `${process.env.BETTER_AUTH_URL}/api/auth/callback/google`,
         scope: ["openid", "email", "profile"],
       }
     } : {}),
@@ -292,6 +293,11 @@ async function initializeDatabase() {
     console.log('🔍 Better Auth Configuration:');
     console.log('  - Base URL:', auth.baseURL);
     console.log('  - Google Config:', auth.socialProviders?.google);
+    console.log('  - All Social Providers:', Object.keys(auth.socialProviders || {}));
+    console.log('  - Auth Object Keys:', Object.keys(auth));
+    console.log('  - Google Client ID exists:', !!process.env.GOOGLE_CLIENT_ID);
+    console.log('  - Google Client Secret exists:', !!process.env.GOOGLE_CLIENT_SECRET);
+    console.log('  - BETTER_AUTH_URL:', process.env.BETTER_AUTH_URL);
     console.log('✅ Better Auth database initialization complete');
   } catch (error) {
     console.error('❌ Error initializing Better Auth database:', error);
