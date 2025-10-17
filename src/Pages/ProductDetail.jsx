@@ -5,11 +5,9 @@ import { NavigationSecondary } from "@/Components/NavigationSecondary";
 import { ProductCard } from "@/Components/ProductCard";
 import { getProductById, getRelatedProducts, getProductCategory, getAllProducts } from "@/lib/shoppingData";
 import { Metadata } from "@/Components/Metadata.jsx";
-import { useCart } from "@/contexts/CartContext";
 import { 
   Star, 
   Heart, 
-  ShoppingBag, 
   Share2, 
   ChevronLeft, 
   ChevronRight,
@@ -26,7 +24,6 @@ import {
 export const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart, isInCart } = useCart();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -35,8 +32,6 @@ export const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [addingToCart, setAddingToCart] = useState(false);
-  const [addedToCart, setAddedToCart] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -57,23 +52,6 @@ export const ProductDetail = () => {
       }
     }
   }, [id]);
-
-  const handleAddToCart = async () => {
-    if (!product) return;
-    
-    setAddingToCart(true);
-    try {
-      const success = await addToCart(product);
-      if (success) {
-        setAddedToCart(true);
-        setTimeout(() => setAddedToCart(false), 3000); // Reset after 3 seconds
-      }
-    } catch (error) {
-      console.error('Failed to add to cart:', error);
-    } finally {
-      setAddingToCart(false);
-    }
-  };
 
   const handleToggleFavorite = () => {
     setIsFavorite(!isFavorite);
@@ -365,30 +343,22 @@ export const ProductDetail = () => {
               {/* Action Buttons */}
               <div className="space-y-3">
                 <button
-                  onClick={handleAddToCart}
-                  disabled={addingToCart || isInCart(product.id)}
+                  onClick={() => window.open(product.modFile?.filename ? `/download/${product.id}` : '#', '_blank')}
                   className={`w-full py-3 px-6 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center gap-2 ${
-                    addedToCart || isInCart(product.id)
-                      ? "bg-green-600 text-white cursor-default"
-                      : addingToCart
-                      ? "bg-gray-400 text-white cursor-not-allowed"
-                      : "bg-teal-600 hover:bg-teal-700 text-white"
+                    product.modFile?.filename 
+                      ? "bg-teal-600 hover:bg-teal-700 text-white"
+                      : "bg-gray-400 text-white cursor-not-allowed"
                   }`}
                 >
-                  {addingToCart ? (
+                  {product.modFile?.filename ? (
                     <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                      Adding to Cart...
-                    </>
-                  ) : addedToCart || isInCart(product.id) ? (
-                    <>
-                      <Check size={20} />
-                      Added to Cart
+                      <ArrowLeft size={20} />
+                      Download Product
                     </>
                   ) : (
                     <>
-                      <ShoppingBag size={20} />
-                      Add to Cart
+                      <CheckCircle size={20} />
+                      Coming Soon
                     </>
                   )}
                 </button>
