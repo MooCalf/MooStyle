@@ -144,6 +144,7 @@ const auth = betterAuth({
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         redirectURI: `${process.env.BETTER_AUTH_URL || 'http://localhost:5000'}/api/auth/callback/google`,
+        scope: ["openid", "email", "profile"],
       }
     } : {}),
   },
@@ -177,6 +178,11 @@ const auth = betterAuth({
       domain: process.env.AUTH_COOKIE_DOMAIN || undefined,
       path: '/',
     },
+  },
+
+  // OAuth state configuration
+  oauth: {
+    stateExpirationTime: 10 * 60 * 1000, // 10 minutes (increased from default)
   },
 
   // User configuration with custom fields and validation
