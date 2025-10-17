@@ -82,9 +82,6 @@ export const Login = () => {
       
       await signIn.social({
         provider: provider,
-        callbackURL: `${frontendUrl}/`,
-        errorCallbackURL: `${frontendUrl}/login`,
-        newUserCallbackURL: `${frontendUrl}/`,
       });
     } catch (error) {
       setError(`Failed to sign in with ${provider}. Please try again.`);
