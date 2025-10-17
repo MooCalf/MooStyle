@@ -743,30 +743,30 @@ export const shoppingCategories = {
   },
   blog: {
     name: "Blog",
-    description: "Latest trends, tips, and insights from Asian culture",
-    subcategories: ["Beauty Tips", "Fashion Trends", "Lifestyle", "Culture", "Reviews"],
+    description: "Latest trends, tips, and insights in home design and interior decoration",
+    subcategories: ["Home Design", "Interior Design", "Furniture Trends", "Modern Living", "Design Tips"],
     products: [
       {
         id: "blog-001",
-        name: "Korean Skincare Guide",
-        author: "MooStyle Blog",
-        brand: "MooStyle Blog",
+        name: "Modern Home Design Guide",
+        author: "ARNOO",
+        brand: "ARNOO",
         price: 0,
         originalPrice: 0,
-        image: "/projects/BETATESTINGIMAGES/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
+        image: "/projects/Brand Medias/Arnoo/Branding/Arnoo Brand Design Board.png",
         images: [
-          "/projects/BETATESTINGIMAGES/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
-          "/projects/BETATESTINGIMAGES/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png"
+          "/projects/Brand Medias/Arnoo/Branding/Arnoo Brand Design Board.png",
+          "/projects/Brand Medias/Arnoo/Branding/Arnoo - Branding Advertising.webp"
         ],
-        description: "Complete guide to Korean skincare routines",
-        tags: ["Beauty Tips", "Korean", "Skincare", "Guide"],
+        description: "Complete guide to modern home renovation and interior design",
+        tags: ["Home Design", "Interior Design", "Modern", "Guide"],
         rating: 4.9,
         reviewCount: 156,
         isNew: true,
         isBestSeller: true,
         discount: 0,
         modFile: {
-          filename: "korean-skincare-guide.zip",
+          filename: "modern-home-design-guide.zip",
           size: 2097152, // 2MB
           version: "1.0.0"
         },
@@ -774,28 +774,173 @@ export const shoppingCategories = {
       },
       {
         id: "blog-002",
-        name: "Japanese Fashion Trends",
-        author: "MooStyle Blog",
-        brand: "MooStyle Blog",
+        name: "Contemporary Furniture Trends",
+        author: "ARNOO",
+        brand: "ARNOO",
         price: 0,
         originalPrice: 0,
-        image: "/projects/BETATESTINGIMAGES/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
+        image: "/projects/Brand Medias/Arnoo/Branding/Arnoo Brand Design Board.png",
         images: [
-          "/projects/BETATESTINGIMAGES/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png"
+          "/projects/Brand Medias/Arnoo/Branding/Arnoo Brand Design Board.png"
         ],
-        description: "Latest Japanese streetwear and fashion trends",
-        tags: ["Fashion Trends", "Japanese", "Streetwear", "Trends"],
+        description: "Latest trends in contemporary furniture and home decor",
+        tags: ["Furniture Trends", "Contemporary", "Home Decor", "Trends"],
         rating: 4.7,
         reviewCount: 89,
         isNew: false,
         isBestSeller: false,
         discount: 0,
         modFile: {
-          filename: "japanese-fashion-trends.zip",
+          filename: "contemporary-furniture-trends.zip",
           size: 3145728, // 3MB
           version: "1.0.0"
         },
         downloadCount: 18940
+      }
+    ]
+  },
+  homeDesign: {
+    name: "Home & Design",
+    description: "Transform your living spaces with modern furniture and contemporary home decor",
+    subcategories: ["Furniture", "Home Decor", "Lighting", "Storage", "Accessories"],
+    products: [
+      {
+        id: "home-001",
+        name: "Modern Scandinavian Sofa",
+        author: "ARNOO",
+        brand: "ARNOO",
+        folderPath: "Products/ARNOO/Modern Scandinavian Sofa",
+        price: 1299.99,
+        originalPrice: 1599.99,
+        image: "/projects/Brand Medias/Arnoo/Branding/Arnoo Brand Design Board.png",
+        images: [
+          "/projects/Brand Medias/Arnoo/Branding/Arnoo Brand Design Board.png",
+          "/projects/Brand Medias/Arnoo/Branding/Arnoo - Branding Advertising.webp"
+        ],
+        description: "Elegant Scandinavian-inspired sofa with clean lines and premium materials",
+        detailedDescription: "Transform your living room with our signature Modern Scandinavian Sofa. Crafted with sustainable materials and featuring minimalist design principles, this sofa combines comfort with contemporary aesthetics. Perfect for modern homes seeking both style and functionality.",
+        features: [
+          "Premium sustainable materials",
+          "Modular design for flexibility",
+          "Easy-to-clean fabric upholstery",
+          "Ergonomic support system",
+          "Assembly required",
+          "5-year warranty",
+          "Free shipping included"
+        ],
+        sizes: [
+          { size: "2-Seater", price: 899.99, stock: 12 },
+          { size: "3-Seater", price: 1299.99, stock: 8 },
+          { size: "4-Seater", price: 1599.99, stock: 5 }
+        ],
+        colors: [
+          { name: "Charcoal Gray", hex: "#36454F", stock: 15 },
+          { name: "Cream White", hex: "#F5F5DC", stock: 12 },
+          { name: "Navy Blue", hex: "#000080", stock: 8 },
+          { name: "Forest Green", hex: "#228B22", stock: 6 }
+        ],
+        tags: ["Furniture", "Sofa", "Scandinavian", "Modern", "Living Room"],
+        rating: 4.8,
+        reviewCount: 234,
+        isNew: true,
+        isBestSeller: true,
+        discount: 19,
+        modFile: {
+          filename: "modern-scandinavian-sofa.zip",
+          size: 15728640, // 15MB
+          version: "1.0.0"
+        },
+        downloadCount: 5670
+      },
+      {
+        id: "home-002",
+        name: "Minimalist Coffee Table",
+        author: "ARNOO",
+        brand: "ARNOO",
+        folderPath: "Products/ARNOO/Minimalist Coffee Table",
+        price: 399.99,
+        originalPrice: 499.99,
+        image: "/projects/Brand Medias/Arnoo/Branding/Arnoo Brand Design Board.png",
+        images: [
+          "/projects/Brand Medias/Arnoo/Branding/Arnoo Brand Design Board.png"
+        ],
+        description: "Sleek coffee table with hidden storage and contemporary design",
+        detailedDescription: "Our Minimalist Coffee Table features clean geometric lines and practical hidden storage compartments. Made from premium oak wood with a natural finish, this piece serves as both a functional centerpiece and a statement of modern design philosophy.",
+        features: [
+          "Premium oak wood construction",
+          "Hidden storage compartments",
+          "Natural wood finish",
+          "Easy assembly",
+          "Scratch-resistant surface",
+          "2-year warranty"
+        ],
+        sizes: [
+          { size: "Small (100cm)", price: 299.99, stock: 20 },
+          { size: "Medium (120cm)", price: 399.99, stock: 15 },
+          { size: "Large (140cm)", price: 499.99, stock: 10 }
+        ],
+        colors: [
+          { name: "Natural Oak", hex: "#D2B48C", stock: 25 },
+          { name: "Dark Walnut", hex: "#3C2415", stock: 18 },
+          { name: "White Wash", hex: "#F5F5F5", stock: 12 }
+        ],
+        tags: ["Furniture", "Coffee Table", "Minimalist", "Storage", "Living Room"],
+        rating: 4.6,
+        reviewCount: 156,
+        isNew: false,
+        isBestSeller: false,
+        discount: 20,
+        modFile: {
+          filename: "minimalist-coffee-table.zip",
+          size: 8388608, // 8MB
+          version: "1.0.0"
+        },
+        downloadCount: 3240
+      },
+      {
+        id: "home-003",
+        name: "Contemporary Floor Lamp",
+        author: "ARNOO",
+        brand: "ARNOO",
+        folderPath: "Products/ARNOO/Contemporary Floor Lamp",
+        price: 199.99,
+        originalPrice: 249.99,
+        image: "/projects/Brand Medias/Arnoo/Branding/Arnoo Brand Design Board.png",
+        images: [
+          "/projects/Brand Medias/Arnoo/Branding/Arnoo Brand Design Board.png"
+        ],
+        description: "Sculptural floor lamp with adjustable lighting and modern aesthetics",
+        detailedDescription: "Illuminate your space with our Contemporary Floor Lamp, featuring a sculptural design that doubles as functional art. With adjustable brightness and direction, this lamp provides both ambient and task lighting while serving as a striking focal point in any room.",
+        features: [
+          "LED lighting technology",
+          "Adjustable brightness levels",
+          "360-degree rotation",
+          "Touch control interface",
+          "Energy efficient",
+          "Modern sculptural design",
+          "1-year warranty"
+        ],
+        sizes: [
+          { size: "Standard (150cm)", price: 199.99, stock: 30 },
+          { size: "Tall (180cm)", price: 249.99, stock: 20 }
+        ],
+        colors: [
+          { name: "Matte Black", hex: "#2F2F2F", stock: 25 },
+          { name: "Brushed Gold", hex: "#DAA520", stock: 15 },
+          { name: "White", hex: "#FFFFFF", stock: 20 }
+        ],
+        tags: ["Lighting", "Floor Lamp", "Contemporary", "LED", "Adjustable"],
+        rating: 4.7,
+        reviewCount: 89,
+        isNew: true,
+        isBestSeller: false,
+        discount: 20,
+        modFile: {
+          filename: "contemporary-floor-lamp.zip",
+          size: 5242880, // 5MB
+          version: "1.0.0"
+        },
+        downloadCount: 1890
       }
     ]
   }

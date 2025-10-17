@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 
 export const BrandDetail = () => {
-  const { brandName } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart, isInCart } = useCart();
   const [brandData, setBrandData] = useState(null);
@@ -29,13 +29,13 @@ export const BrandDetail = () => {
   const [viewMode, setViewMode] = useState("grid");
 
   useEffect(() => {
-    if (brandName) {
+    if (id) {
       setLoading(true);
       // Simulate loading delay
       setTimeout(() => {
         const allProducts = getAllProducts();
         const brandProducts = allProducts.filter(product => 
-          product.brand.toLowerCase() === decodeURIComponent(brandName).toLowerCase()
+          product.brand.toLowerCase() === decodeURIComponent(id).toLowerCase()
         );
         
         if (brandProducts.length > 0) {
@@ -58,7 +58,7 @@ export const BrandDetail = () => {
         setLoading(false);
       }, 500);
     }
-  }, [brandName]);
+  }, [id]);
 
   const handleAddToCart = async (product) => {
     const success = await addToCart(product);
@@ -146,7 +146,7 @@ export const BrandDetail = () => {
                 <img
                   src={getBrandLogoImage(brandData.name)}
                   alt={`${brandData.name} logo`}
-                  className="w-20 h-20 object-contain"
+                  className="w-20 h-20 object-cover rounded-full"
                   onError={(e) => {
                     e.target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iI2YzZjRmNiIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM2NjY2NjYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Mb2dvPC90ZXh0Pjwvc3ZnPg==";
                   }}
@@ -366,7 +366,7 @@ const getBrandDescription = (brandName) => {
     "HarmonyWell": "Korean wellness brand creating products for balanced living and inner peace.",
     "WellnessCore": "Korean health brand specializing in traditional supplements and energy-boosting products.",
     "TraditionalWell": "Chinese wellness brand bringing ancient healing wisdom to modern health needs.",
-    "MooStyle Blog": "Your trusted source for Asian beauty trends, fashion tips, and lifestyle inspiration."
+    "ARNOO": "Premium home renovation and interior design studio specializing in modern furniture and contemporary home decor. Transform your living spaces with our curated collection of sophisticated furniture pieces and innovative design solutions."
   };
   return descriptions[brandName] || "A premium brand offering quality products from Asia.";
 };
@@ -389,7 +389,7 @@ const getBrandCategory = (brandName) => {
     "HarmonyWell": "Lifestyle",
     "WellnessCore": "Health",
     "TraditionalWell": "Health",
-    "MooStyle Blog": "Content"
+    "ARNOO": "Home & Design"
   };
   return categories[brandName] || "General";
 };
@@ -412,7 +412,7 @@ const getBrandLogoImage = (brandName) => {
     "HarmonyWell": "/projects/BrandButtons/harmony-well-logo.png",
     "WellnessCore": "/projects/BrandButtons/wellness-core-logo.png",
     "TraditionalWell": "/projects/BrandButtons/traditional-well-logo.png",
-    "MooStyle Blog": "/projects/BrandButtons/moostyle-blog-logo.png"
+    "ARNOO": "/projects/Brand Medias/Arnoo/Branding/Arnoo - Logo (Black and White).png"
   };
   return logoImages[brandName] || "/projects/BrandButtons/default-logo.png";
 };
