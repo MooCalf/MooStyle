@@ -1,17 +1,76 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Heart, Star, Eye, Download, User, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { OverlayModal } from "./ui/OverlayModal";
 import { motion } from "framer-motion";
+import { saveProduct, unsaveProduct, isProductSaved } from "@/lib/savedProducts";
 
 export const ProductCard = ({ product, onToggleFavorite, onQuickView }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
-  // Placeholder functions for now
-  const handleFavoriteToggle = () => {
-    setIsFavorite(!isFavorite);
-    onToggleFavorite?.(product.id);
+  // Check if product is saved on component mount
+  useEffect(() => {
+    setIsFavorite(isProductSaved(product.id));
+  }, [product.id]);
+
+  // Handle save/unsave functionality
+  const handleFavoriteToggle = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (isSaving) return;
+    
+    setIsSaving(true);
+    
+    try {
+      if (isFavorite) {
+        // Unsave product
+        const success = unsaveProduct(product.id);
+        if (success) {
+          setIsFavorite(false);
+          showToast('Product removed from saved items', 'success');
+        }
+      } else {
+        // Save product
+        const success = saveProduct(product);
+        if (success) {
+          setIsFavorite(true);
+          showToast('Product saved!', 'success');
+        }
+      }
+      
+      // Call parent callback if provided
+      onToggleFavorite?.(product.id);
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+      showToast('Error saving product', 'error');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Show toast notification
+  const showToast = (message, type = 'info') => {
+    const toast = document.createElement('div');
+    const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';
+    
+    toast.className = `fixed top-4 right-4 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300`;
+    toast.innerHTML = `
+      <div class="flex items-center gap-2">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+        </svg>
+        <span>${message}</span>
+      </div>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
   };
 
   const handleQuickView = () => {
@@ -78,16 +137,17 @@ export const ProductCard = ({ product, onToggleFavorite, onQuickView }) => {
           {/* Action Buttons */}
           <div className="absolute top-2 right-2 flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
             <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleFavoriteToggle();
-              }}
-              className="p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow"
+              onClick={handleFavoriteToggle}
+              disabled={isSaving}
+              className={`p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all ${
+                isSaving ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             >
               <Heart 
                 size={16} 
-                className={isFavorite ? "text-red-500 fill-current" : "text-gray-400"} 
+                className={`transition-colors ${
+                  isFavorite ? "text-red-500 fill-current" : "text-gray-400 hover:text-red-500"
+                } ${isSaving ? 'animate-pulse' : ''}`} 
               />
             </button>
             <button

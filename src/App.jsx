@@ -14,6 +14,7 @@ import AboutMe from './Pages/AboutMe';
 import { MyProjects } from './Pages/MyProjects';
 import CommonQuestions from './Pages/CommonQuestions';
 import { Support } from './Pages/Support';
+import { SavedProducts } from './Pages/SavedProducts';
 import { NotFound } from './Pages/NotFound';
 
 // Components
@@ -29,6 +30,7 @@ function App() {
             {/* Main Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/support" element={<Support />} />
+            <Route path="/saved-products" element={<SavedProducts />} />
             
             {/* Shopping Routes */}
             <Route path="/shopping" element={<Shopping />} />
