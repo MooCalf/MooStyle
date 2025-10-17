@@ -1,7 +1,7 @@
 import { NavigationPrimary } from "@/Components/NavigationPrimary";
 import { NavigationSecondary } from "@/Components/NavigationSecondary";
 import { Footer } from "@/Components/Footer";
-import { ArrowLeft, Star, MapPin, Heart, ShoppingBag, Users, Award, Globe } from "lucide-react";
+import { ArrowLeft, Star, MapPin, Heart, Package, Users, Award, Globe } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Metadata } from "@/Components/Metadata.jsx";
 
@@ -263,7 +263,7 @@ const Artisans = () => {
                   
                   
                   <button className="btn-primary w-full">
-                    <ShoppingBag size={16} />
+                    <Package size={16} />
                     View Products
                   </button>
                 </div>

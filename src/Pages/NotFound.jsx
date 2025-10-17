@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { NavigationPrimary } from "@/Components/NavigationPrimary";
 import { NavigationSecondary } from "@/Components/NavigationSecondary";
-import { Home, ArrowLeft, Search, ShoppingBag } from "lucide-react";
+import { Home, ArrowLeft, Search, Package } from "lucide-react";
 
 export const NotFound = () => {
   return (
@@ -15,7 +15,7 @@ export const NotFound = () => {
           <div className="mb-8">
             <div className="text-8xl font-bold text-teal-600 mb-4">404</div>
             <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-teal-100 to-teal-200 rounded-full flex items-center justify-center">
-              <ShoppingBag size={48} className="text-teal-600" />
+              <Package size={48} className="text-teal-600" />
             </div>
           </div>
 
