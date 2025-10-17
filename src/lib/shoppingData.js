@@ -64,6 +64,7 @@ export const shoppingCategories = {
         name: "Japanese BB Cream",
         author: "TokyoVibe",
         brand: "TokyoVibe",
+        folderPath: "Products/TokyoVibe/Japanese BB Cream",
         price: 45.00,
         originalPrice: 60.00,
         image: "/projects/BETATESTINGIMAGES/M_p0153126832.jpg",
@@ -72,24 +73,50 @@ export const shoppingCategories = {
           "/projects/BETATESTINGIMAGES/M_p0173471010.jpg"
         ],
         description: "Lightweight Japanese BB cream with SPF protection",
+        detailedDescription: "Experience the perfect fusion of Japanese skincare innovation and makeup artistry with our premium BB cream. This lightweight formula provides natural coverage while delivering skincare benefits, including SPF protection and skin-brightening properties.",
+        features: [
+          "SPF 30 sun protection",
+          "Lightweight, breathable formula",
+          "Natural skin-brightening effect",
+          "Hydrating hyaluronic acid",
+          "Long-lasting coverage",
+          "Suitable for all skin types",
+          "Cruelty-free and vegan"
+        ],
+        sizes: [
+          { size: "30ml", price: 35.00, stock: 20 },
+          { size: "50ml", price: 45.00, stock: 15 },
+          { size: "75ml", price: 60.00, stock: 8 }
+        ],
+        colors: [
+          { name: "Light", hex: "#F5F5DC", image: "/Shopping Contents/Beauty/bb-cream-light.jpg" },
+          { name: "Medium", hex: "#D2B48C", image: "/Shopping Contents/Beauty/bb-cream-medium.jpg" },
+          { name: "Deep", hex: "#8B4513", image: "/Shopping Contents/Beauty/bb-cream-deep.jpg" }
+        ],
         tags: ["Makeup", "Japanese", "BB Cream", "SPF"],
         rating: 4.6,
         reviewCount: 189,
         isNew: false,
         isBestSeller: true,
         discount: 25,
+        inStock: true,
+        shipping: "Free shipping on orders over $30",
+        returnPolicy: "30-day return policy",
+        ingredients: "Hyaluronic Acid, SPF 30, Vitamin C, Niacinamide, Japanese Rice Extract",
         modFile: {
           filename: "japanese-bb-cream.zip",
           size: 8388608, // 8MB
           version: "1.0.0"
         },
-        downloadCount: 8920
+        downloadCount: 8920,
+        howToUse: "Apply evenly to clean skin using fingertips or a makeup sponge. Start from the center of the face and blend outward. Can be used alone or as a base for additional makeup."
       },
       {
         id: "beauty-003",
         name: "Chinese Herbal Hair Mask",
         author: "CelestialBeauty",
         brand: "CelestialBeauty",
+        folderPath: "Products/CelestialBeauty/Chinese Herbal Hair Mask",
         price: 35.00,
         originalPrice: 50.00,
         image: "/projects/BETATESTINGIMAGES/M_p0188313813.jpg",
@@ -98,24 +125,48 @@ export const shoppingCategories = {
           "/projects/BETATESTINGIMAGES/M_p0212227403.jpg"
         ],
         description: "Traditional Chinese herbal hair treatment",
+        detailedDescription: "Revitalize your hair with our traditional Chinese herbal hair mask, crafted using ancient Chinese medicine principles. This intensive treatment combines powerful herbs like ginseng, goji berry, and black sesame to restore hair health and promote growth.",
+        features: [
+          "Traditional Chinese herbal formula",
+          "Ginseng for hair strength",
+          "Goji berry for scalp health",
+          "Black sesame for shine",
+          "Deep conditioning treatment",
+          "Natural and organic ingredients",
+          "Suitable for all hair types"
+        ],
+        sizes: [
+          { size: "200ml", price: 25.00, stock: 25 },
+          { size: "350ml", price: 35.00, stock: 18 },
+          { size: "500ml", price: 50.00, stock: 12 }
+        ],
+        colors: [
+          { name: "Original", hex: "#8B4513", image: "/Shopping Contents/Beauty/hair-mask-original.jpg" }
+        ],
         tags: ["Hair Care", "Chinese", "Herbal", "Repair"],
         rating: 4.7,
         reviewCount: 156,
         isNew: false,
         isBestSeller: false,
         discount: 30,
+        inStock: true,
+        shipping: "Free shipping on orders over $25",
+        returnPolicy: "30-day return policy",
+        ingredients: "Chinese Ginseng Extract, Goji Berry Extract, Black Sesame Oil, Green Tea Extract, Vitamin E",
         modFile: {
           filename: "chinese-herbal-hair-mask.zip",
           size: 12582912, // 12MB
           version: "2.1.0"
         },
-        downloadCount: 5670
+        downloadCount: 5670,
+        howToUse: "Apply to clean, damp hair from roots to ends. Leave on for 15-20 minutes, then rinse thoroughly with warm water. Use once or twice per week for best results."
       },
       {
         id: "beauty-004",
         name: "Korean Lip Tint Set",
         author: "PearlEssence",
         brand: "PearlEssence",
+        folderPath: "Products/PearlEssence/Korean Lip Tint Set",
         price: 28.00,
         originalPrice: 40.00,
         image: "/projects/BETATESTINGIMAGES/M_p0219369326.jpg",
@@ -124,24 +175,49 @@ export const shoppingCategories = {
           "/projects/BETATESTINGIMAGES/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png"
         ],
         description: "Set of 3 Korean lip tints in popular shades",
+        detailedDescription: "Achieve the perfect Korean gradient lip look with our premium lip tint set. Each tint is formulated with natural fruit extracts and provides long-lasting, buildable color that creates the signature Korean lip effect.",
+        features: [
+          "3 popular Korean-inspired shades",
+          "Natural fruit extracts",
+          "Long-lasting formula",
+          "Buildable color intensity",
+          "Non-drying formula",
+          "Cruelty-free and vegan",
+          "Perfect for gradient lips"
+        ],
+        sizes: [
+          { size: "3-Pack", price: 28.00, stock: 20 },
+          { size: "5-Pack", price: 45.00, stock: 15 },
+          { size: "Deluxe Set", price: 60.00, stock: 8 }
+        ],
+        colors: [
+          { name: "Cherry Blossom", hex: "#FFB6C1", image: "/Shopping Contents/Beauty/lip-tint-cherry.jpg" },
+          { name: "Peach Glow", hex: "#FFCCCB", image: "/Shopping Contents/Beauty/lip-tint-peach.jpg" },
+          { name: "Rose Pink", hex: "#E8B4B8", image: "/Shopping Contents/Beauty/lip-tint-rose.jpg" }
+        ],
         tags: ["Makeup", "Korean", "Lip Tint", "Set"],
         rating: 4.9,
         reviewCount: 203,
         isNew: true,
         isBestSeller: true,
         discount: 30,
+        inStock: true,
+        shipping: "Free shipping on orders over $25",
+        returnPolicy: "30-day return policy",
+        ingredients: "Natural Fruit Extracts, Vitamin E, Hyaluronic Acid, Jojoba Oil, Natural Colorants",
         modFile: {
           filename: "korean-lip-tint-set.zip",
           size: 6291456, // 6MB
           version: "1.3.0"
         },
-        downloadCount: 18750
+        downloadCount: 18750,
+        howToUse: "Apply a small amount to the center of lips and blend outward for gradient effect. Layer for more intense color. Can be used alone or over lip balm for hydration."
       },
       {
         id: "beauty-005",
-        name: "Korean Lip Gloss Set",
-        author: "GlossyLips",
-        brand: "GlossyLips",
+        name: "Artisan Pastry Collection",
+        author: "MLOO",
+        brand: "MLOO",
         price: 32.00,
         originalPrice: 45.00,
         image: "/projects/BETATESTINGIMAGES/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
@@ -149,28 +225,28 @@ export const shoppingCategories = {
           "/projects/BETATESTINGIMAGES/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
           "/projects/BETATESTINGIMAGES/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png"
         ],
-        description: "High-shine Korean lip gloss set with 5 trendy shades",
-        detailedDescription: "Achieve the perfect Korean glass lip look with our premium lip gloss set. Each gloss is formulated with hyaluronic acid and vitamin E for long-lasting moisture and shine. The non-sticky formula provides comfortable wear while delivering intense color payoff.",
+        description: "Handcrafted pastries and cafe-style treats made with premium ingredients",
+        detailedDescription: "Indulge in our carefully crafted artisan pastry collection featuring traditional recipes with a modern twist. Each pastry is made fresh daily using premium ingredients and time-honored techniques. Perfect for breakfast, afternoon tea, or as a delightful treat any time of day.",
         features: [
-          "5 trendy Korean-inspired shades",
-          "Hyaluronic acid for deep hydration",
-          "Vitamin E for lip protection",
-          "Non-sticky formula",
-          "Long-lasting shine",
-          "Cruelty-free and vegan",
-          "Paraben-free formula"
+          "5 assorted artisan pastries",
+          "Made with premium butter and flour",
+          "Traditional baking techniques",
+          "Fresh ingredients sourced locally",
+          "Perfect for breakfast or afternoon tea",
+          "Individually wrapped for freshness",
+          "No artificial preservatives"
         ],
         sizes: [
-          { size: "Mini Set", price: 18.00, stock: 20 },
-          { size: "Regular Set", price: 32.00, stock: 12 },
-          { size: "Deluxe Set", price: 45.00, stock: 5 }
+          { size: "Small Box", price: 18.00, stock: 20 },
+          { size: "Regular Box", price: 32.00, stock: 12 },
+          { size: "Large Box", price: 45.00, stock: 5 }
         ],
         colors: [
-          { name: "Cherry Blossom", hex: "#FFB6C1", image: "/Shopping Contents/Beauty/lip-gloss-cherry.jpg" },
-          { name: "Peach Glow", hex: "#FFCCCB", image: "/Shopping Contents/Beauty/lip-gloss-peach.jpg" },
-          { name: "Rose Gold", hex: "#E8B4B8", image: "/Shopping Contents/Beauty/lip-gloss-rose.jpg" }
+          { name: "Chocolate", hex: "#8B4513", image: "/Shopping Contents/Food/chocolate-pastry.jpg" },
+          { name: "Vanilla", hex: "#F5F5DC", image: "/Shopping Contents/Food/vanilla-pastry.jpg" },
+          { name: "Strawberry", hex: "#FFB6C1", image: "/Shopping Contents/Food/strawberry-pastry.jpg" }
         ],
-        tags: ["Makeup", "Korean", "Lip Gloss", "High Shine", "Hydrating"],
+        tags: ["Pastries", "Cafe", "Artisan", "Fresh", "Handmade"],
         rating: 4.9,
         reviewCount: 312,
         isNew: true,
@@ -179,10 +255,10 @@ export const shoppingCategories = {
         inStock: true,
         shipping: "Free shipping on orders over $30",
         returnPolicy: "30-day return policy",
-        ingredients: "Hyaluronic Acid, Vitamin E, Jojoba Oil, Shea Butter, Natural Colorants",
-        howToUse: "Apply directly to clean lips or over lipstick for extra shine. Start from the center and work outward. Reapply as needed throughout the day.",
+        ingredients: "Premium Flour, Fresh Butter, Free-Range Eggs, Pure Vanilla Extract, Natural Sweeteners",
+        howToUse: "Best enjoyed fresh! Store in a cool, dry place. Perfect for breakfast, afternoon tea, or as a delightful treat. Serve at room temperature for optimal flavor and texture.",
         modFile: {
-          filename: "korean-lip-gloss-set.zip",
+          filename: "artisan-pastry-collection.zip",
           size: 12582912, // 12MB
           version: "1.4.0"
         },
@@ -297,6 +373,7 @@ export const shoppingCategories = {
         name: "Korean A-Line Dress",
         author: "SeoulStyle",
         brand: "SeoulStyle",
+        folderPath: "Products/SeoulStyle/Korean A-Line Dress",
         price: 75.00,
         originalPrice: 100.00,
         image: "/projects/BETATESTINGIMAGES/M_p0217730395.jpg",
@@ -305,24 +382,53 @@ export const shoppingCategories = {
           "/projects/BETATESTINGIMAGES/M_p0219136879.png"
         ],
         description: "Elegant Korean A-line dress perfect for any occasion",
+        detailedDescription: "Embrace Korean fashion elegance with our signature A-line dress. Featuring a flattering silhouette that cinches at the waist and flows beautifully to the hem, this dress combines modern Korean design with timeless elegance. Perfect for both casual and formal occasions.",
+        features: [
+          "Flattering A-line silhouette",
+          "High-quality Korean fabric",
+          "Comfortable fit for all body types",
+          "Versatile styling options",
+          "Easy care and maintenance",
+          "Modern Korean design",
+          "Perfect length for any occasion"
+        ],
+        sizes: [
+          { size: "XS", price: 75.00, stock: 15 },
+          { size: "S", price: 75.00, stock: 20 },
+          { size: "M", price: 75.00, stock: 25 },
+          { size: "L", price: 75.00, stock: 18 },
+          { size: "XL", price: 75.00, stock: 12 }
+        ],
+        colors: [
+          { name: "Black", hex: "#000000", image: "/Shopping Contents/Women/dress-black.jpg" },
+          { name: "Navy", hex: "#000080", image: "/Shopping Contents/Women/dress-navy.jpg" },
+          { name: "Cream", hex: "#F5F5DC", image: "/Shopping Contents/Women/dress-cream.jpg" },
+          { name: "Dusty Rose", hex: "#D2B48C", image: "/Shopping Contents/Women/dress-rose.jpg" }
+        ],
         tags: ["Dresses", "Korean", "A-Line", "Elegant"],
         rating: 4.8,
         reviewCount: 167,
         isNew: true,
         isBestSeller: false,
         discount: 25,
+        inStock: true,
+        shipping: "Free shipping on orders over $50",
+        returnPolicy: "30-day return policy",
+        materials: "Polyester Blend, Spandex, Korean Cotton",
         modFile: {
           filename: "korean-a-line-dress.zip",
           size: 20971520, // 20MB
           version: "1.5.0"
         },
-        downloadCount: 12340
+        downloadCount: 12340,
+        careInstructions: "Machine wash cold, tumble dry low. Iron on low heat if needed. Do not bleach."
       },
       {
         id: "women-002",
         name: "Japanese Blouse",
         author: "TokyoFashion",
         brand: "TokyoFashion",
+        folderPath: "Products/TokyoFashion/Japanese Blouse",
         price: 55.00,
         originalPrice: 70.00,
         image: "/projects/BETATESTINGIMAGES/M_p0153126832.jpg",
@@ -331,18 +437,45 @@ export const shoppingCategories = {
           "/projects/BETATESTINGIMAGES/M_p0173471010.jpg"
         ],
         description: "Lightweight Japanese blouse with unique patterns",
+        detailedDescription: "Discover the artistry of Japanese fashion with our elegant blouse featuring traditional-inspired patterns and modern cuts. This versatile piece combines comfort with style, perfect for both professional and casual settings.",
+        features: [
+          "Traditional Japanese-inspired patterns",
+          "Lightweight, breathable fabric",
+          "Modern cut with traditional elements",
+          "Versatile styling options",
+          "Comfortable all-day wear",
+          "Easy care fabric",
+          "Timeless design"
+        ],
+        sizes: [
+          { size: "XS", price: 55.00, stock: 12 },
+          { size: "S", price: 55.00, stock: 18 },
+          { size: "M", price: 55.00, stock: 22 },
+          { size: "L", price: 55.00, stock: 16 },
+          { size: "XL", price: 55.00, stock: 10 }
+        ],
+        colors: [
+          { name: "White", hex: "#FFFFFF", image: "/Shopping Contents/Women/blouse-white.jpg" },
+          { name: "Ivory", hex: "#FFFFF0", image: "/Shopping Contents/Women/blouse-ivory.jpg" },
+          { name: "Light Blue", hex: "#ADD8E6", image: "/Shopping Contents/Women/blouse-blue.jpg" }
+        ],
         tags: ["Tops", "Japanese", "Blouse", "Pattern"],
         rating: 4.5,
         reviewCount: 134,
         isNew: false,
         isBestSeller: true,
         discount: 21,
+        inStock: true,
+        shipping: "Free shipping on orders over $50",
+        returnPolicy: "30-day return policy",
+        materials: "Cotton Blend, Silk, Japanese Rayon",
         modFile: {
           filename: "japanese-blouse.zip",
           size: 16777216, // 16MB
           version: "1.1.0"
         },
-        downloadCount: 9870
+        downloadCount: 9870,
+        careInstructions: "Hand wash cold or gentle machine cycle. Hang dry or tumble dry low. Iron on medium heat."
       },
       {
         id: "women-003",

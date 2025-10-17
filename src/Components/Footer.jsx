@@ -148,7 +148,7 @@ export const Footer = () => {
                           href="#common-questions"
                           className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         >
-                          Common Questions
+                          General Information
                         </a>
                         <a
                           href="#about-me"

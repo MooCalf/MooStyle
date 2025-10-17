@@ -161,7 +161,7 @@ const getStaticPages = () => [
   },
   {
     id: 'common-questions',
-    title: 'Common Questions',
+    title: 'General Information',
     description: 'Find answers to frequently asked questions',
     content: 'Get answers to common questions about shipping, returns, product information, and more. Our FAQ section covers everything you need to know.',
     excerpt: 'Find answers to frequently asked questions',

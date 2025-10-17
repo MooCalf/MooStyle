@@ -6,6 +6,16 @@ import { motion } from "framer-motion";
 const CommonQuestions = () => {
   const faqs = [
     {
+      category: "About This Website",
+      icon: HelpCircle,
+      questions: [
+        {
+          question: "What is the purpose of this website?",
+          answer: "This website is designed to showcase the aesthetic and functionality of a modern shopping platform. It demonstrates various UI/UX patterns, interactive elements, and design principles commonly found in e-commerce websites. Some buttons and functions are implemented for visual demonstration purposes and may not perform actual transactions or data processing."
+        }
+      ]
+    },
+    {
       category: "Downloads & Mods",
       icon: Download,
       questions: [
@@ -138,7 +148,7 @@ const CommonQuestions = () => {
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.3 }}
                   >
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Common Questions</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">General Information</h1>
                     <p className="text-gray-600 mt-1">Find answers to frequently asked questions</p>
                   </motion.div>
                 </div>

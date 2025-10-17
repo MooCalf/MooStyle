@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Heart, Star, Eye, Download, User, Check } from "lucide-react";
+import { Heart, Star, Eye, Download, User, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { OverlayModal } from "./ui/OverlayModal";
 import { motion } from "framer-motion";
@@ -9,11 +9,61 @@ export const ProductCard = ({ product, onToggleFavorite, onQuickView }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Get all available images (primary + additional)
+  const allImages = product.images && product.images.length > 0 
+    ? product.images 
+    : [product.image];
 
   // Check if product is saved on component mount
   useEffect(() => {
     setIsFavorite(isProductSaved(product.id));
+    // Reset image index when product changes
+    setCurrentImageIndex(0);
   }, [product.id]);
+
+  // Keyboard navigation for carousel
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (allImages.length <= 1) return;
+      
+      if (e.key === 'ArrowLeft') {
+        setCurrentImageIndex((prev) => 
+          prev === 0 ? allImages.length - 1 : prev - 1
+        );
+      } else if (e.key === 'ArrowRight') {
+        setCurrentImageIndex((prev) => 
+          prev === allImages.length - 1 ? 0 : prev + 1
+        );
+      }
+    };
+
+    // Add event listener when component mounts
+    document.addEventListener('keydown', handleKeyDown);
+    
+    // Cleanup event listener when component unmounts
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [allImages.length]);
+
+  // Carousel navigation functions
+  const goToPreviousImage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => 
+      prev === 0 ? allImages.length - 1 : prev - 1
+    );
+  };
+
+  const goToNextImage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => 
+      prev === allImages.length - 1 ? 0 : prev + 1
+    );
+  };
 
   // Handle save/unsave functionality
   const handleFavoriteToggle = async (e) => {
@@ -113,12 +163,40 @@ export const ProductCard = ({ product, onToggleFavorite, onQuickView }) => {
         <div className="relative">
           <div className="aspect-square overflow-hidden">
             <img
-              src={imageError ? "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk1vZDwvdGV4dD48L3N2Zz4=" : product.image}
+              src={imageError ? "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk1vZDwvdGV4dD48L3N2Zz4=" : allImages[currentImageIndex]}
               alt={product.name}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               onError={handleImageError}
             />
           </div>
+
+          {/* Carousel Navigation Arrows - Only show if multiple images */}
+          {allImages.length > 1 && (
+            <>
+              {/* Previous Button */}
+              <button
+                onClick={goToPreviousImage}
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-700 hover:text-gray-900 rounded-full p-1.5 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
+                aria-label="Previous image"
+              >
+                <ChevronLeft size={16} />
+              </button>
+
+              {/* Next Button */}
+              <button
+                onClick={goToNextImage}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white text-gray-700 hover:text-gray-900 rounded-full p-1.5 shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10"
+                aria-label="Next image"
+              >
+                <ChevronRight size={16} />
+              </button>
+
+              {/* Image Counter */}
+              <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                {currentImageIndex + 1} / {allImages.length}
+              </div>
+            </>
+          )}
 
           {/* Product Badges */}
           <div className="absolute top-2 left-2 flex flex-col gap-1">

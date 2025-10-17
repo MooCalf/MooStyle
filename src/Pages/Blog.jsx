@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Filter, Tag, Calendar, User } from 'lucide-react';
+import { ArrowLeft, Filter, Tag, Calendar, User, Package, Download, AlertCircle, CheckCircle, Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { NavigationPrimary } from '@/Components/NavigationPrimary';
@@ -269,6 +269,152 @@ const Blog = () => {
     }
   ];
 
+  // Changelog data for mod updates
+  const changelogEntries = [
+    {
+      id: 1,
+      modName: "Korean Glass Skin Set",
+      version: "2.1.0",
+      date: "2024-01-20",
+      type: "update",
+      changes: [
+        {
+          type: "added",
+          description: "Added new sensitive skin variant with reduced fragrance"
+        },
+        {
+          type: "improved",
+          description: "Enhanced texture quality for better skin compatibility"
+        },
+        {
+          type: "fixed",
+          description: "Fixed compatibility issue with InZoi version 1.2.3"
+        }
+      ],
+      downloadCount: 15420,
+      author: "LunaGlow"
+    },
+    {
+      id: 2,
+      modName: "Japanese BB Cream",
+      version: "1.3.0",
+      date: "2024-01-18",
+      type: "update",
+      changes: [
+        {
+          type: "added",
+          description: "New color shades: Light, Medium, Deep"
+        },
+        {
+          type: "improved",
+          description: "Better SPF protection simulation"
+        },
+        {
+          type: "fixed",
+          description: "Resolved texture blending issues"
+        }
+      ],
+      downloadCount: 8920,
+      author: "TokyoVibe"
+    },
+    {
+      id: 3,
+      modName: "Chinese Herbal Hair Mask",
+      version: "1.2.0",
+      date: "2024-01-15",
+      type: "update",
+      changes: [
+        {
+          type: "added",
+          description: "New herbal blend with ginseng and goji berry"
+        },
+        {
+          type: "improved",
+          description: "Enhanced hair texture simulation"
+        },
+        {
+          type: "fixed",
+          description: "Fixed application timing for better results"
+        }
+      ],
+      downloadCount: 5670,
+      author: "HerbalGlow"
+    },
+    {
+      id: 4,
+      modName: "Korean Lip Tint Set",
+      version: "1.4.0",
+      date: "2024-01-12",
+      type: "update",
+      changes: [
+        {
+          type: "added",
+          description: "New gradient lip effect simulation"
+        },
+        {
+          type: "improved",
+          description: "Better color intensity options"
+        },
+        {
+          type: "added",
+          description: "Long-lasting formula enhancement"
+        }
+      ],
+      downloadCount: 18750,
+      author: "PearlEssence"
+    },
+    {
+      id: 5,
+      modName: "Korean A-Line Dress",
+      version: "1.5.0",
+      date: "2024-01-10",
+      type: "update",
+      changes: [
+        {
+          type: "added",
+          description: "New size options: XS, S, M, L, XL"
+        },
+        {
+          type: "improved",
+          description: "Enhanced fabric texture simulation"
+        },
+        {
+          type: "added",
+          description: "New color variants: Navy, Cream, Dusty Rose"
+        }
+      ],
+      downloadCount: 12340,
+      author: "SeoulStyle"
+    },
+    {
+      id: 6,
+      modName: "Japanese Serum Essence",
+      version: "2.0.0",
+      date: "2024-01-08",
+      type: "major",
+      changes: [
+        {
+          type: "added",
+          description: "Complete reformulation with fermented rice extract"
+        },
+        {
+          type: "added",
+          description: "New sake extract for skin renewal"
+        },
+        {
+          type: "improved",
+          description: "Enhanced absorption simulation"
+        },
+        {
+          type: "fixed",
+          description: "Resolved compatibility with all skin types"
+        }
+      ],
+      downloadCount: 15680,
+      author: "TokyoFashion"
+    }
+  ];
+
   const handlePostClick = (post) => {
     setSelectedPost(post);
   };
@@ -411,6 +557,115 @@ const Blog = () => {
                 />
               </motion.div>
             )}
+
+            {/* Mod Changelog Section */}
+            <motion.div 
+              className="mb-12"
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <motion.div 
+                className="flex items-center gap-3 mb-6"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.7 }}
+              >
+                <div className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center">
+                  <Package className="text-white" size={16} />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900">Mod Updates & Changelog</h2>
+              </motion.div>
+              
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <div className="bg-gradient-to-r from-blue-50 to-blue-100 px-6 py-4 border-b border-gray-200">
+                  <p className="text-gray-700 text-sm">
+                    Stay updated with the latest mod improvements, bug fixes, and new features from our creators.
+                  </p>
+                </div>
+                
+                <div className="divide-y divide-gray-200">
+                  {changelogEntries.map((entry, index) => (
+                    <motion.div 
+                      key={entry.id}
+                      className="p-6 hover:bg-gray-50 transition-colors"
+                      initial={{ x: -20, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ duration: 0.4, delay: 0.8 + index * 0.05 }}
+                    >
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="text-lg font-semibold text-gray-900">{entry.modName}</h3>
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              entry.type === 'major' 
+                                ? 'bg-purple-100 text-purple-800' 
+                                : 'bg-green-100 text-green-800'
+                            }`}>
+                              {entry.type === 'major' ? 'Major Update' : 'Update'} v{entry.version}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-4 text-sm text-gray-600">
+                            <div className="flex items-center gap-1">
+                              <Calendar size={14} />
+                              {new Date(entry.date).toLocaleDateString('en-US', { 
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: 'numeric' 
+                              })}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <User size={14} />
+                              {entry.author}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Download size={14} />
+                              {entry.downloadCount.toLocaleString()} downloads
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        {entry.changes.map((change, changeIndex) => (
+                          <div key={changeIndex} className="flex items-start gap-2">
+                            <div className={`mt-1 flex-shrink-0 ${
+                              change.type === 'added' ? 'text-green-600' :
+                              change.type === 'improved' ? 'text-blue-600' :
+                              change.type === 'fixed' ? 'text-orange-600' :
+                              'text-gray-600'
+                            }`}>
+                              {change.type === 'added' && <Plus size={14} />}
+                              {change.type === 'improved' && <CheckCircle size={14} />}
+                              {change.type === 'fixed' && <AlertCircle size={14} />}
+                            </div>
+                            <span className={`text-sm ${
+                              change.type === 'added' ? 'text-green-700' :
+                              change.type === 'improved' ? 'text-blue-700' :
+                              change.type === 'fixed' ? 'text-orange-700' :
+                              'text-gray-700'
+                            }`}>
+                              <span className="font-medium capitalize">{change.type}:</span> {change.description}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+                
+                <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-gray-600">
+                      Showing {changelogEntries.length} recent updates
+                    </p>
+                    <button className="text-sm text-teal-600 hover:text-teal-700 font-medium">
+                      View All Updates →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
 
             {/* Regular Posts */}
             <motion.div
