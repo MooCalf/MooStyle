@@ -200,6 +200,25 @@ app.get('/api/health', (req, res) => {
 const { auth } = require('./auth');
 const { toNodeHandler } = require('better-auth/node');
 
+// Root route handler for OAuth redirects - MUST be before Better Auth handler
+app.get('/', (req, res) => {
+  // Check if this is an OAuth callback (has state and code parameters)
+  if (req.query.state && req.query.code) {
+    console.log('🔍 OAuth callback detected at root path, redirecting to proper endpoint');
+    console.log('🔍 Query params:', req.query);
+    // Redirect to the proper OAuth callback endpoint
+    const callbackUrl = `/api/auth/callback/google?${new URLSearchParams(req.query).toString()}`;
+    console.log('🔍 Redirecting to:', callbackUrl);
+    return res.redirect(callbackUrl);
+  }
+  
+  res.json({ 
+    message: 'MooStyle API Server',
+    status: 'running',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Add logging middleware for OAuth callbacks BEFORE Better Auth handler
 app.use('/api/auth/callback/google', (req, res, next) => {
   console.log('🔍 OAuth Callback Received:');
@@ -235,23 +254,6 @@ app.get('/auth-error', (req, res) => {
   const frontendUrl = process.env.FRONTEND_URL || 'https://moostyles.pages.dev';
   console.log('🔍 Redirecting to:', `${frontendUrl}/login?error=${error}`);
   res.redirect(`${frontendUrl}/login?error=${error}`);
-});
-
-// Root route handler for OAuth redirects
-app.get('/', (req, res) => {
-  // Check if this is an OAuth callback (has state and code parameters)
-  if (req.query.state && req.query.code) {
-    console.log('🔍 OAuth callback detected at root path, redirecting to proper endpoint');
-    // Redirect to the proper OAuth callback endpoint
-    const callbackUrl = `/api/auth/callback/google?${new URLSearchParams(req.query).toString()}`;
-    return res.redirect(callbackUrl);
-  }
-  
-  res.json({ 
-    message: 'MooStyle API Server',
-    status: 'running',
-    timestamp: new Date().toISOString()
-  });
 });
 
 // Apply specific rate limiters to routes
