@@ -200,10 +200,7 @@ app.get('/api/health', (req, res) => {
 const { auth } = require('./auth');
 const { toNodeHandler } = require('better-auth/node');
 
-// Mount Better Auth handler
-app.use('/api/auth', toNodeHandler(auth));
-
-// Add logging middleware for OAuth callbacks
+// Add logging middleware for OAuth callbacks BEFORE Better Auth handler
 app.use('/api/auth/callback/google', (req, res, next) => {
   console.log('🔍 OAuth Callback Received:');
   console.log('  - URL:', req.url);
@@ -212,6 +209,9 @@ app.use('/api/auth/callback/google', (req, res, next) => {
   console.log('  - Headers:', req.headers);
   next();
 });
+
+// Mount Better Auth handler
+app.use('/api/auth', toNodeHandler(auth));
 
 // Custom error route for Better Auth
 app.get('/auth-error', (req, res) => {
