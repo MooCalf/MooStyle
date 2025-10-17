@@ -88,9 +88,6 @@ export const Register = () => {
     try {
       await signIn.social({
         provider: provider,
-        callbackURL: 'http://localhost:5173/',
-        errorCallbackURL: 'http://localhost:5173/register',
-        newUserCallbackURL: 'http://localhost:5173/',
       });
     } catch (error) {
       setError(`Failed to sign up with ${provider}. Please try again.`);
