@@ -5,14 +5,12 @@ import { NavigationSecondary } from "@/Components/NavigationSecondary";
 import { ProductCard } from "@/Components/ProductCard";
 import { getAllProducts } from "@/lib/shoppingData";
 import { Metadata } from "@/Components/Metadata.jsx";
-import { useCart } from "@/contexts/CartContext";
 import { 
   Star, 
   ArrowLeft, 
   Users, 
   Award, 
   Globe, 
-  ShoppingBag,
   Heart,
   Share2,
   Grid,
@@ -23,7 +21,6 @@ import {
 export const BrandDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart, isInCart } = useCart();
   const [brandData, setBrandData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState("grid");
@@ -59,13 +56,6 @@ export const BrandDetail = () => {
       }, 500);
     }
   }, [id]);
-
-  const handleAddToCart = async (product) => {
-    const success = await addToCart(product);
-    if (success) {
-      console.log(`Successfully added "${product.name}" to cart!`);
-    }
-  };
 
   const handleToggleFavorite = (productId) => {
     console.log("Toggling favorite for:", productId);
@@ -313,16 +303,11 @@ export const BrandDetail = () => {
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            handleAddToCart(product);
+                            navigate(`/product/${product.id}`);
                           }}
-                          disabled={isInCart(product.id)}
-                          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                            isInCart(product.id)
-                              ? "bg-green-100 text-green-700 cursor-default"
-                              : "bg-teal-600 hover:bg-teal-700 text-white"
-                          }`}
+                          className="px-4 py-2 rounded-lg text-sm font-medium transition-colors bg-teal-600 hover:bg-teal-700 text-white"
                         >
-                          {isInCart(product.id) ? "In Cart" : "Add to Cart"}
+                          View Details
                         </button>
                       </div>
                     </div>

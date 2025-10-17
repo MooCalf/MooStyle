@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
 import { 
   CheckCircle,
   AlertCircle,
@@ -12,14 +11,13 @@ import {
 } from 'lucide-react';
 
 export const SupportContactForm = () => {
-  const { user, isBanned } = useAuth();
   const [formData, setFormData] = useState({
-    name: user?.name || user?.username || '',
-    email: user?.email || '',
-    subject: isBanned ? 'Account Suspension Appeal' : '',
-    category: isBanned ? 'suspension' : 'general',
-    message: isBanned ? `Hello,\n\nI would like to appeal my account suspension. Please review my case.\n\nAccount: ${user?.email || user?.username}\nSuspension Reason: ${user?.banReason || 'Not provided'}\n\nThank you for your time.\n\nBest regards,` : '',
-    priority: isBanned ? 'high' : 'medium'
+    name: '',
+    email: '',
+    subject: '',
+    category: 'general',
+    message: '',
+    priority: 'medium'
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);

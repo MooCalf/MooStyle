@@ -9,14 +9,10 @@ import { getCategoryData, getProductsByCategory, searchProducts, getAllProducts 
 import { getGlobalSearchData } from "@/lib/globalSearchData";
 import { Metadata } from "@/Components/Metadata.jsx";
 import { Loader2, Grid, List, Star, Heart } from "lucide-react";
-import { useCart } from "@/contexts/CartContext";
-import { useAuth } from "@/contexts/AuthContext";
 
 export const Shopping = () => {
   const { category } = useParams();
   const navigate = useNavigate();
-  const { addToCart, isInCart } = useCart();
-  const { isAuthenticated } = useAuth();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -130,14 +126,6 @@ export const Shopping = () => {
       setHasMore(endIndex < products.length);
       setLoading(false);
     }, 300);
-  };
-
-  const handleAddToCart = async (product) => {
-    const success = await addToCart(product);
-    if (success) {
-      // Show success toast or notification
-      console.log(`Successfully added "${product.name}" to cart!`);
-    }
   };
 
   const handleToggleFavorite = (productId) => {
@@ -321,15 +309,10 @@ export const Shopping = () => {
                       <Heart size={16} />
                     </button>
                     <button
-                      onClick={() => handleAddToCart(product)}
-                      disabled={isInCart(product.id)}
-                      className={`btn-primary text-sm ${
-                        isInCart(product.id)
-                          ? "bg-green-100 text-green-700 cursor-default"
-                          : ""
-                      }`}
+                      onClick={() => navigate(`/product/${product.id}`)}
+                      className="btn-primary text-sm"
                     >
-                      {isInCart(product.id) ? "In Cart" : "Add to Cart"}
+                      View Details
                     </button>
                   </div>
                         </div>
