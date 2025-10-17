@@ -138,13 +138,13 @@ const auth = betterAuth({
   },
 
   // Social providers
-  socialProviders: process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET ? {
+  socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       scope: ["openid", "email", "profile"],
     }
-  } : {},
+  },
 
   // Debug logging
   onAPIError: {
