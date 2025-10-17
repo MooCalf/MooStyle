@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Star, Heart, ShoppingBag } from "lucide-react";
+import { MapPin, Star, Heart, Package } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const LocalArtisans = () => {
@@ -160,7 +160,7 @@ export const LocalArtisans = () => {
                 </div>
                 
                 <button className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
-                  <ShoppingBag size={16} className="mr-2" />
+                  <Package size={16} className="mr-2" />
                   View Products
                 </button>
               </div>

@@ -32,8 +32,6 @@ const Brands = () => {
 
   // Sort brands by total downloads (most popular first)
   brandData.sort((a, b) => b.totalDownloads - a.totalDownloads);
-  
-  console.log('Brand data:', brandData);
 
   return (
     <>

@@ -10,7 +10,6 @@ import {
   AlertCircle,
   Shield,
   CreditCard,
-  ShoppingBag,
   Download,
   Settings,
   HelpCircle,
@@ -20,22 +19,10 @@ import {
 export const Support = () => {
   const supportCategories = [
     {
-      icon: <Shield size={24} color="#dc2626" />,
-      title: "Account Issues",
-      description: "Suspended accounts, login problems, password resets",
-      color: "bg-red-50 border-red-200 hover:bg-red-100"
-    },
-    {
-      icon: <ShoppingBag size={24} color="#2563eb" />,
-      title: "Shopping & Cart",
-      description: "Cart issues, checkout problems, payment questions",
+      icon: <Download size={24} color="#2563eb" />,
+      title: "Downloads & Products",
+      description: "Product downloads, file issues, installation help",
       color: "bg-blue-50 border-blue-200 hover:bg-blue-100"
-    },
-    {
-      icon: <Download size={24} color="#16a34a" />,
-      title: "Downloads & Content",
-      description: "Download problems, file access, content issues",
-      color: "bg-green-50 border-green-200 hover:bg-green-100"
     },
     {
       icon: <CreditCard size={24} color="#9333ea" />,
@@ -59,24 +46,24 @@ export const Support = () => {
 
   const faqs = [
     {
-      question: "Why was my account suspended?",
-      answer: "Accounts may be suspended for violations of our terms of service, suspicious activity, or other policy violations. Contact support for specific details about your account status."
+      question: "How do I download products?",
+      answer: "Click on any product to view details, then use the download button if available. Some products may be coming soon."
     },
     {
-      question: "How can I get my account reinstated?",
-      answer: "Submit a support request explaining your situation. Our team will review your case and respond within 24-48 hours with next steps."
+      question: "Are the products free?",
+      answer: "Many products are free to browse and view. Some premium products may require purchase or have download restrictions."
     },
     {
-      question: "I can't download my purchased content",
-      answer: "Check your internet connection and try clearing your browser cache. If the issue persists, contact support with your order details."
+      question: "I can't download a product",
+      answer: "Check your internet connection and try refreshing the page. If the issue persists, contact support with the product details."
     },
     {
-      question: "How do I update my payment information?",
-      answer: "Go to your account settings and update your payment method. For subscription changes, contact support for assistance."
+      question: "How do I contact support?",
+      answer: "Use the contact form below to reach our support team. We typically respond within 24-48 hours."
     },
     {
-      question: "What are your refund policies?",
-      answer: "We offer refunds within 30 days of purchase for digital content that hasn't been downloaded. Contact support with your order details."
+      question: "Can I suggest new products or brands?",
+      answer: "Absolutely! We love hearing from our community. Use the contact form to share your suggestions."
     }
   ];
 
@@ -92,32 +79,6 @@ export const Support = () => {
         <NavigationSecondary />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Banned User Notice */}
-          {isBanned && (
-            <div className="mb-8 bg-red-50 border border-red-200 rounded-lg p-6">
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  <AlertCircle size={24} color="#dc2626" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-red-800 mb-2">Account Suspended - We're Here to Help</h3>
-                  <p className="text-red-700 mb-3">
-                    Your account has been temporarily suspended, but you can still access our support system to get help.
-                  </p>
-                  {user?.banReason && (
-                    <div className="bg-red-100 border border-red-300 rounded-lg p-3 mb-3">
-                      <p className="text-sm font-medium text-red-800 mb-1">Reason for Suspension:</p>
-                      <p className="text-sm text-red-700 italic">"{user.banReason}"</p>
-                    </div>
-                  )}
-                  <p className="text-sm text-red-600">
-                    Use the form below to submit a support request about your account suspension. We'll review your case and respond within 24-48 hours.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">Support Center</h1>
@@ -204,24 +165,13 @@ export const Support = () => {
                 <Mail size={16} color="#ffffff" className="mr-2" />
                 Email Support
               </a>
-              {!isBanned && (
-                <Link
-                  to="/"
-                  className="inline-flex items-center px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-                >
-                  <User size={16} color="#ffffff" className="mr-2" />
-                  Back to Home
-                </Link>
-              )}
-              {isBanned && (
-                <button
-                  onClick={() => window.location.href = '/'}
-                  className="inline-flex items-center px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-                >
-                  <User size={16} color="#ffffff" className="mr-2" />
-                  Back to Account Status
-                </button>
-              )}
+              <Link
+                to="/"
+                className="inline-flex items-center px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+              >
+                <User size={16} color="#ffffff" className="mr-2" />
+                Back to Home
+              </Link>
             </div>
           </div>
         </div>
