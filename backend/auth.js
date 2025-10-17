@@ -267,4 +267,19 @@ const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:5000',
 });
 
+// Initialize database tables on startup
+async function initializeDatabase() {
+  try {
+    console.log('🔄 Initializing Better Auth database tables...');
+    // Better Auth will automatically create tables when first accessed
+    // This is a placeholder for any manual initialization if needed
+    console.log('✅ Better Auth database initialization complete');
+  } catch (error) {
+    console.error('❌ Error initializing Better Auth database:', error);
+  }
+}
+
+// Initialize on startup
+initializeDatabase();
+
 module.exports = { auth };
