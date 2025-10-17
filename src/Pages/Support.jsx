@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
 import { NavigationPrimary } from '@/Components/NavigationPrimary';
 import { NavigationSecondary } from '@/Components/NavigationSecondary';
 import { Metadata } from '@/Components/Metadata.jsx';
@@ -19,8 +18,6 @@ import {
 } from 'lucide-react';
 
 export const Support = () => {
-  const { user, isBanned } = useAuth();
-
   const supportCategories = [
     {
       icon: <Shield size={24} color="#dc2626" />,

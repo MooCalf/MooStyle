@@ -1,19 +1,12 @@
 import { useState } from "react";
-import { Heart, ShoppingBag, Star, Eye, Download, User, Check } from "lucide-react";
+import { Heart, Star, Eye, Download, User, Check } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useCart } from "@/contexts/CartContext";
-import { useAuth } from "@/contexts/AuthContext";
 import { OverlayModal } from "./ui/OverlayModal";
 import { motion } from "framer-motion";
 
-export const ProductCard = ({ product, onAddToCart, onToggleFavorite, onQuickView }) => {
-  const { addToCart, isInCart } = useCart();
-  const { isAuthenticated } = useAuth();
+export const ProductCard = ({ product, onToggleFavorite, onQuickView }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [addingToCart, setAddingToCart] = useState(false);
-  const [addedToCart, setAddedToCart] = useState(false);
-  const [showRegistrationPrompt, setShowRegistrationPrompt] = useState(false);
 
   // Placeholder functions for now
   const handleFavoriteToggle = () => {
@@ -23,35 +16,6 @@ export const ProductCard = ({ product, onAddToCart, onToggleFavorite, onQuickVie
 
   const handleQuickView = () => {
     onQuickView?.(product);
-  };
-
-  const handleAddToCart = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    // Show registration prompt for non-authenticated users
-    if (!isAuthenticated) {
-      setShowRegistrationPrompt(true);
-      return;
-    }
-    
-    setAddingToCart(true);
-    try {
-      const success = await addToCart(product);
-      if (success) {
-        setAddedToCart(true);
-        setTimeout(() => setAddedToCart(false), 2000); // Reset after 2 seconds
-      }
-      // Don't call onAddToCart callback to prevent double adding
-    } catch (error) {
-      console.error('Failed to add to cart:', error);
-      // If error is about authentication, show registration prompt
-      if (error.message.includes('sign up') || error.message.includes('sign in')) {
-        setShowRegistrationPrompt(true);
-      }
-    } finally {
-      setAddingToCart(false);
-    }
   };
 
   const handleImageError = () => {
@@ -178,88 +142,16 @@ export const ProductCard = ({ product, onAddToCart, onToggleFavorite, onQuickVie
             )}
           </div>
 
-          {/* Add to Cart Button */}
-          <button
-            onClick={handleAddToCart}
-            disabled={addingToCart || isInCart(product.id)}
-            className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-2 ${
-              addedToCart || isInCart(product.id)
-                ? "bg-green-600 text-white cursor-default"
-                : addingToCart
-                ? "bg-gray-400 text-white cursor-not-allowed"
-                : "bg-teal-600 hover:bg-teal-700 text-white"
-            }`}
+          {/* View Details Button */}
+          <Link
+            to={`/product/${product.id}`}
+            className="w-full py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-2 bg-teal-600 hover:bg-teal-700 text-white"
           >
-            {addingToCart ? (
-              <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                Adding...
-              </>
-            ) : addedToCart || isInCart(product.id) ? (
-              <>
-                <Check size={16} />
-                In Cart
-              </>
-            ) : (
-              <>
-                <ShoppingBag size={16} />
-                Add to Cart
-              </>
-            )}
-          </button>
+            <Eye size={16} />
+            View Details
+          </Link>
         </div>
       </motion.div>
-      
-      {/* Registration Popup Overlay */}
-      <OverlayModal
-        isOpen={showRegistrationPrompt}
-        onClose={() => setShowRegistrationPrompt(false)}
-        title="Sign up to add mods to cart"
-        description="Create a free account to add mods to your cart and download them!"
-        icon={ShoppingBag}
-        iconColor="#0d9488"
-      >
-        <div className="mb-6">
-          <h4 className="text-sm font-medium text-gray-900 mb-2">Benefits of signing up:</h4>
-          <ul className="space-y-1">
-            <li className="flex items-center gap-2 text-sm text-gray-700">
-              <Check size={14} color="#16a34a" />
-              Download unlimited mods
-            </li>
-            <li className="flex items-center gap-2 text-sm text-gray-700">
-              <Check size={14} color="#16a34a" />
-              Earn points with each download
-            </li>
-          </ul>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Link
-            to="/register"
-            className="flex-1 bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
-            onClick={() => setShowRegistrationPrompt(false)}
-          >
-            <User size={18} />
-            Sign Up Free
-          </Link>
-          <Link
-            to="/login"
-            className="flex-1 bg-white hover:bg-gray-50 text-teal-600 font-semibold py-3 px-4 rounded-lg border border-teal-600 transition-colors duration-200 flex items-center justify-center gap-2"
-            onClick={() => setShowRegistrationPrompt(false)}
-          >
-            <User size={18} />
-            Sign In
-          </Link>
-        </div>
-
-        <Link
-          to="/"
-          onClick={() => setShowRegistrationPrompt(false)}
-          className="w-full mt-3 text-gray-500 hover:text-gray-700 text-sm py-2 block text-center"
-        >
-          Maybe later
-        </Link>
-      </OverlayModal>
     </Link>
   );
 };
