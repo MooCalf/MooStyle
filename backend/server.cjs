@@ -203,6 +203,16 @@ const { toNodeHandler } = require('better-auth/node');
 // Mount Better Auth handler
 app.use('/api/auth', toNodeHandler(auth));
 
+// Add logging middleware for OAuth callbacks
+app.use('/api/auth/callback/google', (req, res, next) => {
+  console.log('🔍 OAuth Callback Received:');
+  console.log('  - URL:', req.url);
+  console.log('  - Method:', req.method);
+  console.log('  - Query:', req.query);
+  console.log('  - Headers:', req.headers);
+  next();
+});
+
 // Custom error route for Better Auth
 app.get('/auth-error', (req, res) => {
   const error = req.query.error || 'unknown_error';
