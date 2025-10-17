@@ -3,7 +3,15 @@ import { adminClient, emailOTPClient } from "better-auth/client/plugins";
 
 const envBase = typeof window !== 'undefined' && window.__AUTH_BASE_URL__
   ? window.__AUTH_BASE_URL__
-  : (import.meta?.env?.VITE_AUTH_BASE_URL || import.meta?.env?.VITE_BACKEND_URL || 'http://localhost:5000');
+  : (import.meta?.env?.VITE_AUTH_BASE_URL || import.meta?.env?.VITE_BACKEND_URL || 'https://moostyle-production.up.railway.app');
+
+// Debug logging for base URL
+console.log('🔍 Better Auth Client Base URL:', envBase);
+console.log('🔍 Environment Variables:', {
+  VITE_AUTH_BASE_URL: import.meta?.env?.VITE_AUTH_BASE_URL,
+  VITE_BACKEND_URL: import.meta?.env?.VITE_BACKEND_URL,
+  windowAuthBase: typeof window !== 'undefined' ? window.__AUTH_BASE_URL__ : 'undefined'
+});
 
 // Create Better Auth client with admin and emailOTP plugins
 export const authClient = createAuthClient({
