@@ -256,7 +256,6 @@ export const Shopping = () => {
                       <ProductCard
                         key={product.id}
                         product={product}
-                        onAddToCart={handleAddToCart}
                         onToggleFavorite={handleToggleFavorite}
                         onQuickView={handleQuickView}
                       />
