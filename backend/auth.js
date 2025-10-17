@@ -143,7 +143,6 @@ const auth = betterAuth({
       google: {
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        redirectURI: `${process.env.BETTER_AUTH_URL}/api/auth/callback/google`,
         scope: ["openid", "email", "profile"],
       }
     } : {}),
@@ -290,6 +289,9 @@ async function initializeDatabase() {
     console.log('  - GOOGLE_CLIENT_SECRET:', process.env.GOOGLE_CLIENT_SECRET ? 'SET' : 'NOT SET');
     console.log('  - MONGODB_URI:', process.env.MONGODB_URI ? 'SET' : 'NOT SET');
     console.log('🔍 Expected Google Callback URL:', `${process.env.BETTER_AUTH_URL || 'http://localhost:5000'}/api/auth/callback/google`);
+    console.log('🔍 Better Auth Configuration:');
+    console.log('  - Base URL:', auth.baseURL);
+    console.log('  - Google Config:', auth.socialProviders?.google);
     console.log('✅ Better Auth database initialization complete');
   } catch (error) {
     console.error('❌ Error initializing Better Auth database:', error);
