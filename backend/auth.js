@@ -143,6 +143,7 @@ const auth = betterAuth({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       scope: ["openid", "email", "profile"],
+      redirectURI: `${process.env.BETTER_AUTH_URL}/api/auth/callback/google`,
     }
   },
 
@@ -275,6 +276,14 @@ const auth = betterAuth({
   // Base URL for the auth server
   baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:5000',
 });
+
+// Debug Better Auth configuration immediately after creation
+console.log('🔍 Better Auth Instance Debug:');
+console.log('  - Auth Object:', auth);
+console.log('  - Auth Keys:', Object.keys(auth));
+console.log('  - Social Providers:', auth.socialProviders);
+console.log('  - Providers:', auth.providers);
+console.log('  - Options:', auth.options);
 
 // Initialize database tables on startup
 async function initializeDatabase() {
