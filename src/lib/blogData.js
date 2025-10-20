@@ -422,6 +422,82 @@ export const blogPosts = [
     comments: 8,
     metaDescription: "January 2024 mod roundup featuring the best mods released this month.",
     metaKeywords: "mod roundup, January 2024, InZoi mods, reviews"
+  },
+  {
+    id: 8,
+    type: POST_TYPES.CHANGELOG,
+    category: POST_CATEGORIES.CHANGELOG,
+    title: "December 2023 Mod Changelog - Holiday Updates",
+    excerpt: "December 2023 changelog featuring holiday-themed updates, winter collection releases, and year-end improvements.",
+    content: `
+      <h2>December 2023 Mod Changelog</h2>
+      <p>December brought festive updates and winter-themed collections to enhance your InZoi experience.</p>
+      
+      <h3>Holiday Collection</h3>
+      <ul>
+        <li><strong>Winter Glow Set v1.0.0:</strong> New winter-themed skincare collection</li>
+        <li><strong>Holiday Makeup Kit v1.0.0:</strong> Festive makeup looks for the season</li>
+        <li><strong>Cozy Winter Outfits v1.0.0:</strong> Warm and stylish winter clothing</li>
+      </ul>
+      
+      <h3>Performance Improvements</h3>
+      <ul>
+        <li>Optimized texture loading for better performance</li>
+        <li>Improved memory usage during gameplay</li>
+        <li>Enhanced compatibility with latest InZoi version</li>
+      </ul>
+    `,
+    author: "MooCalf",
+    date: "2023-12-20",
+    tags: ["changelog", "december", "holiday", "winter", "updates"],
+    readTime: "4 min read",
+    featured: false,
+    isLatest: false,
+    primaryImage: "/projects/BrandCovers/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
+    secondaryImages: [],
+    views: 750,
+    likes: 38,
+    comments: 8,
+    metaDescription: "December 2023 changelog featuring holiday-themed updates and winter collections.",
+    metaKeywords: "changelog, december, holiday, winter, updates, InZoi"
+  },
+  {
+    id: 9,
+    type: POST_TYPES.CHANGELOG,
+    category: POST_CATEGORIES.CHANGELOG,
+    title: "November 2023 Mod Changelog - Autumn Updates",
+    excerpt: "November 2023 changelog featuring autumn-themed updates, new texture improvements, and bug fixes.",
+    content: `
+      <h2>November 2023 Mod Changelog</h2>
+      <p>November updates focused on autumn aesthetics and texture improvements across all mods.</p>
+      
+      <h3>Autumn Collection</h3>
+      <ul>
+        <li><strong>Autumn Glow Skincare v1.0.0:</strong> Warm-toned skincare collection</li>
+        <li><strong>Fall Fashion Set v1.0.0:</strong> Cozy autumn clothing options</li>
+        <li><strong>Harvest Makeup Kit v1.0.0:</strong> Earthy makeup tones</li>
+      </ul>
+      
+      <h3>Texture Improvements</h3>
+      <ul>
+        <li>Enhanced skin texture resolution</li>
+        <li>Improved fabric simulation</li>
+        <li>Better lighting compatibility</li>
+      </ul>
+    `,
+    author: "MooCalf",
+    date: "2023-11-15",
+    tags: ["changelog", "november", "autumn", "textures", "updates"],
+    readTime: "3 min read",
+    featured: false,
+    isLatest: false,
+    primaryImage: "/projects/BrandCovers/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png",
+    secondaryImages: [],
+    views: 620,
+    likes: 32,
+    comments: 6,
+    metaDescription: "November 2023 changelog featuring autumn-themed updates and texture improvements.",
+    metaKeywords: "changelog, november, autumn, textures, updates, InZoi"
   }
 ];
 

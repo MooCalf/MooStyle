@@ -10,6 +10,7 @@ import { BrandDetail } from './Pages/BrandDetail';
 import { Brands } from './Pages/Brands';
 import { Artisans } from './Pages/Artisans';
 import Blog from './Pages/Blog';
+import Changelogs from './Pages/Changelogs';
 import AboutMe from './Pages/AboutMe';
 import { MyProjects } from './Pages/MyProjects';
 import CommonQuestions from './Pages/CommonQuestions';
@@ -47,6 +48,7 @@ function App() {
             {/* Content Routes */}
             <Route path="/artisans" element={<Artisans />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/changelogs" element={<Changelogs />} />
             <Route path="/about" element={<AboutMe />} />
             <Route path="/my-projects" element={<MyProjects />} />
             <Route path="/common-questions" element={<CommonQuestions />} />
