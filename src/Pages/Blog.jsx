@@ -35,6 +35,9 @@ const Blog = () => {
   const latestPosts = getLatestPosts();
   const modUpdatePosts = getModUpdatePosts();
   const changelogPosts = getChangelogPosts();
+  
+  // Get only the 3 latest changelog posts for the blog page
+  const latestChangelogPosts = changelogPosts.slice(0, 3);
 
   // Handle search functionality
   const handleSearch = (query) => {
@@ -220,23 +223,23 @@ const Blog = () => {
                 </div>
                 
                 <div className="divide-y divide-gray-200">
-                  {modUpdatePosts.map((post, index) => (
+                  {latestChangelogPosts.map((post, index) => (
                     <motion.div 
                       key={post.id}
-                      className="p-4 sm:p-6 hover:bg-gray-50 transition-colors"
+                      className="changelog-item p-4 sm:p-6 hover:bg-gray-50 transition-colors"
                       initial={{ x: -20, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ duration: 0.4, delay: 0.8 + index * 0.05 }}
                     >
-                      <div className="flex items-start justify-between mb-3 sm:mb-4">
-                        <div className="flex-1">
-                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
-                            <h3 className="text-base sm:text-lg font-semibold text-gray-900">{post.title}</h3>
+                      <div className="flex items-start mb-3 sm:mb-4 text-left">
+                        <div className="flex-1 text-left">
+                          <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-3 mb-2 text-left">
+                            <h3 className="text-base sm:text-lg font-semibold text-gray-900 text-left">{post.title}</h3>
                             <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 self-start">
                               {post.category}
                             </span>
                           </div>
-                          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600">
+                          <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600 text-left">
                             <div className="flex items-center gap-1">
                               <Calendar size={12} className="sm:w-3.5 sm:h-3.5" />
                               {new Date(post.date).toLocaleDateString('en-US', { 
@@ -257,11 +260,11 @@ const Blog = () => {
                         </div>
                       </div>
                       
-                      <div className="text-gray-700 text-xs sm:text-sm mb-3">
+                      <div className="text-gray-700 text-xs sm:text-sm mb-3 text-left">
                         {post.excerpt}
-                      </div>
+                            </div>
                       
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 justify-start">
                         <button 
                           onClick={() => handlePostClick(post)}
                           className="text-teal-600 hover:text-teal-700 text-xs sm:text-sm font-medium"
@@ -276,11 +279,14 @@ const Blog = () => {
                 <div className="bg-gray-50 px-4 sm:px-6 py-3 sm:py-4 border-t border-gray-200">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                     <p className="text-xs sm:text-sm text-gray-600">
-                      Showing {modUpdatePosts.length} recent updates
+                      Showing {latestChangelogPosts.length} of {changelogPosts.length} recent updates
                     </p>
-                    <button className="text-xs sm:text-sm text-teal-600 hover:text-teal-700 font-medium">
+                    <Link 
+                      to="/changelogs" 
+                      className="text-xs sm:text-sm text-teal-600 hover:text-teal-700 font-medium transition-colors"
+                    >
                       View All Updates →
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </div>

@@ -750,3 +750,109 @@
 .blog-post-modal-cta-button:hover {
   background-color: #0f766e; /* bg-teal-700 */
 }
+
+/* Blog Post Modal Content Body - Force Left Alignment */
+.blog-post-modal-content-body {
+  text-align: left !important;
+}
+
+.blog-post-modal-content-body h1,
+.blog-post-modal-content-body h2,
+.blog-post-modal-content-body h3,
+.blog-post-modal-content-body h4,
+.blog-post-modal-content-body h5,
+.blog-post-modal-content-body h6 {
+  text-align: left !important;
+}
+
+.blog-post-modal-content-body p {
+  text-align: left !important;
+}
+
+.blog-post-modal-content-body ul,
+.blog-post-modal-content-body ol {
+  text-align: left !important;
+}
+
+.blog-post-modal-content-body li {
+  text-align: left !important;
+}
+
+/* Override prose default centering */
+.prose {
+  text-align: left !important;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  text-align: left !important;
+}
+
+.prose p {
+  text-align: left !important;
+}
+
+.prose ul,
+.prose ol {
+  text-align: left !important;
+}
+
+.prose li {
+  text-align: left !important;
+}
+
+/* Changelog List Items - Force Left Alignment on All Screen Sizes */
+.changelog-item {
+  text-align: left !important;
+}
+
+.changelog-item h3,
+.changelog-item p,
+.changelog-item div {
+  text-align: left !important;
+}
+
+.changelog-item .flex {
+  justify-content: flex-start !important;
+}
+
+/* Ensure changelog items are left-aligned on all screen sizes */
+@media (min-width: 640px) {
+  .changelog-item {
+    text-align: left !important;
+  }
+  
+  .changelog-item h3,
+  .changelog-item p,
+  .changelog-item div {
+    text-align: left !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .changelog-item {
+    text-align: left !important;
+  }
+  
+  .changelog-item h3,
+  .changelog-item p,
+  .changelog-item div {
+    text-align: left !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .changelog-item {
+    text-align: left !important;
+  }
+  
+  .changelog-item h3,
+  .changelog-item p,
+  .changelog-item div {
+    text-align: left !important;
+  }
+}
