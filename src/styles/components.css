@@ -1285,3 +1285,145 @@
     right: -0.75rem;
   }
 }
+
+/* Mobile Filter Overlay Styles */
+.mobile-filter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.mobile-filter-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 256px;
+  max-width: 80vw;
+  background-color: white;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Mobile Filter Button */
+.mobile-filter-button {
+  position: fixed;
+  top: 80px;
+  right: 16px;
+  z-index: 40;
+  background-color: #0d9488;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);
+  transition: all 0.3s ease;
+}
+
+.mobile-filter-button:hover {
+  background-color: #0f766e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(13, 148, 136, 0.4);
+}
+
+/* Responsive Shopping Page */
+.shopping-page-container {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .shopping-page-container {
+    flex-direction: row;
+  }
+}
+
+.shopping-sidebar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .shopping-sidebar {
+    display: block;
+    width: 320px;
+    flex-shrink: 0;
+  }
+}
+
+.shopping-main-content {
+  flex: 1;
+  padding: 16px;
+}
+
+@media (min-width: 1024px) {
+  .shopping-main-content {
+    padding: 24px;
+  }
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 1023px) {
+  .shopping-main-content {
+    padding-top: 0; /* Removed padding for floating filter button */
+  }
+}
+
+/* Desktop-specific adjustments */
+@media (min-width: 1024px) {
+  .shopping-main-content {
+    padding-left: 0; /* Removed padding for floating filter button */
+  }
+}
+
+/* Desktop Filter Overlay Styles */
+.desktop-filter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.desktop-filter-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 320px;
+  background-color: white;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+  animation: slideInLeft 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

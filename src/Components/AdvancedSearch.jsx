@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { Search, Filter, X, ChevronDown, ChevronUp } from "lucide-react";
 import { getFilterOptions, searchProducts } from "@/lib/shoppingData";
 
-export const AdvancedSearch = ({ category, onSearchResults, onFiltersChange }) => {
+export const AdvancedSearch = ({ category, onSearchResults, onFiltersChange, isMobile = false, onClose }) => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [showFilters, setShowFilters] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
     subcategory: "",
     priceRange: "",
@@ -12,10 +12,10 @@ export const AdvancedSearch = ({ category, onSearchResults, onFiltersChange }) =
     rating: ""
   });
   const [expandedSections, setExpandedSections] = useState({
-    subcategory: true,
-    priceRange: true,
-    brand: true,
-    rating: true
+    subcategory: false,
+    priceRange: false,
+    brand: false,
+    rating: false
   });
 
   const filterOptions = getFilterOptions(category);
@@ -33,6 +33,13 @@ export const AdvancedSearch = ({ category, onSearchResults, onFiltersChange }) =
     const newFilters = { ...filters, [filterType]: value };
     setFilters(newFilters);
     onFiltersChange(newFilters);
+    
+    // Auto-close mobile overlay after applying filter
+    if (isMobile && onClose) {
+      setTimeout(() => {
+        onClose();
+      }, 500);
+    }
   };
 
   const clearFilters = () => {
@@ -56,11 +63,11 @@ export const AdvancedSearch = ({ category, onSearchResults, onFiltersChange }) =
   const hasActiveFilters = Object.values(filters).some(value => value !== "");
 
   return (
-    <div className="advanced-search-container bg-white border-r border-gray-200 h-screen overflow-y-auto sticky top-0">
-      <div className="p-6">
+    <div className={`advanced-search-container bg-white ${isMobile ? 'h-full' : 'border-r border-gray-200 h-screen overflow-y-auto sticky top-0'}`}>
+      <div className={`${isMobile ? 'p-4' : 'p-6'}`}>
         {/* Search Header */}
-        <div className="mb-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Search & Filter</h2>
+        <div className={`${isMobile ? 'mb-4' : 'mb-6'}`}>
+          {!isMobile && <h2 className="text-xl font-bold text-gray-900 mb-4">Search & Filter</h2>}
           
           {/* Search Input */}
           <div className="relative">
@@ -76,7 +83,7 @@ export const AdvancedSearch = ({ category, onSearchResults, onFiltersChange }) =
         </div>
 
         {/* Filter Toggle */}
-        <div className="mb-6">
+        <div className={`${isMobile ? 'mb-4' : 'mb-6'}`}>
           <button
             onClick={() => setShowFilters(!showFilters)}
             className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
@@ -95,7 +102,7 @@ export const AdvancedSearch = ({ category, onSearchResults, onFiltersChange }) =
 
         {/* Filters */}
         {showFilters && (
-          <div className="space-y-6">
+          <div className={`${isMobile ? 'space-y-4' : 'space-y-6'}`}>
             {/* Subcategory Filter */}
             <div className="filter-section">
               <button

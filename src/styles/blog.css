@@ -1,5 +1,178 @@
 /* Blog Components Styles */
 
+/* Mobile Responsive Styles */
+@media (max-width: 640px) {
+  /* Blog Post Cards - Mobile */
+  .blog-post-card-default,
+  .blog-post-card-featured,
+  .blog-post-card-compact {
+    margin-bottom: 1rem;
+  }
+  
+  .blog-post-image-default {
+    height: 10rem; /* h-40 */
+  }
+  
+  .blog-post-image-featured {
+    height: 12rem; /* h-48 */
+  }
+  
+  .blog-post-image-compact {
+    height: 6rem; /* h-24 */
+  }
+  
+  .blog-post-content-default {
+    padding: 1rem; /* p-4 */
+  }
+  
+  .blog-post-content-featured {
+    padding: 1.25rem; /* p-5 */
+  }
+  
+  .blog-post-content-compact {
+    padding: 0.75rem; /* p-3 */
+  }
+  
+  .blog-post-title-default {
+    font-size: 1.125rem; /* text-lg */
+  }
+  
+  .blog-post-title-featured {
+    font-size: 1.25rem; /* text-xl */
+  }
+  
+  .blog-post-title-compact {
+    font-size: 1rem; /* text-base */
+  }
+  
+  .blog-post-excerpt-default {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+  
+  .blog-post-excerpt-compact {
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+  }
+  
+  .blog-post-meta-info {
+    gap: 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .blog-post-stats {
+    gap: 0.75rem;
+    font-size: 0.75rem;
+  }
+  
+  .blog-post-tag {
+    font-size: 0.625rem;
+    padding: 0.125rem 0.375rem;
+  }
+  
+  .blog-post-read-more-button {
+    font-size: 0.75rem;
+  }
+  
+  /* Blog Post Modal - Mobile */
+  .blog-post-modal-overlay {
+    padding: 0.5rem;
+  }
+  
+  .blog-post-modal-content {
+    max-height: 95vh;
+  }
+  
+  .blog-post-modal-header {
+    padding: 1rem;
+  }
+  
+  .blog-post-modal-body {
+    padding: 1rem;
+  }
+  
+  .blog-post-modal-image {
+    height: 12rem; /* h-48 */
+    margin-bottom: 1.5rem;
+  }
+  
+  .blog-post-modal-title {
+    font-size: 1.5rem; /* text-2xl */
+    margin-bottom: 1rem;
+  }
+  
+  .blog-post-modal-excerpt {
+    font-size: 1rem; /* text-base */
+    margin-bottom: 1.5rem;
+  }
+  
+  .blog-post-modal-meta-info {
+    gap: 1rem;
+    font-size: 0.75rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .blog-post-modal-stats {
+    gap: 1rem;
+    font-size: 0.75rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .blog-post-modal-tag {
+    font-size: 0.75rem;
+    padding: 0.125rem 0.5rem;
+  }
+  
+  .blog-post-modal-author-bio {
+    margin-top: 2rem;
+    padding: 1rem;
+  }
+  
+  .blog-post-modal-author-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.75rem;
+  }
+  
+  .blog-post-modal-author-avatar {
+    width: 3rem;
+    height: 3rem;
+  }
+  
+  .blog-post-modal-cta {
+    margin-top: 1.5rem;
+  }
+  
+  .blog-post-modal-cta-content {
+    padding: 1rem;
+  }
+  
+  .blog-post-modal-cta-title {
+    font-size: 1rem;
+  }
+  
+  .blog-post-modal-cta-description {
+    font-size: 0.875rem;
+  }
+}
+
+/* Tablet Styles */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .blog-post-image-featured {
+    height: 14rem; /* h-56 */
+  }
+  
+  .blog-post-modal-image {
+    height: 18rem; /* h-72 */
+  }
+  
+  .blog-post-modal-title {
+    font-size: 2rem; /* text-3xl */
+  }
+}
+
 /* Blog Post Card Overlay */
 .blog-post-overlay {
   position: absolute;

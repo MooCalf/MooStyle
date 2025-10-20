@@ -85,7 +85,7 @@ export const NotFound = () => {
               transition={{ duration: 0.6, delay: 0.6 }}
             >
               <Link
-                to="/"
+                to="/home"
                 className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200 font-medium"
               >
                 <Home className="w-5 h-5 mr-2" />
@@ -222,7 +222,7 @@ export const ServerError = () => {
               </button>
               
               <Link
-                to="/"
+                to="/home"
                 className="inline-flex items-center px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 font-medium"
               >
                 <Home className="w-5 h-5 mr-2" />

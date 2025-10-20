@@ -146,7 +146,7 @@ export const MyProjects = () => {
           <div className="container mx-auto max-w-7xl">
             <div className="flex items-center gap-4 mb-8">
               <Link 
-                to="/" 
+                to="/home" 
                 className="outline-gradient-button p-2"
               >
                 <ArrowLeft size={20} />

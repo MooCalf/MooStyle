@@ -180,31 +180,31 @@ export const SavedProducts = () => {
         <NavigationSecondary />
 
         {/* Main Content */}
-        <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
           {/* Header */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
+          <div className="mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
-                  <Heart className="h-8 w-8 text-red-500" />
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 flex items-center gap-2">
+                  <Heart className="h-6 w-6 sm:h-8 sm:w-8 text-red-500" />
                   Saved Products
                 </h1>
-                <p className="text-gray-600 mt-2">
+                <p className="text-sm sm:text-base text-gray-600 mt-2">
                   {savedProducts.length} saved products • Expires in 1 year
                 </p>
               </div>
               
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
                 {/* Storage Stats */}
                 {storageStats && (
-                  <div className="text-sm text-gray-500">
+                  <div className="text-xs sm:text-sm text-gray-500">
                     <div className="flex items-center gap-1">
-                      <Package size={16} />
+                      <Package size={14} className="sm:w-4 sm:h-4" />
                       <span>{formatStorageSize(storageStats.storageSize)} used</span>
                     </div>
                     {storageStats.isNearLimit && (
                       <div className="flex items-center gap-1 text-orange-500">
-                        <AlertCircle size={14} />
+                        <AlertCircle size={12} className="sm:w-3.5 sm:h-3.5" />
                         <span>Storage nearly full</span>
                       </div>
                     )}
@@ -215,10 +215,11 @@ export const SavedProducts = () => {
                 {savedProducts.length > 0 && (
                   <button
                     onClick={() => setShowClearConfirm(true)}
-                    className="flex items-center gap-2 px-4 py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors text-sm sm:text-base"
                   >
-                    <Trash2 size={18} />
-                    Clear All
+                    <Trash2 size={16} className="sm:w-4.5 sm:h-4.5" />
+                    <span className="hidden sm:inline">Clear All</span>
+                    <span className="sm:hidden">Clear</span>
                   </button>
                 )}
                 
@@ -230,7 +231,7 @@ export const SavedProducts = () => {
                       viewMode === "grid" ? "bg-white shadow-sm" : "hover:bg-gray-200"
                     }`}
                   >
-                    <Grid size={18} />
+                    <Grid size={16} className="sm:w-4.5 sm:h-4.5" />
                   </button>
                   <button
                     onClick={() => setViewMode("list")}
@@ -238,31 +239,31 @@ export const SavedProducts = () => {
                       viewMode === "list" ? "bg-white shadow-sm" : "hover:bg-gray-200"
                     }`}
                   >
-                    <List size={18} />
+                    <List size={16} className="sm:w-4.5 sm:h-4.5" />
                   </button>
                 </div>
               </div>
             </div>
 
             {/* Search and Filters */}
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               {/* Search Bar */}
               <div className="flex-1 relative">
-                <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <Search size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 sm:w-5 sm:h-5" />
                 <input
                   type="text"
                   placeholder="Search saved products..."
                   value={searchQuery}
                   onChange={handleSearchChange}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent text-sm sm:text-base"
                 />
               </div>
               
               {/* Category Filter */}
-              <div className="flex gap-2 overflow-x-auto">
+              <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0">
                 <button
                   onClick={() => handleCategoryChange("all")}
-                  className={`px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
+                  className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg whitespace-nowrap transition-colors text-sm sm:text-base ${
                     selectedCategory === "all" 
                       ? "bg-teal-600 text-white" 
                       : "bg-white text-gray-700 hover:bg-gray-50"
@@ -274,7 +275,7 @@ export const SavedProducts = () => {
                   <button
                     key={category.key}
                     onClick={() => handleCategoryChange(category.key)}
-                    className={`px-4 py-2 rounded-lg whitespace-nowrap transition-colors ${
+                    className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg whitespace-nowrap transition-colors text-sm sm:text-base ${
                       selectedCategory === category.key 
                         ? "bg-teal-600 text-white" 
                         : "bg-white text-gray-700 hover:bg-gray-50"
@@ -289,14 +290,14 @@ export const SavedProducts = () => {
 
           {/* Products Grid */}
           {filteredProducts.length === 0 ? (
-            <div className="text-center py-12">
+            <div className="text-center py-8 sm:py-12">
               <div className="text-gray-400 mb-4">
-                <Heart size={48} className="mx-auto" />
+                <Heart size={40} className="mx-auto sm:w-12 sm:h-12" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">
                 {searchQuery || selectedCategory !== "all" ? "No products found" : "No saved products yet"}
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
                 {searchQuery || selectedCategory !== "all" 
                   ? "Try adjusting your search or filter criteria"
                   : "Start saving products you love by clicking the heart icon"
@@ -305,7 +306,7 @@ export const SavedProducts = () => {
               {!searchQuery && selectedCategory === "all" && (
                 <button
                   onClick={() => navigate("/shopping")}
-                  className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                  className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-semibold transition-colors text-sm sm:text-base"
                 >
                   Browse Products
                 </button>
@@ -314,8 +315,8 @@ export const SavedProducts = () => {
           ) : (
             <div className={`${
               viewMode === "grid" 
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" 
-                : "space-y-4"
+                ? "grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-6" 
+                : "space-y-3 sm:space-y-4"
             }`}>
               {filteredProducts.map((product) => (
                 <ProductCard
@@ -331,33 +332,33 @@ export const SavedProducts = () => {
 
       {/* Clear All Confirmation Modal */}
       {showClearConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg p-4 sm:p-6 max-w-md w-full mx-4">
             <div className="flex items-center gap-3 mb-4">
               <div className="p-2 bg-red-100 rounded-full">
-                <Trash2 size={24} className="text-red-600" />
+                <Trash2 size={20} className="text-red-600 sm:w-6 sm:h-6" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Clear All Saved Products</h3>
-                <p className="text-sm text-gray-600">This action cannot be undone</p>
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900">Clear All Saved Products</h3>
+                <p className="text-xs sm:text-sm text-gray-600">This action cannot be undone</p>
               </div>
             </div>
             
-            <p className="text-gray-700 mb-6">
+            <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6">
               Are you sure you want to remove all {savedProducts.length} saved products? 
               This will permanently delete them from your saved list.
             </p>
             
-            <div className="flex gap-3 justify-end">
+            <div className="flex flex-col sm:flex-row gap-3 justify-end">
               <button
                 onClick={() => setShowClearConfirm(false)}
-                className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors text-sm sm:text-base order-2 sm:order-1"
               >
                 Cancel
               </button>
               <button
                 onClick={handleClearAll}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors text-sm sm:text-base order-1 sm:order-2"
               >
                 Clear All
               </button>

@@ -8,7 +8,7 @@ import { ProductDisplay, ProductResultsHeader, LoadMoreButton } from "@/Componen
 import { useProductData } from "@/hooks/useProductData";
 import { getGlobalSearchData } from "@/lib/globalSearchData";
 import { Metadata } from "@/Components/Metadata.jsx";
-import { Heart } from "lucide-react";
+import { Heart, Filter, X } from "lucide-react";
 
 export const Shopping = () => {
   const { category } = useParams();
@@ -16,6 +16,8 @@ export const Shopping = () => {
   const [viewMode, setViewMode] = useState("grid"); // "grid" or "list"
   const [filters, setFilters] = useState({});
   const [searchQuery, setSearchQuery] = useState("");
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [showDesktopFilters, setShowDesktopFilters] = useState(false);
 
   // Use custom hook for product data management
   const {
@@ -39,6 +41,18 @@ export const Shopping = () => {
 
   const handleFiltersChange = (newFilters) => {
     setFilters(newFilters);
+  };
+
+  const toggleMobileFilters = () => {
+    setShowMobileFilters(!showMobileFilters);
+  };
+
+  const closeMobileFilters = () => {
+    setShowMobileFilters(false);
+  };
+
+  const toggleDesktopFilters = () => {
+    setShowDesktopFilters(!showDesktopFilters);
   };
 
   // Handle SearchQuery selection
@@ -78,14 +92,14 @@ export const Shopping = () => {
     // Implement quick view modal
   };
 
-  if (!categoryData) {
+  if (!categoryData && category) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Category Not Found</h1>
           <p className="text-gray-600 mb-6">The category you're looking for doesn't exist.</p>
           <button
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/home")}
             className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
           >
             Go Home
@@ -97,35 +111,90 @@ export const Shopping = () => {
 
   return (
     <>
+      {/* Skip Links for Accessibility */}
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
+      <a href="#navigation" className="skip-link">
+        Skip to navigation
+      </a>
+      
       <Metadata 
-        pageTitle={`${categoryData.name} - MooStyle`}
-        pageDescription={categoryData.description}
-        ogTitle={`Shop ${categoryData.name} - Premium Asian Fashion & Beauty | MooStyle`}
-        ogDescription={`Discover the latest ${categoryData.name.toLowerCase()} products at MooStyle. ${categoryData.description} Premium quality, authentic Asian style.`}
-        ogImage={categoryData.image || "/projects/Brand Medias/Promotional Content/Promo Poster.png"}
+        pageTitle={category ? `${categoryData?.name} - MooStyle` : "All Products - MooStyle"}
+        pageDescription={category ? categoryData?.description : "Discover all our premium Asian fashion, beauty products, and lifestyle items at MooStyle."}
+        ogTitle={category ? `Shop ${categoryData?.name} - Premium Asian Fashion & Beauty | MooStyle` : "Shop All Products - Premium Asian Fashion & Beauty | MooStyle"}
+        ogDescription={category ? `Discover the latest ${categoryData?.name.toLowerCase()} products at MooStyle. ${categoryData?.description} Premium quality, authentic Asian style.` : "Discover all our premium Asian fashion, beauty products, and lifestyle items at MooStyle. Premium quality, authentic Asian style."}
+        ogImage={category ? (categoryData?.image || "/projects/Brand Medias/Promotional Content/Promo Poster.png") : "/projects/Brand Medias/Promotional Content/Promo Poster.png"}
         ogType="website"
-        keywords={`${categoryData.name}, Asian fashion, Korean beauty, Japanese streetwear, ${categoryData.subcategories?.join(', ') || ''}, MooStyle`}
+        keywords={category ? `${categoryData?.name}, Asian fashion, Korean beauty, Japanese streetwear, ${categoryData?.subcategories?.join(', ') || ''}, MooStyle` : "Asian fashion, Korean beauty, Japanese streetwear, lifestyle, health, MooStyle"}
         category={categoryData}
       />
       
       <div className="min-h-screen bg-gray-50">
         {/* Navigation Bars */}
-        <NavigationPrimary />
-        <NavigationSecondary />
+        <div id="navigation">
+          <NavigationPrimary />
+          <NavigationSecondary />
+        </div>
 
         {/* Main Content */}
-        <div className="flex">
-          {/* Advanced Search Sidebar */}
-          <div className="w-80 flex-shrink-0">
-            <AdvancedSearch
-              category={category}
-              onSearchResults={handleSearchResults}
-              onFiltersChange={handleFiltersChange}
-            />
-          </div>
+        <main id="main-content">
+          <div className="flex flex-col lg:flex-row">
+
+          {/* Mobile Filter Overlay */}
+          {showMobileFilters && (
+            <div className="lg:hidden fixed inset-0 z-50" onClick={closeMobileFilters}>
+              <div className="absolute left-0 top-0 h-full w-64 max-w-[80vw] bg-white shadow-xl" onClick={(e) => e.stopPropagation()}>
+                <div className="flex items-center justify-between p-4 border-b border-gray-200">
+                  <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
+                  <button
+                    onClick={closeMobileFilters}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+                <div className="h-[calc(100vh-80px)] overflow-y-auto">
+                  <AdvancedSearch
+                    category={category}
+                    onSearchResults={handleSearchResults}
+                    onFiltersChange={handleFiltersChange}
+                    isMobile={true}
+                    onClose={closeMobileFilters}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Desktop Filter Overlay */}
+          {showDesktopFilters && (
+            <div className="hidden lg:block fixed inset-0 z-50" onClick={() => setShowDesktopFilters(false)}>
+              <div className="absolute left-0 top-0 h-full w-80 bg-white shadow-xl" onClick={(e) => e.stopPropagation()}>
+                <div className="flex items-center justify-between p-4 border-b border-gray-200">
+                  <h2 className="text-lg font-semibold text-gray-900">Filters</h2>
+                  <button
+                    onClick={() => setShowDesktopFilters(false)}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+                <div className="h-[calc(100vh-80px)] overflow-y-auto">
+                  <AdvancedSearch
+                    category={category}
+                    onSearchResults={handleSearchResults}
+                    onFiltersChange={handleFiltersChange}
+                    isMobile={false}
+                    onClose={() => setShowDesktopFilters(false)}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Products Section */}
-          <div className="flex-1 p-6">
+          <div className="flex-1 p-4 lg:p-6">
             {/* Header */}
             <ProductResultsHeader
               categoryData={categoryData}
@@ -136,23 +205,34 @@ export const Shopping = () => {
               searchQuery={searchQuery}
               viewMode={viewMode}
               onViewModeChange={setViewMode}
+              showAllProducts={!category}
             />
 
-            {/* SearchQuery Component */}
+            {/* SearchQuery Component with Filters Button */}
             <div className="mb-4">
-              <SearchQuery
-                searchData={searchData.filter(item => 
-                  !category || 
-                  item.type === 'product' && item.category === category ||
-                  item.type === 'category' && item.subcategory === category
-                )}
-                onSearchSelect={handleSearchSelect}
-                placeholder={`Search ${category ? categoryData?.name : 'all products'}...`}
-                showFilters={true}
-                className="w-full"
-                searchFields={['title', 'description', 'content', 'tags', 'category', 'subcategory', 'author', 'brand']}
-                resultLimit={20}
-              />
+              <div className="flex gap-3">
+                <div className="flex-1">
+                  <SearchQuery
+                    searchData={category ? searchData.filter(item => 
+                      item.type === 'product' && item.category === category ||
+                      item.type === 'category' && item.subcategory === category
+                    ) : searchData}
+                    onSearchSelect={handleSearchSelect}
+                    placeholder={category ? `Search ${categoryData?.name}...` : "Search all products..."}
+                    showFilters={true}
+                    className="w-full"
+                    searchFields={['title', 'description', 'content', 'tags', 'category', 'subcategory', 'author', 'brand']}
+                    resultLimit={20}
+                  />
+                </div>
+                <button
+                  onClick={window.innerWidth >= 1024 ? toggleDesktopFilters : toggleMobileFilters}
+                  className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-3 rounded-lg flex items-center gap-2 transition-colors whitespace-nowrap"
+                >
+                  <Filter size={20} />
+                  <span className="hidden sm:inline">Filters</span>
+                </button>
+              </div>
             </div>
 
             {/* Products Display */}
@@ -208,7 +288,8 @@ export const Shopping = () => {
               </div>
             </div>
           </div>
-        </div>
+          </div>
+        </main>
       </div>
 
     </>
