@@ -11,58 +11,50 @@ export const BrandCovers = () => {
       id: 1,
       image: "/projects/Products/LunaGlow/Korean Glass Skin Set/Lunaglow - Kit Promotional Cover.png",
       name: "LunaGlow",
-      description: "Korean-inspired skincare essentials",
-      discount: "30% OFF"
+      description: "Korean-inspired skincare essentials"
     },
     {
       id: 2,
       image: "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
       name: "TokyoVibe",
-      description: "Contemporary Japanese streetwear",
-      discount: "25% OFF"
+      description: "Contemporary Japanese streetwear"
     },
     {
       id: 3,
       image: "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
       name: "CelestialBeauty",
-      description: "Chinese luxury cosmetics",
-      discount: "20% OFF"
+      description: "Chinese luxury cosmetics"
     },
     {
       id: 4,
       image: "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
       name: "ZenLifestyle",
-      description: "Mindful Asian wellness products",
-      discount: "35% OFF"
+      description: "Mindful Asian wellness products"
     },
     // Row 2: 4 brands
     {
       id: 5,
       image: "/projects/BrandCovers/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
       name: "UrbanHarbor",
-      description: "Modern Asian urban fashion",
-      discount: "15% OFF"
+      description: "Modern Asian urban fashion"
     },
     {
       id: 6,
       image: "/projects/BrandCovers/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png",
       name: "PearlEssence",
-      description: "Premium Korean beauty rituals",
-      discount: "40% OFF"
+      description: "Premium Korean beauty rituals"
     },
     {
       id: 7,
       image: "/projects/BETATESTINGIMAGES/M_p0217730395.jpg",
       name: "SilkRoad",
-      description: "Traditional Chinese elegance",
-      discount: "22% OFF"
+      description: "Traditional Chinese elegance"
     },
     {
       id: 8,
       image: "/projects/BETATESTINGIMAGES/M_p0219136879.png",
       name: "HarmonyWell",
-      description: "Holistic Asian wellness",
-      discount: "18% OFF"
+      description: "Holistic Asian wellness"
     }
   ];
 
@@ -142,11 +134,6 @@ const BrandCard = ({ brand, isHovered, onHover, onLeave }) => {
             e.target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkJyYW5kIEltYWdlPC90ZXh0Pjwvc3ZnPg==";
           }}
         />
-        
-        {/* Discount Badge */}
-        <div className="brand-discount-badge">
-          {brand.discount}
-        </div>
 
         {/* Caption Overlay */}
         <div className="brand-caption-overlay">
