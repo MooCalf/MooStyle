@@ -171,7 +171,7 @@ export const ProductDetail = () => {
         <div className="bg-white border-b border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <nav className="flex items-center space-x-2 text-sm">
-              <Link to="/" className="text-teal-600 hover:text-teal-700">Home</Link>
+              <Link to="/home" className="text-teal-600 hover:text-teal-700">Home</Link>
               <span className="text-gray-400">/</span>
               <Link to={`/shopping/${category}`} className="text-teal-600 hover:text-teal-700 capitalize">
                 {category}

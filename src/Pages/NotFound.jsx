@@ -33,7 +33,7 @@ export const NotFound = () => {
           {/* Action Buttons */}
           <div className="space-y-4">
             <Link
-              to="/"
+              to="/home"
               className="w-full bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center gap-2"
             >
               <Home size={20} />

@@ -10,7 +10,7 @@ const ProductGridItem = memo(({ index, style, data }) => {
   const rowProducts = products.slice(startIndex, endIndex);
 
   return (
-    <div style={style} className="flex gap-6">
+    <div style={style} className="flex gap-3 sm:gap-4 md:gap-6">
       {rowProducts.map((product) => (
         <div key={product.id} className="flex-1">
           <ProductCard
@@ -38,7 +38,7 @@ export const VirtualizedProductGrid = memo(({
   itemHeight = 400
 }) => {
   // Calculate items per row based on container width
-  const itemsPerRow = 4; // Default for xl screens
+  const itemsPerRow = 2; // Default for mobile screens
   const rowCount = Math.ceil(products.length / itemsPerRow);
 
   const itemData = useMemo(() => ({

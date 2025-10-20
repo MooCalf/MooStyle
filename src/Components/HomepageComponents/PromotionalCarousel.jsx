@@ -106,7 +106,7 @@ export const PromotionalCarousel = () => {
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          <ChevronLeft size={24} className="sm:w-8 sm:h-8" />
+          <ChevronLeft size={20} className="sm:w-6 sm:h-6 md:w-8 md:h-8" />
         </motion.button>
 
         {/* Carousel Content */}
@@ -164,7 +164,7 @@ export const PromotionalCarousel = () => {
           whileTap={{ scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          <ChevronRight size={24} className="sm:w-8 sm:h-8" />
+          <ChevronRight size={20} className="sm:w-6 sm:h-6 md:w-8 md:h-8" />
         </motion.button>
       </div>
     </div>

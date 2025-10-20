@@ -83,8 +83,8 @@ const BlogPostDetails = ({ post, onClose, onShare }) => {
             onClick={onClose}
             className="blog-post-modal-back-button"
           >
-            <ArrowLeft size={20} />
-            <span>Back to Blog</span>
+            <ArrowLeft size={16} className="sm:w-5 sm:h-5" />
+            <span className="text-xs sm:text-sm">Back to Blog</span>
           </button>
           
           <div className="flex items-center space-x-2">
@@ -94,7 +94,7 @@ const BlogPostDetails = ({ post, onClose, onShare }) => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <Share2 size={20} />
+              <Share2 size={16} className="sm:w-5 sm:h-5" />
             </motion.button>
           </div>
         </div>
@@ -140,17 +140,17 @@ const BlogPostDetails = ({ post, onClose, onShare }) => {
 
             <div className="blog-post-modal-meta-info">
               <div className="blog-post-modal-meta-item">
-                <User size={16} />
-                <span>{post.author}</span>
+                <User size={12} className="sm:w-4 sm:h-4" />
+                <span className="text-xs sm:text-sm">{post.author}</span>
               </div>
               <div className="blog-post-modal-meta-item">
-                <Calendar size={16} />
-                <span>{formatDate(post.date)}</span>
+                <Calendar size={12} className="sm:w-4 sm:h-4" />
+                <span className="text-xs sm:text-sm">{formatDate(post.date)}</span>
               </div>
               {post.readTime && (
                 <div className="blog-post-modal-meta-item">
-                  <Clock size={16} />
-                  <span>{post.readTime}</span>
+                  <Clock size={12} className="sm:w-4 sm:h-4" />
+                  <span className="text-xs sm:text-sm">{post.readTime}</span>
                 </div>
               )}
             </div>
@@ -160,20 +160,20 @@ const BlogPostDetails = ({ post, onClose, onShare }) => {
               <div className="blog-post-modal-stats">
                 {post.views && (
                   <div className="blog-post-modal-stat-item">
-                    <Eye size={16} />
-                    <span>{post.views} views</span>
+                    <Eye size={12} className="sm:w-4 sm:h-4" />
+                    <span className="text-xs sm:text-sm">{post.views} views</span>
                   </div>
                 )}
                 {post.likes && (
                   <div className="blog-post-modal-stat-item">
-                    <Heart size={16} />
-                    <span>{post.likes} likes</span>
+                    <Heart size={12} className="sm:w-4 sm:h-4" />
+                    <span className="text-xs sm:text-sm">{post.likes} likes</span>
                   </div>
                 )}
                 {post.comments && (
                   <div className="blog-post-modal-stat-item">
-                    <Share2 size={16} />
-                    <span>{post.comments} comments</span>
+                    <Share2 size={12} className="sm:w-4 sm:h-4" />
+                    <span className="text-xs sm:text-sm">{post.comments} comments</span>
                   </div>
                 )}
               </div>
@@ -209,8 +209,8 @@ const BlogPostDetails = ({ post, onClose, onShare }) => {
               transition={{ duration: 0.6, delay: 0.5 }}
             >
               <div className="blog-post-modal-tags-header">
-                <Tag size={16} className="text-gray-500" />
-                <span className="blog-post-modal-tags-label">Tags:</span>
+                <Tag size={12} className="sm:w-4 sm:h-4 text-gray-500" />
+                <span className="blog-post-modal-tags-label text-xs sm:text-sm">Tags:</span>
               </div>
               <div className="blog-post-modal-tags-list">
                 {post.tags.map((tag, index) => (
@@ -244,7 +244,7 @@ const BlogPostDetails = ({ post, onClose, onShare }) => {
           >
             <div className="blog-post-modal-author-content">
               <div className="blog-post-modal-author-avatar">
-                <User size={24} className="text-teal-600" />
+                <User size={16} className="sm:w-6 sm:h-6 text-teal-600" />
               </div>
               <div className="blog-post-modal-author-info">
                 <h3>{post.author}</h3>
@@ -263,9 +263,9 @@ const BlogPostDetails = ({ post, onClose, onShare }) => {
             transition={{ duration: 0.6, delay: 0.8 }}
           >
             <div className="blog-post-modal-cta-content">
-              <BookOpen className="blog-post-modal-cta-icon" />
-              <h3 className="blog-post-modal-cta-title">Enjoyed this post?</h3>
-              <p className="blog-post-modal-cta-description">
+              <BookOpen size={16} className="sm:w-5 sm:h-5 blog-post-modal-cta-icon" />
+              <h3 className="blog-post-modal-cta-title text-sm sm:text-base">Enjoyed this post?</h3>
+              <p className="blog-post-modal-cta-description text-xs sm:text-sm">
                 Check out more blog posts and stay updated with the latest MOOSTYLE news and modding tips.
               </p>
               <motion.button

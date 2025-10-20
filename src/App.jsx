@@ -30,7 +30,8 @@ function App() {
           <div className="App">
             <Routes>
             {/* Main Routes */}
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Shopping />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/support" element={<Support />} />
             <Route path="/saved-products" element={<SavedProducts />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

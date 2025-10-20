@@ -180,7 +180,7 @@ export const NavigationPrimary = () => {
               whileTap={{ scale: 0.95 }}
               transition={{ type: "spring", stiffness: 400, damping: 17 }}
             >
-              <Link to="/" className="flex items-center space-x-2">
+              <Link to="/home" className="flex items-center space-x-2">
                 <img
                   src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png"
                   alt="MooStyle Logo"

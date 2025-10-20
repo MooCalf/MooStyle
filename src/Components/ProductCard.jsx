@@ -103,31 +103,31 @@ export const ProductCard = ({ product, onToggleFavorite, onQuickView }) => {
           />
 
           {/* Product Badges */}
-          <div className="absolute top-2 left-2 flex flex-col gap-1">
+          <div className="absolute top-1 left-1 sm:top-2 sm:left-2 flex flex-col gap-1">
             {product.isNew && (
-              <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+              <span className="bg-green-500 text-white text-xs px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full font-medium">
                 NEW
               </span>
             )}
             {product.isFeatured && (
-              <span className="bg-purple-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+              <span className="bg-purple-500 text-white text-xs px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full font-medium">
                 FEATURED
               </span>
             )}
           </div>
 
           {/* Action Buttons */}
-          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute top-1 right-1 sm:top-2 sm:right-2 opacity-0 group-hover:opacity-100 transition-opacity">
             <button
               onClick={handleFavoriteToggle}
               disabled={isSaving}
-              className={`p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all ${
+              className={`p-1.5 sm:p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-all ${
                 isSaving ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
               <Heart 
-                size={16} 
-                className={`transition-colors ${
+                size={12} 
+                className={`sm:w-4 sm:h-4 transition-colors ${
                   isFavorite ? "text-red-500 fill-current" : "text-gray-400 hover:text-red-500"
                 } ${isSaving ? 'animate-pulse' : ''}`} 
               />
@@ -135,26 +135,26 @@ export const ProductCard = ({ product, onToggleFavorite, onQuickView }) => {
           </div>
 
           {/* Text Overlay with Gradient Background */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-white via-white/90 to-transparent transition-transform duration-300 group-hover:-translate-y-16">
+          <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 bg-gradient-to-t from-white via-white/90 to-transparent transition-transform duration-300 group-hover:-translate-y-12 sm:group-hover:-translate-y-16">
             {/* Brand */}
-            <div className="flex items-center gap-1 mb-2">
-              <User size={12} className="text-gray-600" />
+            <div className="flex items-center gap-1 mb-1 sm:mb-2">
+              <User size={10} className="text-gray-600 sm:w-3 sm:h-3" />
               <p className="text-xs text-gray-600 truncate">{product.author || product.brand}</p>
             </div>
             
             {/* Name */}
-            <h3 className="text-base font-semibold text-gray-900 line-clamp-2">{product.name}</h3>
+            <h3 className="text-sm sm:text-base font-semibold text-gray-900 line-clamp-2">{product.name}</h3>
           </div>
         </div>
 
         {/* View Details Button - Only visible on hover */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-full group-hover:translate-y-0 z-20 bg-white">
+        <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-full group-hover:translate-y-0 z-20 bg-white">
           <Link
             to={`/product/${product.id}`}
-            className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-lg"
+            className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-lg text-sm sm:text-base"
             onClick={(e) => e.stopPropagation()}
           >
-            <Eye size={16} />
+            <Eye size={14} className="sm:w-4 sm:h-4" />
             View Details
           </Link>
         </div>

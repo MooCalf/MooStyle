@@ -163,17 +163,17 @@ const BlogPostCard = ({
         <div className="blog-post-meta">
           <div className="blog-post-meta-info">
             <div className="blog-post-meta-item">
-              <User size={14} />
-              <span>{post.author}</span>
+              <User size={12} className="sm:w-3.5 sm:h-3.5" />
+              <span className="text-xs sm:text-sm">{post.author}</span>
             </div>
             <div className="blog-post-meta-item">
-              <Calendar size={14} />
-              <span>{formatDate(post.date)}</span>
+              <Calendar size={12} className="sm:w-3.5 sm:h-3.5" />
+              <span className="text-xs sm:text-sm">{formatDate(post.date)}</span>
             </div>
             {post.readTime && (
               <div className="blog-post-meta-item">
-                <Clock size={14} />
-                <span>{post.readTime}</span>
+                <Clock size={12} className="sm:w-3.5 sm:h-3.5" />
+                <span className="text-xs sm:text-sm">{post.readTime}</span>
               </div>
             )}
           </div>
@@ -184,20 +184,20 @@ const BlogPostCard = ({
           <div className="blog-post-stats">
             {post.views && (
               <div className="blog-post-stat-item">
-                <Eye size={14} />
-                <span>{post.views}</span>
+                <Eye size={12} className="sm:w-3.5 sm:h-3.5" />
+                <span className="text-xs sm:text-sm">{post.views}</span>
               </div>
             )}
             {post.likes && (
               <div className="blog-post-stat-item">
-                <Heart size={14} />
-                <span>{post.likes}</span>
+                <Heart size={12} className="sm:w-3.5 sm:h-3.5" />
+                <span className="text-xs sm:text-sm">{post.likes}</span>
               </div>
             )}
             {post.comments && (
               <div className="blog-post-stat-item">
-                <Share2 size={14} />
-                <span>{post.comments}</span>
+                <Share2 size={12} className="sm:w-3.5 sm:h-3.5" />
+                <span className="text-xs sm:text-sm">{post.comments}</span>
               </div>
             )}
           </div>
@@ -222,8 +222,8 @@ const BlogPostCard = ({
         {/* Read More Button */}
         <div className="blog-post-read-more">
           <button className="blog-post-read-more-button">
-            <span>Read More</span>
-            <ChevronRight size={14} />
+            <span className="text-xs sm:text-sm">Read More</span>
+            <ChevronRight size={12} className="sm:w-3.5 sm:h-3.5" />
           </button>
           
           {/* Share Button */}
@@ -231,7 +231,7 @@ const BlogPostCard = ({
             className="blog-post-share-button"
             onClick={handleShare}
           >
-            <Share2 size={16} />
+            <Share2 size={14} className="sm:w-4 sm:h-4" />
           </button>
         </div>
       </div>
