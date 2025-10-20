@@ -29,7 +29,7 @@ const ProductListItem = memo(({ product, onToggleFavorite }) => {
   };
 
   return (
-    <div className="list-item bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-4">
+    <div className="list-item bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow p-4 group">
       <div className="flex items-center gap-4">
         {/* Small Product Image with Carousel */}
         <div className="list-item-image w-16 h-16 flex-shrink-0 relative group">
@@ -66,40 +66,14 @@ const ProductListItem = memo(({ product, onToggleFavorite }) => {
         {/* Product Info */}
         <div className="list-item-content flex-1 min-w-0">
           <h3 className="list-item-title text-lg font-semibold text-gray-900 truncate">{product.name}</h3>
-          <p className="list-item-description text-sm text-gray-600 line-clamp-2">{product.description}</p>
-          <div className="list-item-meta flex items-center gap-2 mt-1">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={12}
-                  className={i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"}
-                />
-              ))}
-            </div>
-            <span className="text-xs text-gray-500">({product.reviewCount})</span>
-          </div>
+          <p className="text-sm text-gray-500 truncate">{product.author || product.brand}</p>
         </div>
         
-        {/* Price */}
-        <div className="text-right flex-shrink-0">
-          <div className="text-lg font-semibold text-gray-900">${product.price}</div>
-          {product.originalPrice && product.originalPrice > product.price && (
-            <div className="text-sm text-gray-500 line-through">${product.originalPrice}</div>
-          )}
-        </div>
-        
-        {/* Action Buttons */}
-        <div className="list-item-actions flex items-center gap-2">
-          <button
-            onClick={() => onToggleFavorite?.(product.id)}
-            className="p-2 text-gray-400 hover:text-red-500 transition-colors"
-          >
-            <Heart size={16} />
-          </button>
+        {/* View Details Button - Only visible on hover */}
+        <div className="list-item-actions opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-full group-hover:translate-x-0">
           <button
             onClick={() => navigate(`/product/${product.id}`)}
-            className="btn-primary text-sm px-4 py-2"
+            className="btn-primary text-sm px-4 py-2 whitespace-nowrap"
           >
             View Details
           </button>

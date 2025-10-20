@@ -12,6 +12,12 @@ export const useProductData = (category, searchQuery = "", filters = {}) => {
   const itemsPerPage = 12;
   const categoryData = useMemo(() => getCategoryData(category), [category]);
 
+  const setSearchResults = useCallback((results) => {
+    setFilteredProducts(results.slice(0, itemsPerPage));
+    setCurrentPage(1);
+    setHasMore(results.length > itemsPerPage);
+  }, [itemsPerPage]);
+
   // Load initial products
   useEffect(() => {
     const loadProducts = async () => {
@@ -49,7 +55,7 @@ export const useProductData = (category, searchQuery = "", filters = {}) => {
     loadProducts();
   }, [category, categoryData, itemsPerPage]);
 
-  // Handle search
+  // Handle search and filters
   useEffect(() => {
     if (searchQuery.trim()) {
       setIsSearchActive(true);
@@ -57,19 +63,13 @@ export const useProductData = (category, searchQuery = "", filters = {}) => {
       setSearchResults(results);
     } else {
       setIsSearchActive(false);
-      // Reset to original products
-      const originalProducts = category ? getProductsByCategory(category) : getAllProducts();
-      setFilteredProducts(originalProducts.slice(0, itemsPerPage));
+      // Apply filters even when there's no search query
+      const results = searchProducts('', { ...filters, category });
+      setFilteredProducts(results.slice(0, itemsPerPage));
       setCurrentPage(1);
-      setHasMore(originalProducts.length > itemsPerPage);
+      setHasMore(results.length > itemsPerPage);
     }
-  }, [searchQuery, filters, category, itemsPerPage]);
-
-  const setSearchResults = useCallback((results) => {
-    setFilteredProducts(results.slice(0, itemsPerPage));
-    setCurrentPage(1);
-    setHasMore(results.length > itemsPerPage);
-  }, [itemsPerPage]);
+  }, [searchQuery, filters, category, itemsPerPage, setSearchResults]);
 
   const loadMoreProducts = useCallback(async () => {
     if (!hasMore || loading) return;

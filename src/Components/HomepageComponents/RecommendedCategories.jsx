@@ -1,39 +1,47 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const RecommendedCategories = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const navigate = useNavigate();
 
-  // Recommended Categories data - using actual images from BrandCovers folder for testing
+  // Recommended Categories data - mapped to actual shopping categories
   const categoryData = [
     {
       id: 1,
       image: "/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
-      name: "Beauty"
+      name: "Beauty",
+      categoryKey: "beauty" // Maps to shoppingCategories.beauty
     },
     {
       id: 2,
       image: "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png", 
-      name: "Fashion"
+      name: "Fashion",
+      categoryKey: "fashion" // Maps to shoppingCategories.fashion
     },
     {
       id: 3,
       image: "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
-      name: "Lifestyle"
+      name: "Lifestyle",
+      categoryKey: "lifestyle" // Maps to shoppingCategories.lifestyle
     },
     {
       id: 4,
       image: "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
-      name: "Wellness"
+      name: "Home",
+      categoryKey: "home" // Maps to shoppingCategories.home
     },
     {
       id: 5,
       image: "/projects/BrandCovers/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
-      name: "Technology"
+      name: "Electronics",
+      categoryKey: "electronics" // Maps to shoppingCategories.electronics (subcategory of lifestyle)
     },
     {
       id: 6,
       image: "/projects/BrandCovers/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png",
-      name: "Accessories"
+      name: "Accessories",
+      categoryKey: "accessories" // Maps to shoppingCategories.accessories (subcategory of fashion)
     }
   ];
 
@@ -45,6 +53,11 @@ export const RecommendedCategories = () => {
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % categoryData.length);
+  };
+
+  // Handle category click - navigate to shopping page with category filter
+  const handleCategoryClick = (categoryKey) => {
+    navigate(`/shopping/${categoryKey}`);
   };
 
   // Calculate which 6 images to show (showing all 6 at once)
@@ -94,7 +107,12 @@ export const RecommendedCategories = () => {
           {/* Category Items Grid */}
           <div className="recommended-categories-grid">
             {getVisibleItems().map((item, index) => (
-              <div key={`${item.id}-${currentIndex}-${index}`} className="recommended-categories-item">
+              <button
+                key={`${item.id}-${currentIndex}-${index}`}
+                className="recommended-categories-item recommended-categories-clickable"
+                onClick={() => handleCategoryClick(item.categoryKey)}
+                aria-label={`Browse ${item.name} products`}
+              >
                 <div className="recommended-categories-image-container">
                   <img
                     src={item.image}
@@ -108,7 +126,7 @@ export const RecommendedCategories = () => {
                 <div className="recommended-categories-caption">
                   <h3 className="recommended-categories-name">{item.name}</h3>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>

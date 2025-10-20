@@ -1,10 +1,8 @@
-import { useState } from "react";
-import { MapPin, Star, Heart, Package } from "lucide-react";
+import { MapPin, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export const LocalArtisans = () => {
   const navigate = useNavigate();
-  const [favoriteArtisans, setFavoriteArtisans] = useState(new Set());
 
   const artisanData = [
     {
@@ -75,22 +73,10 @@ export const LocalArtisans = () => {
     }
   ];
 
-  const toggleFavorite = (artisanId) => {
-    setFavoriteArtisans(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(artisanId)) {
-        newSet.delete(artisanId);
-      } else {
-        newSet.add(artisanId);
-      }
-      return newSet;
-    });
-  };
-
   return (
-    <div className="local-artisans-section py-16 bg-gray-50">
+    <div className="local-artisans-section py-8 bg-gray-50">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
             Meet Our <span className="text-teal-600">Local Artisans</span>
           </h2>
@@ -100,75 +86,61 @@ export const LocalArtisans = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {artisanData.map((artisan) => (
             <div key={artisan.id} className="bg-white rounded-lg shadow-lg overflow-hidden card-teal-hover">
               <div className="relative">
                 <img
                   src={artisan.image}
                   alt={artisan.name}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-32 object-cover"
                   onError={(e) => {
                     e.target.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkFydGlzYW48L3RleHQ+PC9zdmc+";
                   }}
                 />
-                <button
-                  onClick={() => toggleFavorite(artisan.id)}
-                  className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow"
-                >
-                  <Heart 
-                    size={20} 
-                    className={favoriteArtisans.has(artisan.id) ? "text-red-500 fill-current" : "text-gray-400"} 
-                  />
-                </button>
               </div>
               
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-xl font-bold text-gray-900">{artisan.name}</h3>
+              <div className="p-3">
+                <div className="flex items-center justify-between mb-1">
+                  <h3 className="text-lg font-bold text-gray-900">{artisan.name}</h3>
                   <div className="flex items-center">
-                    <Star size={16} className="text-yellow-400 fill-current" />
-                    <span className="ml-1 text-sm font-medium text-gray-700">{artisan.rating}</span>
-                    <span className="ml-1 text-sm text-gray-500">({artisan.reviews})</span>
+                    <Star size={14} className="text-yellow-400 fill-current" />
+                    <span className="ml-1 text-xs font-medium text-gray-700">{artisan.rating}</span>
+                    <span className="ml-1 text-xs text-gray-500">({artisan.reviews})</span>
                   </div>
                 </div>
                 
-                <div className="flex items-center text-gray-600 mb-3">
-                  <MapPin size={16} className="mr-1" />
-                  <span className="text-sm">{artisan.location}</span>
+                <div className="flex items-center text-gray-600 mb-2">
+                  <MapPin size={14} className="mr-1" />
+                  <span className="text-xs">{artisan.location}</span>
                 </div>
                 
-                <div className="mb-4">
-                  <span className="inline-block bg-teal-100 text-teal-800 text-sm px-3 py-1 rounded-full font-medium">
+                <div className="mb-2">
+                  <span className="inline-block bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded-full font-medium">
                     {artisan.specialty}
                   </span>
                 </div>
                 
-                <p className="text-gray-700 text-sm mb-4 line-clamp-2">
+                <p className="text-gray-700 text-xs mb-2 line-clamp-2">
                   {artisan.story}
                 </p>
                 
                 {/* Location & Rating */}
-                <div className="mb-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <MapPin size={14} />
+                <div className="mb-1">
+                  <div className="flex items-center gap-2 text-xs text-gray-600">
+                    <MapPin size={12} />
                     <span>{artisan.location}</span>
-                    <span className="mx-2">•</span>
-                    <Star size={14} className="text-yellow-400 fill-current" />
+                    <span className="mx-1">•</span>
+                    <Star size={12} className="text-yellow-400 fill-current" />
                     <span>{artisan.rating} ({artisan.reviews})</span>
                   </div>
                 </div>
-                
-                <button className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center">
-                  <Package size={16} className="mr-2" />
-                  View Products
-                </button>
               </div>
             </div>
           ))}
         </div>
         
-        <div className="text-center mt-12">
+        <div className="text-center mt-8">
           <button 
             onClick={() => navigate("/artisans")}
             className="view-more-brands-button"

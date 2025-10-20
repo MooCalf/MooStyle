@@ -41,7 +41,7 @@ export const ProductDetail = () => {
         
         if (productData) {
           setProduct(productData);
-          setSelectedSize(productData.sizes?.[0] || null);
+          setSelectedSize(productData.sizes && productData.sizes.length > 0 ? productData.sizes[0] : null);
           setSelectedColor(productData.colors?.[0] || null);
           setRelatedProducts(getRelatedProducts(id));
         }
@@ -324,9 +324,9 @@ export const ProductDetail = () => {
               )}
 
               {/* Size Selection */}
-              {product.sizes && (
+              {product.sizes && product.sizes.length > 0 && (
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Size</h3>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Size/Make</h3>
                   <div className="flex flex-wrap gap-2">
                     {product.sizes.map((size, index) => (
                       <button

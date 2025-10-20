@@ -507,6 +507,13 @@ export const shoppingCategories = {
         },
         downloadCount: 6540
       },
+
+
+
+
+      // Homepage Fashion Products
+      // Homepage Fashion Products
+      // Homepage Fashion Products
       // Homepage Fashion Products
       {
         id: "women-004",
@@ -622,6 +629,15 @@ export const shoppingCategories = {
         },
         downloadCount: 14560
       },
+
+
+
+
+
+
+      // Homepage Recommended Products
+      // Homepage Recommended Products
+      // Homepage Recommended Products
       // Homepage Recommended Products
       {
         id: "beauty-008",
@@ -800,6 +816,17 @@ export const shoppingCategories = {
         },
         downloadCount: 5430
       },
+
+
+
+
+
+
+
+
+      // Homepage Lifestyle Products
+      // Homepage Lifestyle Products
+      // Homepage Lifestyle Products
       // Homepage Lifestyle Products
       {
         id: "lifestyle-004",
@@ -827,6 +854,70 @@ export const shoppingCategories = {
           version: "1.0.0"
         },
         downloadCount: 3450
+      },
+      {
+        id: "lifestyle-005",
+        name: "ARNOO Shift 0.1.0",
+        author: "ARNOO",
+        brand: "ARNOO",
+        folderPath: "Products/ARNOO/AC/DC Design",
+        price: 299.99,
+        originalPrice: 399.99,
+        image: "/projects/Brand Medias/Arnoo/Products/AC/DC Design/DC & AC_1.png",
+        images: [
+          "/projects/Brand Medias/Arnoo/Products/AC/DC Design/DC & AC_1.png",
+          "/projects/Brand Medias/Arnoo/Products/AC/DC Design/AC_1.png",
+          "/projects/Brand Medias/Arnoo/Products/AC/DC Design/DC_1.png",
+          "/projects/Brand Medias/Arnoo/Products/AC/DC Design/GroupC_1.png"
+        ],
+        description: "The **Arnoo Shift1** redefines the way you start your day. Yawn at the elegant sounds of analog craftsmanship or the latest hit songs with our Digital make. With the precision of analog and digital innovation, it's more than a clock, it's a statement piece.",
+        detailedDescription: "Experience the perfect fusion of traditional craftsmanship and modern technology with the ARNOO Shift1. This innovative clock combines analog elegance with digital convenience, featuring Bluetooth connectivity, smart time calibration, and voice assistance capabilities. Whether you prefer the rhythmic sounds of traditional clockwork or the silence of digital precision, the Shift1 adapts to your lifestyle.",
+        features: [
+          "Digital: Connect with your Android or iOS Device with Bluetooth",
+          "Digital: DualSync™ Time System & Auto-Calibrate Smart Time",
+          "Digital: Companion App (ARNOO Connect) & Voice-Assist Ready",
+          "Analog: WhisperMotion™ Mechanics for silent operation",
+          "Switch between analog sounds and digital silence",
+          "Premium materials and craftsmanship",
+          "Modern minimalist design",
+          "Easy setup and configuration"
+        ],
+        sizes: [
+          { size: "Digital", price: 399.99 },
+          { size: "Analog", price: 299.99 }
+        ],
+        colors: [
+          { name: "Orange", hex: "#FF8C00", image: "/projects/Brand Medias/Arnoo/Products/AC/DC Design/DC & AC_1.png" },
+          { name: "Gray", hex: "#808080", image: "/projects/Brand Medias/Arnoo/Products/AC/DC Design/DC & AC_1.png" },
+          { name: "Pink", hex: "#FFC0CB", image: "/projects/Brand Medias/Arnoo/Products/AC/DC Design/DC & AC_1.png" },
+          { name: "Blue", hex: "#4169E1", image: "/projects/Brand Medias/Arnoo/Products/AC/DC Design/DC & AC_1.png" }
+        ],
+        tags: ["Electronics", "Smart"],
+        rating: 4.9,
+        reviewCount: 89,
+        isNew: true,
+        isBestSeller: true,
+        discount: 0,
+        inStock: true,
+        shipping: "Free shipping on orders over $200",
+        returnPolicy: "30-day return policy",
+        specifications: {
+          "Connectivity": "Bluetooth 5.0",
+          "Power": "USB-C charging, Battery backup",
+          "Display": "LED digital display, Analog hands",
+          "App": "ARNOO Connect (iOS/Android)",
+          "Voice Control": "Siri, Google Assistant compatible",
+          "Dimensions": "12\" x 8\" x 3\"",
+          "Weight": "2.5 lbs",
+          "Warranty": "2 years"
+        },
+        modFile: {
+          filename: "arnoo-shift1.zip",
+          size: 25165824, // 24MB
+          version: "1.0.0"
+        },
+        downloadCount: 1230,
+        howToUse: "Download the ARNOO Connect app, pair via Bluetooth, and customize your time display preferences. Switch between analog and digital modes using the companion app or voice commands."
       }
     ]
   },

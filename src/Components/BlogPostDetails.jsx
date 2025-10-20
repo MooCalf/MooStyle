@@ -109,7 +109,7 @@ const BlogPostDetails = ({ post, onClose, onShare }) => {
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             <img
-              src={post.image}
+              src={post.primaryImage || post.image}
               alt={post.title}
               className="blog-post-modal-image"
               onError={(e) => {
@@ -249,7 +249,7 @@ const BlogPostDetails = ({ post, onClose, onShare }) => {
               <div className="blog-post-modal-author-info">
                 <h3>{post.author}</h3>
                 <p>
-                  Author and creator of MOOSTYLE. Passionate about InZoi modding and community building.
+                  Author and creator of ARNOO
                 </p>
               </div>
             </div>

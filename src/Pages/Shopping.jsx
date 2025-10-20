@@ -63,7 +63,7 @@ export const Shopping = () => {
     }
   };
 
-  // Handle SearchQuery search
+  // Handle SearchQuery search - this should trigger the search in useProductData
   const handleSearchQueryChange = (query) => {
     setSearchQuery(query);
   };
@@ -141,7 +141,11 @@ export const Shopping = () => {
             {/* SearchQuery Component */}
             <div className="mb-4">
               <SearchQuery
-                searchData={searchData}
+                searchData={searchData.filter(item => 
+                  !category || 
+                  item.type === 'product' && item.category === category ||
+                  item.type === 'category' && item.subcategory === category
+                )}
                 onSearchSelect={handleSearchSelect}
                 placeholder={`Search ${category ? categoryData?.name : 'all products'}...`}
                 showFilters={true}

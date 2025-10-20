@@ -103,7 +103,7 @@ const BlogPostCard = ({
       {/* Image */}
       <div className="relative overflow-hidden">
         <img
-          src={post.image}
+          src={post.primaryImage || post.image}
           alt={post.title}
           className={`blog-post-image ${variantStyles.imageHeight}`}
           onError={(e) => {

@@ -31,6 +31,11 @@ export const PromotionalCarousel = () => {
     },
     {
       type: 'image',
+      src: "/projects/Brand Medias/Arnoo/Branding/ARNOO - Branding Advertising 1.webp",
+      alt: "ARNOO - Branding Advertising 1"
+    },
+    {
+      type: 'image',
       src: "/projects/Brand Medias/Mloo/Branding/MLOO - Branding Advertising.webp",
       alt: "MLOO - Branding Advertising"
     }
