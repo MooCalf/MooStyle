@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Eye, User, MapPin, Star } from "lucide-react";
+import { Eye, MapPin, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-export const ArtisanCard = ({ artisan }) => {
+export const CreatorCard = ({ creator }) => {
   const [imageError, setImageError] = useState(false);
 
   const handleImageError = () => {
@@ -11,7 +11,7 @@ export const ArtisanCard = ({ artisan }) => {
   };
 
   return (
-    <Link to={`/artisan/${encodeURIComponent(artisan.name)}`} className="block">
+    <Link to={`/creator/${encodeURIComponent(creator.name)}`} className="block">
       <motion.div 
         className="product-card bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group cursor-pointer relative"
         initial={{ opacity: 0, y: 20 }}
@@ -25,8 +25,8 @@ export const ArtisanCard = ({ artisan }) => {
         {/* Full Image Background */}
         <div className="relative aspect-square overflow-hidden">
           <img
-            src={imageError ? "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkFydGlzYW48L3RleHQ+PC9zdmc+" : artisan.image}
-            alt={`${artisan.name} profile`}
+            src={imageError ? "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjNmNGY2Ii8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxOCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkNyZWF0b3I8L3RleHQ+PC9zdmc+" : creator.image}
+            alt={`${creator.name} profile`}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             onError={handleImageError}
           />
@@ -37,21 +37,21 @@ export const ArtisanCard = ({ artisan }) => {
             {/* Location & Rating */}
             <div className="flex items-center gap-1 mb-2">
               <MapPin size={12} className="text-gray-600" />
-              <p className="text-xs text-gray-600 truncate">{artisan.location}</p>
+              <p className="text-xs text-gray-600 truncate">{creator.location}</p>
               <span className="mx-1 text-gray-400">•</span>
               <Star size={12} className="text-yellow-400 fill-current" />
-              <p className="text-xs text-gray-600">{artisan.rating}</p>
+              <p className="text-xs text-gray-600">{creator.rating}</p>
             </div>
             
-            {/* Artisan Name */}
-            <h3 className="text-base font-semibold text-gray-900 line-clamp-2">{artisan.name}</h3>
+            {/* Creator Name */}
+            <h3 className="text-base font-semibold text-gray-900 line-clamp-2">{creator.name}</h3>
           </div>
         </div>
 
         {/* View Details Button - Only visible on hover */}
         <div className="absolute bottom-0 left-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-full group-hover:translate-y-0 z-20 bg-white">
           <Link
-            to={`/artisan/${encodeURIComponent(artisan.name)}`}
+            to={`/creator/${encodeURIComponent(creator.name)}`}
             className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
@@ -63,3 +63,4 @@ export const ArtisanCard = ({ artisan }) => {
     </Link>
   );
 };
+

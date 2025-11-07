@@ -4,15 +4,15 @@
 export const shoppingCategories = {
   beauty: {
     name: "Beauty",
-    description: "Discover the latest in Asian beauty trends",
+    description: "Discover the latest in beauty trends",
     subcategories: ["Skincare", "Makeup", "Hair Care", "Fragrance", "Tools & Accessories"],
     products: [
       {
         id: "beauty-001",
-        name: "Korean Glass Skin Set",
+        name: "Glass Skin Set",
         author: "LunaGlow",
         brand: "LunaGlow",
-        folderPath: "Products/LunaGlow/Korean Glass Skin Set", // Exact folder path for downloads
+        folderPath: "Products/LunaGlow/Glass Skin Set", // Exact folder path for downloads
         price: 89.99,
         originalPrice: 129.99,
         image: "/projects/BETATESTINGIMAGES/M_p0217730395.jpg",
@@ -21,13 +21,13 @@ export const shoppingCategories = {
           "/projects/BETATESTINGIMAGES/M_p0219136879.png",
           "/projects/BETATESTINGIMAGES/M_p0194400752.jpg"
         ],
-        description: "Complete Korean skincare routine for glass skin effect",
-        detailedDescription: "Transform your skin with our premium Korean Glass Skin Set. This comprehensive 4-step routine combines the best of Korean skincare innovation to achieve that coveted glass skin effect. Formulated with hyaluronic acid, niacinamide, and traditional Korean ingredients like ginseng and green tea extract.",
+        description: "Complete skincare routine for glass skin effect",
+        detailedDescription: "Transform your skin with our premium Glass Skin Set. This comprehensive 4-step routine combines the best of skincare innovation to achieve that coveted glass skin effect. Formulated with hyaluronic acid, niacinamide, and premium ingredients like ginseng and green tea extract.",
         features: [
           "4-step complete skincare routine",
           "Hyaluronic acid for deep hydration",
           "Niacinamide for pore refinement",
-          "Korean ginseng extract for skin vitality",
+          "Ginseng extract for skin vitality",
           "Green tea extract for antioxidant protection",
           "Dermatologist tested",
           "Cruelty-free and vegan"
@@ -41,7 +41,7 @@ export const shoppingCategories = {
           { name: "Original", hex: "#F5F5F5", image: "/Shopping Contents/Beauty/skincare-set-1.jpg" },
           { name: "Sensitive", hex: "#FFF8F0", image: "/Shopping Contents/Beauty/skincare-set-sensitive.jpg" }
         ],
-        tags: ["Skincare", "Korean", "Glass Skin", "Hydrating"],
+        tags: ["Skincare", "Glass Skin", "Hydrating", "Premium"],
         rating: 4.8,
         reviewCount: 234,
         isNew: true,
@@ -50,9 +50,9 @@ export const shoppingCategories = {
         inStock: true,
         shipping: "Free shipping on orders over $50",
         returnPolicy: "30-day return policy",
-        ingredients: "Hyaluronic Acid, Niacinamide, Korean Ginseng Extract, Green Tea Extract, Ceramides",
+        ingredients: "Hyaluronic Acid, Niacinamide, Ginseng Extract, Green Tea Extract, Ceramides",
         modFile: {
-          filename: "korean-glass-skin-set.zip",
+          filename: "glass-skin-set.zip",
           size: 15728640, // 15MB
           version: "1.2.0"
         },
@@ -61,10 +61,10 @@ export const shoppingCategories = {
       },
       {
         id: "beauty-002",
-        name: "Japanese BB Cream",
+        name: "BB Cream",
         author: "TokyoVibe",
         brand: "TokyoVibe",
-        folderPath: "Products/TokyoVibe/Japanese BB Cream",
+        folderPath: "Products/TokyoVibe/BB Cream",
         price: 45.00,
         originalPrice: 60.00,
         image: "/projects/BETATESTINGIMAGES/M_p0153126832.jpg",
@@ -72,8 +72,8 @@ export const shoppingCategories = {
           "/projects/BETATESTINGIMAGES/M_p0153126832.jpg",
           "/projects/BETATESTINGIMAGES/M_p0173471010.jpg"
         ],
-        description: "Lightweight Japanese BB cream with SPF protection",
-        detailedDescription: "Experience the perfect fusion of Japanese skincare innovation and makeup artistry with our premium BB cream. This lightweight formula provides natural coverage while delivering skincare benefits, including SPF protection and skin-brightening properties.",
+        description: "Lightweight BB cream with SPF protection",
+        detailedDescription: "Experience the perfect fusion of skincare innovation and makeup artistry with our premium BB cream. This lightweight formula provides natural coverage while delivering skincare benefits, including SPF protection and skin-brightening properties.",
         features: [
           "SPF 30 sun protection",
           "Lightweight, breathable formula",
@@ -93,7 +93,7 @@ export const shoppingCategories = {
           { name: "Medium", hex: "#D2B48C", image: "/Shopping Contents/Beauty/bb-cream-medium.jpg" },
           { name: "Deep", hex: "#8B4513", image: "/Shopping Contents/Beauty/bb-cream-deep.jpg" }
         ],
-        tags: ["Makeup", "Japanese", "BB Cream", "SPF"],
+        tags: ["Makeup", "BB Cream", "SPF", "Lightweight"],
         rating: 4.6,
         reviewCount: 189,
         isNew: false,
@@ -102,9 +102,9 @@ export const shoppingCategories = {
         inStock: true,
         shipping: "Free shipping on orders over $30",
         returnPolicy: "30-day return policy",
-        ingredients: "Hyaluronic Acid, SPF 30, Vitamin C, Niacinamide, Japanese Rice Extract",
+        ingredients: "Hyaluronic Acid, SPF 30, Vitamin C, Niacinamide, Rice Extract",
         modFile: {
-          filename: "japanese-bb-cream.zip",
+          filename: "bb-cream.zip",
           size: 8388608, // 8MB
           version: "1.0.0"
         },
@@ -113,10 +113,10 @@ export const shoppingCategories = {
       },
       {
         id: "beauty-003",
-        name: "Chinese Herbal Hair Mask",
+        name: "Herbal Hair Mask",
         author: "CelestialBeauty",
         brand: "CelestialBeauty",
-        folderPath: "Products/CelestialBeauty/Chinese Herbal Hair Mask",
+        folderPath: "Products/CelestialBeauty/Herbal Hair Mask",
         price: 35.00,
         originalPrice: 50.00,
         image: "/projects/BETATESTINGIMAGES/M_p0188313813.jpg",
@@ -124,10 +124,10 @@ export const shoppingCategories = {
           "/projects/BETATESTINGIMAGES/M_p0188313813.jpg",
           "/projects/BETATESTINGIMAGES/M_p0212227403.jpg"
         ],
-        description: "Traditional Chinese herbal hair treatment",
-        detailedDescription: "Revitalize your hair with our traditional Chinese herbal hair mask, crafted using ancient Chinese medicine principles. This intensive treatment combines powerful herbs like ginseng, goji berry, and black sesame to restore hair health and promote growth.",
+        description: "Traditional herbal hair treatment",
+        detailedDescription: "Revitalize your hair with our traditional herbal hair mask, crafted using ancient medicine principles. This intensive treatment combines powerful herbs like ginseng, goji berry, and black sesame to restore hair health and promote growth.",
         features: [
-          "Traditional Chinese herbal formula",
+          "Traditional herbal formula",
           "Ginseng for hair strength",
           "Goji berry for scalp health",
           "Black sesame for shine",
@@ -143,7 +143,7 @@ export const shoppingCategories = {
         colors: [
           { name: "Original", hex: "#8B4513", image: "/Shopping Contents/Beauty/hair-mask-original.jpg" }
         ],
-        tags: ["Hair Care", "Chinese", "Herbal", "Repair"],
+        tags: ["Hair Care", "Herbal", "Repair", "Natural"],
         rating: 4.7,
         reviewCount: 156,
         isNew: false,
@@ -152,9 +152,9 @@ export const shoppingCategories = {
         inStock: true,
         shipping: "Free shipping on orders over $25",
         returnPolicy: "30-day return policy",
-        ingredients: "Chinese Ginseng Extract, Goji Berry Extract, Black Sesame Oil, Green Tea Extract, Vitamin E",
+        ingredients: "Ginseng Extract, Goji Berry Extract, Black Sesame Oil, Green Tea Extract, Vitamin E",
         modFile: {
-          filename: "chinese-herbal-hair-mask.zip",
+          filename: "herbal-hair-mask.zip",
           size: 12582912, // 12MB
           version: "2.1.0"
         },
@@ -163,10 +163,10 @@ export const shoppingCategories = {
       },
       {
         id: "beauty-004",
-        name: "Korean Lip Tint Set",
+        name: "Lip Tint Set",
         author: "PearlEssence",
         brand: "PearlEssence",
-        folderPath: "Products/PearlEssence/Korean Lip Tint Set",
+        folderPath: "Products/PearlEssence/Lip Tint Set",
         price: 28.00,
         originalPrice: 40.00,
         image: "/projects/BETATESTINGIMAGES/M_p0219369326.jpg",
@@ -174,10 +174,10 @@ export const shoppingCategories = {
           "/projects/BETATESTINGIMAGES/M_p0219369326.jpg",
           "/projects/BETATESTINGIMAGES/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png"
         ],
-        description: "Set of 3 Korean lip tints in popular shades",
-        detailedDescription: "Achieve the perfect Korean gradient lip look with our premium lip tint set. Each tint is formulated with natural fruit extracts and provides long-lasting, buildable color that creates the signature Korean lip effect.",
+        description: "Set of 3 lip tints in popular shades",
+        detailedDescription: "Achieve the perfect gradient lip look with our premium lip tint set. Each tint is formulated with natural fruit extracts and provides long-lasting, buildable color that creates a beautiful gradient effect.",
         features: [
-          "3 popular Korean-inspired shades",
+          "3 popular shades",
           "Natural fruit extracts",
           "Long-lasting formula",
           "Buildable color intensity",
@@ -195,7 +195,7 @@ export const shoppingCategories = {
           { name: "Peach Glow", hex: "#FFCCCB", image: "/Shopping Contents/Beauty/lip-tint-peach.jpg" },
           { name: "Rose Pink", hex: "#E8B4B8", image: "/Shopping Contents/Beauty/lip-tint-rose.jpg" }
         ],
-        tags: ["Makeup", "Korean", "Lip Tint", "Set"],
+        tags: ["Makeup", "Lip Tint", "Set", "Long-lasting"],
         rating: 4.9,
         reviewCount: 203,
         isNew: true,
@@ -206,7 +206,7 @@ export const shoppingCategories = {
         returnPolicy: "30-day return policy",
         ingredients: "Natural Fruit Extracts, Vitamin E, Hyaluronic Acid, Jojoba Oil, Natural Colorants",
         modFile: {
-          filename: "korean-lip-tint-set.zip",
+          filename: "lip-tint-set.zip",
           size: 6291456, // 6MB
           version: "1.3.0"
         },
