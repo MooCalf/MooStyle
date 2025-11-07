@@ -1,12 +1,11 @@
 import { NavigationPrimary } from "@/Components/NavigationPrimary";
 import { NavigationSecondary } from "@/Components/NavigationSecondary";
 import { HeroSection } from "@/Components/HomepageComponents/HeroSection";
-import { Regions } from "@/Components/HomepageComponents/Regions";
 import { BrandCovers } from "@/Components/HomepageComponents/BrandCovers";
 import { Recommended } from "@/Components/HomepageComponents/Recommended";
 import { RecommendedCategories } from "@/Components/HomepageComponents/RecommendedCategories";
 import { MoreBrands } from "@/Components/HomepageComponents/MoreBrands";
-import { LocalArtisans } from "@/Components/HomepageComponents/LocalArtisans";
+import { FeaturedCreators } from "@/Components/HomepageComponents/FeaturedCreators";
 import { ContactSection } from "@/Components/HomepageComponents/ContactSection";
 import { BetaTestingSection } from "@/Components/HomepageComponents/BetaTestingSection";
 import { Background } from "@/Components/Background";
@@ -17,13 +16,13 @@ import { DevelopmentWarning } from "@/Components/DevelopmentWarning";
 export const Home = () => (
   <>
     <Metadata
-      pageTitle="MOOSTYLE - Premier Asian Fashion & Beauty Platform | InZoi Mods"
-      pageDescription="Discover the latest Asian fashion, beauty products, and lifestyle items at MOOSTYLE. High-quality InZoi mods, Korean skincare, Japanese streetwear, Chinese traditional items, and more. Free downloads, community-driven platform."
-      ogTitle="MOOSTYLE - Premier Asian Fashion & Beauty Platform"
-      ogDescription="Discover authentic Asian fashion, beauty products, and lifestyle items. High-quality InZoi mods, Korean skincare, Japanese streetwear. Free downloads, community-driven platform."
+      pageTitle="MOOSTYLE - Digital Resources & Creator Platform"
+      pageDescription="Discover premium digital resources, mods, and content from talented creators worldwide at MOOSTYLE. High-quality downloads, community-driven platform, free downloads, and more."
+      ogTitle="MOOSTYLE - Digital Resources & Creator Platform"
+      ogDescription="Discover premium digital resources, mods, and content from talented creators worldwide. High-quality downloads, community-driven platform."
       ogImage="/projects/Brand Medias/Promotional Content/Promo Poster.png"
       ogType="website"
-      keywords="Asian fashion, Korean beauty, Japanese streetwear, InZoi mods, K-beauty, Asian lifestyle, fashion mods, beauty products, Korean skincare, Japanese fashion, Chinese traditional, modding community, free mods"
+      keywords="digital resources, creator platform, mods, downloads, user-generated content, content marketplace, fashion mods, beauty products, lifestyle items, free downloads, modding community"
     />
     
     {/* Skip Links for Accessibility */}
@@ -54,17 +53,14 @@ export const Home = () => (
         {/* Brand Covers Section */}
         <BrandCovers />
         
-        {/* Regions Section */}
-        <Regions />
-        
         {/* Recommended Section */}
         <Recommended />
         
         {/* More Brands Section */}
         <MoreBrands />
         
-        {/* Local Artisans Section */}
-        <LocalArtisans />
+        {/* Featured Creators Section */}
+        <FeaturedCreators />
         
         {/* Recommended Categories Section */}
         <RecommendedCategories />

@@ -18,12 +18,12 @@ export const brandsData = [
     id: "lunaglow",
     name: "LunaGlow",
     category: BRAND_CATEGORIES.BEAUTY,
-    description: "Korean skincare innovator specializing in glass skin routines and premium beauty solutions.",
+    description: "Skincare innovator specializing in glass skin routines and premium beauty solutions.",
     logo: "/projects/BrandCovers/More Brands/BrandButtons - LUNAGLOW.png",
     backgroundImage: "/projects/Products/LunaGlow/Korean Glass Skin Set/Lunaglow - Kit Promotional Cover.png",
     website: "https://lunaglow.com",
     founded: "2018",
-    country: "South Korea",
+    country: "Global",
     isActive: true,
     isFeatured: true,
     socialMedia: {
@@ -31,18 +31,18 @@ export const brandsData = [
       twitter: "@lunaglow",
       facebook: "LunaGlowOfficial"
     },
-    tags: ["Korean", "Skincare", "Glass Skin", "Premium"]
+    tags: ["Skincare", "Glass Skin", "Premium", "Innovative"]
   },
   {
     id: "tokyovibe",
     name: "TokyoVibe",
     category: BRAND_CATEGORIES.BEAUTY,
-    description: "Japanese beauty brand bringing authentic Tokyo street style and innovative makeup products.",
+    description: "Beauty brand bringing authentic street style and innovative makeup products.",
     logo: "/projects/BrandCovers/More Brands/BrandButtons - TOKYOVIBE.png",
     backgroundImage: "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
     website: "https://tokyovibe.com",
     founded: "2019",
-    country: "Japan",
+    country: "Global",
     isActive: true,
     isFeatured: true,
     socialMedia: {
@@ -50,18 +50,18 @@ export const brandsData = [
       twitter: "@tokyovibe",
       facebook: "TokyoVibeOfficial"
     },
-    tags: ["Japanese", "Makeup", "Street Style", "Innovative"]
+    tags: ["Makeup", "Street Style", "Innovative", "Modern"]
   },
   {
     id: "celestialbeauty",
     name: "CelestialBeauty",
     category: BRAND_CATEGORIES.BEAUTY,
-    description: "Chinese herbal beauty brand combining traditional medicine with modern skincare science.",
+    description: "Herbal beauty brand combining traditional medicine with modern skincare science.",
     logo: "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
     backgroundImage: "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
     website: "https://celestialbeauty.com",
     founded: "2017",
-    country: "China",
+    country: "Global",
     isActive: true,
     isFeatured: false,
     socialMedia: {
@@ -69,18 +69,18 @@ export const brandsData = [
       twitter: "@celestialbeauty",
       facebook: "CelestialBeautyOfficial"
     },
-    tags: ["Chinese", "Herbal", "Traditional Medicine", "Skincare"]
+    tags: ["Herbal", "Traditional Medicine", "Skincare", "Natural"]
   },
   {
     id: "pearlessence",
     name: "PearlEssence",
     category: BRAND_CATEGORIES.BEAUTY,
-    description: "Korean makeup brand known for natural, dewy finishes and long-lasting color products.",
+    description: "Makeup brand known for natural, dewy finishes and long-lasting color products.",
     logo: "/projects/BrandCovers/More Brands/BrandButtons - PEARLESENCE.png",
     backgroundImage: "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
     website: "https://pearlessence.com",
     founded: "2020",
-    country: "South Korea",
+    country: "Global",
     isActive: true,
     isFeatured: false,
     socialMedia: {
@@ -88,7 +88,7 @@ export const brandsData = [
       twitter: "@pearlessence",
       facebook: "PearlEssenceOfficial"
     },
-    tags: ["Korean", "Makeup", "Natural", "Dewy Finish"]
+    tags: ["Makeup", "Natural", "Dewy Finish", "Long-lasting"]
   },
   {
     id: "mloo",
@@ -113,12 +113,12 @@ export const brandsData = [
     id: "tokyoglow",
     name: "TokyoGlow",
     category: BRAND_CATEGORIES.BEAUTY,
-    description: "Japanese skincare brand focused on fermented ingredients and radiant, healthy skin.",
+    description: "Skincare brand focused on fermented ingredients and radiant, healthy skin.",
     logo: "/projects/BrandCovers/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png",
     backgroundImage: "/projects/BrandCovers/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png",
     website: "https://tokyoglow.com",
     founded: "2019",
-    country: "Japan",
+    country: "Global",
     isActive: true,
     isFeatured: false,
     socialMedia: {
@@ -126,18 +126,18 @@ export const brandsData = [
       twitter: "@tokyoglow",
       facebook: "TokyoGlowOfficial"
     },
-    tags: ["Japanese", "Skincare", "Fermented", "Radiant"]
+    tags: ["Skincare", "Fermented", "Radiant", "Healthy"]
   },
   {
     id: "herbalglow",
     name: "HerbalGlow",
     category: BRAND_CATEGORIES.BEAUTY,
-    description: "Traditional Chinese beauty brand using ancient herbal wisdom for modern skincare needs.",
+    description: "Traditional beauty brand using ancient herbal wisdom for modern skincare needs.",
     logo: "/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
     backgroundImage: "/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
     website: "https://herbalglow.com",
     founded: "2018",
-    country: "China",
+    country: "Global",
     isActive: true,
     isFeatured: false,
     socialMedia: {
@@ -145,7 +145,7 @@ export const brandsData = [
       twitter: "@herbalglow",
       facebook: "HerbalGlowOfficial"
     },
-    tags: ["Chinese", "Herbal", "Traditional", "Skincare"]
+    tags: ["Herbal", "Traditional", "Skincare", "Ancient Wisdom"]
   },
   {
     id: "seoulstyle",
@@ -156,7 +156,7 @@ export const brandsData = [
     backgroundImage: "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
     website: "https://seoulstyle.com",
     founded: "2020",
-    country: "South Korea",
+    country: "Global",
     isActive: true,
     isFeatured: true,
     socialMedia: {
@@ -175,7 +175,7 @@ export const brandsData = [
     backgroundImage: "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
     website: "https://tokyofashion.com",
     founded: "2017",
-    country: "Japan",
+    country: "Global",
     isActive: true,
     isFeatured: false,
     socialMedia: {
@@ -194,7 +194,7 @@ export const brandsData = [
     backgroundImage: "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
     website: "https://silkroad.com",
     founded: "2015",
-    country: "China",
+    country: "Global",
     isActive: true,
     isFeatured: true,
     socialMedia: {
@@ -213,7 +213,7 @@ export const brandsData = [
     backgroundImage: "/projects/BrandCovers/{D8B2FBCD-A9DF-4257-AA79-AE1A22E9DEF4}.png",
     website: "https://urbanharbor.com",
     founded: "2021",
-    country: "South Korea",
+    country: "Global",
     isActive: true,
     isFeatured: false,
     socialMedia: {
@@ -232,7 +232,7 @@ export const brandsData = [
     backgroundImage: "/projects/BrandCovers/{EF70721B-F1FF-4841-8E03-55F36D37F440}.png",
     website: "https://tokyodenim.com",
     founded: "2018",
-    country: "Japan",
+    country: "Global",
     isActive: true,
     isFeatured: false,
     socialMedia: {
@@ -251,7 +251,7 @@ export const brandsData = [
     backgroundImage: "/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png",
     website: "https://zenlifestyle.com",
     founded: "2019",
-    country: "Japan",
+    country: "Global",
     isActive: true,
     isFeatured: true,
     socialMedia: {
@@ -270,7 +270,7 @@ export const brandsData = [
     backgroundImage: "/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png",
     website: "https://harmonywell.com",
     founded: "2020",
-    country: "South Korea",
+    country: "Global",
     isActive: true,
     isFeatured: false,
     socialMedia: {
@@ -289,7 +289,7 @@ export const brandsData = [
     backgroundImage: "/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png",
     website: "https://wellnesscore.com",
     founded: "2018",
-    country: "South Korea",
+    country: "Global",
     isActive: true,
     isFeatured: false,
     socialMedia: {
@@ -308,7 +308,7 @@ export const brandsData = [
     backgroundImage: "/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png",
     website: "https://traditionalwell.com",
     founded: "2017",
-    country: "China",
+    country: "Global",
     isActive: true,
     isFeatured: false,
     socialMedia: {

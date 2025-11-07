@@ -8,7 +8,7 @@ import { Shopping } from './Pages/Shopping';
 import { ProductDetail } from './Pages/ProductDetail';
 import { BrandDetail } from './Pages/BrandDetail';
 import { Brands } from './Pages/Brands';
-import { Artisans } from './Pages/Artisans';
+import { Creators } from './Pages/Creators';
 import Blog from './Pages/Blog';
 import Changelogs from './Pages/Changelogs';
 import AboutMe from './Pages/AboutMe';
@@ -31,7 +31,7 @@ function App() {
           <div className="App">
             <Routes>
             {/* Main Routes */}
-            <Route path="/" element={<Shopping />} />
+            <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/support" element={<Support />} />
             <Route path="/saved-products" element={<SavedProducts />} />
@@ -46,7 +46,8 @@ function App() {
             <Route path="/brands" element={<Brands />} />
             
             {/* Content Routes */}
-            <Route path="/artisans" element={<Artisans />} />
+            <Route path="/creators" element={<Creators />} />
+            <Route path="/artisans" element={<Creators />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/changelogs" element={<Changelogs />} />
             <Route path="/about" element={<AboutMe />} />
