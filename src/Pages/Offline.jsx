@@ -18,7 +18,7 @@ export const Offline = () => {
               Page Offline
             </h1>
             <p className="text-gray-600 mb-6">
-              The Page is Offline for now, check back late
+              The Page is Offline for now, check back later.
             </p>
           </div>
 
