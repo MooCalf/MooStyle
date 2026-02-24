@@ -19,6 +19,7 @@ import { SavedProducts } from './Pages/SavedProducts';
 import { PrivacyPolicy } from './Pages/PrivacyPolicy';
 import { TermsOfService } from './Pages/TermsOfService';
 import { NotFound } from './Pages/NotFound';
+import { Offline } from './Pages/Offline';
 
 // Components
 import ErrorBoundary from './Components/ErrorBoundary';
@@ -31,7 +32,7 @@ function App() {
           <div className="App">
             <Routes>
             {/* Main Routes */}
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Offline />} />
             <Route path="/home" element={<Home />} />
             <Route path="/support" element={<Support />} />
             <Route path="/saved-products" element={<SavedProducts />} />
