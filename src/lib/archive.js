@@ -1,8 +1,7 @@
-// Archive content trimmed from shoppingData.js
 export const archives = [
-  {
+  /* {
     id: "archive-001",
-    name: "LunaGlow Collection Archive",
+    name: "Archive Name",
     images: [
       "/projects/BETATESTINGIMAGES/M_p0217730395.jpg",
       "/projects/BETATESTINGIMAGES/M_p0219136879.png"
@@ -10,7 +9,7 @@ export const archives = [
     description: "Archived release of the LunaGlow Glass Skin set.",
     isNew: false,
     patreonlink: "https://www.patreon.com/posts/moca-cafe-brand-151507324"
-  }
+  } */
 ];
 
 export const getAllArchives = () => archives.map(a => ({ ...a }));
