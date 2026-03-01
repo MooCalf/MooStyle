@@ -1,236 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-  
-  <!-- Homepage -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://moostyle.com/</loc>
-    <lastmod>2024-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  
-  <!-- Blog -->
-  <url>
-    <loc>https://moostyle.com/blog</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.9</priority>
-  </url>
-  
-  <!-- Blog Posts -->
-  <url>
-    <loc>https://moostyle.com/blog/welcome-to-moostyle-your-new-modding-destination</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://moostyle.com/projects/Brand Medias/Promotional Content/Promo Poster.png</image:loc>
-      <image:title>Welcome to MOOSTYLE - Your New Modding Destination</image:title>
-      <image:caption>Launch announcement for MOOSTYLE modding platform</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/blog/inzoi-modding-guidelines-what-you-need-to-know</loc>
-    <lastmod>2024-01-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://moostyle.com/projects/BrandCovers/{023B9ACC-182C-4EB3-BE88-4BEA63E063DF}.png</image:loc>
-      <image:title>InZoi Modding Guidelines - What You Need to Know</image:title>
-      <image:caption>Comprehensive guide to InZoi modding guidelines and best practices</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/blog/community-spotlight-amazing-mods-from-our-creators</loc>
-    <lastmod>2024-01-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://moostyle.com/projects/BrandCovers/{1DDACD3A-0054-4066-A746-1FFC9F652400}.png</image:loc>
-      <image:title>Community Spotlight: Amazing Mods from Our Creators</image:title>
-      <image:caption>Highlighting incredible mods created by our community members</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/blog/technical-deep-dive-modding-tools-and-resources</loc>
-    <lastmod>2024-01-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://moostyle.com/projects/BrandCovers/{6CB184CF-9B95-4A32-B8AD-0C705A7DA30C}.png</image:loc>
-      <image:title>Technical Deep Dive: Modding Tools and Resources</image:title>
-      <image:caption>Comprehensive guide to tools and resources for InZoi modding</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/blog/monthly-mod-roundup-january-2024</loc>
-    <lastmod>2024-01-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://moostyle.com/projects/BrandCovers/{C05C1499-3077-4CD7-89E7-ADA6C573DE66}.png</image:loc>
-      <image:title>Monthly Mod Roundup - January 2024</image:title>
-      <image:caption>Best mods released in January 2024</image:caption>
-    </image:image>
-  </url>
-  
-  <!-- Shopping -->
-  <url>
-    <loc>https://moostyle.com/shopping</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  
-  <!-- Shopping Categories -->
-  <url>
-    <loc>https://moostyle.com/shopping/beauty</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/shopping/fashion</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/shopping/lifestyle</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/shopping/health</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  
-  <!-- Brands -->
   <url>
     <loc>https://moostyle.com/brands</loc>
-    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://moostyle.com/archive</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  
-  <!-- Brand Pages -->
   <url>
-    <loc>https://moostyle.com/brand/lunaglow</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/brand/tokyovibe</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/brand/celestialbeauty</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/brand/zenlifestyle</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/brand/pearlessence</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/brand/urbanharbor</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  
-  <!-- Artisans -->
-  <url>
-    <loc>https://moostyle.com/artisans</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://moostyle.com/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  
-  <!-- About -->
   <url>
-    <loc>https://moostyle.com/about-me</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://moostyle.com/my-projects</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
-  
-  <!-- General Information -->
+  <url>
+    <loc>https://moostyle.com/support</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
   <url>
     <loc>https://moostyle.com/common-questions</loc>
-    <lastmod>2024-01-15</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://moostyle.com/saved-products</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
-  
-  <!-- Cart -->
   <url>
-    <loc>https://moostyle.com/cart</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <!-- Authentication Pages -->
-  <url>
-    <loc>https://moostyle.com/login</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/register</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  
-  <url>
-    <loc>https://moostyle.com/forgot-password</loc>
-    <lastmod>2024-01-15</lastmod>
+    <loc>https://moostyle.com/privacy-policy</loc>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.4</priority>
   </url>
-  
-  <!-- Account -->
   <url>
-    <loc>https://moostyle.com/my-account</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://moostyle.com/terms-of-service</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
   </url>
-  
 </urlset>

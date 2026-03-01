@@ -17,22 +17,14 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    // Log the error to console in development
-    if (process.env.NODE_ENV === 'development') {
-      console.error('ErrorBoundary caught an error:', error, errorInfo);
-    }
+    // Log the error to console
+    console.error('ErrorBoundary caught an error:', error, errorInfo);
 
     // Update state with error details
     this.setState({
       error: error,
       errorInfo: errorInfo
     });
-
-    // Log to error reporting service in production
-    if (process.env.NODE_ENV === 'production') {
-      // Error reporting service can be implemented here
-      // errorReportingService.logError(error, errorInfo);
-    }
   }
 
   handleRetry = () => {
@@ -77,11 +69,11 @@ class ErrorBoundary extends React.Component {
               </button>
             </div>
 
-            {/* Error Details in Development */}
-            {process.env.NODE_ENV === 'development' && this.state.error && (
+            {/* Error Details */}
+            {this.state.error && (
               <details className="mt-6 text-left">
                 <summary className="cursor-pointer text-sm font-medium text-gray-700 mb-2">
-                  Error Details (Development Only)
+                  Error Details
                 </summary>
                 <div className="bg-gray-100 p-3 rounded text-xs font-mono text-gray-800 overflow-auto max-h-40">
                   <div className="mb-2">

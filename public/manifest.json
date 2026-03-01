@@ -1,7 +1,7 @@
 {
-  "name": "MOOSTYLE - Asian Fashion & Beauty Platform",
+  "name": "MOOSTYLE - InZOI Mods",
   "short_name": "MOOSTYLE",
-  "description": "Premier destination for Asian fashion, beauty products, and lifestyle items. High-quality InZoi mods, Korean skincare, Japanese streetwear, and more.",
+  "description": "Discover high-quality InZOI mods, creator resources, and community content at MOOSTYLE.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -10,24 +10,24 @@
   "scope": "/",
   "icons": [
     {
-      "src": "/projects/Brand Medias/Logos/MooStyle Logo.png",
+      "src": "/projects/Website Branding/MOOSTYLES LOGO - TEAL DARKCOLOR.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/projects/Brand Medias/Logos/MooStyle Logo.png",
+      "src": "/projects/Website Branding/MOOSTYLES LOGO - TEAL DARKCOLOR.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "categories": ["shopping", "fashion", "beauty", "lifestyle", "entertainment"],
+  "categories": ["games", "entertainment", "utilities"],
   "lang": "en",
   "dir": "ltr",
   "screenshots": [
     {
-      "src": "/projects/Brand Medias/Promotional Content/Promo Poster.png",
+      "src": "/projects/Website Branding/MOOSTYLESBANNER.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide"
@@ -35,37 +35,37 @@
   ],
   "shortcuts": [
     {
-      "name": "Blog",
-      "short_name": "Blog",
-      "description": "Read latest blog posts and modding tips",
-      "url": "/blog",
-      "icons": [
-        {
-          "src": "/projects/Brand Medias/Logos/MooStyle Logo.png",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "Shopping",
-      "short_name": "Shop",
-      "description": "Browse products and mods",
-      "url": "/shopping",
-      "icons": [
-        {
-          "src": "/projects/Brand Medias/Logos/MooStyle Logo.png",
-          "sizes": "96x96"
-        }
-      ]
-    },
-    {
-      "name": "Brands",
-      "short_name": "Brands",
-      "description": "Explore our brand partners",
+      "name": "InZOI Mods",
+      "short_name": "Mods",
+      "description": "Browse InZOI mods and downloads",
       "url": "/brands",
       "icons": [
         {
-          "src": "/projects/Brand Medias/Logos/MooStyle Logo.png",
+          "src": "/projects/Website Branding/MOOSTYLES LOGO - TEAL DARKCOLOR.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Support",
+      "short_name": "Support",
+      "description": "Get help and mod support",
+      "url": "/support",
+      "icons": [
+        {
+          "src": "/projects/Website Branding/MOOSTYLES LOGO - TEAL DARKCOLOR.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "FAQ",
+      "short_name": "FAQ",
+      "description": "Common questions and answers",
+      "url": "/common-questions",
+      "icons": [
+        {
+          "src": "/projects/Website Branding/MOOSTYLES LOGO - TEAL DARKCOLOR.png",
           "sizes": "96x96"
         }
       ]

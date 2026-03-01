@@ -1,8 +1,10 @@
 import { RotateCw, Package } from "lucide-react";
+import { WebsiteBackground } from "@/Components/WebsiteBackground";
 
 export const Offline = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
+      <WebsiteBackground />
       <div className="flex items-center justify-center min-h-screen px-4">
         <div className="max-w-md w-full text-center">
           {/* Offline Illustration */}

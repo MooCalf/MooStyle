@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { NavigationPrimary } from "@/Components/NavigationPrimary";
-import { NavigationSecondary } from "@/Components/NavigationSecondary";
+import { useParams, useNavigate } from "react-router-dom";
+import { NavigationBar } from "@/Components/NavigationBar";
 import { ProductCard } from "@/Components/ProductCard";
 import { getProductById, getRelatedProducts, getProductCategory, getAllProducts } from "@/lib/shoppingData";
 import { Metadata } from "@/Components/Metadata.jsx";
@@ -15,11 +14,11 @@ import {
   Shield,
   RotateCcw,
   CheckCircle,
-  Minus,
-  Plus,
   ArrowLeft,
   Check
 } from "lucide-react";
+import { saveProduct, unsaveProduct, isProductSaved } from "@/lib/savedProducts";
+import { WebsiteBackground } from "@/Components/WebsiteBackground";
 
 export const ProductDetail = () => {
   const { id } = useParams();
@@ -27,9 +26,6 @@ export const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedSize, setSelectedSize] = useState(null);
-  const [selectedColor, setSelectedColor] = useState(null);
-  const [quantity, setQuantity] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -41,9 +37,9 @@ export const ProductDetail = () => {
         
         if (productData) {
           setProduct(productData);
-          setSelectedSize(productData.sizes && productData.sizes.length > 0 ? productData.sizes[0] : null);
-          setSelectedColor(productData.colors?.[0] || null);
           setRelatedProducts(getRelatedProducts(id));
+          // sync saved state from cookie
+          setIsFavorite(isProductSaved(productData.id));
         }
       } catch (error) {
         console.error('Error loading product:', error);
@@ -75,8 +71,18 @@ export const ProductDetail = () => {
   }, [product?.images]);
 
   const handleToggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-    console.log("Toggling favorite for:", product.name);
+    if (!product) return;
+    try {
+      if (isProductSaved(product.id)) {
+        unsaveProduct(product.id);
+        setIsFavorite(false);
+      } else {
+        saveProduct(product);
+        setIsFavorite(true);
+      }
+    } catch (e) {
+      console.error('Error toggling save:', e);
+    }
   };
 
   const handleShare = () => {
@@ -92,16 +98,12 @@ export const ProductDetail = () => {
     }
   };
 
-  const handleQuantityChange = (change) => {
-    const newQuantity = quantity + change;
-    if (newQuantity >= 1 && newQuantity <= 10) {
-      setQuantity(newQuantity);
-    }
-  };
+  
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
+        <WebsiteBackground />
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading product details...</p>
@@ -113,7 +115,8 @@ export const ProductDetail = () => {
   if (!product) {
     const allProducts = getAllProducts();
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
+        <WebsiteBackground />
         <div className="text-center max-w-md mx-auto px-4">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Product Not Found</h1>
           <p className="text-gray-600 mb-4">
@@ -146,7 +149,7 @@ export const ProductDetail = () => {
     );
   }
 
-  const currentPrice = selectedSize ? selectedSize.price : product.price;
+  
   const category = getProductCategory(id);
 
   return (
@@ -162,25 +165,10 @@ export const ProductDetail = () => {
         product={product}
       />
       
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">
+        <WebsiteBackground />
         {/* Navigation Bars */}
-        <NavigationPrimary />
-        <NavigationSecondary />
-
-        {/* Breadcrumb */}
-        <div className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-            <nav className="flex items-center space-x-2 text-sm">
-              <Link to="/home" className="text-teal-600 hover:text-teal-700">Home</Link>
-              <span className="text-gray-400">/</span>
-              <Link to={`/shopping/${category}`} className="text-teal-600 hover:text-teal-700 capitalize">
-                {category}
-              </Link>
-              <span className="text-gray-400">/</span>
-              <span className="text-gray-600 truncate">{product.name}</span>
-            </nav>
-          </div>
-        </div>
+        <NavigationBar />
 
         {/* Main Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -273,31 +261,21 @@ export const ProductDetail = () => {
                 <h1 className="text-3xl font-bold text-gray-900 mb-4">{product.name}</h1>
                 
                 {/* Rating */}
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        size={20}
-                        className={i < Math.floor(product.rating) ? "text-yellow-400 fill-current" : "text-gray-300"}
-                      />
-                    ))}
+                {(product.rating || product.reviewCount) && (
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="flex">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          size={20}
+                          className={i < Math.floor(product.rating || 0) ? "text-yellow-400 fill-current" : "text-gray-300"}
+                        />
+                      ))}
+                    </div>
+                    {product.reviewCount ? <span className="text-gray-600">({product.reviewCount} reviews)</span> : null}
                   </div>
-                  <span className="text-gray-600">({product.reviewCount} reviews)</span>
-                </div>
+                )}
 
-                {/* Price */}
-                <div className="flex items-center gap-3 mb-6">
-                  <span className="text-3xl font-bold text-gray-900">${currentPrice}</span>
-                  {product.originalPrice && product.originalPrice > currentPrice && (
-                    <span className="text-xl text-gray-500 line-through">${product.originalPrice}</span>
-                  )}
-                  {product.discount > 0 && (
-                    <span className="bg-red-100 text-red-800 text-sm px-2 py-1 rounded-full font-medium">
-                      Save {product.discount}%
-                    </span>
-                  )}
-                </div>
               </div>
 
               {/* Description */}
@@ -322,96 +300,52 @@ export const ProductDetail = () => {
                   </ul>
                 </div>
               )}
-
-              {/* Size Selection */}
-              {product.sizes && product.sizes.length > 0 && (
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Size/Make</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {product.sizes.map((size, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setSelectedSize(size)}
-                        className={`px-4 py-2 border rounded-lg transition-colors ${
-                          selectedSize?.size === size.size
-                            ? "border-teal-500 bg-teal-50 text-teal-700"
-                            : "border-gray-300 hover:border-gray-400"
-                        }`}
-                      >
-                        <div className="text-sm font-medium">{size.size}</div>
-                        <div className="text-xs text-gray-600">${size.price}</div>
-                        <div className="text-xs text-gray-500">{size.stock} left</div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Color Selection */}
-              {product.colors && (
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3">Color</h3>
-                  <div className="flex gap-2">
-                    {product.colors.map((color, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setSelectedColor(color)}
-                        className={`w-12 h-12 rounded-full border-2 transition-colors ${
-                          selectedColor?.name === color.name
-                            ? "border-teal-500"
-                            : "border-gray-300"
-                        }`}
-                        style={{ backgroundColor: color.hex }}
-                        title={color.name}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Quantity */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Quantity</h3>
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => handleQuantityChange(-1)}
-                    className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-                  >
-                    <Minus size={16} />
-                  </button>
-                  <span className="text-lg font-medium w-8 text-center">{quantity}</span>
-                  <button
-                    onClick={() => handleQuantityChange(1)}
-                    className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-                  >
-                    <Plus size={16} />
-                  </button>
-                </div>
-              </div>
-
+              
               {/* Action Buttons */}
               <div className="space-y-3">
-                <button
-                  onClick={() => window.open(product.modFile?.filename ? `/download/${product.id}` : '#', '_blank')}
-                  className={`w-full py-3 px-6 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center gap-2 ${
-                    product.modFile?.filename 
-                      ? "bg-teal-600 hover:bg-teal-700 text-white"
-                      : "bg-gray-400 text-white cursor-not-allowed"
-                  }`}
-                >
-                  {product.modFile?.filename ? (
-                    <>
-                      <ArrowLeft size={20} />
-                      Download Product
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle size={20} />
-                      Coming Soon
-                    </>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => {
+                      const dl = product.downloadLink ?? product.downloadlink ?? null;
+                      if (dl) window.open(dl, '_blank');
+                    }}
+                    className={`flex-1 py-3 px-6 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center gap-2 ${
+                      (product.downloadLink || product.downloadlink)
+                        ? "bg-teal-600 hover:bg-teal-700 text-white"
+                        : "bg-gray-400 text-white cursor-not-allowed"
+                    }`}
+                  >
+                    {(product.downloadLink || product.downloadlink) ? (
+                      <>
+                        <ArrowLeft size={20} />
+                        Download Product
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle size={20} />
+                        Coming Soon
+                      </>
+                    )}
+                  </button>
+
+                  {/* Patreon support button - shows only if product.patreonlink or product.patreonLink is present */}
+                  {(product.patreonlink || product.patreonLink) && (
+                    <a
+                      href={product.patreonlink ?? product.patreonLink}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      aria-label={`Support ${product.brand} on Patreon`}
+                      className="py-3 px-4 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center gap-2 bg-[#ff424d] hover:bg-[#e63a42] text-white"
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                        <path d="M3 12.5C3 10.57 4.57 9 6.5 9C8.43 9 10 10.57 10 12.5C10 14.43 8.43 16 6.5 16C4.57 16 3 14.43 3 12.5Z" fill="currentColor"/>
+                        <path d="M15 7H18C20.2091 7 22 8.79086 22 11V13C22 15.2091 20.2091 17 18 17H15V7Z" fill="currentColor"/>
+                      </svg>
+                      Patreon
+                    </a>
                   )}
-                </button>
-                
+                </div>
+
                 <div className="flex gap-3">
                   <button
                     onClick={handleToggleFavorite}
@@ -436,20 +370,26 @@ export const ProductDetail = () => {
               </div>
 
               {/* Shipping & Returns */}
-              <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                <div className="flex items-center gap-2">
-                  <Truck size={16} className="text-teal-600" />
-                  <span className="text-sm text-gray-700">{product.shipping}</span>
+              {(product.shipping || product.returnPolicy) && (
+                <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                  {product.shipping && (
+                    <div className="flex items-center gap-2">
+                      <Truck size={16} className="text-teal-600" />
+                      <span className="text-sm text-gray-700">{product.shipping}</span>
+                    </div>
+                  )}
+                  {product.returnPolicy && (
+                    <div className="flex items-center gap-2">
+                      <RotateCcw size={16} className="text-teal-600" />
+                      <span className="text-sm text-gray-700">{product.returnPolicy}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <Shield size={16} className="text-teal-600" />
+                    <span className="text-sm text-gray-700">Secure checkout</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <RotateCcw size={16} className="text-teal-600" />
-                  <span className="text-sm text-gray-700">{product.returnPolicy}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Shield size={16} className="text-teal-600" />
-                  <span className="text-sm text-gray-700">Secure checkout</span>
-                </div>
-              </div>
+              )}
             </div>
           </div>
 
@@ -466,85 +406,37 @@ export const ProductDetail = () => {
                 </h3>
                 <div className="prose prose-sm max-w-none">
                   <p className="text-gray-700 leading-relaxed mb-4">{product.howToUse}</p>
-                  {product.tags.includes("Skincare") && (
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                      <h4 className="font-semibold text-blue-900 mb-2">💡 Pro Tip</h4>
-                      <p className="text-blue-800 text-sm">
-                        For best results, always patch test new skincare products on a small area of skin first.
-                      </p>
-                    </div>
-                  )}
-                  {product.tags.includes("Makeup") && (
-                    <div className="bg-pink-50 border border-pink-200 rounded-lg p-4">
-                      <h4 className="font-semibold text-pink-900 mb-2">💄 Pro Tip</h4>
-                      <p className="text-pink-800 text-sm">
-                        Apply makeup in natural lighting for the most accurate color matching.
-                      </p>
-                    </div>
-                  )}
                 </div>
               </div>
             )}
 
-            {/* Ingredients - Show for beauty products */}
-            {product.ingredients && (
-              <div className="bg-white rounded-lg p-6 border border-gray-200">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                    <span className="text-green-600 text-sm font-bold">🧪</span>
-                  </div>
-                  Ingredients
-                </h3>
-                <div className="prose prose-sm max-w-none">
-                  <p className="text-gray-700 leading-relaxed mb-4">{product.ingredients}</p>
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                    <h4 className="font-semibold text-green-900 mb-2">🌿 Natural & Safe</h4>
-                    <p className="text-green-800 text-sm">
-                      All ingredients are carefully selected and tested for safety and effectiveness.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Product Features - Show for non-beauty products or as additional info */}
-            {product.features && !product.howToUse && !product.ingredients && (
-              <div className="bg-white rounded-lg p-6 border border-gray-200">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Product Features</h3>
-                <ul className="space-y-2">
-                  {product.features.map((feature, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <CheckCircle size={16} className="text-teal-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-700">{feature}</span>
-                    </li>
-                  ))}
+            {/* Privacy & Terms advisory - replaces Ingredients/Features column */}
+            <div className="bg-white rounded-lg p-6 border border-gray-200">
+              <h3 className="text-xl font-semibold text-gray-900 mb-4">Privacy & Terms</h3>
+              <div className="text-sm text-gray-700 space-y-3">
+                <p>
+                  Please review our policies before using or downloading this product. By using this site and its
+                  services you agree to the terms described in the links below.
+                </p>
+                <ul className="list-disc list-inside">
+                  <li>
+                    <a href="http://localhost:5173/privacy-policy" target="_blank" rel="noreferrer noopener" className="text-teal-600 hover:underline">Privacy Policy</a>
+                  </li>
+                  <li>
+                    <a href="http://localhost:5173/terms-of-service" target="_blank" rel="noreferrer noopener" className="text-teal-600 hover:underline">Terms of Usage</a>
+                  </li>
                 </ul>
               </div>
-            )}
-
-            {/* Additional Features for Beauty Products */}
-            {product.features && (product.howToUse || product.ingredients) && (
-              <div className="bg-white rounded-lg p-6 border border-gray-200">
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Key Features</h3>
-                <ul className="space-y-2">
-                  {product.features.map((feature, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <CheckCircle size={16} className="text-teal-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            </div>
           </div>
 
           {/* Related Products */}
           {relatedProducts.length > 0 && (
             <div className="mt-12">
-              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-900">You Might Also Like</h2>
                 <div className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                  Similar to: {product.tags.slice(0, 2).join(", ")}
+                  Similar to: {product.tags?.slice(0, 2).join(", ") || ''}
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

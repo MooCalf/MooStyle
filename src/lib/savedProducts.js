@@ -1,220 +1,154 @@
-// Saved Products Management System
-// Handles localStorage with 1-year expiration and product management
+// Saved Products Management using cookies (2 year expiry)
+// Stores an array of saved product IDs with timestamps in a cookie
+
+import { getProductById } from "./shoppingData";
 
 const STORAGE_KEY = 'moostyle_saved_products';
-const EXPIRATION_TIME = 365 * 24 * 60 * 60 * 1000; // 1 year in milliseconds
+const EXPIRATION_DAYS = 365 * 2; // 2 years
 
-// Saved Products Manager Class
-export class SavedProductsManager {
-  constructor() {
-    this.savedProducts = this.loadSavedProducts();
-    this.cleanupExpiredProducts();
-  }
+function setCookie(name, value, days) {
+  const expires = new Date(Date.now() + days * 24 * 60 * 60 * 1000).toUTCString();
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
+}
 
-  // Load saved products from localStorage
-  loadSavedProducts() {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (!saved) return [];
-      
-      const parsed = JSON.parse(saved);
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (error) {
-      console.error('Error loading saved products:', error);
-      return [];
-    }
-  }
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  if (!match) return null;
+  return decodeURIComponent(match[2]);
+}
 
-  // Save products to localStorage
-  saveProducts() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.savedProducts));
-      // Dispatch custom event for same-tab updates
-      window.dispatchEvent(new CustomEvent('savedProductsChanged'));
-    } catch (error) {
-      console.error('Error saving products:', error);
-    }
-  }
+function deleteCookie(name) {
+  document.cookie = `${name}=; Max-Age=0; path=/`;
+}
 
-  // Add product to saved list
-  saveProduct(product) {
-    const existingIndex = this.savedProducts.findIndex(p => p.id === product.id);
-    
-    if (existingIndex !== -1) {
-      // Update existing product with new timestamp
-      this.savedProducts[existingIndex] = {
-        ...product,
-        savedAt: new Date().toISOString(),
-        expiresAt: new Date(Date.now() + EXPIRATION_TIME).toISOString()
-      };
-    } else {
-      // Add new product
-      this.savedProducts.push({
-        ...product,
-        savedAt: new Date().toISOString(),
-        expiresAt: new Date(Date.now() + EXPIRATION_TIME).toISOString()
-      });
-    }
-    
-    this.saveProducts();
-    return true;
-  }
+function nowISO() {
+  return new Date().toISOString();
+}
 
-  // Remove product from saved list
-  unsaveProduct(productId) {
-    const initialLength = this.savedProducts.length;
-    this.savedProducts = this.savedProducts.filter(p => p.id !== productId);
-    
-    if (this.savedProducts.length !== initialLength) {
-      this.saveProducts();
-      return true;
-    }
-    return false;
-  }
+function defaultSavedEntry(id) {
+  return {
+    id,
+    savedAt: nowISO(),
+    expiresAt: new Date(Date.now() + EXPIRATION_DAYS * 24 * 60 * 60 * 1000).toISOString()
+  };
+}
 
-  // Check if product is saved
-  isProductSaved(productId) {
-    return this.savedProducts.some(p => p.id === productId);
-  }
-
-  // Get all saved products
-  getSavedProducts() {
-    this.cleanupExpiredProducts();
-    return [...this.savedProducts];
-  }
-
-  // Get saved products count
-  getSavedProductsCount() {
-    this.cleanupExpiredProducts();
-    return this.savedProducts.length;
-  }
-
-  // Clean up expired products
-  cleanupExpiredProducts() {
-    const now = new Date();
-    const initialLength = this.savedProducts.length;
-    
-    this.savedProducts = this.savedProducts.filter(product => {
-      const expiresAt = new Date(product.expiresAt);
-      return expiresAt > now;
-    });
-    
-    // Save if any products were removed
-    if (this.savedProducts.length !== initialLength) {
-      this.saveProducts();
-    }
-  }
-
-  // Get products expiring soon (within 30 days)
-  getProductsExpiringSoon() {
-    this.cleanupExpiredProducts();
-    const thirtyDaysFromNow = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000));
-    
-    return this.savedProducts.filter(product => {
-      const expiresAt = new Date(product.expiresAt);
-      return expiresAt <= thirtyDaysFromNow;
-    });
-  }
-
-  // Clear all saved products
-  clearAllSavedProducts() {
-    this.savedProducts = [];
-    this.saveProducts();
-  }
-
-  // Get saved products by category
-  getSavedProductsByCategory() {
-    this.cleanupExpiredProducts();
-    
-    const categories = {};
-    this.savedProducts.forEach(product => {
-      const category = product.category || 'uncategorized';
-      if (!categories[category]) {
-        categories[category] = [];
-      }
-      categories[category].push(product);
-    });
-    
-    return categories;
-  }
-
-  // Search saved products
-  searchSavedProducts(query) {
-    this.cleanupExpiredProducts();
-    
-    if (!query || query.trim() === '') {
-      return this.savedProducts;
-    }
-    
-    const searchTerm = query.toLowerCase();
-    return this.savedProducts.filter(product => 
-      product.name.toLowerCase().includes(searchTerm) ||
-      product.description.toLowerCase().includes(searchTerm) ||
-      product.brand.toLowerCase().includes(searchTerm) ||
-      (product.tags && product.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
-    );
-  }
-
-  // Get storage statistics
-  getStorageStats() {
-    this.cleanupExpiredProducts();
-    
-    const now = new Date();
-    const totalSaved = this.savedProducts.length;
-    const expiringSoon = this.getProductsExpiringSoon().length;
-    
-    // Calculate storage size
-    const storageSize = JSON.stringify(this.savedProducts).length;
-    const maxStorageSize = 5 * 1024 * 1024; // 5MB limit
-    const storagePercentage = (storageSize / maxStorageSize) * 100;
-    
-    return {
-      totalSaved,
-      expiringSoon,
-      storageSize,
-      maxStorageSize,
-      storagePercentage: Math.round(storagePercentage * 100) / 100,
-      isNearLimit: storagePercentage > 80
-    };
+function loadRawSaved() {
+  try {
+    const raw = getCookie(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (e) {
+    console.error('Error parsing saved products cookie:', e);
+    return [];
   }
 }
 
-// Create global instance
-export const savedProductsManager = new SavedProductsManager();
+function saveRawSaved(arr) {
+  try {
+    setCookie(STORAGE_KEY, JSON.stringify(arr), EXPIRATION_DAYS);
+    window.dispatchEvent(new CustomEvent('savedProductsChanged'));
+  } catch (e) {
+    console.error('Error saving saved products cookie:', e);
+  }
+}
 
-// Helper functions for easy use
-export const saveProduct = (product) => {
-  return savedProductsManager.saveProduct(product);
-};
+// Add a product id to saved list
+export function saveProduct(product) {
+  if (!product || !product.id) return false;
+  const raw = loadRawSaved();
+  const existing = raw.findIndex(e => e.id === product.id);
+  if (existing !== -1) {
+    raw[existing] = { ...raw[existing], savedAt: nowISO(), expiresAt: new Date(Date.now() + EXPIRATION_DAYS * 24 * 60 * 60 * 1000).toISOString() };
+  } else {
+    raw.push(defaultSavedEntry(product.id));
+  }
+  saveRawSaved(raw);
+  return true;
+}
 
-export const unsaveProduct = (productId) => {
-  return savedProductsManager.unsaveProduct(productId);
-};
+export function unsaveProduct(productId) {
+  const raw = loadRawSaved();
+  const filtered = raw.filter(e => e.id !== productId);
+  if (filtered.length === raw.length) return false;
+  saveRawSaved(filtered);
+  return true;
+}
 
-export const isProductSaved = (productId) => {
-  return savedProductsManager.isProductSaved(productId);
-};
+export function isProductSaved(productId) {
+  const raw = loadRawSaved();
+  return raw.some(e => e.id === productId && new Date(e.expiresAt) > new Date());
+}
 
-export const getSavedProducts = () => {
-  return savedProductsManager.getSavedProducts();
-};
+export function getSavedProducts() {
+  // Return current product objects for saved ids; remove expired or missing products
+  const raw = loadRawSaved();
+  const now = new Date();
+  const valid = raw.filter(e => new Date(e.expiresAt) > now);
+  // persist cleaned list
+  if (valid.length !== raw.length) saveRawSaved(valid);
 
-export const getSavedProductsCount = () => {
-  return savedProductsManager.getSavedProductsCount();
-};
+  const products = valid.map(entry => {
+    const p = getProductById(entry.id);
+    if (!p) return null;
+    return { ...p, savedAt: entry.savedAt, expiresAt: entry.expiresAt };
+  }).filter(Boolean);
 
-export const getSavedProductsByCategory = () => {
-  return savedProductsManager.getSavedProductsByCategory();
-};
+  return products;
+}
 
-export const searchSavedProducts = (query) => {
-  return savedProductsManager.searchSavedProducts(query);
-};
+export function getSavedProductsCount() {
+  return loadRawSaved().length;
+}
 
-export const getStorageStats = () => {
-  return savedProductsManager.getStorageStats();
-};
+export function getSavedProductsByCategory() {
+  const products = getSavedProducts();
+  const categories = {};
+  products.forEach(product => {
+    const category = product.category || 'uncategorized';
+    categories[category] = categories[category] || [];
+    categories[category].push(product);
+  });
+  return categories;
+}
 
-export const clearAllSavedProducts = () => {
-  return savedProductsManager.clearAllSavedProducts();
+export function searchSavedProducts(query) {
+  const products = getSavedProducts();
+  if (!query || !query.trim()) return products;
+  const term = query.toLowerCase();
+  return products.filter(p =>
+    p.name.toLowerCase().includes(term) ||
+    (p.description || '').toLowerCase().includes(term) ||
+    (p.brand || '').toLowerCase().includes(term) ||
+    (p.tags || []).some(tag => tag.toLowerCase().includes(term))
+  );
+}
+
+export function getStorageStats() {
+  const raw = loadRawSaved();
+  const storageSize = JSON.stringify(raw).length;
+  const maxStorageSize = 5 * 1024 * 1024; // 5MB
+  const storagePercentage = (storageSize / maxStorageSize) * 100;
+  const totalSaved = raw.length;
+  const expiringSoon = raw.filter(e => new Date(e.expiresAt) <= new Date(Date.now() + (30 * 24 * 60 * 60 * 1000))).length;
+  return { totalSaved, expiringSoon, storageSize, maxStorageSize, storagePercentage: Math.round(storagePercentage * 100) / 100, isNearLimit: storagePercentage > 80 };
+}
+
+export function clearAllSavedProducts() {
+  deleteCookie(STORAGE_KEY);
+  window.dispatchEvent(new CustomEvent('savedProductsChanged'));
+}
+
+// Keep an alias default export-like for existing imports
+export const savedProductsManager = {
+  saveProduct,
+  unsaveProduct,
+  isProductSaved,
+  getSavedProducts,
+  getSavedProductsCount,
+  getSavedProductsByCategory,
+  searchSavedProducts,
+  getStorageStats,
+  clearAllSavedProducts
 };

@@ -1,30 +1,7 @@
 // Global Search Data
 // Centralized search data for all webpages and content
 
-import { getAllProducts, getCategoryData } from './shoppingData.js';
-
-// Get all available categories
-const getAllCategories = () => {
-  const categories = ['beauty', 'fashion', 'electronics', 'home', 'lifestyle'];
-  return categories.map(category => {
-    const categoryData = getCategoryData(category);
-    return {
-      id: `category-${category}`,
-      title: categoryData?.name || category.charAt(0).toUpperCase() + category.slice(1),
-      description: categoryData?.description || `Browse ${category} products`,
-      content: categoryData?.description || `Discover amazing ${category} products and collections`,
-      excerpt: categoryData?.description || `Browse ${category} products`,
-      category: 'category',
-      subcategory: category,
-      tags: [category, 'products', 'shopping'],
-      author: 'MOOSTYLE',
-      type: 'category',
-      date: new Date().toISOString(),
-      url: `/shopping/${category}`,
-      image: `/projects/BrandCovers/${category}-cover.png`
-    };
-  });
-};
+import { getAllProducts } from './shoppingData.js';
 
 // Get all products for search
 const getAllProductsForSearch = () => {
@@ -57,201 +34,137 @@ const getStaticPages = () => [
   {
     id: 'home',
     title: 'Home',
-    description: 'Welcome to MOOSTYLE - Your destination for digital resources and creator platform',
-    content: 'Discover premium digital resources, mods, and content from talented creators worldwide. Shop from our curated collection of beauty products, fashion items, and more.',
-    excerpt: 'Welcome to MOOSTYLE - Your destination for digital resources and creator platform',
+    description: 'Welcome to MOOSTYLE - Your destination for InZOI mods and digital content',
+    content: 'Discover premium InZOI mods and digital resources from talented creators. Browse our curated collection of game mods, custom content, and more.',
+    excerpt: 'Welcome to MOOSTYLE - Your destination for InZOI mods and digital content',
     category: 'pages',
     subcategory: 'main',
-    tags: ['home', 'main', 'welcome', 'fashion', 'beauty'],
+    tags: ['home', 'main', 'welcome', 'mods', 'inzoi'],
     author: 'MOOSTYLE',
     type: 'page',
     date: new Date().toISOString(),
     url: '/',
-    image: '/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png'
+    image: '/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png'
   },
   {
     id: 'about',
     title: 'About Me',
     description: 'Learn more about MOOSTYLE and our mission',
-    content: 'MOOSTYLE is dedicated to bringing you the best in digital resources and content. We curate products from top brands and creators to provide you with authentic, high-quality items.',
+    content: 'MOOSTYLE is dedicated to bringing you the best in digital resources and content. We create and curate high-quality mods and custom content for InZOI and other games.',
     excerpt: 'Learn more about MOOSTYLE and our mission',
     category: 'pages',
     subcategory: 'about',
-    tags: ['about', 'mission', 'story', 'company'],
+    tags: ['about', 'mission', 'story', 'creator'],
     author: 'MOOSTYLE',
     type: 'page',
     date: new Date().toISOString(),
-    url: '/about-me',
-    image: '/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png'
+    url: '/about',
+    image: '/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png'
   },
   {
     id: 'brands',
-    title: 'Brands',
-    description: 'Explore our featured brands and collections',
-    content: 'Discover our carefully selected brands including LunaGlow, TokyoVibe, and more. Each brand brings unique products to our collection.',
-    excerpt: 'Explore our featured brands and collections',
+    title: 'InZOI Mods',
+    description: 'Browse and download InZOI mods',
+    content: 'Explore our collection of InZOI mods including custom brands, items, and content. Each mod is carefully crafted to enhance your InZOI experience.',
+    excerpt: 'Browse and download InZOI mods',
     category: 'pages',
-    subcategory: 'brands',
-    tags: ['brands', 'collections', 'featured', 'lunaglow', 'tokyovibe'],
+    subcategory: 'mods',
+    tags: ['mods', 'inzoi', 'game', 'custom content', 'downloads'],
     author: 'MOOSTYLE',
     type: 'page',
     date: new Date().toISOString(),
     url: '/brands',
-    image: '/projects/BrandCovers/default-brand-cover.png'
+    image: '/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png'
   },
   {
-    id: 'creators',
-    title: 'Featured Creators',
-    description: 'Discover talented creators and their exceptional work',
-    content: 'Connect with talented creators who create unique, handmade products. From traditional crafts to modern designs, discover one-of-a-kind items.',
-    excerpt: 'Discover talented creators and their exceptional work',
+    id: 'archive',
+    title: 'Archive',
+    description: 'Browse archived content and past projects',
+    content: 'Explore our archive of past projects, retired mods, and historical content. Discover the evolution of our creative work.',
+    excerpt: 'Browse archived content and past projects',
     category: 'pages',
-    subcategory: 'creators',
-    tags: ['creators', 'handmade', 'featured', 'crafts', 'unique'],
+    subcategory: 'archive',
+    tags: ['archive', 'history', 'past projects', 'content'],
     author: 'MOOSTYLE',
     type: 'page',
     date: new Date().toISOString(),
-    url: '/creators',
-    image: '/projects/BrandCovers/creator-cover.png'
+    url: '/archive',
+    image: '/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png'
   },
   {
-    id: 'cart',
-    title: 'Shopping Cart',
-    description: 'Review your selected items and proceed to checkout',
-    content: 'Your shopping cart contains all the items you have selected. Review your order, apply discounts, and proceed to secure checkout.',
-    excerpt: 'Review your selected items and proceed to checkout',
+    id: 'saved-products',
+    title: 'Saved Mods',
+    description: 'View your saved mods and favorite content',
+    content: 'Access all the mods and content you\'ve saved for later. Keep track of your favorite items and downloads.',
+    excerpt: 'View your saved mods and favorite content',
     category: 'pages',
-    subcategory: 'shopping',
-    tags: ['cart', 'checkout', 'shopping', 'order'],
+    subcategory: 'saved',
+    tags: ['saved', 'favorites', 'bookmarks', 'mods'],
     author: 'MOOSTYLE',
     type: 'page',
     date: new Date().toISOString(),
-    url: '/cart',
-    image: '/projects/BrandCovers/cart-cover.png'
+    url: '/saved-products',
+    image: '/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png'
   },
   {
-    id: 'login',
-    title: 'Sign In',
-    description: 'Sign in to your MOOSTYLE account',
-    content: 'Access your account to view order history, manage preferences, and enjoy personalized shopping experience.',
-    excerpt: 'Sign in to your MOOSTYLE account',
+    id: 'support',
+    title: 'Support',
+    description: 'Get help and support for mods and downloads',
+    content: 'Need help with a mod or have questions? Our support page provides answers to common questions and ways to get in touch.',
+    excerpt: 'Get help and support for mods and downloads',
     category: 'pages',
-    subcategory: 'auth',
-    tags: ['login', 'signin', 'account', 'auth'],
+    subcategory: 'help',
+    tags: ['support', 'help', 'contact', 'assistance'],
     author: 'MOOSTYLE',
     type: 'page',
     date: new Date().toISOString(),
-    url: '/login',
-    image: '/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png'
-  },
-  {
-    id: 'register',
-    title: 'Create Account',
-    description: 'Join MOOSTYLE and start your fashion journey',
-    content: 'Create your MOOSTYLE account to enjoy exclusive deals, track orders, and access personalized recommendations.',
-    excerpt: 'Join MOOSTYLE and start your fashion journey',
-    category: 'pages',
-    subcategory: 'auth',
-    tags: ['register', 'signup', 'account', 'join'],
-    author: 'MOOSTYLE',
-    type: 'page',
-    date: new Date().toISOString(),
-    url: '/register',
-    image: '/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png'
+    url: '/support',
+    image: '/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png'
   },
   {
     id: 'common-questions',
-    title: 'General Information',
+    title: 'Common Questions',
     description: 'Find answers to frequently asked questions',
-    content: 'Get answers to common questions about shipping, returns, product information, and more. Our FAQ section covers everything you need to know.',
+    content: 'Get answers to common questions about mods, downloads, installation, compatibility, and more. Our FAQ section covers everything you need to know.',
     excerpt: 'Find answers to frequently asked questions',
     category: 'pages',
     subcategory: 'help',
-    tags: ['faq', 'questions', 'help', 'support'],
+    tags: ['faq', 'questions', 'help', 'answers'],
     author: 'MOOSTYLE',
     type: 'page',
     date: new Date().toISOString(),
     url: '/common-questions',
-    image: '/projects/BrandCovers/help-cover.png'
-  }
-];
-
-// Blog posts data
-const getBlogPosts = () => [
-  {
-    id: 'blog-1',
-    title: 'The Future of AI in Fashion Design',
-    description: 'Explore how artificial intelligence is revolutionizing the fashion industry',
-    content: 'Artificial intelligence is rapidly transforming various industries, and fashion is no exception. From generating new designs to optimizing supply chains, AI is proving to be a powerful tool for innovation. Designers are now using AI-powered tools to create unique patterns, predict trends, and even generate entire collections based on specific parameters.',
-    excerpt: 'Explore how artificial intelligence is revolutionizing the fashion industry',
-    category: 'blog',
-    subcategory: 'AI & Fashion',
-    tags: ['AI', 'Fashion Tech', 'Innovation', 'Design'],
-    author: 'Jane Doe',
-    type: 'blog',
-    date: '2023-10-26',
-    url: '/blog',
-    image: '/projects/Blog/ai-fashion.jpg'
+    image: '/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png'
   },
   {
-    id: 'blog-2',
-    title: 'Sustainable Practices in Korean Beauty',
-    description: 'Discover the growing trend of sustainable and eco-friendly practices in K-Beauty',
-    content: 'Korean beauty, or K-Beauty, has long been at the forefront of innovation, and now it\'s embracing sustainability. Consumers are increasingly demanding eco-friendly products, and K-Beauty brands are responding with innovative solutions.',
-    excerpt: 'Discover the growing trend of sustainable and eco-friendly practices in K-Beauty',
-    category: 'blog',
-    subcategory: 'Beauty',
-    tags: ['K-Beauty', 'Sustainability', 'Eco-friendly', 'Skincare'],
-    author: 'Kim Lee',
-    type: 'blog',
-    date: '2023-09-15',
-    url: '/blog',
-    image: '/projects/Blog/k-beauty-sustainable.jpg'
+    id: 'privacy-policy',
+    title: 'Privacy Policy',
+    description: 'Read our privacy policy and data protection practices',
+    content: 'Learn about how we collect, use, and protect your personal information. Our privacy policy explains our commitment to your data security.',
+    excerpt: 'Read our privacy policy and data protection practices',
+    category: 'pages',
+    subcategory: 'legal',
+    tags: ['privacy', 'policy', 'legal', 'data protection'],
+    author: 'MOOSTYLE',
+    type: 'page',
+    date: new Date().toISOString(),
+    url: '/privacy-policy',
+    image: '/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png'
   },
   {
-    id: 'blog-3',
-    title: 'The Rise of Digital Fashion and NFTs',
-    description: 'Explore how digital fashion and NFTs are creating new opportunities',
-    content: 'Digital fashion is no longer a niche concept; it\'s a rapidly expanding industry driven by advancements in virtual reality, augmented reality, and blockchain technology.',
-    excerpt: 'Explore how digital fashion and NFTs are creating new opportunities',
-    category: 'blog',
-    subcategory: 'Digital Fashion',
-    tags: ['NFT', 'Metaverse', 'Virtual Fashion', 'Digital'],
-    author: 'Alex Chen',
-    type: 'blog',
-    date: '2023-08-01',
-    url: '/blog',
-    image: '/projects/Blog/digital-fashion-nft.jpg'
-  },
-  {
-    id: 'blog-4',
-    title: 'Minimalist Wardrobe: A Guide to Essential Pieces',
-    description: 'Learn how to build a minimalist wardrobe with essential pieces',
-    content: 'Building a minimalist wardrobe is about curating a collection of versatile, high-quality pieces that can be mixed and matched to create numerous outfits.',
-    excerpt: 'Learn how to build a minimalist wardrobe with essential pieces',
-    category: 'blog',
-    subcategory: 'Lifestyle',
-    tags: ['Minimalism', 'Wardrobe', 'Fashion Tips', 'Lifestyle'],
-    author: 'Sarah Green',
-    type: 'blog',
-    date: '2023-07-10',
-    url: '/blog',
-    image: '/projects/Blog/minimalist-wardrobe.jpg'
-  },
-  {
-    id: 'blog-5',
-    title: 'The Art of Japanese Street Style',
-    description: 'Dive into the vibrant world of Japanese street style',
-    content: 'Japanese street style is renowned globally for its creativity, diversity, and fearless approach to fashion. It\'s a dynamic scene where traditional aesthetics blend with avant-garde trends.',
-    excerpt: 'Dive into the vibrant world of Japanese street style',
-    category: 'blog',
-    subcategory: 'Fashion',
-    tags: ['Japanese Fashion', 'Street Style', 'Culture', 'Trends'],
-    author: 'Hiroshi Tanaka',
-    type: 'blog',
-    date: '2023-06-20',
-    url: '/blog',
-    image: '/projects/Blog/japanese-street-style.jpg'
+    id: 'terms-of-service',
+    title: 'Terms of Service',
+    description: 'Read our terms of service and usage guidelines',
+    content: 'Understand the terms and conditions for using our website and downloading our content. Our terms of service outline your rights and responsibilities.',
+    excerpt: 'Read our terms of service and usage guidelines',
+    category: 'pages',
+    subcategory: 'legal',
+    tags: ['terms', 'service', 'legal', 'guidelines'],
+    author: 'MOOSTYLE',
+    type: 'page',
+    date: new Date().toISOString(),
+    url: '/terms-of-service',
+    image: '/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png'
   }
 ];
 
@@ -259,14 +172,11 @@ const getBlogPosts = () => [
 export const getGlobalSearchData = () => {
   return [
     ...getAllProductsForSearch(),
-    ...getAllCategories(),
-    ...getStaticPages(),
-    ...getBlogPosts()
+    ...getStaticPages()
   ];
 };
 
 // Export individual data sources for specific use cases
 export const getProductSearchData = getAllProductsForSearch;
-export const getCategorySearchData = getAllCategories;
 export const getPageSearchData = getStaticPages;
-export const getBlogSearchData = getBlogPosts;
+

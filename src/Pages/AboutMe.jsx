@@ -1,24 +1,26 @@
 import React from 'react';
-import { ArrowLeft, User, Heart, Globe, Award, Mail, Instagram, Twitter, Facebook, Youtube, Download, Code, Twitch } from 'lucide-react';
+import { ArrowLeft, User, Heart, Globe, Award, Mail, Facebook, Download, Code } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { NavigationBar } from '@/Components/NavigationBar';
+import { WebsiteBackground } from '@/Components/WebsiteBackground';
 
 const AboutMe = () => {
   const achievements = [
     {
       icon: Download,
-      title: "1000+ Free Mods",
-      description: "Creating and sharing high-quality InZoi mods for the community"
+      title: "First Mod!",
+      description: "Creating my very first mod, the 'MOCA Cafe Brand'"
     },
     {
       icon: Heart,
-      title: "Active Community",
-      description: "Building a passionate community of InZoi modding enthusiasts"
+      title: "",
+      description: ""
     },
     {
       icon: Code,
-      title: "Open Source",
-      description: "Contributing to the modding community with open-source tools and resources"
+      title: "",
+      description: ""
     }
   ];
 
@@ -42,7 +44,9 @@ const AboutMe = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
+      <WebsiteBackground />
+      <NavigationBar />
       {/* Header */}
       <motion.div 
         className="bg-white border-b border-gray-200"
@@ -65,7 +69,7 @@ const AboutMe = () => {
                 transition={{ duration: 0.5, delay: 0.2, type: "spring", stiffness: 200 }}
               >
                 <img
-                  src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png"
+                  src="/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png"
                   alt="MOOSTYLE Logo"
                   className="h-8 w-8 object-contain"
                 />
@@ -99,7 +103,7 @@ const AboutMe = () => {
               transition={{ duration: 0.8, delay: 0.5, type: "spring", stiffness: 200 }}
             >
               <img
-                src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL COLOR.png"
+                src="/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png"
                 alt="MOOSTYLE Logo"
                 className="w-24 h-24 object-contain"
               />
@@ -329,10 +333,6 @@ const AboutMe = () => {
             transition={{ duration: 0.5, delay: 2.6 }}
           >
             {[
-              { href: "https://www.instagram.com/cypher._01", icon: Instagram, label: "Instagram" },
-              { href: "https://x.com/MooCalf_", icon: Twitter, label: "Twitter/X" },
-              { href: "https://www.youtube.com/@MooCalf", icon: Youtube, label: "YouTube" },
-              { href: "https://www.twitch.tv/moocalf_", icon: Twitch, label: "Twitch" },
               { href: "https://www.patreon.com/MOOSTYLES", icon: Heart, label: "Support on Patreon" }
             ].map((social, index) => {
               const IconComponent = social.icon;

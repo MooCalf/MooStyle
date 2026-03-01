@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { NavigationPrimary } from "@/Components/NavigationPrimary";
-import { NavigationSecondary } from "@/Components/NavigationSecondary";
+import { NavigationBar } from "@/Components/NavigationBar";
 import { ProductCard } from "@/Components/ProductCard";
 import { getAllProducts } from "@/lib/shoppingData";
 import { Metadata } from "@/Components/Metadata.jsx";
+import { WebsiteBackground } from "@/Components/WebsiteBackground";
 import { 
   Star, 
   ArrowLeft, 
@@ -80,7 +80,8 @@ export const BrandDetail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
+        <WebsiteBackground />
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading brand details...</p>
@@ -91,7 +92,8 @@ export const BrandDetail = () => {
 
   if (!brandData) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
+        <WebsiteBackground />
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Brand Not Found</h1>
           <p className="text-gray-600 mb-6">The brand you're looking for doesn't exist.</p>
@@ -113,10 +115,10 @@ export const BrandDetail = () => {
         pageDescription={brandData.description}
       />
       
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">
+        <WebsiteBackground />
         {/* Navigation Bars */}
-        <NavigationPrimary />
-        <NavigationSecondary />
+        <NavigationBar />
 
         {/* Brand Banner */}
         <div className="bg-gradient-to-r from-teal-500 via-teal-600 to-teal-700 text-white shadow-xl">

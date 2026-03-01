@@ -3,14 +3,14 @@ import { Helmet } from 'react-helmet-async';
 
 const Metadata = ({
   // Basic SEO
-  pageTitle = "MOOSTYLE - Asian Fashion & Beauty",
-  pageDescription = "Discover the latest Asian fashion, beauty products, and lifestyle items at MOOSTYLE. High-quality InZoi mods, Korean skincare, Japanese streetwear, and more.",
-  keywords = "Asian fashion, Korean beauty, Japanese streetwear, InZoi mods, K-beauty, Asian lifestyle, fashion mods, beauty products",
+  pageTitle = "MOOSTYLE - InZOI Mods & Creator Platform",
+  pageDescription = "Discover high-quality InZOI mods, creator resources, and community content at MOOSTYLE. Free downloads, support, and curated mod collections.",
+  keywords = "InZOI mods, MOOSTYLE, game mods, free mods, creator resources, mod downloads, InZOI custom content",
   
   // Open Graph
   ogTitle = "",
   ogDescription = "",
-  ogImage = "/projects/Brand Medias/Promotional Content/Promo Poster.png",
+  ogImage = "/projects/Website Branding/MOOSTYLESBANNER.png",
   ogUrl = "",
   ogType = "website",
   ogSiteName = "MOOSTYLE",
@@ -20,8 +20,8 @@ const Metadata = ({
   twitterTitle = "",
   twitterDescription = "",
   twitterImage = "",
-  twitterSite = "@moostyle",
-  twitterCreator = "@moocalf",
+  twitterSite = "",
+  twitterCreator = "",
   
   // Additional Meta
   author = "MooCalf",
@@ -34,7 +34,7 @@ const Metadata = ({
   // Article-specific (for blog posts)
   article = null,
   
-  // Category-specific (for shopping pages)
+  // Category-specific (for collection pages)
   category = null
 }) => {
   const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://moostyle.com';
@@ -59,11 +59,9 @@ const Metadata = ({
       "@type": "Organization",
       "name": "MOOSTYLE",
       "url": siteUrl,
-      "logo": `${siteUrl}/projects/Brand Medias/Logos/MooStyle Logo.png`,
-      "description": "Premier destination for Asian fashion, beauty products, and lifestyle items",
+      "logo": `${siteUrl}/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png`,
+      "description": "Creator platform for high-quality InZOI mods and downloadable content.",
       "sameAs": [
-        "https://twitter.com/moostyle",
-        "https://instagram.com/moostyle",
         "https://discord.gg/moostyle"
       ],
       "contactPoint": {
@@ -82,7 +80,7 @@ const Metadata = ({
       "description": finalDescription,
       "potentialAction": {
         "@type": "SearchAction",
-        "target": `${siteUrl}/shopping?search={search_term_string}`,
+        "target": `${siteUrl}/brands?search={search_term_string}`,
         "query-input": "required name=search_term_string"
       }
     };
@@ -117,7 +115,7 @@ const Metadata = ({
           "ratingValue": product.rating,
           "reviewCount": product.reviewCount || 0
         } : undefined,
-        "category": product.category || "Fashion & Beauty"
+        "category": product.category || "InZOI Mods"
       };
       
       if (product.originalPrice && product.originalPrice > product.price) {
@@ -145,7 +143,7 @@ const Metadata = ({
           "name": "MOOSTYLE",
           "logo": {
             "@type": "ImageObject",
-            "url": `${siteUrl}/projects/Brand Medias/Logos/MooStyle Logo.png`
+            "url": `${siteUrl}/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png`
           }
         },
         "datePublished": article.publishedTime || new Date().toISOString(),
@@ -173,7 +171,7 @@ const Metadata = ({
         "url": finalUrl,
         "mainEntity": {
           "@type": "ItemList",
-          "name": `${category.name} Products`,
+          "name": `${category.name} Mods`,
           "description": category.description
         }
       };

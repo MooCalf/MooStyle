@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { NavigationPrimary } from "@/Components/NavigationPrimary";
-import { NavigationSecondary } from "@/Components/NavigationSecondary";
+import { NavigationBar } from "@/Components/NavigationBar";
 import { ProductCard } from "@/Components/ProductCard";
 import { Metadata } from "@/Components/Metadata.jsx";
 import { 
@@ -23,6 +22,7 @@ import {
   clearAllSavedProducts,
   getStorageStats 
 } from "@/lib/savedProducts";
+import { WebsiteBackground } from "@/Components/WebsiteBackground";
 
 export const SavedProducts = () => {
   const navigate = useNavigate();
@@ -153,7 +153,8 @@ export const SavedProducts = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
+        <WebsiteBackground />
         <div className="text-center">
           <Loader2 size={32} className="animate-spin text-teal-600 mx-auto mb-4" />
           <p className="text-gray-600">Loading saved products...</p>
@@ -174,10 +175,10 @@ export const SavedProducts = () => {
         keywords="saved products, favorites, MooStyle"
       />
       
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">
+        <WebsiteBackground />
         {/* Navigation Bars */}
-        <NavigationPrimary />
-        <NavigationSecondary />
+        <NavigationBar />
 
         {/* Main Content */}
         <div className="max-w-7xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
@@ -190,27 +191,11 @@ export const SavedProducts = () => {
                   Saved Products
                 </h1>
                 <p className="text-sm sm:text-base text-gray-600 mt-2">
-                  {savedProducts.length} saved products • Expires in 1 year
+                  {savedProducts.length} saved product{savedProducts.length !== 1 ? 's' : ''}
                 </p>
               </div>
               
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-                {/* Storage Stats */}
-                {storageStats && (
-                  <div className="text-xs sm:text-sm text-gray-500">
-                    <div className="flex items-center gap-1">
-                      <Package size={14} className="sm:w-4 sm:h-4" />
-                      <span>{formatStorageSize(storageStats.storageSize)} used</span>
-                    </div>
-                    {storageStats.isNearLimit && (
-                      <div className="flex items-center gap-1 text-orange-500">
-                        <AlertCircle size={12} className="sm:w-3.5 sm:h-3.5" />
-                        <span>Storage nearly full</span>
-                      </div>
-                    )}
-                  </div>
-                )}
-                
                 {/* Clear All Button */}
                 {savedProducts.length > 0 && (
                   <button
@@ -305,10 +290,10 @@ export const SavedProducts = () => {
               </p>
               {!searchQuery && selectedCategory === "all" && (
                 <button
-                  onClick={() => navigate("/shopping")}
+                  onClick={() => navigate("/brands")}
                   className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-semibold transition-colors text-sm sm:text-base"
                 >
-                  Browse Products
+                  Browse Mods
                 </button>
               )}
             </div>
