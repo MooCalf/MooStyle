@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom";
-import { NavigationPrimary } from "@/Components/NavigationPrimary";
-import { NavigationSecondary } from "@/Components/NavigationSecondary";
+import { NavigationBar } from "@/Components/NavigationBar";
 import { Home, ArrowLeft, Search, Package } from "lucide-react";
+import { WebsiteBackground } from "@/Components/WebsiteBackground";
 
 export const NotFound = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <NavigationPrimary />
-      <NavigationSecondary />
+    <div className="min-h-screen">
+      <WebsiteBackground />
+      <NavigationBar />
       
       <div className="flex items-center justify-center min-h-[calc(100vh-140px)] px-4">
         <div className="max-w-md w-full text-center">
@@ -53,20 +53,17 @@ export const NotFound = () => {
           <div className="mt-8 pt-8 border-t border-gray-200">
             <p className="text-sm text-gray-500 mb-4">Quick Links:</p>
             <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/shopping/beauty" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
-                Beauty
+              <Link to="/brands" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
+                Mods
               </Link>
-              <Link to="/shopping/women" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
-                Women
+              <Link to="/about" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
+                About
               </Link>
-              <Link to="/shopping/men" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
-                Men
+              <Link to="/support" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
+                Support
               </Link>
-              <Link to="/shopping/lifestyle" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
-                Lifestyle
-              </Link>
-              <Link to="/shopping/health" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
-                Health
+              <Link to="/common-questions" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
+                FAQ
               </Link>
             </div>
           </div>

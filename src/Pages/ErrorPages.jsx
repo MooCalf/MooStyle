@@ -2,11 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Home, RefreshCw, ArrowLeft, AlertTriangle, Server } from 'lucide-react';
-import { NavigationPrimary } from '@/Components/NavigationPrimary';
-import { NavigationSecondary } from '@/Components/NavigationSecondary';
+import { NavigationBar } from '@/Components/NavigationBar';
 import { Footer } from '@/Components/Footer';
-import { Background } from '@/Components/Background';
 import SEO from '@/Components/SEO';
+import { WebsiteBackground } from '@/Components/WebsiteBackground';
 
 // 404 Not Found Page
 export const NotFound = () => {
@@ -19,13 +18,10 @@ export const NotFound = () => {
       />
       
       <div className="min-h-screen text-gray-900 overflow-x-hidden relative">
-        <Background showEffects={false} />
+        <WebsiteBackground />
         
         {/* Navigation Bars */}
-        <div id="navigation">
-          <NavigationPrimary />
-          <NavigationSecondary />
-        </div>
+        <NavigationBar />
         
         {/* Main Content */}
         <main className="flex items-center justify-center min-h-screen px-4">
@@ -110,17 +106,14 @@ export const NotFound = () => {
             >
               <p className="text-sm text-gray-500 mb-4">Or try these popular pages:</p>
               <div className="flex flex-wrap justify-center gap-4">
-                <Link to="/blog" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
-                  Blog
-                </Link>
-                <Link to="/shopping" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
-                  Shopping
-                </Link>
                 <Link to="/brands" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
-                  Brands
+                  Mods
                 </Link>
-                <Link to="/about-me" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
+                <Link to="/about" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
                   About
+                </Link>
+                <Link to="/support" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
+                  Support
                 </Link>
               </div>
             </motion.div>
@@ -148,13 +141,11 @@ export const ServerError = () => {
       />
       
       <div className="min-h-screen text-gray-900 overflow-x-hidden relative">
-        <Background showEffects={false} />
+        <WebsiteBackground />
+
         
         {/* Navigation Bars */}
-        <div id="navigation">
-          <NavigationPrimary />
-          <NavigationSecondary />
-        </div>
+        <NavigationBar />
         
         {/* Main Content */}
         <main className="flex items-center justify-center min-h-screen px-4">
@@ -259,7 +250,8 @@ export const ServerError = () => {
 // Generic Error Boundary Fallback
 export const ErrorFallback = ({ error, resetError }) => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <WebsiteBackground />
       <div className="text-center max-w-md mx-auto">
         <div className="w-24 h-24 mx-auto bg-red-100 rounded-full flex items-center justify-center mb-6">
           <AlertTriangle className="w-12 h-12 text-red-600" />
@@ -288,17 +280,6 @@ export const ErrorFallback = ({ error, resetError }) => {
             Go Home
           </button>
         </div>
-        
-        {process.env.NODE_ENV === 'development' && (
-          <details className="mt-8 text-left">
-            <summary className="cursor-pointer text-sm text-gray-500 mb-2">
-              Error Details (Development)
-            </summary>
-            <pre className="text-xs text-gray-600 bg-gray-100 p-4 rounded overflow-auto">
-              {error?.stack || error?.message || 'Unknown error'}
-            </pre>
-          </details>
-        )}
       </div>
     </div>
   );

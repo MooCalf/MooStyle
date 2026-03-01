@@ -14,23 +14,19 @@ export const Footer = () => {
     {
       title: "Downloads",
       links: [
-        { name: "Browse Mods", href: "/shopping" },
-        { name: "Featured Mods", href: "/#featured-brands" }
+        { name: "Browse Mods", href: "/brands" }
       ]
     },
     {
       title: "Socials",
       links: [
-        { name: "Patreon", href: "https://www.patreon.com/MOOSTYLES" },
-        { name: "Beta Testing Questionnaire", href: "https://forms.gle/3WK96XVj8fUKGDuHA" }
+        { name: "Patreon", href: "https://www.patreon.com/MOOSTYLES" }
       ]
     },
     {
       title: "Support",
       links: [
         { name: "Support Center", href: "/support" },
-        { name: "Installation Guide", href: "/common-questions" },
-        { name: "Troubleshooting", href: "/common-questions" },
         { name: "Contact Support", href: "/common-questions#still-have-questions" }
       ]
     },
@@ -38,8 +34,7 @@ export const Footer = () => {
       title: "Resources",
       links: [
         { name: "InZoi ModKit", href: "https://mod-docs.playinzoi.com" },
-        { name: "Modding Guidelines", href: "https://playinzoi.com/guide/mod" },
-        { name: "Tutorials", href: "https://moocalf.com" }
+        { name: "Modding Guidelines", href: "https://playinzoi.com/guide/mod" }
       ]
     },
     {
@@ -86,7 +81,7 @@ export const Footer = () => {
           {/* MOOSTYLE Logo */}
           <div className="mb-4 sm:mb-6">
             <img
-              src="/projects/Brand Medias/Logos/MOOSTYLES LOGO - TEAL DARKCOLOR.png"
+              src="/projects/Website Branding/MOOSTYLES LOGO - TEAL DARKCOLOR.png"
               alt="MOOSTYLE Logo"
               className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 mx-auto object-contain"
             />

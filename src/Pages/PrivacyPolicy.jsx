@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import { WebsiteBackground } from '@/Components/WebsiteBackground';
 
 export const PrivacyPolicy = () => {
   const navigate = useNavigate();
@@ -18,7 +19,8 @@ export const PrivacyPolicy = () => {
         <meta name="robots" content="index, follow" />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="min-h-screen">
+        <WebsiteBackground />
         {/* Header */}
         <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

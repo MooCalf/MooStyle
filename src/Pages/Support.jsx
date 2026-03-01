@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { NavigationPrimary } from '@/Components/NavigationPrimary';
-import { NavigationSecondary } from '@/Components/NavigationSecondary';
+import { NavigationBar } from '@/Components/NavigationBar';
 import { Metadata } from '@/Components/Metadata.jsx';
 import { SupportContactForm } from '@/Components/SupportContactForm';
 import { 
@@ -15,8 +14,12 @@ import {
   HelpCircle,
   User
 } from 'lucide-react';
+import { WebsiteBackground } from '@/Components/WebsiteBackground';
 
 export const Support = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const supportCategories = [
     {
       icon: <Download size={24} color="#2563eb" />,
@@ -39,7 +42,7 @@ export const Support = () => {
     },
     {
       question: "Are the products free?",
-      answer: "Many products are free to browse and view. Some premium products may require purchase or have download restrictions."
+      answer: "All our products are ALL free to use and making them takes time so we do encourage all patrons to consider tipping or subscribing to us to help boost the quality of the products we craft!"
     },
     {
       question: "I can't download a product",
@@ -47,7 +50,7 @@ export const Support = () => {
     },
     {
       question: "How do I contact support?",
-      answer: "Use the contact form below to reach our support team. We typically respond within 24-48 hours."
+      answer: "Use the contact form above to reach our support team! We typically try to respond within 24-48 hours but response time may vary!"
     },
     {
       question: "Can I suggest new products or brands?",
@@ -62,9 +65,9 @@ export const Support = () => {
         pageDescription="Get help with your MooStyle account, technical issues, and general support"
       />
       
-      <div className="min-h-screen bg-gray-50">
-        <NavigationPrimary />
-        <NavigationSecondary />
+      <div className="min-h-screen">
+        <WebsiteBackground />
+        <NavigationBar />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
@@ -129,8 +132,7 @@ export const Support = () => {
               <Clock size={24} color="#16a34a" />
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Response Time</h3>
-            <p className="text-gray-600 mb-4">We typically respond within</p>
-            <div className="text-2xl font-bold text-green-600">24-48 hours</div>
+            <p className="text-gray-600">We do our best to respond within 24-48 hours.</p>
           </div>
 
           {/* Support Categories */}
@@ -167,44 +169,6 @@ export const Support = () => {
                   <p className="text-gray-600">{faq.answer}</p>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* Additional Help */}
-          <div className="mt-12 text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Still need help?</h2>
-            <p className="text-gray-600 mb-6">
-              If you can't find what you're looking for, don't hesitate to reach out to us directly.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="mailto:support@moostyle.com"
-                className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
-              >
-                <Mail size={16} color="#ffffff" className="mr-2" />
-                Technical Support
-              </a>
-              <a
-                href="mailto:business@moostyles.com"
-                className="inline-flex items-center px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-              >
-                <Mail size={16} color="#ffffff" className="mr-2" />
-                Business Inquiries
-              </a>
-              <a
-                href="mailto:hello@moostyles.com"
-                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                <Mail size={16} color="#ffffff" className="mr-2" />
-                General Contact
-              </a>
-              <Link
-                to="/home"
-                className="inline-flex items-center px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-              >
-                <User size={16} color="#ffffff" className="mr-2" />
-                Back to Home
-              </Link>
             </div>
           </div>
         </div>

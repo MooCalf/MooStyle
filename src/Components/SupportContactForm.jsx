@@ -157,11 +157,9 @@ export const SupportContactForm = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent"
             >
               <option value="general">General Support</option>
-              <option value="account">Account Issues</option>
-              <option value="billing">Billing & Payments</option>
-              <option value="technical">Technical Issues</option>
-              <option value="content">Content & Downloads</option>
-              <option value="suspension">Account Suspension</option>
+              <option value="technical">Technical Support</option>
+              <option value="business">Business Query</option>
+              <option value="query">General Query</option>
             </select>
           </div>
         </div>

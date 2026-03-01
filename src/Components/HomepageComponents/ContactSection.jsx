@@ -1,79 +1,84 @@
 import {
-  Instagram,
   Mail,
-  Twitch,
-  Youtube,
   UserSearch,
-  Twitter,
   Shield,
   MessageCircle,
   Globe,
   Heart,
 } from "lucide-react";
+import { motion } from "framer-motion";
 
-const ContactInfoItem = ({ icon: Icon, title, content, href, description }) => (
-  <div className="flex items-start space-x-4">
-    <div className="p-3 rounded-full bg-teal-100">
-      <Icon className="h-6 w-6 text-teal-600" />
-    </div>
-    <div>
-      <h4 className="font-medium text-gray-900">{title}</h4>
+const ContactInfoItem = ({ icon: Icon, title, content, href, description, index }) => (
+  <motion.div 
+    initial={{ opacity: 0, x: -20 }}
+    whileInView={{ opacity: 1, x: 0 }}
+    viewport={{ once: true }}
+    transition={{ delay: index * 0.1, duration: 0.5 }}
+    className="flex items-start space-x-4 group"
+  >
+    <motion.div 
+      whileHover={{ scale: 1.1, rotate: 360 }}
+      transition={{ duration: 0.6 }}
+      className="p-4 rounded-2xl bg-gradient-to-br from-teal-100 to-cyan-100 shadow-luxury group-hover:shadow-luxury-hover transition-all duration-300"
+    >
+      <Icon className="h-6 w-6 text-teal-700" />
+    </motion.div>
+    <div className="flex-1">
+      <h4 className="font-bold text-gray-900 luxury-heading mb-1">{title}</h4>
       {href ? (
-        <a href={href} className="text-gray-600 hover:text-teal-600 transition-colors" target="_blank" rel="noopener noreferrer">
+        <a href={href} className="text-teal-700 hover:text-teal-800 transition-colors font-semibold luxury-body block" target="_blank" rel="noopener noreferrer">
           {content}
         </a>
       ) : (
-        <span className="text-gray-600">{content}</span>
+        <span className="text-gray-700 font-semibold">{content}</span>
       )}
       {description && (
-        <p className="text-sm text-gray-500 mt-1">{description}</p>
+        <p className="text-sm text-gray-500 mt-1 luxury-body">{description}</p>
       )}
     </div>
-  </div>
+  </motion.div>
 );
 
 const SocialLink = ({ icon: Icon, href, label }) => (
-  <a 
+  <motion.a 
+    whileHover={{ scale: 1.1, rotate: 5 }}
+    whileTap={{ scale: 0.95 }}
     href={href} 
     target="_blank" 
     rel="noopener noreferrer"
     aria-label={label} 
-    className="p-3 rounded-full bg-gray-100 hover:bg-teal-100 transition-colors border border-teal-200 hover:border-teal-400"
+    className="p-4 rounded-2xl glass-card glass-card-hover shadow-luxury hover-lift border-2 border-transparent hover:border-teal-300"
   >
-    <Icon size={20} className="text-gray-600 hover:text-teal-600" />
-  </a>
+    <Icon size={24} className="text-teal-700" />
+  </motion.a>
 );
 
 export const ContactSection = () => {
   const socialLinks = [
-    { icon: Youtube, href: "https://www.youtube.com/@MooCalf", label: "YouTube" },
-    { icon: Twitch, href: "https://www.twitch.tv/moocalf_", label: "Twitch" },
-    { icon: Instagram, href: "https://www.instagram.com/cypher._01", label: "Instagram" },
-    { icon: Twitter, href: "https://x.com/MooCalf_", label: "Twitter/X" },
     { icon: Heart, href: "https://www.patreon.com/MOOSTYLES", label: "Support on Patreon" },
   ];
 
   const contactInfoItems = [
     {
       icon: Mail,
-      title: "General Inquiries:",
+      title: "General Inquiries",
       content: "hello@moocalf.com",
       href: "mailto:hello@moocalf.com",
-      description: "For general questions, mod requests, community discussions, and support"
+      description: "Questions, requests, community"
     },
     {
       icon: UserSearch,
-      title: "Business & Collaborations:",
+      title: "Business & Partnerships",
       content: "business@moocalf.com",
       href: "mailto:business@moocalf.com",
-      description: "Partnerships, sponsorships, brand collaborations, and business opportunities"
+      description: "Collaborations, sponsorships"
     },
     {
       icon: Shield,
-      title: "Technical Support:",
+      title: "Technical Support",
       content: "support@moocalf.com",
       href: "mailto:support@moocalf.com",
-      description: "Mod installation help, troubleshooting, and technical assistance"
+      description: "Installation, troubleshooting"
     }
   ];
 
@@ -81,38 +86,49 @@ export const ContactSection = () => {
     {
       icon: Shield,
       title: "Privacy & Security",
-      content: "Your data is protected",
-      description: "All communications are encrypted and kept confidential"
+      content: "Encrypted & confidential",
+      description: ""
     },
     {
       icon: Globe,
       title: "Response Time",
       content: "24-48 hours",
-      description: "Typical response time for emails and business inquiries"
+      description: ""
     }
   ];
 
   return (
-    <section id="contact" className="contact-section py-16 px-4 relative">
-      <div className="container mx-auto max-w-5xl">
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center text-gray-900">
-          Get In <span className="text-teal-600">Touch</span>
-        </h2>
-        <p className="text-center text-gray-600 mb-8 max-w-2xl mx-auto">
-          Have questions about MooStyle mods, want to collaborate, or need support? I'm here to help! 
-          Reach out through any of the channels below for the fastest response. Whether you're a fellow modder, 
-          content creator, or just a fan of Asian fashion and beauty, I'd love to hear from you!
-        </p>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold mb-6 text-gray-900">Contact Information</h3>
-            <div className="space-y-4">
+    <section id="contact" className="section-luxury relative">
+      <div className="container mx-auto max-w-6xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="luxury-heading text-4xl md:text-5xl font-bold mb-6 text-center text-gray-900">
+            Get In <span className="gradient-text-luxury">Touch</span>
+          </h2>
+          <p className="text-center text-gray-600 mb-16 max-w-xl mx-auto luxury-body text-lg">
+            Questions, collaborations, or support — reach out anytime.
+          </p>
+        </motion.div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="space-y-8"
+          >
+            <h3 className="luxury-heading text-3xl font-bold mb-8 text-gray-900">Contact Information</h3>
+            <div className="space-y-6">
               {contactInfoItems.map((item, index) => (
-                <ContactInfoItem key={index} {...item} />
+                <ContactInfoItem key={index} {...item} index={index} />
               ))}
             </div>
-            <div className="pt-6">
-              <h4 className="font-medium mb-4 text-gray-900">Follow Me</h4>
+            <div className="pt-8">
+              <h4 className="luxury-subheading font-bold mb-6 text-gray-900">Connect</h4>
               <div className="flex space-x-4">
                 {socialLinks.map((socialLink) => (
                   <SocialLink key={socialLink.label} {...socialLink} />
@@ -121,71 +137,86 @@ export const ContactSection = () => {
             </div>
             
             {/* Patreon Support Section */}
-            <div className="pt-6">
-              <div className="bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-6 border border-orange-200">
-                <h4 className="font-semibold text-gray-900 mb-3 flex items-center">
-                  <Heart className="h-5 w-5 text-orange-500 mr-2" />
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="pt-8"
+            >
+              <div className="glass-card rounded-3xl p-8 border-2 border-orange-200/50 shadow-luxury hover:shadow-luxury-hover transition-all duration-300 relative overflow-hidden">
+                <div className="shimmer-effect absolute inset-0 opacity-50" />
+                <h4 className="luxury-heading font-bold text-gray-900 mb-4 flex items-center relative z-10">
+                  <Heart className="h-6 w-6 text-orange-500 mr-3" />
                   Support My Work
                 </h4>
-                <p className="text-gray-600 mb-4">
-                  Love my mods? Consider supporting me on Patreon to help me create more amazing content for the InZoi community!
+                <p className="text-gray-600 mb-6 luxury-body relative z-10">
+                  Support exclusive content and early releases.
                 </p>
-                <a
+                <motion.a
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
                   href="https://www.patreon.com/MOOSTYLES"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg hover:from-orange-600 hover:to-red-600 transition-all duration-200 font-medium"
+                  className="relative z-10 magnetic-button inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl hover:from-orange-600 hover:to-red-600 transition-all duration-300 font-bold shadow-luxury"
                 >
-                  <Heart className="h-4 w-4 mr-2" />
+                  <Heart className="h-5 w-5 mr-2" />
                   Support on Patreon
-                </a>
+                </motion.a>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
           
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold mb-6 text-gray-900">Business Information</h3>
-            <div className="space-y-4">
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="space-y-8"
+          >
+            <h3 className="luxury-heading text-3xl font-bold mb-8 text-gray-900">Business Information</h3>
+            <div className="space-y-6">
               {businessInfo.map((item, index) => (
-                <ContactInfoItem key={index} {...item} />
+                <ContactInfoItem key={index} {...item} index={index + 3} />
               ))}
             </div>
             
-            <div className="bg-teal-50 rounded-lg p-4">
-              <h4 className="font-semibold text-gray-900 mb-3">What I'm Looking For</h4>
-              <ul className="space-y-2 text-gray-600">
-                <li className="flex items-start">
-                  <span className="text-teal-600 mr-2">•</span>
-                  <span>Modding collaborations and partnerships</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-teal-600 mr-2">•</span>
-                  <span>Content creation and streaming opportunities</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-teal-600 mr-2">•</span>
-                  <span>Brand partnerships for exclusive and creative brands</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-teal-600 mr-2">•</span>
-                  <span>Community building and engagement projects</span>
-                </li>
-                <li className="flex items-start">
-                  <span className="text-teal-600 mr-2">•</span>
-                  <span>Modding and Brand Identity creation and redefinition</span>
-                </li>
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="glass-card rounded-3xl p-8 border-2 border-teal-200/50 shadow-luxury hover:shadow-luxury-hover transition-all duration-300 relative overflow-hidden corner-accent"
+            >
+              <div className="shimmer-effect absolute inset-0 opacity-30" />
+              <h4 className="luxury-heading font-bold text-gray-900 mb-6 relative z-10">Opportunities</h4>
+              <ul className="space-y-4 text-gray-600 relative z-10">
+                <motion.li 
+                  whileHover={{ x: 5 }}
+                  className="flex items-center luxury-body"
+                >
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 mr-3" />
+                  <span>Modding collaborations</span>
+                </motion.li>
+                <motion.li 
+                  whileHover={{ x: 5 }}
+                  className="flex items-center luxury-body"
+                >
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 mr-3" />
+                  <span>Content creation</span>
+                </motion.li>
+                <motion.li 
+                  whileHover={{ x: 5 }}
+                  className="flex items-center luxury-body"
+                >
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 mr-3" />
+                  <span>Brand partnerships</span>
+                </motion.li>
+                <motion.li 
+                  whileHover={{ x: 5 }}
+                  className="flex items-center luxury-body"
+                >
+                  <span className="w-2 h-2 rounded-full bg-gradient-to-r from-teal-500 to-cyan-500 mr-3" />
+                  <span>Community projects</span>
+                </motion.li>
               </ul>
-            </div>
-            
-            <div className="bg-gray-50 rounded-lg p-4">
-              <h4 className="font-semibold text-gray-900 mb-3">Best Ways to Reach Me</h4>
-              <div className="space-y-3 text-gray-600">
-                <p><strong>Email:</strong> Most reliable for business inquiries, detailed discussions, and formal partnerships</p>
-                <p><strong>Social Media:</strong> Great for updates, announcements, and casual conversations</p>
-                <p><strong>Patreon:</strong> Direct support and access to exclusive content and early releases</p>
-              </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>

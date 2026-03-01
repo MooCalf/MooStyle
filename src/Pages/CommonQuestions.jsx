@@ -1,87 +1,86 @@
-import React from 'react';
-import { ArrowLeft, HelpCircle, Mail, Phone, Clock, Shield, Download, Heart, Users, Instagram, Twitter, Facebook, Youtube } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowLeft, HelpCircle, Mail, Phone, Clock, Shield, Download, Heart, Users, Facebook, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { NavigationBar } from '@/Components/NavigationBar';
+import { WebsiteBackground } from '@/Components/WebsiteBackground';
 
 const CommonQuestions = () => {
+  const [openItems, setOpenItems] = useState({});
+
+  const toggleItem = (categoryIndex, faqIndex) => {
+    const key = `${categoryIndex}-${faqIndex}`;
+    setOpenItems(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  const isOpen = (categoryIndex, faqIndex) => {
+    const key = `${categoryIndex}-${faqIndex}`;
+    return openItems[key] || false;
+  };
+
+  const renderAnswerWithLinks = (answer) => {
+    const supportLinkRegex = /\(\/support\)/g;
+    if (!supportLinkRegex.test(answer)) {
+      return answer;
+    }
+
+    const parts = answer.split(/(\(\/support\))/);
+    return parts.map((part, index) => {
+      if (part === '(/support)') {
+        return (
+          <Link key={index} to="/support" className="text-teal-600 hover:text-teal-700 underline font-medium">
+            Support page
+          </Link>
+        );
+      }
+      return part;
+    });
+  };
   const faqs = [
-    {
-      category: "About This Website",
-      icon: HelpCircle,
-      questions: [
-        {
-          question: "What is the purpose of this website?",
-          answer: "This website is designed to showcase the aesthetic and functionality of a modern shopping platform. It demonstrates various UI/UX patterns, interactive elements, and design principles commonly found in e-commerce websites. Some buttons and functions are implemented for visual demonstration purposes and may not perform actual transactions or data processing."
-        }
-      ]
-    },
     {
       category: "Downloads & Mods",
       icon: Download,
       questions: [
         {
-          question: "Do you need to pay any fee for downloading mods?",
-          answer: "No! All mods on MooStyle are completely free to download. We believe in making quality mods accessible to everyone in the community."
-        },
-        {
-          question: "How do I download mods?",
-          answer: "Simply browse our collection, add mods to your cart, and use the 'Bulk Download' feature to get all your selected mods in a convenient ZIP file. No payment required!"
-        },
-        {
-          question: "What file formats do you support?",
-          answer: "We support various mod formats including .zip, .rar, .7z, and direct installation files. Each mod comes with detailed installation instructions."
+          question: "How do I download your mods?",
+          answer: "My mods will all be listed on Curseforge and Patreon. This website will provide a link to both options when viewing the details for the specified mod."
         },
         {
           question: "Are the mods safe to download?",
-          answer: "Yes! All mods are scanned for viruses and malware before being uploaded. We also verify that mods don't contain malicious code or unwanted software."
+          answer: "Yes! All mods are scanned for viruses and malware before being uploaded. I verify that mods don't contain malicious code or unwanted software to ensure your safety."
         },
         {
           question: "What types of mods do you create for InZoi?",
-          answer: "We create various types of mods for InZoi including character customizations, clothing and accessories, furniture and decor, gameplay enhancements, and visual improvements. All our mods follow InZoi's modding guidelines and community best practices to ensure compatibility and safety."
+          answer: "I create various types of mods for InZoi but as of right now the focus is on creating brand specific decorations and useful appliances. All my mods follow InZoi's modding guidelines and community best practices to ensure compatibility and safety."
+        },
+        {
+          question: "Where can I find installation instructions?",
+          answer: "Each mod comes with detailed installation instructions on its Curseforge or Patreon page. You'll find step-by-step guides specific to that mod, including any prerequisites and compatibility information."
+        },
+        {
+          question: "Do I need any prerequisites to install mods?",
+          answer: "Most InZoi mods require the base game to be installed and up-to-date. Some mods may have specific dependencies which will be clearly listed in the mod description. Always read the requirements section before downloading."
         }
       ]
     },
     {
-      category: "Support & Community",
+      category: "Support & Commissions",
       icon: Heart,
       questions: [
         {
-          question: "How can I tip or support the creators of MooStyle?",
-          answer: "You can support our creators by visiting our Patreon page, making donations through PayPal, or purchasing merchandise from our store. Every contribution helps us create more amazing mods!"
+          question: "How can I support your work?",
+          answer: "You can support my work by subscribing to my Patreon page or donating through any of the provided links! Every contribution helps me create more amazing mods for the community."
         },
         {
-          question: "Does MooStyle have any social media pages?",
-          answer: "Yes I do! Follow me on Instagram (@cypher._01), Twitter/X (@MooCalf_), YouTube (@MooCalf), Twitch (@moocalf_), Discord (@MooCalf), and Reddit (@MooCalf) for the latest updates, mod showcases, and community discussions."
+          question: "Can I request any specific ideas or do commissions?",
+          answer: "Absolutely! I love hearing from the community. Submit your mod requests through email (hello@moocalf.com) and I'll consider them for future releases. For commissions, as of right now, we do not offer any!"
         },
         {
-          question: "How can I contact the MooStyle team?",
-          answer: "You can reach me via email at hello@moocalf.com, through Discord (@MooCalf), Reddit (@MooCalf), or by messaging me on any of my social media platforms. I typically respond within 24 hours."
-        },
-        {
-          question: "Can I request specific mods?",
-          answer: "Absolutely! I love hearing from the community. Submit your mod requests through email (hello@moocalf.com), Discord (@MooCalf), or Reddit (@MooCalf), and I'll consider them for future releases."
-        }
-      ]
-    },
-    {
-      category: "User Accounts",
-      icon: Users,
-      questions: [
-        {
-          question: "How do I create an account?",
-          answer: "Click the 'Sign Up' button in the top navigation, fill in your details, and verify your email address. Creating an account is completely free and gives you access to exclusive features!"
-        },
-        {
-          question: "What are the benefits of having an account?",
-          answer: "With an account, you can save your favorite mods, track your download history, participate in community discussions, and get early access to new mod releases."
-        },
-        {
-          question: "I forgot my password. How do I reset it?",
-          answer: "Click 'Forgot Password' on the login page, enter your email address, and we'll send you a secure link to reset your password within a few minutes."
-        },
-        {
-          question: "Can I delete my account?",
-          answer: "Yes, you can delete your account at any time from your account settings. This will permanently remove all your data, download history, and saved preferences."
+          question: "Can I use your mods in my content/videos?",
+          answer: "Yes! You're welcome to use my mods in your content, videos, streams, or screenshots. I appreciate credit when possible (linking back to my Patreon or Curseforge page), but it's not required. Just don't claim the mods as your own work!"
         }
       ]
     },
@@ -90,37 +89,54 @@ const CommonQuestions = () => {
       icon: Shield,
       questions: [
         {
-          question: "I'm having trouble installing a mod. What should I do?",
-          answer: "Check the installation instructions included with each mod. If you're still having issues, contact our support team with details about the error you're encountering."
-        },
-        {
-          question: "Do mods work with all game versions?",
-          answer: "Most mods are compatible with recent game versions, but compatibility can vary. Check the mod description for specific version requirements and compatibility notes."
+          question: "Do all mods work with all versions of the game?",
+          answer: "Not all mods are compatible with every game version. Compatibility can vary depending on game updates. Always check the mod description for specific version requirements and compatibility notes before downloading."
         },
         {
           question: "What if a mod doesn't work properly?",
-          answer: "First, ensure you've followed the installation instructions correctly. If the issue persists, report it through our support system and we'll help troubleshoot or provide an alternative solution."
+          answer: "First, ensure you've followed the installation instructions correctly and that you're using the correct game version. If the issue persists, contact me via email at hello@moocalf.com with details about the error you're encountering, and I'll help troubleshoot."
         },
         {
           question: "How often do you update mods?",
-          answer: "We regularly update mods to ensure compatibility with new game versions and fix any reported issues. Follow our social media for update announcements."
+          answer: "I regularly update mods to ensure compatibility with new game versions and fix any reported issues. Follow my social media channels for update announcements and information about new releases."
         },
         {
-          question: "Do you follow InZoi's modding guidelines?",
-          answer: "Yes! We strictly adhere to InZoi's modding guidelines and community best practices. Our mods are created following proper naming conventions, file structure, and compatibility standards. For the most up-to-date modding guidelines, we recommend checking InZoi's official community forums and documentation."
+          question: "What should I do if I encounter a bug?",
+          answer: "Please report any bugs you find! Send me an email at support@moocalf.com with a detailed description of the issue, what you were doing when it occurred, and any error messages. Screenshots or videos are super helpful too!"
+        },
+        {
+          question: "How do I know which mods are compatible with each other?",
+          answer: "Mod compatibility information is listed on each mod's page. Generally, mods that modify different aspects of the game work well together. If you experience conflicts, try disabling mods one at a time to identify which ones are incompatible."
+        }
+      ]
+    },
+    {
+      category: "Community & Social Media",
+      icon: Users,
+      questions: [
+        {
+          question: "How can I contact you?",
+          answer: "You can reach me via email at hello@moocalf.com, support@moocalf.com or business@moocalf.com, or through the contact form on the (/support). I typically try to respond within 24-48 hours however response time can vary!"
+        },
+        {
+          question: "Can I modify or redistribute your mods?",
+          answer: "Please do not reupload, modify, or redistribute my mods without explicit permission. If you'd like to create a derivative work or translation, reach out to me first via email at hello@moocalf.com. I'm usually open to collaborations but want to ensure proper credit and quality control."
         }
       ]
     }
   ];
 
   return (
-        <motion.div 
-          className="min-h-screen bg-gray-50"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          {/* Header */}
+    <div className="min-h-screen">
+      <WebsiteBackground />
+      <NavigationBar />
+      <motion.div 
+        className="min-h-screen"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        {/* Header */}
           <motion.div 
             className="bg-white border-b border-gray-200"
             initial={{ y: -20, opacity: 0 }}
@@ -188,18 +204,80 @@ const CommonQuestions = () => {
                       </div>
                     </div>
                     <div className="divide-y divide-gray-200">
-                      {category.questions.map((faq, faqIndex) => (
-                        <motion.div 
-                          key={faqIndex} 
-                          className="px-6 py-6"
-                          initial={{ x: -20, opacity: 0 }}
-                          animate={{ x: 0, opacity: 1 }}
-                          transition={{ duration: 0.4, delay: 0.7 + categoryIndex * 0.1 + faqIndex * 0.05 }}
-                        >
-                          <h3 className="text-lg font-medium text-gray-900 mb-3">{faq.question}</h3>
-                          <p className="text-gray-600 leading-relaxed">{faq.answer}</p>
-                        </motion.div>
-                      ))}
+                      {category.questions.map((faq, faqIndex) => {
+                        const isItemOpen = isOpen(categoryIndex, faqIndex);
+                        return (
+                          <motion.div 
+                            key={faqIndex} 
+                            className="border-b border-gray-200 last:border-b-0"
+                            initial={{ x: -20, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ duration: 0.4, delay: 0.7 + categoryIndex * 0.1 + faqIndex * 0.05 }}
+                          >
+                            <motion.button
+                              onClick={() => toggleItem(categoryIndex, faqIndex)}
+                              className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-teal-50 transition-colors duration-200"
+                              whileHover={{ backgroundColor: "rgba(240, 253, 250, 0.5)" }}
+                              whileTap={{ scale: 0.995 }}
+                            >
+                              <h3 className="text-lg font-medium text-gray-900 pr-4">{faq.question}</h3>
+                              <motion.div
+                                animate={{ rotate: isItemOpen ? 180 : 0 }}
+                                transition={{ duration: 0.3, ease: "easeInOut" }}
+                                className="flex-shrink-0"
+                              >
+                                <ChevronDown size={24} className="text-teal-600" />
+                              </motion.div>
+                            </motion.button>
+                            
+                            <AnimatePresence initial={false}>
+                              {isItemOpen && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ 
+                                    height: "auto", 
+                                    opacity: 1,
+                                    transition: {
+                                      height: {
+                                        duration: 0.3,
+                                        ease: "easeInOut"
+                                      },
+                                      opacity: {
+                                        duration: 0.25,
+                                        delay: 0.1
+                                      }
+                                    }
+                                  }}
+                                  exit={{ 
+                                    height: 0, 
+                                    opacity: 0,
+                                    transition: {
+                                      height: {
+                                        duration: 0.3,
+                                        ease: "easeInOut"
+                                      },
+                                      opacity: {
+                                        duration: 0.2
+                                      }
+                                    }
+                                  }}
+                                  className="overflow-hidden"
+                                >
+                                  <motion.div
+                                    initial={{ y: -10 }}
+                                    animate={{ y: 0 }}
+                                    exit={{ y: -10 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="px-6 pb-5 pt-2"
+                                  >
+                                    <p className="text-gray-600 leading-relaxed">{renderAnswerWithLinks(faq.answer)}</p>
+                                  </motion.div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </motion.div>
+                        );
+                      })}
                     </div>
                   </motion.div>
                 );
@@ -240,24 +318,18 @@ const CommonQuestions = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: 1.5 }}
             >
-              <motion.a
-                href="mailto:support@moostyle.com"
-                className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200"
+              <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Mail size={20} className="mr-2" />
-                Email Support
-              </motion.a>
-              <motion.a
-                href="https://discord.gg/moostyle"
-                className="inline-flex items-center px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors duration-200"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Users size={20} className="mr-2" />
-                Discord Community
-              </motion.a>
+                <Link
+                  to="/support"
+                  className="inline-flex items-center px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors duration-200"
+                >
+                  <Mail size={20} className="mr-2" />
+                  Support Page
+                </Link>
+              </motion.div>
             </motion.div>
 
             {/* Social Media Links */}
@@ -277,10 +349,7 @@ const CommonQuestions = () => {
               </motion.h3>
               <div className="flex justify-center space-x-4">
                 {[
-                  { href: "https://instagram.com/moostyle", icon: Instagram, bg: "bg-gradient-to-r from-pink-500 to-purple-600", label: "Instagram" },
-                  { href: "https://twitter.com/moostyle", icon: Twitter, bg: "bg-blue-500", label: "Twitter" },
                   { href: "https://facebook.com/moostyle", icon: Facebook, bg: "bg-blue-600", label: "Facebook" },
-                  { href: "https://youtube.com/moostyle", icon: Youtube, bg: "bg-red-600", label: "YouTube" },
                   { href: "https://www.patreon.com/MOOSTYLES", icon: Heart, bg: "bg-gradient-to-r from-orange-500 to-red-500", label: "Support on Patreon" }
                 ].map((social, index) => {
                   const IconComponent = social.icon;
@@ -321,6 +390,7 @@ const CommonQuestions = () => {
         </motion.div>
       </motion.div>
     </motion.div>
+    </div>
   );
 };
 

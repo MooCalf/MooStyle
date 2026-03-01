@@ -2,10 +2,10 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 const SEO = ({
-  title = "MOOSTYLE - Asian Fashion & Beauty",
-  description = "Discover the latest Asian fashion, beauty products, and lifestyle items at MOOSTYLE. High-quality InZoi mods, Korean skincare, Japanese streetwear, and more.",
-  keywords = "Asian fashion, Korean beauty, Japanese streetwear, InZoi mods, K-beauty, Asian lifestyle, fashion mods, beauty products",
-  image = "/projects/Brand Medias/Promotional Content/Promo Poster.png",
+  title = "MOOSTYLE - InZOI Mods & Creator Platform",
+  description = "Discover high-quality InZOI mods, creator resources, and community content at MOOSTYLE. Free downloads, support, and curated mod collections.",
+  keywords = "InZOI mods, MOOSTYLE, game mods, free mods, creator resources, mod downloads, InZOI custom content",
+  image = "/projects/Website Branding/MOOSTYLESBANNER.png",
   url = "",
   type = "website",
   author = "MooCalf",
@@ -48,8 +48,6 @@ const SEO = ({
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={fullImage} />
-      <meta name="twitter:site" content="@moostyle" />
-      <meta name="twitter:creator" content="@moocalf" />
       
       {/* Article specific meta tags */}
       {type === 'article' && (
@@ -76,11 +74,9 @@ const SEO = ({
           "@type": "Organization",
           "name": "MOOSTYLE",
           "url": siteUrl,
-          "logo": `${siteUrl}/projects/Brand Medias/Logos/MooStyle Logo.png`,
-          "description": "Premier destination for Asian fashion, beauty products, and lifestyle items",
+          "logo": `${siteUrl}/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png`,
+          "description": "Creator platform for high-quality InZOI mods and downloadable content.",
           "sameAs": [
-            "https://twitter.com/moostyle",
-            "https://instagram.com/moostyle",
             "https://discord.gg/moostyle"
           ],
           "contactPoint": {
@@ -98,12 +94,7 @@ const SEO = ({
           "@type": "WebSite",
           "name": "MOOSTYLE",
           "url": siteUrl,
-          "description": description,
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": `${siteUrl}/blog?search={search_term_string}`,
-            "query-input": "required name=search_term_string"
-          }
+          "description": description
         })}
       </script>
       
@@ -126,7 +117,7 @@ const SEO = ({
               "name": "MOOSTYLE",
               "logo": {
                 "@type": "ImageObject",
-                "url": `${siteUrl}/projects/Brand Medias/Logos/MooStyle Logo.png`
+                "url": `${siteUrl}/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png`
               }
             },
             "datePublished": publishedTime,
