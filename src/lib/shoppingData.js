@@ -9,9 +9,9 @@ export const shoppingCategories = {
         name: "MOCA Cafe Brand",
         nameColor: "#ffffff",
         brand: "MOCA",
-        image: "/projects/Products/MOCA Brand/MOCA - Logo -  Image Green.png",
+        image: "/projects/Products/MOCA Brand/MOCA Logo - ModPack.png",
         images: [
-          "/projects/Products/MOCA Brand/MOCA - Logo -  Image Green.png",
+          "/projects/Products/MOCA Brand/MOCA Logo - ModPack.png",
           "/projects/Products/MOCA Brand/Mod Feature Pack Showcase.png",
           "/projects/Products/MOCA Brand/Preview Image 1.png",
         ],
