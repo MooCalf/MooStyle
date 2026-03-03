@@ -4,6 +4,7 @@
 export const shoppingCategories = {
   inZOI: {
     products: [
+      // MOCA PRODUCT BRAND
       {
         id: "MOCA-001",
         name: "MOCA Cafe Brand",
@@ -30,13 +31,36 @@ export const shoppingCategories = {
         howToUse: "Place the exterior signs on the outside of your building to create a welcoming storefront. Use the wall-mounted signs to add character and charm to your interior spaces. The menu boards can be placed near your counter or seating areas to display your offerings in style. Perfect for creating a cozy and inviting atmosphere in your cafe or coffee shop. Can't find my mods in your build menu? Try looking for 'MOCA' or 'Sign' and you should see them! If you still can't find them, make sure your mod is up to date and that you have the correct version of Build Mode installed. Happy building!",
 
       },
+
+      // MOOR PRODUCT BRAND
+      {
+        id: "MOOR-001",
+        name: "MOOR",
+        nameColor: "#ffffff",
+        brand: "MOOR",
+        image: "/projects/Products/MOOR Brand/MOOR - Logo Design - Cover.png",
+        images: [
+          "",
+        ],
+        description: "When Luxury isn't enough.",
+        detailedDescription: "A full on brand experience for MOOR, your go to brand for high end, modern and luxury devices.",
+        features: [
+          "High End Luxury Devices ",
+          "Sleek and Modern Designs",
+          "Perfect for Tech Enthusiasts and Luxury Lovers"
+        ],
+        tags: ["Electronics", "Computer", "Luxury", "MOOR"],
+        isNew: true,
+        downloadlink: "",
+        patreonlink: "",
+        howToUse: "",
+
+      },
     ]
   }
 };
 
-// Ensure each product object exposes normalized download link fields.
-// This makes it safe for UI to read `downloadLink` or `downloadlink` directly
-// even if the original product only provided `modFile` info.
+
 Object.values(shoppingCategories).forEach(category => {
   category.products.forEach(p => {
     const dl = p.downloadLink ?? p.downloadlink ?? p.modFile?.url ?? (p.modFile?.filename ? `/download/${p.id}` : null);
@@ -45,7 +69,6 @@ Object.values(shoppingCategories).forEach(category => {
   });
 });
 
-// Helper functions for content management
 export const getCategoryData = (category) => {
   return shoppingCategories[category] || null;
 };
@@ -55,7 +78,6 @@ export const getAllProducts = () => {
   Object.values(shoppingCategories).forEach(category => {
     allProducts.push(...category.products);
   });
-  // Return normalized copies that include downloadLink/downloadlink for safety
   return allProducts.map(p => ({
     ...p,
     downloadLink: p.downloadLink ?? p.downloadlink ?? p.modFile?.url ?? (p.modFile?.filename ? `/download/${p.id}` : null),
@@ -71,7 +93,6 @@ export const getProductsByCategory = (category) => {
 export const searchProducts = (query, filters = {}) => {
   let products = getAllProducts();
   
-  // Text search
   if (query) {
     products = products.filter(product => 
       product.name.toLowerCase().includes(query.toLowerCase()) ||
@@ -81,43 +102,22 @@ export const searchProducts = (query, filters = {}) => {
     );
   }
   
-  // Filter by category
   if (filters.category) {
     products = products.filter(product => 
       getProductsByCategory(filters.category).includes(product)
     );
   }
   
-  // Filter by subcategory
   if (filters.subcategory) {
     products = products.filter(product => 
       product.tags.includes(filters.subcategory)
     );
   }
   
-  // Filter by price range
-  if (filters.priceRange) {
-    const [min, max] = filters.priceRange.split('-').map(Number);
-    products = products.filter(product => {
-      if (max) {
-        return product.price >= min && product.price <= max;
-      } else {
-        return product.price >= min;
-      }
-    });
-  }
-  
-  // Filter by brand
   if (filters.brand) {
     products = products.filter(product => 
       product.brand.toLowerCase().includes(filters.brand.toLowerCase())
     );
-  }
-  
-  // Filter by rating
-  if (filters.rating) {
-    const minRating = parseInt(filters.rating);
-    products = products.filter(product => product.rating >= minRating);
   }
   
   return products;
@@ -132,21 +132,11 @@ export const getFilterOptions = (category = null) => {
   return {
     brands: brands.sort(),
     subcategories: tags.sort(),
-    priceRanges: [
-      { label: "Under $25", value: "0-25" },
-      { label: "$25 - $50", value: "25-50" },
-      { label: "$50 - $100", value: "50-100" },
-      { label: "$100+", value: "100-999" }
-    ],
-    ratings: [
-      { label: "4+ Stars", value: "4" },
-      { label: "3+ Stars", value: "3" },
-      { label: "2+ Stars", value: "2" }
-    ]
+    priceRanges: [],
+    ratings: []
   };
 };
 
-// Product detail functions
 export const getProductById = (productId) => {
   const allProducts = getAllProducts();
   return allProducts.find(product => product.id === productId) || null;
@@ -159,7 +149,6 @@ export const getRelatedProducts = (productId, limit = 4) => {
   const allProducts = getAllProducts();
   const relatedProducts = allProducts
     .filter(p => p.id !== productId && p.tags.some(tag => product.tags.includes(tag)))
-    .sort((a, b) => b.rating - a.rating)
     .slice(0, limit);
   
   return relatedProducts;
