@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, User, Heart, Globe, Award, Mail, Facebook, Download, Code } from 'lucide-react';
+import { ArrowLeft, User, Heart, Globe, Award, Mail, Download, Code } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { NavigationBar } from '@/Components/NavigationBar';
