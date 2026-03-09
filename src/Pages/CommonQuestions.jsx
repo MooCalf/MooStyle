@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, HelpCircle, Mail, Phone, Clock, Shield, Download, Heart, Users, Facebook, ChevronDown } from 'lucide-react';
+import { ArrowLeft, HelpCircle, Mail, Phone, Clock, Shield, Download, Heart, Users, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from "framer-motion";
 import { NavigationBar } from '@/Components/NavigationBar';
@@ -349,7 +349,6 @@ const CommonQuestions = () => {
               </motion.h3>
               <div className="flex justify-center space-x-4">
                 {[
-                  { href: "https://facebook.com/moostyle", icon: Facebook, bg: "bg-blue-600", label: "Facebook" },
                   { href: "https://www.patreon.com/MOOSTYLES", icon: Heart, bg: "bg-gradient-to-r from-orange-500 to-red-500", label: "Support on Patreon" }
                 ].map((social, index) => {
                   const IconComponent = social.icon;

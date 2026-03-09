@@ -26,7 +26,7 @@ export const shoppingCategories = {
         ],
         tags: ["Cafe", "Coffee", "MOCA", "Shop"],
         isNew: true,
-        downloadlink: "https://www.curseforge.com/inzoi/build-mode/moca-cafe-brand-9abd5f5f",
+        downloadlink: "https://www.curseforge.com/inzoi/build-mode/moca-cafe-brand-39eb36ff",
         patreonlink: "https://www.patreon.com/posts/moca-cafe-brand-151972427?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link",
         howToUse: "Place the exterior signs on the outside of your building to create a welcoming storefront. Use the wall-mounted signs to add character and charm to your interior spaces. The menu boards can be placed near your counter or seating areas to display your offerings in style. Perfect for creating a cozy and inviting atmosphere in your cafe or coffee shop. Can't find my mods in your build menu? Try looking for 'MOCA' or 'Sign' and you should see them! If you still can't find them, make sure your mod is up to date and that you have the correct version of Build Mode installed. Happy building!",
 
