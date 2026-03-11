@@ -15,6 +15,7 @@ export const shoppingCategories = {
           "/projects/Products/MOCA Brand/MOCA Logo - ModPack.png",
           "/projects/Products/MOCA Brand/Mod Feature Pack Showcase.png",
           "/projects/Products/MOCA Brand/Preview Image 1.png",
+          "/projects/Products/MOCA Brand/MOCA CUP ADVERTISING.png",
         ],
         description: "A full on brand experience for MOCA Cafe, your local coffee shop.",
         detailedDescription: "A full on brand experience for MOCA Cafe, your local coffee shop.",
