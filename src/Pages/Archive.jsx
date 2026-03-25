@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { NavigationBar } from "@/Components/NavigationBar";
 import { Footer } from "@/Components/Footer";
 import { Metadata } from "@/Components/Metadata.jsx";
@@ -7,6 +8,7 @@ import { WebsiteBackground } from "@/Components/WebsiteBackground";
 
 export const Archive = () => {
   const archives = getAllArchives();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -23,14 +25,17 @@ export const Archive = () => {
           <div className="content-container">
             <div className="mt-4 text-center">
               <h1 className="page-title">Archive</h1>
-              <p className="page-description">Check out older content I've made in the past that is still worthy of its own showcase room.</p>
+              <p className="page-description">Check out other content I've made that I think is still worthy of its own showcase room.</p>
             </div>
           </div>
         </div>
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <section>
-            <ArchiveGrid items={archives} />
+            <ArchiveGrid
+              items={archives}
+              onItemClick={(id) => navigate(`/product/${id}`)}
+            />
           </section>
         </main>
 
@@ -40,7 +45,7 @@ export const Archive = () => {
   );
 };
 
-function ArchiveGrid({ items = [] }) {
+function ArchiveGrid({ items = [], onItemClick }) {
   const itemsPerPage = 12;
   const [page, setPage] = useState(1);
   const totalPages = Math.ceil(items.length / itemsPerPage) || 1;
@@ -52,37 +57,35 @@ function ArchiveGrid({ items = [] }) {
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {visibleItems.map(item => (
-          <div key={item.id} className="bg-white rounded-lg border border-gray-200 p-6">
-            <div className="group w-full h-72 bg-gray-100 rounded overflow-hidden mb-4 relative">
-              <img src={item.images?.[0]} alt={item.name} className="w-full h-full object-cover" />
+          <div
+            key={item.id}
+            className="rounded-lg overflow-hidden bg-gray-100 group cursor-pointer select-none"
+            role="button"
+            tabIndex={0}
+            onClick={() => onItemClick?.(item.id)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onItemClick?.(item.id);
+              }
+            }}
+          >
+            <div className="relative w-full aspect-[4/3] bg-gray-200">
+              <img src={item.images?.[0]} alt={item.name} className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" />
 
               {/* NEW badge */}
               {item.isNew && (
-                <span className="absolute top-3 left-3 text-xs text-white bg-green-500 px-2 py-1 rounded">NEW</span>
+                <span className="absolute top-3 right-3 text-xs text-white bg-green-500 px-2 py-1 rounded">NEW</span>
               )}
 
-              {/* Hover overlay: title, description, Patreon button (appears on hover) */}
-              <div className="absolute inset-0 flex flex-col justify-end items-start p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <div className="w-full flex items-start gap-3">
-                  {item.patreonlink ? (
-                    <a
-                      href={item.patreonlink}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="inline-flex items-center px-2 py-1 text-xs border-2 border-orange-500 bg-orange-600/10 backdrop-blur-sm text-orange-600 rounded-sm hover:bg-orange-600 hover:text-white transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-orange-300"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
-                        <path d="M5 3a2 2 0 100 4 2 2 0 000-4zm6 1h2v14h-2V4z" />
-                      </svg>
-                      <span>Patreon</span>
-                    </a>
-                  ) : null}
+              {/* InZOI-style dark gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
 
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-lg text-white mb-1">{item.name}</h3>
-                    <p className="text-sm text-gray-200 mb-3">{item.description}</p>
-                  </div>
-                </div>
+              {/* Name only on hover */}
+              <div className="absolute left-4 bottom-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <span className="text-lg font-semibold drop-shadow text-white">
+                  {item.name}
+                </span>
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 // Shopping Content Data System
 // This file contains all the dynamic content for the shopping page
+import { getArchiveById } from "@/lib/archive";
 
 export const shoppingCategories = {
   inZOI: {
@@ -140,7 +141,26 @@ export const getFilterOptions = (category = null) => {
 
 export const getProductById = (productId) => {
   const allProducts = getAllProducts();
-  return allProducts.find(product => product.id === productId) || null;
+  const product = allProducts.find(p => p.id === productId);
+  if (product) return product;
+
+  const archiveItem = getArchiveById(productId);
+  if (!archiveItem) return null;
+
+  const downloadLink = (archiveItem.downloadLink ?? archiveItem.downloadlink ?? "").trim() || null;
+  const patreonLink = (archiveItem.patreonLink ?? archiveItem.patreonlink ?? "").trim() || null;
+
+  return {
+    ...archiveItem,
+    image: archiveItem.image || archiveItem.images?.[0] || "",
+    brand: archiveItem.brand || "Archive",
+    category: archiveItem.category || "archive",
+    tags: Array.isArray(archiveItem.tags) && archiveItem.tags.length ? archiveItem.tags : ["archive"],
+    downloadLink,
+    downloadlink: downloadLink,
+    patreonLink,
+    patreonlink: patreonLink,
+  };
 };
 
 export const getRelatedProducts = (productId, limit = 4) => {
@@ -149,7 +169,13 @@ export const getRelatedProducts = (productId, limit = 4) => {
   
   const allProducts = getAllProducts();
   const relatedProducts = allProducts
-    .filter(p => p.id !== productId && p.tags.some(tag => product.tags.includes(tag)))
+    .filter(
+      (p) =>
+        p.id !== productId &&
+        Array.isArray(p.tags) &&
+        Array.isArray(product.tags) &&
+        p.tags.some((tag) => product.tags.includes(tag))
+    )
     .slice(0, limit);
   
   return relatedProducts;
@@ -158,6 +184,10 @@ export const getRelatedProducts = (productId, limit = 4) => {
 export const getProductCategory = (productId) => {
   const product = getProductById(productId);
   if (!product) return null;
+
+  if (product.category === "archive") {
+    return "archive";
+  }
   
   for (const [categoryName, categoryData] of Object.entries(shoppingCategories)) {
     if (categoryData.products.some(p => p.id === productId)) {
