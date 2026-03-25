@@ -105,16 +105,16 @@ export const WebsiteBackground = ({
               glowRadius
             );
             gradient.addColorStop(0, glowColor);
-            gradient.addColorStop(0.1, glowColor + 'cc');
-            gradient.addColorStop(0.3, glowColor + '66');
-            gradient.addColorStop(0.6, glowColor + '1a');
+            gradient.addColorStop(0.3, glowColor + 'dd');
+            gradient.addColorStop(0.6, glowColor + '88');
+            gradient.addColorStop(0.8, glowColor + '33');
             gradient.addColorStop(1, glowColor + '00');
 
             ctx.strokeStyle = gradient;
-            ctx.lineWidth = lineThickness * 2;
-            ctx.shadowBlur = 20;
+            ctx.lineWidth = lineThickness * 1.5;
+            ctx.shadowBlur = 15;
             ctx.shadowColor = glowColor;
-            ctx.globalAlpha = 1;
+            ctx.globalAlpha = 0.8;
             ctx.moveTo(x, segmentStart);
             ctx.lineTo(x, y);
             ctx.stroke();
@@ -133,16 +133,16 @@ export const WebsiteBackground = ({
             glowRadius
           );
           gradient.addColorStop(0, glowColor);
-          gradient.addColorStop(0.1, glowColor + 'cc');
-          gradient.addColorStop(0.3, glowColor + '66');
-          gradient.addColorStop(0.6, glowColor + '1a');
+          gradient.addColorStop(0.3, glowColor + 'dd');
+          gradient.addColorStop(0.6, glowColor + '88');
+          gradient.addColorStop(0.8, glowColor + '33');
           gradient.addColorStop(1, glowColor + '00');
 
           ctx.strokeStyle = gradient;
-          ctx.lineWidth = lineThickness * 2;
-          ctx.shadowBlur = 20;
+          ctx.lineWidth = lineThickness * 1.5;
+          ctx.shadowBlur = 15;
           ctx.shadowColor = glowColor;
-          ctx.globalAlpha = 1;
+          ctx.globalAlpha = 0.8;
           ctx.moveTo(x, segmentStart);
           ctx.lineTo(x, canvas.height);
           ctx.stroke();
@@ -177,16 +177,14 @@ export const WebsiteBackground = ({
               glowRadius
             );
             gradient.addColorStop(0, glowColor);
-            gradient.addColorStop(0.1, glowColor + 'cc');
-            gradient.addColorStop(0.3, glowColor + '66');
-            gradient.addColorStop(0.6, glowColor + '1a');
+            gradient.addColorStop(0.5, glowColor + '99');
             gradient.addColorStop(1, glowColor + '00');
 
             ctx.strokeStyle = gradient;
-            ctx.lineWidth = lineThickness * 2;
-            ctx.shadowBlur = 20;
+            ctx.lineWidth = lineThickness * 1.5;
+            ctx.shadowBlur = 15;
             ctx.shadowColor = glowColor;
-            ctx.globalAlpha = 1;
+            ctx.globalAlpha = 0.8;
             ctx.moveTo(segmentStart, y);
             ctx.lineTo(x, y);
             ctx.stroke();
@@ -205,16 +203,14 @@ export const WebsiteBackground = ({
             glowRadius
           );
           gradient.addColorStop(0, glowColor);
-          gradient.addColorStop(0.1, glowColor + 'cc');
-          gradient.addColorStop(0.3, glowColor + '66');
-          gradient.addColorStop(0.6, glowColor + '1a');
+          gradient.addColorStop(0.5, glowColor + '99');
           gradient.addColorStop(1, glowColor + '00');
 
           ctx.strokeStyle = gradient;
-          ctx.lineWidth = lineThickness * 2;
-          ctx.shadowBlur = 20;
+          ctx.lineWidth = lineThickness * 1.5;
+          ctx.shadowBlur = 15;
           ctx.shadowColor = glowColor;
-          ctx.globalAlpha = 1;
+          ctx.globalAlpha = 0.8;
           ctx.moveTo(segmentStart, y);
           ctx.lineTo(canvas.width, y);
           ctx.stroke();

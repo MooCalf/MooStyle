@@ -207,9 +207,21 @@ export const ProductDetail = () => {
                       <ChevronRight size={24} />
                     </button>
 
-                    {/* Image Counter */}
-                    <div className="absolute bottom-4 right-4 bg-black/70 text-white text-sm px-3 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      {selectedImage + 1} / {product.images.length}
+                    {/* Hover dots: indicate total images and current position */}
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                      <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-black/60 backdrop-blur-sm">
+                        {product.images.map((_, index) => (
+                          <button
+                            key={index}
+                            type="button"
+                            onClick={() => setSelectedImage(index)}
+                            className={`h-2.5 w-2.5 rounded-full transition-all duration-200 ${
+                              selectedImage === index ? "bg-white scale-110" : "bg-white/45 hover:bg-white/70"
+                            }`}
+                            aria-label={`Go to image ${index + 1}`}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </>
                 )}

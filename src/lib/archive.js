@@ -1,18 +1,36 @@
 export const archives = [
-  /* {
+  {
     id: "archive-001",
-    name: "Archive Name",
+    name: "Steel Frame - Wooden Shelf",
     images: [
-      "/projects/BETATESTINGIMAGES/M_p0217730395.jpg",
-      "/projects/BETATESTINGIMAGES/M_p0219136879.png"
+      "/projects/Products/Archive Images/Wood - Steel Frame Shelf_Thumbnail_CF.png",
+      "/projects/Products/Archive Images/WSFS - Showcase1.jpg",
+      "/projects/Products/Archive Images/WSFS - Showcase2.jpg",
     ],
-    description: "Archived release of the LunaGlow Glass Skin set.",
-    isNew: false,
-    patreonlink: "https://www.patreon.com/posts/moca-cafe-brand-151507324"
-  } */
+    description: "A simple steel frame wooden shelf. Holds up to 24 small to medium sized items.",
+    isNew: true,
+    downloadlink: "",
+    patreonlink: ""
+  } 
 ];
 
-export const getAllArchives = () => archives.map(a => ({ ...a }));
+archives.forEach((a) => {
+  const dl = (a.downloadLink ?? a.downloadlink ?? "").trim() || null;
+  const pl = (a.patreonLink ?? a.patreonlink ?? "").trim() || null;
+
+  a.downloadLink = dl;
+  a.downloadlink = dl;
+  a.patreonLink = pl;
+  a.patreonlink = pl;
+});
+
+export const getAllArchives = () => archives.map((a) => ({
+  ...a,
+  downloadLink: (a.downloadLink ?? a.downloadlink ?? "").trim() || null,
+  downloadlink: (a.downloadLink ?? a.downloadlink ?? "").trim() || null,
+  patreonLink: (a.patreonLink ?? a.patreonlink ?? "").trim() || null,
+  patreonlink: (a.patreonLink ?? a.patreonlink ?? "").trim() || null,
+}));
 
 export const getArchiveById = (id) => archives.find(a => a.id === id) || null;
 
