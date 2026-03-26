@@ -20,7 +20,7 @@ export const archives = [
       "/projects/Products/Archive Images/Wooden Swirled Shelf_Thumbnail_CF.png",
       "/projects/Products/Archive Images/WSS - Showcase1.jpg",
     ],
-    description: "A simple steel frame wooden shelf. Holds up to 24 small to medium sized items.",
+    description: "A simple Wooden Swirled Shelf. Holds one item on each shelf.",
     isNew: true,
     downloadlink: "",
     patreonlink: ""
