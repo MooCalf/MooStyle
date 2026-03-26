@@ -432,10 +432,10 @@ export const ProductDetail = () => {
                 </p>
                 <ul className="list-disc list-inside">
                   <li>
-                    <a href="http://localhost:5173/privacy-policy" target="_blank" rel="noreferrer noopener" className="text-teal-600 hover:underline">Privacy Policy</a>
+                    <a href="/privacy-policy" target="_blank" rel="noreferrer noopener" className="text-teal-600 hover:underline">Privacy Policy</a>
                   </li>
                   <li>
-                    <a href="http://localhost:5173/terms-of-service" target="_blank" rel="noreferrer noopener" className="text-teal-600 hover:underline">Terms of Usage</a>
+                    <a href="/terms-of-service" target="_blank" rel="noreferrer noopener" className="text-teal-600 hover:underline">Terms of Service</a>
                   </li>
                 </ul>
               </div>
