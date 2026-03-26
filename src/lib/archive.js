@@ -11,7 +11,20 @@ export const archives = [
     isNew: true,
     downloadlink: "",
     patreonlink: ""
-  } 
+  },
+
+  {
+    id: "archive-002",
+    name: "Wooden Swirled Shelf",
+    images: [
+      "/projects/Products/Archive Images/Wooden Swirled Shelf_Thumbnail_CF.png",
+      "/projects/Products/Archive Images/WSS - Showcase1.jpg",
+    ],
+    description: "A simple steel frame wooden shelf. Holds up to 24 small to medium sized items.",
+    isNew: true,
+    downloadlink: "",
+    patreonlink: ""
+  },
 ];
 
 archives.forEach((a) => {
