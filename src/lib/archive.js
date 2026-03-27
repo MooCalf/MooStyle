@@ -25,6 +25,19 @@ export const archives = [
     downloadlink: "",
     patreonlink: ""
   },
+
+  {
+    id: "archive-003",
+    name: "Rounded Wooden Shelf",
+    images: [
+      "/projects/Products/Archive Images/Rounded Wooden Shelf_Thumbnail_CF.png",
+      "/projects/Products/Archive Images/RWS_Showcase1.jpg",
+    ],
+    description: "A simple curved and rounded wooden shelf for decorative pieces. Holds up to 20+ items total.",
+    isNew: true,
+    downloadlink: "",
+    patreonlink: ""
+  },
 ];
 
 archives.forEach((a) => {
