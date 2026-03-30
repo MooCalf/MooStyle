@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
-import { Download, Star, Sparkles, ArrowRight, Heart, Zap, Users, Shield } from "lucide-react";
+import { Download, Sparkles, ArrowRight, Heart, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
+import { getAllArchives } from "@/lib/archive";
 import { getAllProducts } from "@/lib/shoppingData";
+import { PremiumModsCarousel } from "./PremiumModsCarousel";
 
 export const Pitch = () => {
   // Get actual product count
-  const totalMods = getAllProducts().length;
+  const totalMods = getAllProducts().length + getAllArchives().length;
 
   // Animation variants
   const containerVariants = {
@@ -50,9 +52,9 @@ export const Pitch = () => {
       description: "Quality mods, zero cost"
     },
     {
-      icon: Star,
-      title: "Curated Excellence",
-      description: "Hand-picked and tested"
+      icon: Download,
+      title: `${totalMods} ${totalMods === 1 ? "Mod" : "Mods"} Available`,
+      description: "Across InZOI and Archive"
     },
     {
       icon: Sparkles,
@@ -62,7 +64,7 @@ export const Pitch = () => {
   ];
 
   return (
-    <section className="section-luxury relative overflow-hidden">
+    <section className="section-luxury section-home-premium relative overflow-hidden">
       {/* Decorative floating elements */}
       <motion.div
         variants={floatingVariants}
@@ -112,6 +114,10 @@ export const Pitch = () => {
           <p className="luxury-body text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
             Curated mods crafted with passion. Everything you need to elevate your InZOI experience.
           </p>
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="mb-18">
+          <PremiumModsCarousel />
         </motion.div>
 
         {/* Features Grid */}
@@ -182,58 +188,13 @@ export const Pitch = () => {
                 href="https://www.patreon.com/MOOSTYLES"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 px-10 py-5 bg-white/80 backdrop-blur-sm border-2 border-teal-700 text-teal-800 font-bold rounded-full hover:bg-teal-50/80 transition-all duration-300 shadow-luxury hover:shadow-luxury-hover text-lg"
+                className="group inline-flex items-center gap-3 px-10 py-5 bg-teal-950/10 backdrop-blur-sm border-2 border-teal-700/70 text-teal-800 font-bold rounded-full hover:bg-cyan-900/15 transition-all duration-300 shadow-luxury hover:shadow-luxury-hover text-lg"
               >
                 <Heart className="w-6 h-6 group-hover:fill-current transition-all duration-300" />
                 <span>Support Creator</span>
               </a>
             </motion.div>
           </div>
-
-          <motion.p
-            variants={itemVariants}
-            className="mt-10 text-gray-500 luxury-body"
-          >
-            Quality mods for <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-cyan-600">Quality</span> players!
-          </motion.p>
-        </motion.div>
-
-        {/* Stats Section */}
-        <motion.div
-          variants={itemVariants}
-          className="mt-24 grid grid-cols-3 gap-12 max-w-3xl mx-auto"
-        >
-          {[
-            { number: totalMods, label: totalMods === 1 ? "Mod Available" : "Mods Available", icon: Download },
-            { number: "Free", label: "Access", icon: Shield },
-            { number: "24/7", label: "Support", icon: Users }
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.1 }}
-              className="text-center hover-lift"
-            >
-              <motion.div
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
-                className="inline-flex items-center justify-center w-16 h-16 mb-4 bg-gradient-to-br from-teal-100 via-cyan-100 to-teal-200 rounded-2xl shadow-luxury"
-              >
-                <stat.icon className="w-8 h-8 text-teal-700" />
-              </motion.div>
-              <motion.div
-                initial={{ scale: 0 }}
-                whileInView={{ scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, type: "spring", stiffness: 200 }}
-                className="text-4xl md:text-5xl font-bold gradient-text-luxury mb-3 luxury-heading"
-              >
-                {stat.number}
-              </motion.div>
-              <div className="text-sm text-gray-600 luxury-subheading">
-                {stat.label}
-              </div>
-            </motion.div>
-          ))}
         </motion.div>
       </motion.div>
     </section>

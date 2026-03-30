@@ -1,11 +1,29 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
+const DEFAULT_SITE_URL = 'https://moostyles.com';
+
+const toAbsoluteUrl = (value, siteUrl, fallback = siteUrl) => {
+  if (!value) {
+    return fallback;
+  }
+
+  if (/^https?:\/\//i.test(value)) {
+    return value;
+  }
+
+  if (value.startsWith('/')) {
+    return `${siteUrl}${value}`;
+  }
+
+  return `${siteUrl}/${value}`;
+};
+
 const Metadata = ({
   // Basic SEO
-  pageTitle = "MOOSTYLE - InZOI Mods & Creator Platform",
-  pageDescription = "Discover high-quality InZOI mods, creator resources, and community content at MOOSTYLE. Free downloads, support, and curated mod collections.",
-  keywords = "InZOI mods, MOOSTYLE, game mods, free mods, creator resources, mod downloads, InZOI custom content",
+  pageTitle = "MOOSTYLE | Free InZOI Mods, Archive Builds, and Creator Resources",
+  pageDescription = "Browse free InZOI mods, archived builds, and creator updates from MOOSTYLE. Download brand packs, decor sets, and custom content built for InZOI.",
+  keywords = "MOOSTYLE, InZOI mods, free InZOI mods, InZOI custom content, InZOI downloads, archive builds, decor mods, brand packs",
   
   // Open Graph
   ogTitle = "",
@@ -37,15 +55,15 @@ const Metadata = ({
   // Category-specific (for collection pages)
   category = null
 }) => {
-  const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://moostyle.com';
+  const siteUrl = typeof window !== 'undefined' ? window.location.origin : DEFAULT_SITE_URL;
   const currentUrl = typeof window !== 'undefined' ? window.location.href : siteUrl;
   
   // Determine final values with fallbacks
   const finalTitle = ogTitle || pageTitle;
   const finalDescription = ogDescription || pageDescription;
-  const finalImage = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
-  const finalUrl = ogUrl || currentUrl;
-  const finalCanonical = canonical || finalUrl;
+  const finalImage = toAbsoluteUrl(ogImage, siteUrl);
+  const finalUrl = toAbsoluteUrl(ogUrl, siteUrl, currentUrl);
+  const finalCanonical = toAbsoluteUrl(canonical, siteUrl, finalUrl);
   
   // Twitter fallbacks
   const finalTwitterTitle = twitterTitle || finalTitle;
@@ -60,14 +78,14 @@ const Metadata = ({
       "name": "MOOSTYLE",
       "url": siteUrl,
       "logo": `${siteUrl}/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png`,
-      "description": "Creator platform for high-quality InZOI mods and downloadable content.",
+      "description": "Free InZOI mods, archive builds, and downloadable custom content from MOOSTYLE.",
       "sameAs": [
-        "https://discord.gg/moostyle"
+        "https://www.patreon.com/MOOSTYLES"
       ],
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "customer service",
-        "email": "hello@moocalf.com"
+        "email": "hello@moostyles.com"
       }
     };
 
