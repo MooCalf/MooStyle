@@ -1,10 +1,28 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
+const DEFAULT_SITE_URL = 'https://moostyles.com';
+
+const toAbsoluteUrl = (value, siteUrl, fallback = siteUrl) => {
+  if (!value) {
+    return fallback;
+  }
+
+  if (/^https?:\/\//i.test(value)) {
+    return value;
+  }
+
+  if (value.startsWith('/')) {
+    return `${siteUrl}${value}`;
+  }
+
+  return `${siteUrl}/${value}`;
+};
+
 const SEO = ({
-  title = "MOOSTYLE - InZOI Mods & Creator Platform",
-  description = "Discover high-quality InZOI mods, creator resources, and community content at MOOSTYLE. Free downloads, support, and curated mod collections.",
-  keywords = "InZOI mods, MOOSTYLE, game mods, free mods, creator resources, mod downloads, InZOI custom content",
+  title = "MOOSTYLE | Free InZOI Mods, Archive Builds, and Creator Resources",
+  description = "Browse free InZOI mods, archived builds, and creator updates from MOOSTYLE. Download brand packs, decor sets, and custom content built for InZOI.",
+  keywords = "MOOSTYLE, InZOI mods, free InZOI mods, InZOI custom content, InZOI downloads, archive builds, decor mods, brand packs",
   image = "/projects/Website Branding/MOOSTYLESBANNER.png",
   url = "",
   type = "website",
@@ -16,10 +34,10 @@ const SEO = ({
   noindex = false,
   canonical = ""
 }) => {
-  const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://moostyle.com';
-  const fullUrl = url ? `${siteUrl}${url}` : siteUrl;
-  const fullImage = image.startsWith('http') ? image : `${siteUrl}${image}`;
-  const canonicalUrl = canonical || fullUrl;
+  const siteUrl = typeof window !== 'undefined' ? window.location.origin : DEFAULT_SITE_URL;
+  const fullUrl = toAbsoluteUrl(url, siteUrl, siteUrl);
+  const fullImage = toAbsoluteUrl(image, siteUrl);
+  const canonicalUrl = toAbsoluteUrl(canonical, siteUrl, fullUrl);
 
   return (
     <Helmet>
@@ -75,14 +93,14 @@ const SEO = ({
           "name": "MOOSTYLE",
           "url": siteUrl,
           "logo": `${siteUrl}/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png`,
-          "description": "Creator platform for high-quality InZOI mods and downloadable content.",
+          "description": "Free InZOI mods, archive builds, and downloadable custom content from MOOSTYLE.",
           "sameAs": [
-            "https://discord.gg/moostyle"
+            "https://www.patreon.com/MOOSTYLES"
           ],
           "contactPoint": {
             "@type": "ContactPoint",
             "contactType": "customer service",
-            "email": "hello@moocalf.com"
+            "email": "hello@moostyles.com"
           }
         })}
       </script>

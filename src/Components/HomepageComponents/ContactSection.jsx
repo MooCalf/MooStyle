@@ -98,7 +98,7 @@ export const ContactSection = () => {
   ];
 
   return (
-    <section id="contact" className="section-luxury relative">
+    <section id="contact" className="section-luxury section-home-contact relative">
       <div className="container mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
