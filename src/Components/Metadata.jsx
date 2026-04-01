@@ -28,7 +28,7 @@ const Metadata = ({
   // Open Graph
   ogTitle = "",
   ogDescription = "",
-  ogImage = "/projects/Website Branding/MOOSTYLESBANNER.png",
+  ogImage = "/projects/HeroSection/MOOSTYLESBANNER.png",
   ogUrl = "",
   ogType = "website",
   ogSiteName = "MOOSTYLES",
