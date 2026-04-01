@@ -68,7 +68,7 @@ export const BrandDetail = () => {
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: `${brandData.name} - MooStyle`,
+        title: `${brandData.name} - MOOSTYLES`,
         text: brandData.description,
         url: window.location.href
       });
@@ -111,7 +111,7 @@ export const BrandDetail = () => {
   return (
     <>
       <Metadata 
-        pageTitle={`${brandData.name} - Partnering Brands | MooStyle`}
+        pageTitle={`${brandData.name} - Partnering Brands | MOOSTYLES`}
         pageDescription={brandData.description}
       />
       

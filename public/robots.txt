@@ -1,4 +1,4 @@
-# Robots.txt for MOOSTYLE - InZOI Mods Website
+# Robots.txt for MOOSTYLES - InZOI Mods Website
 # Allow all crawlers to index the site
 
 User-agent: *
@@ -26,5 +26,4 @@ User-agent: *
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://moostyle.com/sitemap.xml
 Sitemap: https://moostyles.com/sitemap.xml

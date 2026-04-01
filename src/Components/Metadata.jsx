@@ -21,9 +21,9 @@ const toAbsoluteUrl = (value, siteUrl, fallback = siteUrl) => {
 
 const Metadata = ({
   // Basic SEO - Optimized for InZOI mod search terms
-  pageTitle = "MOOSTYLE | Best Free InZOI Mods, Downloads & Modding Resources",
-  pageDescription = "Download quality InZOI mods and modding resources at MOOSTYLE. Browse free mods for InZOI, mod downloads, archived builds, custom content, decor packs, and join the InZOI modding community.",
-  keywords = "InZOI mods, InZOI mod downloads, modding InZOI, mods for InZOI, InZOI modding, InZOI mods website, free InZOI mods, InZOI custom content, InZOI downloads, MOOSTYLE, archive builds, InZOI mod resources, InZOI modding community, InZOI mod packs",
+  pageTitle = "MOOSTYLES | Best Free InZOI Mods, Downloads & Modding Resources",
+  pageDescription = "Download quality InZOI mods and modding resources at MOOSTYLES. Browse free mods for InZOI, mod downloads, archived builds, custom content, decor packs, and join the InZOI modding community.",
+  keywords = "InZOI mods, InZOI mod downloads, modding InZOI, mods for InZOI, InZOI modding, InZOI mods website, free InZOI mods, InZOI custom content, InZOI downloads, MOOSTYLES, archive builds, InZOI mod resources, InZOI modding community, InZOI mod packs",
   
   // Open Graph
   ogTitle = "",
@@ -31,7 +31,7 @@ const Metadata = ({
   ogImage = "/projects/Website Branding/MOOSTYLESBANNER.png",
   ogUrl = "",
   ogType = "website",
-  ogSiteName = "MOOSTYLE",
+  ogSiteName = "MOOSTYLES",
   
   // Twitter Cards
   twitterCard = "summary_large_image",
@@ -75,10 +75,10 @@ const Metadata = ({
     const baseData = {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "MOOSTYLE",
+      "name": "MOOSTYLES",
       "url": siteUrl,
       "logo": `${siteUrl}/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png`,
-      "description": "Free InZOI mods, archived builds, and downloadable custom content from MOOSTYLE - Your source for InZOI modding resources and community.",
+      "description": "Free InZOI mods, archived builds, and downloadable custom content from MOOSTYLES - Your source for InZOI modding resources and community.",
       "sameAs": [
         "https://www.patreon.com/MOOSTYLES"
       ],
@@ -97,7 +97,7 @@ const Metadata = ({
     const websiteData = {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "name": "MOOSTYLE",
+      "name": "MOOSTYLES",
       "url": siteUrl,
       "description": finalDescription,
       "potentialAction": {
@@ -149,7 +149,7 @@ const Metadata = ({
         "url": `${siteUrl}/product/${product.id}`,
         "brand": {
           "@type": "Brand",
-          "name": product.brand || "MOOSTYLE"
+          "name": product.brand || "MOOSTYLES"
         },
         "offers": {
           "@type": "Offer",
@@ -158,7 +158,7 @@ const Metadata = ({
           "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
           "seller": {
             "@type": "Organization",
-            "name": "MOOSTYLE"
+            "name": "MOOSTYLES"
           }
         },
         "aggregateRating": product.rating ? {
@@ -191,7 +191,7 @@ const Metadata = ({
         },
         "publisher": {
           "@type": "Organization",
-          "name": "MOOSTYLE",
+          "name": "MOOSTYLES",
           "logo": {
             "@type": "ImageObject",
             "url": `${siteUrl}/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png`
@@ -217,7 +217,7 @@ const Metadata = ({
       const collectionData = {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
-        "name": `${category.name} - MOOSTYLE`,
+        "name": `${category.name} - MOOSTYLES`,
         "description": category.description,
         "url": finalUrl,
         "mainEntity": {
@@ -252,7 +252,7 @@ const Metadata = ({
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-      <meta name="apple-mobile-web-app-title" content="MOOSTYLE" />
+      <meta name="apple-mobile-web-app-title" content="MOOSTYLES" />
       
       {/* Additional SEO Meta Tags */}
       <meta name="revisit-after" content="7 days" />
@@ -278,7 +278,7 @@ const Metadata = ({
         <>
           <meta property="og:price:amount" content={product.price} />
           <meta property="og:price:currency" content="USD" />
-          <meta property="product:brand" content={product.brand || "MOOSTYLE"} />
+          <meta property="product:brand" content={product.brand || "MOOSTYLES"} />
           <meta property="product:availability" content={product.inStock ? "in stock" : "out of stock"} />
           <meta property="product:condition" content="new" />
           <meta property="product:price:amount" content={product.price} />

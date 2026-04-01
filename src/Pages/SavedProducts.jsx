@@ -166,13 +166,13 @@ export const SavedProducts = () => {
   return (
     <>
       <Metadata 
-        pageTitle="Saved Products - MooStyle"
-        pageDescription="View and manage your saved products"
-        ogTitle="Saved Products - MooStyle"
+        pageTitle="Saved Products - MOOSTYLES"
+        pageDescription="View and manage your saved products on MOOSTYLES"
+        ogTitle="Saved Products - MOOSTYLES"
         ogDescription="Access your saved products and manage your favorites"
         ogImage="/projects/Brand Medias/Promotional Content/Promo Poster.png"
         ogType="website"
-        keywords="saved products, favorites, MooStyle"
+        keywords="saved products, favorites, MOOSTYLES, mods"
       />
       
       <div className="min-h-screen">

@@ -70,7 +70,7 @@ const AboutMe = () => {
               >
                 <img
                   src="/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png"
-                  alt="MOOSTYLE Logo"
+                  alt="MOOSTYLES Logo"
                   className="h-8 w-8 object-contain"
                 />
               </motion.div>
@@ -79,8 +79,8 @@ const AboutMe = () => {
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">About MOOSTYLE</h1>
-                <p className="text-gray-600 mt-1">Learn more about MOOSTYLE and our modding mission</p>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">About MOOSTYLES</h1>
+                <p className="text-gray-600 mt-1">Learn more about MOOSTYLES and our modding mission</p>
               </motion.div>
             </div>
           </div>
@@ -104,7 +104,7 @@ const AboutMe = () => {
             >
               <img
                 src="/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png"
-                alt="MOOSTYLE Logo"
+                alt="MOOSTYLES Logo"
                 className="w-24 h-24 object-contain"
               />
             </motion.div>
@@ -114,7 +114,7 @@ const AboutMe = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.6 }}
             >
-              Welcome to MOOSTYLE
+              Welcome to MOOSTYLES
             </motion.h2>
             <motion.p 
               className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
@@ -146,7 +146,7 @@ const AboutMe = () => {
               <h3 className="text-3xl font-bold text-gray-900 mb-6">My Story</h3>
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
-                  Hi! I'm the creator behind MOOSTYLE, and I'm passionate about InZoi modding. 
+                  Hi! I'm the creator behind MOOSTYLES, and I'm passionate about InZoi modding. 
                   What started as a personal hobby of creating mods for my own gameplay has 
                   evolved into a mission to share amazing mods with the entire InZoi community.
                 </p>
@@ -156,7 +156,7 @@ const AboutMe = () => {
                   where I share my journey, tutorials, and connect with fellow modders and gamers.
                 </p>
                 <p>
-                  MOOSTYLE was created with one simple goal: to make high-quality InZoi mods 
+                  MOOSTYLES was created with one simple goal: to make high-quality InZoi mods 
                   accessible to everyone, completely free. I believe that modding should be 
                   about creativity, community, and enhancing the gaming experience for all players.
                 </p>
@@ -285,7 +285,7 @@ const AboutMe = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 2.4 }}
           >
-            Have questions about mods or want to share your MOOSTYLE experience? 
+            Have questions about mods or want to share your MOOSTYLES experience? 
             I'd love to hear from you! Follow me on social media for updates and mod releases.
           </motion.p>
           <motion.div 
