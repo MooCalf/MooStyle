@@ -8,9 +8,9 @@ export const archives = [
       "/projects/Products/Archive Images/WSFS - Showcase2.jpg",
     ],
     description: "A simple steel frame wooden shelf. Holds up to 24 small to medium sized items.",
-    isNew: true,
-    downloadlink: "",
-    patreonlink: ""
+    isNew: false,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/steel-frame-wooden-shelf-0204e68b",
+    patreonlink: "https://www.patreon.com/posts/steel-frame-154530041?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
 
   {
@@ -21,9 +21,9 @@ export const archives = [
       "/projects/Products/Archive Images/WSS - Showcase1.jpg",
     ],
     description: "A simple Wooden Swirled Shelf. Holds one item on each shelf.",
-    isNew: true,
-    downloadlink: "",
-    patreonlink: ""
+    isNew: false,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/wooden-swirled-shelf-1bf8a69c",
+    patreonlink: "https://www.patreon.com/posts/wooden-swirled-154530647?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
 
   {
@@ -35,8 +35,8 @@ export const archives = [
     ],
     description: "A simple curved and rounded wooden shelf for decorative pieces. Holds up to 20+ items total.",
     isNew: true,
-    downloadlink: "",
-    patreonlink: ""
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/rounded-wooden-shelf-39a558bb",
+    patreonlink: "https://www.patreon.com/posts/rounded-wooden-154530898?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
 ];
 
