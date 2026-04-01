@@ -20,10 +20,10 @@ const toAbsoluteUrl = (value, siteUrl, fallback = siteUrl) => {
 };
 
 const Metadata = ({
-  // Basic SEO
-  pageTitle = "MOOSTYLE | Free InZOI Mods, Archive Builds, and Creator Resources",
-  pageDescription = "Browse free InZOI mods, archived builds, and creator updates from MOOSTYLE. Download brand packs, decor sets, and custom content built for InZOI.",
-  keywords = "MOOSTYLE, InZOI mods, free InZOI mods, InZOI custom content, InZOI downloads, archive builds, decor mods, brand packs",
+  // Basic SEO - Optimized for InZOI mod search terms
+  pageTitle = "MOOSTYLE | Best Free InZOI Mods, Downloads & Modding Resources",
+  pageDescription = "Download quality InZOI mods and modding resources at MOOSTYLE. Browse free mods for InZOI, mod downloads, archived builds, custom content, decor packs, and join the InZOI modding community.",
+  keywords = "InZOI mods, InZOI mod downloads, modding InZOI, mods for InZOI, InZOI modding, InZOI mods website, free InZOI mods, InZOI custom content, InZOI downloads, MOOSTYLE, archive builds, InZOI mod resources, InZOI modding community, InZOI mod packs",
   
   // Open Graph
   ogTitle = "",
@@ -78,7 +78,7 @@ const Metadata = ({
       "name": "MOOSTYLE",
       "url": siteUrl,
       "logo": `${siteUrl}/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png`,
-      "description": "Free InZOI mods, archive builds, and downloadable custom content from MOOSTYLE.",
+      "description": "Free InZOI mods, archived builds, and downloadable custom content from MOOSTYLE - Your source for InZOI modding resources and community.",
       "sameAs": [
         "https://www.patreon.com/MOOSTYLES"
       ],
@@ -86,10 +86,14 @@ const Metadata = ({
         "@type": "ContactPoint",
         "contactType": "customer service",
         "email": "hello@moostyles.com"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "US"
       }
     };
 
-    // Add Website schema
+    // Add Website schema with search action
     const websiteData = {
       "@context": "https://schema.org",
       "@type": "WebSite",
@@ -98,12 +102,41 @@ const Metadata = ({
       "description": finalDescription,
       "potentialAction": {
         "@type": "SearchAction",
-        "target": `${siteUrl}/brands?search={search_term_string}`,
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": `${siteUrl}/brands?search={search_term_string}`
+        },
         "query-input": "required name=search_term_string"
       }
     };
 
-    const structuredData = [baseData, websiteData];
+    // Add Breadcrumb schema for better navigation understanding
+    const breadcrumbData = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": siteUrl
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "InZOI Mods",
+          "item": `${siteUrl}/brands`
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Archive",
+          "item": `${siteUrl}/archive`
+        }
+      ]
+    };
+
+    const structuredData = [baseData, websiteData, breadcrumbData];
 
     // Add Product schema if product data is provided
     if (product) {
@@ -213,7 +246,23 @@ const Metadata = ({
       
       {/* Robots */}
       {noindex && <meta name="robots" content="noindex,nofollow" />}
-      {!noindex && <meta name="robots" content="index,follow" />}
+      {!noindex && <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
+      
+      {/* Mobile Optimization */}
+      <meta name="mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+      <meta name="apple-mobile-web-app-title" content="MOOSTYLE" />
+      
+      {/* Additional SEO Meta Tags */}
+      <meta name="revisit-after" content="7 days" />
+      <meta name="language" content="English" />
+      <meta name="rating" content="general" />
+      <meta name="distribution" content="global" />
+      
+      {/* Google-specific tags */}
+      <meta name="googlebot" content="index, follow" />
+      <meta name="bingbot" content="index, follow" />
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={ogType} />

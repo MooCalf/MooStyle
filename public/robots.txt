@@ -1,0 +1,30 @@
+# Robots.txt for MOOSTYLE - InZOI Mods Website
+# Allow all crawlers to index the site
+
+User-agent: *
+Allow: /
+
+# Disallow private/sensitive paths
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /*.json$
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Disallow: *?utm_source=
+Disallow: *?utm_campaign=
+
+# Allow specific search engine crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Crawl delay for other bots (in seconds)
+User-agent: *
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://moostyle.com/sitemap.xml
+Sitemap: https://moostyles.com/sitemap.xml
