@@ -176,10 +176,10 @@ export const NavigationBar = () => {
               >
                 <img
                   src="/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png"
-                  alt="MooStyle Logo"
+                  alt="MOOSTYLES Logo"
                   className="navbar-logo-image"
                 />
-                <span className="navbar-logo-text hidden sm:inline">MOOSTYLE</span>
+                <span className="navbar-logo-text hidden sm:inline">MOOSTYLES</span>
               </Link>
             </motion.div>
           </div>

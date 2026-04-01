@@ -102,7 +102,7 @@ export const Pitch = () => {
           >
             <span className="luxury-subheading px-6 py-3 bg-gradient-to-r from-teal-50/80 via-cyan-50/80 to-teal-100/80 backdrop-blur-sm text-teal-700 rounded-full inline-flex items-center gap-2 border border-teal-200/50 shadow-lg">
               <Zap className="w-4 h-4" />
-              Welcome to MOOSTYLE
+              Welcome to MOOSTYLES
             </span>
           </motion.div>
           <h2 className="luxury-heading text-5xl md:text-6xl lg:text-7xl font-bold mb-8 text-gray-900">

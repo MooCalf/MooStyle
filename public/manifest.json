@@ -1,7 +1,7 @@
 {
-  "name": "MOOSTYLE - InZOI Mods",
-  "short_name": "MOOSTYLE",
-  "description": "Browse free InZOI mods, archive builds, and creator updates from MOOSTYLE.",
+  "name": "MOOSTYLES - InZOI Mods",
+  "short_name": "MOOSTYLES",
+  "description": "Browse free InZOI mods, archive builds, and creator updates from MOOSTYLES.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

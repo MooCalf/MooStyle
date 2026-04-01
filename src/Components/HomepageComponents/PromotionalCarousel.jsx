@@ -65,7 +65,7 @@ export const PromotionalCarousel = () => {
           <img
             key={imagePath}
             src={imagePath}
-            alt="MooStyle Banner"
+            alt="MOOSTYLES Banner"
             className={`hero-banner-image ${
               index === activeIndex ? "hero-banner-image-active" : "hero-banner-image-inactive"
             }`}

@@ -75,20 +75,20 @@ export const Footer = () => {
         </div>
       </div>
 
-      {/* Row 2: Logo and Large MOOSTYLE Text */}
+      {/* Row 2: Logo and Large MOOSTYLES Text */}
       <div className="py-6 sm:py-8 lg:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          {/* MOOSTYLE Logo */}
+          {/* MOOSTYLES Logo */}
           <div className="mb-4 sm:mb-6">
             <img
               src="/projects/Website Branding/MOOSTYLES LOGO - TEAL DARKCOLOR.png"
-              alt="MOOSTYLE Logo"
+              alt="MOOSTYLES Logo"
               className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 mx-auto object-contain"
             />
           </div>
-          {/* Large MOOSTYLE Text */}
+          {/* Large MOOSTYLES Text */}
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white tracking-tight opacity-90">
-            MOOSTYLE
+            MOOSTYLES
           </h2>
         </div>
       </div>
@@ -99,7 +99,7 @@ export const Footer = () => {
           <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
             {/* Left: Copyright */}
             <div className="text-sm text-white">
-              Copyright © 2025 MOOSTYLE.COM. All rights reserved.
+              Copyright © 2025 MOOSTYLES.COM. All rights reserved.
             </div>
 
             {/* Right: Scroll to Top Button */}

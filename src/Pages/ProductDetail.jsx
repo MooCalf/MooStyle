@@ -155,13 +155,13 @@ export const ProductDetail = () => {
   return (
     <>
       <Metadata 
-        pageTitle={`${product.name} - ${product.brand} | MooStyle`}
+        pageTitle={`${product.name} - ${product.brand} | MOOSTYLES`}
         pageDescription={product.description}
-        ogTitle={`${product.name} by ${product.brand} - Premium Asian Fashion | MooStyle`}
-        ogDescription={`${product.description} Shop now at MooStyle for authentic Asian fashion and beauty products. ${product.rating ? `⭐ ${product.rating}/5 stars` : ''} ${product.inStock ? 'In Stock' : 'Limited Stock'}.`}
+        ogTitle={`${product.name} by ${product.brand} - Premium Content | MOOSTYLES`}
+        ogDescription={`${product.description} Shop now at MOOSTYLES for authentic content and products.`}
         ogImage={product.image}
         ogType="product"
-        keywords={`${product.name}, ${product.brand}, ${product.tags?.join(', ') || ''}, Asian fashion, Korean beauty, Japanese streetwear, MooStyle`}
+        keywords={`${product.name}, ${product.brand}, ${product.tags?.join(', ') || ''}, Asian fashion, Korean beauty, Japanese streetwear, MOOSTYLES`}
         product={product}
       />
       

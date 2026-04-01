@@ -12,9 +12,9 @@ const InZOI = () => {
   return (
     <>
       <Metadata
-        pageTitle="InZOI Mods - Browse Free Mods, Brands & Custom Content | MOOSTYLE"
-        pageDescription="Browse our complete collection of free InZOI mods, mod packs, brands, and custom content. Download mods for InZOI from MOOSTYLE. Featuring decor sets, brand packs, InZOI modding resources, and community-made content. Perfect for InZOI players looking to enhance their game."
-        keywords="InZOI mods, mods for InZOI, InZOI mod downloads, free InZOI mods, InZOI brand packs, InZOI decor mods, InZOI custom content, InZOI modding community, mod collections, MOOSTYLE mods, InZOI mod resources"
+        pageTitle="InZOI Mods - Browse Free Mods, Brands & Custom Content | MOOSTYLES"
+        pageDescription="Browse our complete collection of free InZOI mods, mod packs, brands, and custom content. Download mods for InZOI from MOOSTYLES. Featuring decor sets, brand packs, InZOI modding resources, and community-made content. Perfect for InZOI players looking to enhance their game."
+        keywords="InZOI mods, mods for InZOI, InZOI mod downloads, free InZOI mods, InZOI brand packs, InZOI decor mods, InZOI custom content, InZOI modding community, mod collections, MOOSTYLES mods, InZOI mod resources"
         canonical="/brands"
         ogUrl="/brands"
       />

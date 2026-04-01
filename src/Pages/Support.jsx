@@ -61,8 +61,8 @@ export const Support = () => {
   return (
     <>
       <Metadata 
-        pageTitle="Support - MooStyle"
-        pageDescription="Get help with your MooStyle account, technical issues, and general support"
+        pageTitle="Support - MOOSTYLES"
+        pageDescription="Get help with your MOOSTYLES account, technical issues, and general support"
       />
       
       <div className="min-h-screen">
@@ -87,11 +87,11 @@ export const Support = () => {
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Technical Support</h3>
               <p className="text-gray-600 mb-4">For technical issues and general help</p>
               <a 
-                href="mailto:support@moostyle.com"
+                href="mailto:support@moostyles.com"
                 className="inline-flex items-center px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
               >
                 <Mail size={16} className="mr-2" />
-                support@moostyle.com
+                support@moostyles.com
               </a>
             </div>
 

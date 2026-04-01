@@ -13,9 +13,9 @@ export const Archive = () => {
   return (
     <>
       <Metadata
-        pageTitle="InZOI Mods Archive - Classic & Legacy Mods | MOOSTYLE"
+        pageTitle="InZOI Mods Archive - Classic & Legacy Mods | MOOSTYLES"
         pageDescription="Explore our archive of classic and legacy InZOI mods from past updates. Browse archived InZOI modding creations, vintage mod collections, and historical custom content. Discover timeless mods for InZOI that shaped the modding community."
-        keywords="InZOI archive, legacy InZOI mods, classic InZOI mods, archived mods, InZOI modding history, vintage mods, InZOI mod archives, classic mod collections, MOOSTYLE archive, InZOI mod history"
+        keywords="InZOI archive, legacy InZOI mods, classic InZOI mods, archived mods, InZOI modding history, vintage mods, InZOI mod archives, classic mod collections, MOOSTYLES archive, InZOI mod history"
         canonical="/archive"
         ogUrl="/archive"
       />

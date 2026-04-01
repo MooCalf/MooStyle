@@ -12,8 +12,8 @@ export const NotFound = () => {
   return (
     <>
       <SEO
-        title="Page Not Found - MOOSTYLE"
-        description="The page you're looking for doesn't exist. Return to MOOSTYLE homepage to explore our Asian fashion and beauty products."
+        title="Page Not Found - MOOSTYLES"
+        description="The page you're looking for doesn't exist. Return to MOOSTYLES homepage to explore our Asian fashion and beauty products."
         noindex={true}
       />
       
@@ -135,7 +135,7 @@ export const ServerError = () => {
   return (
     <>
       <SEO
-        title="Server Error - MOOSTYLE"
+        title="Server Error - MOOSTYLES"
         description="We're experiencing technical difficulties. Please try again later or contact support if the problem persists."
         noindex={true}
       />

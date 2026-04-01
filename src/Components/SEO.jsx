@@ -20,9 +20,9 @@ const toAbsoluteUrl = (value, siteUrl, fallback = siteUrl) => {
 };
 
 const SEO = ({
-  title = "MOOSTYLE | Free InZOI Mods, Archive Builds, and Creator Resources",
-  description = "Browse free InZOI mods, archived builds, and creator updates from MOOSTYLE. Download brand packs, decor sets, and custom content built for InZOI.",
-  keywords = "MOOSTYLE, InZOI mods, free InZOI mods, InZOI custom content, InZOI downloads, archive builds, decor mods, brand packs",
+  title = "MOOSTYLES | Free InZOI Mods, Archive Builds, and Creator Resources",
+  description = "Browse free InZOI mods, archived builds, and creator updates from MOOSTYLES. Download brand packs, decor sets, and custom content built for InZOI.",
+  keywords = "MOOSTYLES, InZOI mods, free InZOI mods, InZOI custom content, InZOI downloads, archive builds, decor mods, brand packs",
   image = "/projects/Website Branding/MOOSTYLESBANNER.png",
   url = "",
   type = "website",
@@ -58,7 +58,7 @@ const SEO = ({
       <meta property="og:description" content={description} />
       <meta property="og:image" content={fullImage} />
       <meta property="og:url" content={fullUrl} />
-      <meta property="og:site_name" content="MOOSTYLE" />
+      <meta property="og:site_name" content="MOOSTYLES" />
       <meta property="og:locale" content="en_US" />
       
       {/* Twitter */}
@@ -90,10 +90,10 @@ const SEO = ({
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
-          "name": "MOOSTYLE",
+          "name": "MOOSTYLES",
           "url": siteUrl,
           "logo": `${siteUrl}/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png`,
-          "description": "Free InZOI mods, archive builds, and downloadable custom content from MOOSTYLE.",
+          "description": "Free InZOI mods, archive builds, and downloadable custom content from MOOSTYLES.",
           "sameAs": [
             "https://www.patreon.com/MOOSTYLES"
           ],
@@ -110,7 +110,7 @@ const SEO = ({
         {JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          "name": "MOOSTYLE",
+          "name": "MOOSTYLES",
           "url": siteUrl,
           "description": description
         })}
@@ -132,7 +132,7 @@ const SEO = ({
             },
             "publisher": {
               "@type": "Organization",
-              "name": "MOOSTYLE",
+              "name": "MOOSTYLES",
               "logo": {
                 "@type": "ImageObject",
                 "url": `${siteUrl}/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png`
