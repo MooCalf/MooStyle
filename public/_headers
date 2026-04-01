@@ -1,3 +1,7 @@
+#############################################
+# SEO & Performance Headers
+#############################################
+
 # Static Assets - Cache for 1 year
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
@@ -8,14 +12,37 @@
   Cache-Control: public, max-age=2592000
   X-Content-Type-Options: nosniff
 
-# HTML Pages - Cache for 1 hour
+# HTML Pages - SEO & Caching Optimized
 /*
   Cache-Control: public, max-age=3600
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  X-UA-Compatible: IE=Edge
 
+# XML Sitemaps & Robots - No cache
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+  Content-Type: application/xml; charset=utf-8
+
+/robots.txt
+  Cache-Control: public, max-age=604800
+  Content-Type: text/plain; charset=utf-8
+
+# RSS/Feed files
+/*.xml
+  Content-Type: application/xml; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+# JSON files (except service worker)
+/*.json
+  Content-Type: application/json; charset=utf-8
+  Cache-Control: public, max-age=3600
+
+#############################################
 # SECURITY: Block dangerous file types
+#############################################
 /*.config
 /*.conf
 /*.ini

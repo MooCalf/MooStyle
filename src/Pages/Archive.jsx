@@ -13,8 +13,11 @@ export const Archive = () => {
   return (
     <>
       <Metadata
-        pageTitle="Archive - MooStyle"
-        pageDescription="Check out older content I've made in the past that is still worthy of its own showcase room."
+        pageTitle="InZOI Mods Archive - Classic & Legacy Mods | MOOSTYLE"
+        pageDescription="Explore our archive of classic and legacy InZOI mods from past updates. Browse archived InZOI modding creations, vintage mod collections, and historical custom content. Discover timeless mods for InZOI that shaped the modding community."
+        keywords="InZOI archive, legacy InZOI mods, classic InZOI mods, archived mods, InZOI modding history, vintage mods, InZOI mod archives, classic mod collections, MOOSTYLE archive, InZOI mod history"
+        canonical="/archive"
+        ogUrl="/archive"
       />
 
       <div className="min-h-screen">

@@ -9,9 +9,9 @@ import { WebsiteBackground } from "@/Components/WebsiteBackground";
 export const Home = () => (
   <>
     <Metadata
-      pageTitle="MOOSTYLE | Free InZOI Mods, Archive Builds, and Creator Updates"
-      pageDescription="Explore free InZOI mods, archived builds, and creator updates from MOOSTYLE. Browse custom brands, decor sets, and downloadable content made for InZOI players."
-      keywords="MOOSTYLE, free InZOI mods, InZOI custom content, InZOI downloads, archive builds, InZOI decor mods, InZOI brand packs"
+      pageTitle="MOOSTYLE | Free InZOI Mods, Downloads & Modding Community Platform"
+      pageDescription="Discover and download high-quality InZOI mods at MOOSTYLE. Your ultimate destination for InZOI modding resources, archived builds, mod packs, and community updates. Free InZOI mods, custom content, and modding tutorials for all players."
+      keywords="InZOI mods, free InZOI mods, InZOI mod downloads, modding InZOI, mods for InZOI, InZOI modding, InZOI mods website, InZOI custom content, MOOSTYLE, archived builds, mod packs, InZOI modding community, InZOI resources"
       canonical="/"
       ogUrl="/"
     />
