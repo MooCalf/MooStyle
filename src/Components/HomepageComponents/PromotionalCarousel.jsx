@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const HERO_IMAGES = [
+  "/projects/HeroSection/PITAPATA - ADVERTISING.png",
   "/projects/HeroSection/MOOR - Brand Launch.png",
-  "/projects/HeroSection/MOOSTYLESBANNER.png",
 ];
 
 export const PromotionalCarousel = () => {
@@ -23,7 +23,7 @@ export const PromotionalCarousel = () => {
   }, []);
 
   const handleScrollDown = () => {
-    const duration = 2000;
+    const duration = 300;
     const startY = window.scrollY;
     const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
     const targetY = Math.min(startY + window.innerHeight, maxScrollY);
