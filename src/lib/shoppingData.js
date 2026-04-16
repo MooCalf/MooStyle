@@ -78,8 +78,8 @@ export const shoppingCategories = {
         ],
         tags: ["Chibi", "Characters", "Youtubers", "PITAPATA"],
         isNew: true,
-        downloadlink: "",
-        patreonlink: "",
+        downloadlink: "https://www.curseforge.com/inzoi/build-mode/pitapata-74c2b4c5",
+        patreonlink: "https://www.patreon.com/posts/pitapata-155793436?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link",
         howToUse: "",
 
       },
