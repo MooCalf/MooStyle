@@ -58,6 +58,31 @@ export const shoppingCategories = {
         howToUse: "",
 
       },
+
+// PITAPATA PRODUCT BRAND
+      {
+        id: "PITAPATA-001",
+        name: "PITAPATA",
+        nameColor: "#ffffff",
+        brand: "PITAPATA",
+        image: "/projects/Products/PITAPATA/PITAPATA_Thumbnail_CF.png",
+        images: [
+          "/projects/Products/PITAPATA/PITA_Thumbnail_CF.png",
+          "/projects/Products/PITAPATA/Kevin-SugarZoi_Thumbnail_CF.png"
+        ],
+        description: "PITAPATA is a character brand centered around making collectible chibi-style avatars inspired by YouTubers and creators within the inZOI communityy here",
+        detailedDescription: "PITAPATA is a character brand centered around making collectible chibi-style avatars inspired by YouTubers and creators within the inZOI community. Explore playful, stylized miniature characters with oversized heads and simple outfits with recognizable traits that reflect each creator’s identity. ",
+        features: [
+          "Cute and Collectible Chibi Avatars",
+          "Influencers and Creators from the inZOI Community"
+        ],
+        tags: ["Chibi", "Characters", "Youtubers", "PITAPATA"],
+        isNew: true,
+        downloadlink: "",
+        patreonlink: "",
+        howToUse: "",
+
+      },
     ]
   }
 };
