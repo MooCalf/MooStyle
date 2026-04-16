@@ -1633,6 +1633,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: height 0.5s ease-in-out;
 }
 
 /* Hero Banner Image Wrapper */
@@ -1657,6 +1658,7 @@
   display: block;
   opacity: 0;
   transition: opacity 2.8s ease-in-out;
+  aspect-ratio: 16 / 9;
 }
 
 .hero-banner-image-active {
@@ -1723,7 +1725,8 @@
 /* Hero Banner Responsive - Tablet */
 @media (max-width: 768px) {
   .hero-banner-container {
-    min-height: 500px;
+    height: 70vh;
+    min-height: 400px;
   }
   
   .hero-scroll-button {
@@ -1736,7 +1739,8 @@
 /* Hero Banner Responsive - Mobile */
 @media (max-width: 480px) {
   .hero-banner-container {
-    min-height: 400px;
+    height: 50vh;
+    min-height: 300px;
   }
   
   .hero-scroll-button {
