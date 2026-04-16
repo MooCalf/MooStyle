@@ -3,7 +3,6 @@ import { Download, Sparkles, ArrowRight, Heart, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { getAllArchives } from "@/lib/archive";
 import { getAllProducts } from "@/lib/shoppingData";
-import { PremiumModsCarousel } from "./PremiumModsCarousel";
 
 export const Pitch = () => {
   // Get actual product count
@@ -114,10 +113,6 @@ export const Pitch = () => {
           <p className="luxury-body text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
             Curated mods crafted with passion. Everything you need to elevate your InZOI experience.
           </p>
-        </motion.div>
-
-        <motion.div variants={itemVariants} className="mb-18">
-          <PremiumModsCarousel />
         </motion.div>
 
         {/* Features Grid */}
