@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Heart, Menu, X } from 'lucide-react';
+import { Heart, Menu, X, Link as LinkIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
 import SearchQuery from '@/Components/SearchQuery';
 import { getGlobalSearchData } from '@/lib/globalSearchData';
@@ -231,6 +231,23 @@ export const NavigationBar = () => {
                 onMouseLeave={() => setHoveredIcon(null)}
               >
                 <Heart size={20} color={getHeartColor()} />
+              </Link>
+            </motion.div>
+
+            {/* Links Icon */}
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              <Link
+                to="/links"
+                className="navbar-icon-button"
+                title="Links"
+                onMouseEnter={() => setHoveredIcon('links')}
+                onMouseLeave={() => setHoveredIcon(null)}
+              >
+                <LinkIcon size={20} color={getIconColor('links')} />
               </Link>
             </motion.div>
 
