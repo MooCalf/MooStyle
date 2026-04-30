@@ -14,6 +14,7 @@ import { PrivacyPolicy } from "./Pages/PrivacyPolicy";
 import { TermsOfService } from "./Pages/TermsOfService";
 import { NotFound } from "./Pages/NotFound";
 import { Offline } from "./Pages/Offline";
+import { Links } from "./Pages/Links";
 import ErrorBoundary from "./Components/ErrorBoundary";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="/offline" element={<Offline />} />
+              <Route path="/links" element={<Links />} />
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/brand/:id" element={<BrandDetail />} />
               <Route path="/brands" element={<InZOI />} />

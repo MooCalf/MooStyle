@@ -1290,3 +1290,72 @@ img {
     font-size: 14px;
   }
 }
+
+/* Links Page Styling */
+.links-button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.links-button:hover {
+  border-color: #0d9488;
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.15);
+}
+
+.links-button:active {
+  transform: scale(0.98);
+}
+
+.links-button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: #f3f4f6;
+  color: #6b7280;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.links-button:hover .links-button-icon {
+  /* Color handled by inline style */
+}
+
+.links-button-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: left;
+}
+
+.links-button-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.links-button-description {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.links-button-arrow {
+  color: #9ca3af;
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+/* Arrow color handled by inline style on hover */

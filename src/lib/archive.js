@@ -47,9 +47,35 @@ export const archives = [
       "/projects/Products/Archive Images/LongRoundedTable/LRT_Showcase1.jpg",
     ],
     description: "A simple curved and rounded wooden shelf for decorative pieces. Holds up to 20+ items total.",
-    isNew: true,
+    isNew: false,
     downloadlink: "https://www.curseforge.com/inzoi/build-mode/long-rounded-table-8e12edc1",
     patreonlink: "https://www.patreon.com/posts/long-rounded-155742726"
+  },
+
+  {
+    id: "archive-005",
+    name: "Small Side Tab;e",
+    images: [
+      "/projects/Products/Archive Images/Small Side Table/Small Side Table_Thumbnail_CF.png",
+      "/projects/Products/Archive Images/Small Side Table/SST - Showcase1.jpg",
+    ],
+    description: "A side table with a simple design and a minimalistic appeal.",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/small-side-table-fefb2fa0",
+    patreonlink: "https://www.patreon.com/posts/small-side-table-157011345?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+
+  {
+    id: "archive-006",
+    name: "Mirrored Shelf",
+    images: [
+      "/projects/Products/Archive Images/Mirrored Shelf/Mirrored Shelf_Thumbnail_CF.png",
+      "/projects/Products/Archive Images/Mirrored Shelf/MS - Showcase1.jpg",
+    ],
+    description: "A simple and minimalistic shelf capable of neatly storing multiple rows of decoration.",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/mirrored-shelf-2b73a820",
+    patreonlink: "https://www.patreon.com/posts/mirrored-shelf-157011682?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
 ];
 
