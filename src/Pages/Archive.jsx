@@ -74,7 +74,7 @@ function ArchiveGrid({ items = [], onItemClick }) {
             }}
           >
             <div className="relative w-full aspect-[4/3] bg-gray-200">
-              <img src={item.images?.[0]} alt={item.name} className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" />
+              <img src={item.image || item.images?.[0]} alt={item.name} className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-105" />
 
               {/* NEW badge */}
               {item.isNew && (
@@ -97,7 +97,7 @@ function ArchiveGrid({ items = [], onItemClick }) {
 
       {page < totalPages && (
         <div className="mt-8 flex justify-center">
-          <button onClick={handleLoadMore} className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-full">Load more</button>
+          <button onClick={handleLoadMore} className="px-6 py-3 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-semibold transition-colors">Load more</button>
         </div>
       )}
     </>

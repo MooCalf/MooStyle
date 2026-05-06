@@ -12,15 +12,12 @@ export const Footer = () => {
 
   const footerSections = [
     {
-      title: "Downloads",
-      links: [
-        { name: "Browse Mods", href: "/brands" }
-      ]
-    },
-    {
       title: "Socials",
       links: [
-        { name: "Patreon", href: "https://www.patreon.com/MOOSTYLES" }
+        { name: "Patreon", href: "https://www.patreon.com/c/MOOSTYLES" },
+        { name: "Instagram", href: "https://www.instagram.com/moostyles_inzoi/" },
+        { name: "CurseForge", href: "https://www.curseforge.com/members/moocalf" },
+        { name: "Pinterest", href: "https://pin.it/Zz1UgHeLi" }
       ]
     },
     {
@@ -34,7 +31,9 @@ export const Footer = () => {
       title: "Resources",
       links: [
         { name: "InZoi ModKit", href: "https://mod-docs.playinzoi.com" },
-        { name: "Modding Guidelines", href: "https://playinzoi.com/guide/mod" }
+        { name: "Modding Guidelines", href: "https://playinzoi.com/guide/mod" },
+        { name: "r/InZOIMods Discord", href: "https://discord.gg/Dpr5cs7TQc" },
+        { name: "r/inZOIMods Subreddit", href: "https://www.reddit.com/r/inZOIMods/" }
       ]
     },
     {

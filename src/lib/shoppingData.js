@@ -34,31 +34,6 @@ export const shoppingCategories = {
 
       },
 
-      // MOOR PRODUCT BRAND
-      {
-        id: "MOOR-001",
-        name: "MOOR",
-        nameColor: "#ffffff",
-        brand: "MOOR",
-        image: "/projects/Products/MOOR Brand/MOOR - Logo Design - Cover.png",
-        images: [
-          "",
-        ],
-        description: "When Luxury isn't enough.",
-        detailedDescription: "A full on brand experience for MOOR, your go to brand for high end, modern and luxury devices.",
-        features: [
-          "High End Luxury Devices ",
-          "Sleek and Modern Designs",
-          "Perfect for Tech Enthusiasts and Luxury Lovers"
-        ],
-        tags: ["Electronics", "Computer", "Luxury", "MOOR"],
-        isNew: true,
-        downloadlink: "",
-        patreonlink: "",
-        howToUse: "",
-
-      },
-
 // PITAPATA PRODUCT BRAND
       {
         id: "PITAPATA-001",
