@@ -54,15 +54,16 @@ export const archives = [
 
   {
     id: "archive-005",
-    name: "Small Side Tab;e",
+    name: "Small Side Table",
+    image: "/projects/Products/Archive Images/Small Side Table/Small Side Table_Thumbnail_CF.png",
     images: [
-      "/projects/Products/Archive Images/Small Side Table/Small Side Table_Thumbnail_CF.png",
       "/projects/Products/Archive Images/Small Side Table/SST - Showcase1.jpg",
+      "/projects/Products/Archive Images/Small Side Table/Small Side Table_Thumbnail_CF.png",
     ],
     description: "A side table with a simple design and a minimalistic appeal.",
     isNew: true,
-    downloadlink: "https://www.curseforge.com/inzoi/build-mode/small-side-table-fefb2fa0",
-    patreonlink: "https://www.patreon.com/posts/small-side-table-157011345?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+    downloadlink: "",
+    patreonlink: ""
   },
 
   {
@@ -77,6 +78,135 @@ export const archives = [
     downloadlink: "https://www.curseforge.com/inzoi/build-mode/mirrored-shelf-2b73a820",
     patreonlink: "https://www.patreon.com/posts/mirrored-shelf-157011682?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
+
+  {
+    id: "archive-007",
+    name: "Executive Desk",
+    image: "/projects/Products/Archive Images/Executive Desk/Executive Desk_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/Executive Desk/Showcase1.jpg",
+      "/projects/Products/Archive Images/Executive Desk/Executive Desk_Thumbnail_CF.png",
+    ],
+    description: "A commanding executive desk designed to for a workspace with both presence and practicality. Its large surface provides generous room for multitasking, accommodating multiple monitors, documents, and meeting materials without feeling crowded.",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/executive-desk-66d08df6",
+    patreonlink: "https://www.patreon.com/posts/executive-desk-157491464?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+
+  {
+    id: "archive-008",
+    name: "JellyFish Light",
+    image: "/projects/Products/Archive Images/JellyFish Light/JellyFish Light_Thumbnail.png",
+    images: [
+      "/projects/Products/Archive Images/JellyFish Light/Showcase1.jpg",
+      "/projects/Products/Archive Images/JellyFish Light/JellyFish Light_Thumbnail.png",
+    ],
+    description: "A whimsical, jellyfish inspired ceiling light that brings a soft, playful look into a room. Its rounded silhouette mimics a gentle, floating form of a jellyfish.",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/jellyfishing-lighting-69fafe51",
+    patreonlink: "https://www.patreon.com/posts/jelly-fishing-157491920?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+
+  {
+    id: "archive-009",
+    name: "Glass Coffee Table",
+    image: "/projects/Products/Archive Images/Glass Coffee Table/Glass Coffee Table_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/Glass Coffee Table/GCT_Showcase1.jpg",
+      "/projects/Products/Archive Images/Glass Coffee Table/Glass Coffee Table_Thumbnail_CF.png",
+    ],
+    description: "A simple, elegant looking coffee table for placing your beautiful decorations...and maybe a coffee or two",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/glass-coffee-table-6ef22060",
+    patreonlink: "https://www.patreon.com/posts/glass-coffee-157491562?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+
+  {
+    id: "archive-010",
+    name: "Stylized Glass Side Table",
+    image: "/projects/Products/Archive Images/Stylized Glass Side Table/StylizedGlassSideTable_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/Stylized Glass Side Table/Showcase1.jpg",
+      "/projects/Products/Archive Images/Stylized Glass Side Table/StylizedGlassSideTable_Thumbnail_CF.png",
+    ],
+    description: "A strikingly red, bold, side table that combines transparency, structure, and color into a geometric form. A deep red translucent panel, that pieces a layered visual effect, revealing its internal framework.",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/stylized-glass-side-table-33140953",
+    patreonlink: "https://www.patreon.com/posts/stylized-glass-157491325?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+
+  {
+    id: "archive-011",
+    name: "IROE Coffee Table",
+    image: "/projects/Products/Archive Images/IROE Coffee Table/IROE Coffee Table_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/IROE Coffee Table/Showcase1.jpg",
+      "/projects/Products/Archive Images/IROE Coffee Table/IROE Coffee Table_Thumbnail_CF.png",
+    ],
+    description: "The IROE Coffee Table features a perfectly rounded tabletop with a smooth, high gloss finish that subtly reflects light, adding depth and warmth to its surface. Its clean circular form encourages natural flow within a space, making it an inviting centerpiece for living areas.",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/iroe-coffee-table-820c4313",
+    patreonlink: "https://www.patreon.com/posts/iroe-coffee-157491742?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+
+  {
+    id: "archive-012",
+    name: "LoWave Circular Side Table",
+    image: "/projects/Products/Archive Images/LoWave Circular Side Table/LoWave Circular Side Table_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/LoWave Circular Side Table/Showcase1.jpg",
+      "/projects/Products/Archive Images/LoWave Circular Side Table/LoWave Circular Side Table_Thumbnail_CF.png",
+    ],
+    description: "LoWave Circular Side Table was made for the purpose of smoothing the atmosphere beside your rest areas. Preventing sharp corners and stubbing your toes, its truly a nice side piece for a calm atmospheric room.",
+    isNew: true,
+    downloadlink: "https://www.patreon.com/posts/lowave-circular-157492083?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link",
+    patreonlink: "https://www.curseforge.com/inzoi/build-mode/lowave-circular-side-table-c5868295"
+  },
+
+  {
+    id: "archive-013",
+    name: "Stylized Metal TV Stand",
+    image: "/projects/Products/Archive Images/Stylized Metal TV Stand/Stylized Metal TV Stand_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/Stylized Metal TV Stand/Showcase1.jpg",
+      "/projects/Products/Archive Images/Stylized Metal TV Stand/Stylized Metal TV Stand_Thumbnail_CF.png",
+    ],
+    description: "A sleek, sculptural table defined by its continuous flowing form and soft, rounded edges. Crafted from a single bent surface, creating a seamless loop that transitions effortlessly between the tabletop and base.",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/stylize-metal-tv-stand-3b2cc361",
+    patreonlink: "https://www.patreon.com/posts/stylize-metal-tv-157490912?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+
+
+  {
+    id: "archive-014",
+    name: "Square Wall Shelf",
+    image: "/projects/Products/Archive Images/Square Wall Shelf/Square Wall Shelf_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/Square Wall Shelf/Showcase1.jpg",
+      "/projects/Products/Archive Images/Square Wall Shelf/Square Wall Shelf_Thumbnail_CF.png",
+    ],
+    description: "A simple square wall mounted shelf. Much larger than it looks, it truly is the best piece for holding all those books you've had piling up in your closet.",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/square-wall-shelf-346133a8",
+    patreonlink: "https://www.patreon.com/posts/square-wall-157490464?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+
+  {
+    id: "archive-015",
+    name: "Bow Couch and Chair",
+    image: "/projects/Products/Archive Images/Bow Couch and Chair/Bow Couch and Chair_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/Bow Couch and Chair/Showcase1.jpg",
+      "/projects/Products/Archive Images/Bow Couch and Chair/Bow Couch and Chair_Thumbnail_CF.png",
+    ],
+    description: "The Bow Couch & Chair set features a distinctive continuous wooden frame that curves around each piece, forming both the armrests and structural support in one fluid motion. This sweeping “bow” design gives the set its name.",
+    isNew: true,
+    downloadlink: "",
+    patreonlink: ""
+  },
+
+  
 ];
 
 archives.forEach((a) => {
