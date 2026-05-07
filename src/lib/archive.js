@@ -202,8 +202,8 @@ export const archives = [
     ],
     description: "The Bow Couch & Chair set features a distinctive continuous wooden frame that curves around each piece, forming both the armrests and structural support in one fluid motion. This sweeping “bow” design gives the set its name.",
     isNew: true,
-    downloadlink: "",
-    patreonlink: ""
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/bow-chair-e14b7f10",
+    patreonlink: "https://www.patreon.com/posts/bow-couch-chair-157600515?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
 
   
