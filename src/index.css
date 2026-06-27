@@ -1329,9 +1329,6 @@ img {
   transition: color 0.2s ease;
 }
 
-.links-button:hover .links-button-icon {
-  /* Color handled by inline style */
-}
 
 .links-button-content {
   display: flex;

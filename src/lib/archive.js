@@ -61,7 +61,7 @@ export const archives = [
       "/projects/Products/Archive Images/Small Side Table/Small Side Table_Thumbnail_CF.png",
     ],
     description: "A side table with a simple design and a minimalistic appeal.",
-    isNew: true,
+    isNew: false,
     downloadlink: "",
     patreonlink: ""
   },
@@ -74,7 +74,7 @@ export const archives = [
       "/projects/Products/Archive Images/Mirrored Shelf/MS - Showcase1.jpg",
     ],
     description: "A simple and minimalistic shelf capable of neatly storing multiple rows of decoration.",
-    isNew: true,
+    isNew: false,
     downloadlink: "https://www.curseforge.com/inzoi/build-mode/mirrored-shelf-2b73a820",
     patreonlink: "https://www.patreon.com/posts/mirrored-shelf-157011682?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
@@ -88,7 +88,7 @@ export const archives = [
       "/projects/Products/Archive Images/Executive Desk/Executive Desk_Thumbnail_CF.png",
     ],
     description: "A commanding executive desk designed to for a workspace with both presence and practicality. Its large surface provides generous room for multitasking, accommodating multiple monitors, documents, and meeting materials without feeling crowded.",
-    isNew: true,
+    isNew: false,
     downloadlink: "https://www.curseforge.com/inzoi/build-mode/executive-desk-66d08df6",
     patreonlink: "https://www.patreon.com/posts/executive-desk-157491464?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
@@ -102,7 +102,7 @@ export const archives = [
       "/projects/Products/Archive Images/JellyFish Light/JellyFish Light_Thumbnail.png",
     ],
     description: "A whimsical, jellyfish inspired ceiling light that brings a soft, playful look into a room. Its rounded silhouette mimics a gentle, floating form of a jellyfish.",
-    isNew: true,
+    isNew: false,
     downloadlink: "https://www.curseforge.com/inzoi/build-mode/jellyfishing-lighting-69fafe51",
     patreonlink: "https://www.patreon.com/posts/jelly-fishing-157491920?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
@@ -116,7 +116,7 @@ export const archives = [
       "/projects/Products/Archive Images/Glass Coffee Table/Glass Coffee Table_Thumbnail_CF.png",
     ],
     description: "A simple, elegant looking coffee table for placing your beautiful decorations...and maybe a coffee or two",
-    isNew: true,
+    isNew: false,
     downloadlink: "https://www.curseforge.com/inzoi/build-mode/glass-coffee-table-6ef22060",
     patreonlink: "https://www.patreon.com/posts/glass-coffee-157491562?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
@@ -130,7 +130,7 @@ export const archives = [
       "/projects/Products/Archive Images/Stylized Glass Side Table/StylizedGlassSideTable_Thumbnail_CF.png",
     ],
     description: "A strikingly red, bold, side table that combines transparency, structure, and color into a geometric form. A deep red translucent panel, that pieces a layered visual effect, revealing its internal framework.",
-    isNew: true,
+    isNew: false,
     downloadlink: "https://www.curseforge.com/inzoi/build-mode/stylized-glass-side-table-33140953",
     patreonlink: "https://www.patreon.com/posts/stylized-glass-157491325?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
@@ -144,7 +144,7 @@ export const archives = [
       "/projects/Products/Archive Images/IROE Coffee Table/IROE Coffee Table_Thumbnail_CF.png",
     ],
     description: "The IROE Coffee Table features a perfectly rounded tabletop with a smooth, high gloss finish that subtly reflects light, adding depth and warmth to its surface. Its clean circular form encourages natural flow within a space, making it an inviting centerpiece for living areas.",
-    isNew: true,
+    isNew: false,
     downloadlink: "https://www.curseforge.com/inzoi/build-mode/iroe-coffee-table-820c4313",
     patreonlink: "https://www.patreon.com/posts/iroe-coffee-157491742?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
@@ -158,7 +158,7 @@ export const archives = [
       "/projects/Products/Archive Images/LoWave Circular Side Table/LoWave Circular Side Table_Thumbnail_CF.png",
     ],
     description: "LoWave Circular Side Table was made for the purpose of smoothing the atmosphere beside your rest areas. Preventing sharp corners and stubbing your toes, its truly a nice side piece for a calm atmospheric room.",
-    isNew: true,
+    isNew: false,
     downloadlink: "https://www.patreon.com/posts/lowave-circular-157492083?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link",
     patreonlink: "https://www.curseforge.com/inzoi/build-mode/lowave-circular-side-table-c5868295"
   },
@@ -172,7 +172,7 @@ export const archives = [
       "/projects/Products/Archive Images/Stylized Metal TV Stand/Stylized Metal TV Stand_Thumbnail_CF.png",
     ],
     description: "A sleek, sculptural table defined by its continuous flowing form and soft, rounded edges. Crafted from a single bent surface, creating a seamless loop that transitions effortlessly between the tabletop and base.",
-    isNew: true,
+    isNew: false,
     downloadlink: "https://www.curseforge.com/inzoi/build-mode/stylize-metal-tv-stand-3b2cc361",
     patreonlink: "https://www.patreon.com/posts/stylize-metal-tv-157490912?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
@@ -187,7 +187,7 @@ export const archives = [
       "/projects/Products/Archive Images/Square Wall Shelf/Square Wall Shelf_Thumbnail_CF.png",
     ],
     description: "A simple square wall mounted shelf. Much larger than it looks, it truly is the best piece for holding all those books you've had piling up in your closet.",
-    isNew: true,
+    isNew: false,
     downloadlink: "https://www.curseforge.com/inzoi/build-mode/square-wall-shelf-346133a8",
     patreonlink: "https://www.patreon.com/posts/square-wall-157490464?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
@@ -201,9 +201,139 @@ export const archives = [
       "/projects/Products/Archive Images/Bow Couch and Chair/Bow Couch and Chair_Thumbnail_CF.png",
     ],
     description: "The Bow Couch & Chair set features a distinctive continuous wooden frame that curves around each piece, forming both the armrests and structural support in one fluid motion. This sweeping “bow” design gives the set its name.",
-    isNew: true,
+    isNew: false,
     downloadlink: "https://www.curseforge.com/inzoi/build-mode/bow-chair-e14b7f10",
     patreonlink: "https://www.patreon.com/posts/bow-couch-chair-157600515?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+
+  {
+    id: "archive-016",
+    name: "inZOI 1st Anniversary Gift",
+    image: "/projects/Products/Archive Images/Anniversary Gift/AnniversaryGift_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/Anniversary Gift/showcase1.jpg",
+      "/projects/Products/Archive Images/Anniversary Gift/AnniversaryGift_Thumbnail_CF.png",
+    ],
+    description: "A item given to influencers by inZOI Studios as a gift for the game 1st Anniversary. Congratulations to inZOI, wishing it many more years of developement and success! ",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/inzoi-1st-anniversary-gift-5f3b4dcb",
+    patreonlink: "https://www.patreon.com/MOOSTYLES/posts/inzoi-1st-gift-162257404?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+
+  {
+    id: "archive-017",
+    name: "Birch Couch Set",
+    image: "/projects/Products/Archive Images/Birch Couch Set/Birch Couch_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/Birch Couch Set/Showcase.jpg",
+      "/projects/Products/Archive Images/Birch Couch Set/Birch Couch_Thumbnail_CF.png",
+    ],
+    description: "Bringing warmth and simplicity to your home featuring a soft cushioned seating paired with natural birch wood panels, this modern minimalist, cozy and inviting atmosphere perfect for living rooms, lounges, and reading nooks. A clean design that blends comfort with contemporary style. ",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/birch-couch-aa4752cd",
+    patreonlink: "https://www.patreon.com/MOOSTYLES/posts/birch-couch-set-162257737?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+
+  {
+    id: "archive-018",
+    name: "Gleem Side Table",
+    image: "/projects/Products/Archive Images/Gleems Glass Side Table/Gleems Glass Side Table_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/Gleems Glass Side Table/Showcase1.jpg",
+      "/projects/Products/Archive Images/Gleems Glass Side Table/Gleems Glass Side Table_Thumbnail_CF.png",
+    ],
+    description: "A simple wooden side table with a centered glass shelf piece.",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/gleem-glass-side-table-84648be8",
+    patreonlink: "https://www.patreon.com/MOOSTYLES/posts/gleems-glass-162257914?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+
+  {
+    id: "archive-019",
+    name: "Gleem Side Table",
+    image: "/projects/Products/Archive Images/Gleems Side Table/Gleems Side Table_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/Gleems Side Table/Showcase1.jpg",
+      "/projects/Products/Archive Images/Gleems Side Table/Gleems Side Table_Thumbnail_CF.png",
+    ],
+    description: "A simple wooden side table box like design. ",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/gleem-side-table-abe42473 ",
+    patreonlink: "https://www.patreon.com/MOOSTYLES/posts/gleem-side-table-162258420?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link "
+  },
+
+  {
+    id: "archive-020",
+    name: "Hasaan Wooden TV",
+    image: "/projects/Products/Archive Images/Hasaan Wooden TV Stand/Hasaan Wooden TV Stand_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/Hasaan Wooden TV Stand/Showcase1.jpg",
+      "/projects/Products/Archive Images/Hasaan Wooden TV Stand/Hasaan Wooden TV Stand_Thumbnail_CF.png",
+    ],
+    description: "A wooden table crafted with hollowed out wood and a simple open design for spacious looks and functionality. ",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/hasaan-wooden-tv-stand-3bf3c2df ",
+    patreonlink: "https://www.patreon.com/MOOSTYLES/posts/hasaan-wooden-tv-162258510?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link "
+  },
+
+  {
+    id: "archive-021",
+    name: "Hasuan Side Table V1",
+    image: "/projects/Products/Archive Images/Hasaun Side Table V1/Hasaun Side Table V1_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/Hasaun Side Table V1/Showcase1.jpg",
+      "/projects/Products/Archive Images/Hasaun Side Table V1/Hasaun Side Table V1_Thumbnail_CF.png",
+    ],
+    description: "A side table with a classic simple design. Square Legs and a shiny finish.  ",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/hasuan-side-table-v1-c5eae02d ",
+    patreonlink: "https://www.patreon.com/MOOSTYLES/posts/hasaun-side-v1-162258604?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link "
+  },
+
+  {
+    id: "archive-022",
+    name: "Hasaun Side Table V2",
+    image: "/projects/Products/Archive Images/Hasaun Side Table V2/Hasaun Side Table V2_Thumbnail_CF.jpg",
+    images: [
+      "/projects/Products/Archive Images/Hasaun Side Table V2/Showcase.jpg",
+      "/projects/Products/Archive Images/Hasaun Side Table V2/Hasaun Side Table V2_Thumbnail_CF.jpg",
+    ],
+    description: "A side table with a classic simple design. Square Legs and a shiny finish. A second version of the Hasaun Collection. ",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/hasaun-side-table-v2-c1eb0ec7 ",
+    patreonlink: "https://www.patreon.com/MOOSTYLES/posts/hasaun-side-v2-162258732?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link "
+  },
+
+  {
+    id: "archive-023",
+    name: "Interlocked Shelf",
+    image: "/projects/Products/Archive Images/Interlocked BookShelf/Interlocked BookShelf_Thumbnail_CF.jpg",
+    images: [
+      "/projects/Products/Archive Images/Interlocked BookShelf/Showcase1.jpg",
+      "/projects/Products/Archive Images/Interlocked BookShelf/Interlocked BookShelf_Thumbnail_CF.jpg",
+    ],
+    description: "A modern interlocked wall shelf designed to add clean style and functional storage to your inZOI interiors. Perfect for living rooms, offices, etc.  ",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/interlocked-shelf-e316e399 ",
+    patreonlink: "https://www.patreon.com/MOOSTYLES/posts/interlocked-162258843?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link "
+  },
+
+  {
+    id: "archive-024",
+    name: "Organizer Set",
+    image: "/projects/Products/Archive Images/Stationary Organizer/Stationary Organizer_Thumbnail_CF.png",
+    images: [
+      "/projects/Products/Archive Images/Stationary Organizer/Stationary Organizer_Thumbnail_CF.png",
+      "/projects/Products/Archive Images/Stationary Organizer/glasses.png",
+      "/projects/Products/Archive Images/Stationary Organizer/phone.png",
+      "/projects/Products/Archive Images/Stationary Organizer/_thumbnail1.png",
+      "/projects/Products/Archive Images/Stationary Organizer/large.png",
+      
+    ],
+    description: "Simple desk organizers and utensil holders. ",
+    isNew: true,
+    downloadlink: "https://www.curseforge.com/inzoi/build-mode/organizer-set-959ce2be ",
+    patreonlink: "https://www.patreon.com/MOOSTYLES/posts/organizer-set-162258932?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link "
   },
 
   
