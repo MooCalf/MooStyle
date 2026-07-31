@@ -1,0 +1,87 @@
+/* ========================================
+   COLLECTION BANNER
+   Header band on /collections/:slug.
+   ======================================== */
+
+.collection-banner {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.collection-banner__title {
+  font-size: var(--font-size-6);
+  margin: var(--space-2) 0;
+}
+
+.collection-banner__description {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* ========================================
+   MODS INDEX FILTERS
+   Search box and collection select on /mods. Mobile-first: filters
+   stack in a column below 640px.
+   ======================================== */
+
+.mods-index__filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .mods-index__filters {
+    flex-direction: row;
+  }
+}
+
+.mods-index__search,
+.mods-index__collection-select {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+/* ========================================
+   COLLECTIONS INDEX
+   Dense text link list, not a thumbnail grid, per newdesign-layout
+   Section 4: collection lists should be scannable and load instantly.
+   ======================================== */
+
+.collections-index__list {
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.collections-index__item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.collections-index__link {
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: var(--font-size-3);
+}
+
+.collections-index__link:hover {
+  color: var(--color-accent);
+}
+
+.collections-index__count {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-1);
+  flex-shrink: 0;
+}

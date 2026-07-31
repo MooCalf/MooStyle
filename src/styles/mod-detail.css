@@ -1,4 +1,86 @@
 /* ========================================
+   MOD DETAIL PAGE LAYOUT
+   Breadcrumb, headings, and content column shared by the mod detail
+   template (src/Pages/ModDetail.jsx).
+   ======================================== */
+
+.mod-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: var(--font-size-1);
+  margin-bottom: var(--space-3);
+}
+
+.mod-breadcrumb:hover {
+  color: var(--color-accent);
+}
+
+.mod-detail__title {
+  font-size: var(--font-size-6);
+  margin: 0 0 var(--space-3);
+  color: var(--color-text);
+}
+
+.mod-detail__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: var(--maxw-text);
+  margin-top: var(--space-4);
+}
+
+.mod-detail__status-row {
+  display: flex;
+}
+
+.mod-detail__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.mod-detail__section-heading {
+  font-size: var(--font-size-4);
+  margin: 0;
+}
+
+.mod-detail__subheading {
+  font-size: var(--font-size-3);
+  margin: var(--space-2) 0 0;
+}
+
+.mod-detail__description {
+  color: var(--color-text);
+  margin: 0;
+}
+
+.mod-detail__highlights {
+  margin: 0;
+  padding-left: 1.25em;
+  color: var(--color-text);
+}
+
+.mod-detail__license-summary {
+  font-size: var(--font-size-1);
+  color: var(--color-text-muted);
+}
+
+.mod-detail__license-summary a {
+  color: var(--color-accent);
+}
+
+.mod-detail__empty-state {
+  color: var(--color-text-muted);
+}
+
+.mod-detail__related {
+  margin-top: var(--space-6);
+}
+
+/* ========================================
    MEDIA GALLERY
    Banner + horizontally scrollable thumbnail strips. Mobile-first:
    the strips scroll on all sizes, they just have more room on desktop.

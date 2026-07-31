@@ -3,6 +3,7 @@
 @import "./styles/components.css";
 @import "./styles/download-options.css";
 @import "./styles/mod-detail.css";
+@import "./styles/collections.css";
 
 /* Targeted focus outline removal for back buttons only */
 .back-button-simple:focus,
