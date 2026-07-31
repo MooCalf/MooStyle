@@ -20,7 +20,7 @@ export default defineConfig({
     noExternal: ["react-helmet-async"],
   },
   test: {
-    // Pure logic tests only (date math, allowlist checks) — no DOM needed.
+    // Pure logic tests only (date math, allowlist checks), no DOM needed.
     environment: "node",
   },
 });

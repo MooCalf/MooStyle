@@ -19,9 +19,9 @@ const helmetToHead = (helmet) =>
     .map((tag) => tag.toString())
     .join('\n');
 
-// renderToString (React 19's legacy, non-streaming SSR API — all we need for
+// renderToString (React 19's legacy, non-streaming SSR API, all we need for
 // a one-shot build-time prerender) auto-generates <link rel="preload" as="image">
-// resource hints for <img> tags, but — unlike the streaming APIs — inlines them
+// resource hints for <img> tags, but unlike the streaming APIs, it inlines them
 // as a literal leading run of siblings in the returned string instead of routing
 // them to <head>. Left in place, the client's fresh render never produces those
 // <link> elements at that position, so hydrateRoot sees a mismatched first child
@@ -82,7 +82,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://w
 fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemap, 'utf-8');
 
 // Manifest for scripts/verify-prerender-count.mjs (run in CI) to check
-// against, since dist-ssr — and therefore getStaticRoutes() — is gone by
+// against, since dist-ssr (and therefore getStaticRoutes()) is gone by
 // the time a separate verification step could otherwise call it.
 fs.writeFileSync(
   path.join(distDir, '.prerender-manifest.json'),

@@ -10,7 +10,7 @@ const distDir = path.resolve(__dirname, '..', 'dist');
 
 const manifestPath = path.join(distDir, '.prerender-manifest.json');
 if (!fs.existsSync(manifestPath)) {
-  console.error('Missing dist/.prerender-manifest.json — did the build run?');
+  console.error('Missing dist/.prerender-manifest.json. Did the build run?');
   process.exit(1);
 }
 const { routeCount } = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
