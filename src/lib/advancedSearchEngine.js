@@ -581,6 +581,7 @@ export class AdvancedSearchEngine {
    * Load analytics from localStorage
    */
   loadAnalytics() {
+    if (typeof window === 'undefined') return new Map();
     try {
       const stored = localStorage.getItem('searchAnalytics');
       return stored ? new Map(JSON.parse(stored)) : new Map();
@@ -594,6 +595,7 @@ export class AdvancedSearchEngine {
    * Save analytics to localStorage
    */
   saveAnalytics() {
+    if (typeof window === 'undefined') return;
     try {
       const serialized = JSON.stringify(Array.from(this.searchAnalytics.entries()));
       localStorage.setItem('searchAnalytics', serialized);

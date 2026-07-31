@@ -2,10 +2,16 @@ import { Link } from "react-router-dom";
 import { NavigationBar } from "@/Components/NavigationBar";
 import { Home, ArrowLeft, Search, Package } from "lucide-react";
 import { WebsiteBackground } from "@/Components/WebsiteBackground";
+import { Metadata } from "@/Components/Metadata.jsx";
 
 export const NotFound = () => {
   return (
     <div className="min-h-screen">
+      <Metadata
+        pageTitle="Page Not Found | MOOSTYLES"
+        pageDescription="The page you're looking for doesn't exist or has been moved."
+        noindex
+      />
       <WebsiteBackground />
       <NavigationBar />
       

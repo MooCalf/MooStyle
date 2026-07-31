@@ -1,5 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
 
 const DEFAULT_SITE_URL = 'https://moostyles.com';
 
@@ -55,8 +56,11 @@ const Metadata = ({
   // Category-specific (for collection pages)
   category = null
 }) => {
-  const siteUrl = typeof window !== 'undefined' ? window.location.origin : DEFAULT_SITE_URL;
-  const currentUrl = typeof window !== 'undefined' ? window.location.href : siteUrl;
+  // useLocation() (not window.location) so this resolves correctly both in
+  // the browser (BrowserRouter) and during build-time prerendering (StaticRouter).
+  const location = useLocation();
+  const siteUrl = DEFAULT_SITE_URL;
+  const currentUrl = `${siteUrl}${location.pathname}${location.search}`;
   
   // Determine final values with fallbacks
   const finalTitle = ogTitle || pageTitle;

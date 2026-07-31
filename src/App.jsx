@@ -1,6 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { HelmetProvider } from "react-helmet-async";
+import { Routes, Route } from "react-router-dom";
 import { Home } from "./Pages/Home";
 import { ProductDetail } from "./Pages/ProductDetail";
 import { BrandDetail } from "./Pages/BrandDetail";
@@ -20,29 +19,25 @@ import ErrorBoundary from "./Components/ErrorBoundary";
 function App() {
   return (
     <ErrorBoundary>
-      <HelmetProvider>
-        <Router>
-          <div className="App">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/support" element={<Support />} />
-              <Route path="/saved-products" element={<SavedProducts />} />
-              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-              <Route path="/terms-of-service" element={<TermsOfService />} />
-              <Route path="/offline" element={<Offline />} />
-              <Route path="/links" element={<Links />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/brand/:id" element={<BrandDetail />} />
-              <Route path="/brands" element={<InZOI />} />
-              <Route path="/archive" element={<Archive />} />
-              <Route path="/about" element={<AboutMe />} />
-              <Route path="/common-questions" element={<CommonQuestions />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </div>
-        </Router>
-      </HelmetProvider>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/support" element={<Support />} />
+          <Route path="/saved-products" element={<SavedProducts />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/offline" element={<Offline />} />
+          <Route path="/links" element={<Links />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/brand/:id" element={<BrandDetail />} />
+          <Route path="/brands" element={<InZOI />} />
+          <Route path="/archive" element={<Archive />} />
+          <Route path="/about" element={<AboutMe />} />
+          <Route path="/common-questions" element={<CommonQuestions />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
     </ErrorBoundary>
   );
 }

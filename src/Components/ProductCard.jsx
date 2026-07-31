@@ -147,16 +147,15 @@ export const ProductCard = ({ product, onToggleFavorite, onQuickView }) => {
           </div>
         </div>
 
-        {/* View Details Button - Only visible on hover */}
+        {/* View Details Button - Only visible on hover. A styled <div>, not a
+            nested <Link>: it sits inside the card's own outer <Link>, and an
+            <a> inside an <a> is invalid HTML that breaks hydration. Both point
+            to the same product, so the outer link already handles the click. */}
         <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-4 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-full group-hover:translate-y-0 z-20 bg-white">
-          <Link
-            to={`/product/${product.id}`}
-            className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-lg text-sm sm:text-base"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="w-full bg-teal-600 hover:bg-teal-700 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center gap-2 shadow-lg text-sm sm:text-base">
             <Eye size={14} className="sm:w-4 sm:h-4" />
             View Details
-          </Link>
+          </div>
         </div>
       </motion.div>
     </Link>
