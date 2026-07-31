@@ -1,28 +1,41 @@
 /* ========================================
    SITE NAV BAR
-   Menu trigger + search icon, top left. Everything else lives in the
-   dropdown panel (see NAV MENU PANEL below).
+   Menu trigger + search icon, top right. Everything else lives in the
+   dropdown panel (see NAV MENU PANEL below). White icon buttons are a
+   deliberate exception to the dark token palette elsewhere on the
+   site, per the black/white/teal nav treatment.
    ======================================== */
 
 .site-nav {
   position: relative;
   z-index: 50;
+  --nav-icon-bg: #ffffff;
+  --nav-icon-bg-hover: #f2f2f2;
+  --nav-icon-fg: #14191b;
+  --nav-panel-bg: rgba(255, 255, 255, 0.7);
+  --nav-panel-border: rgba(20, 25, 27, 0.12);
+  --nav-panel-text: #14191b;
+  --nav-panel-text-muted: #4b5563;
 }
 
 .site-nav__bar {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: var(--space-2);
   padding: var(--space-3);
 }
 
 /* ========================================
    ICON BUTTON
-   Shared circular, shadowed icon button: the nav trigger, the search
-   button, and the social icons inside the dropdown panel.
+   Shared circular, shadowed white icon button: the nav trigger, the
+   search button (SearchQuery's iconOnly button, .nav-primary-icon),
+   and the social icons inside the dropdown panel all use this exact
+   look.
    ======================================== */
 
-.nav-icon-button {
+.nav-icon-button,
+.nav-primary-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -30,15 +43,16 @@
   height: 40px;
   border-radius: 50%;
   border: none;
-  background: var(--color-surface);
-  color: var(--color-text);
+  background: var(--nav-icon-bg);
+  color: var(--nav-icon-fg);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   transition: transform 0.15s ease, background-color 0.15s ease;
 }
 
-.nav-icon-button:hover {
-  background: var(--color-surface-alt);
+.nav-icon-button:hover,
+.nav-primary-icon:hover {
+  background: var(--nav-icon-bg-hover);
   transform: translateY(-1px);
 }
 
@@ -64,22 +78,26 @@
 /* ========================================
    NAV MENU PANEL
    The dropdown card itself: brand, primary links, SafeMode, socials.
-   Mobile-first: a fixed-width card anchored near the trigger works
-   the same from 375px up, it just has more breathing room on desktop.
+   White at ~70% opacity with a blur, per the frosted-glass panel
+   treatment. Mobile-first: a fixed-width card anchored near the
+   trigger works the same from 375px up, it just has more breathing
+   room on desktop.
    ======================================== */
 
 .site-nav__panel {
   position: fixed;
   top: calc(var(--space-3) + 48px);
-  left: var(--space-3);
+  right: var(--space-3);
   z-index: 50;
   width: min(280px, calc(100vw - var(--space-6)));
   max-height: calc(100vh - var(--space-6));
   overflow-y: auto;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--nav-panel-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--nav-panel-border);
   border-radius: var(--radius-lg);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
 .nav-menu {
@@ -114,11 +132,11 @@
   flex-direction: column;
   gap: var(--space-2);
   padding-top: var(--space-2);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--nav-panel-border);
 }
 
 .nav-menu__link {
-  color: var(--color-text);
+  color: var(--nav-panel-text);
   text-decoration: none;
   font-size: var(--font-size-3);
 }
@@ -136,11 +154,11 @@
   align-items: center;
   justify-content: space-between;
   padding-top: var(--space-2);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--nav-panel-border);
 }
 
 .nav-menu__safe-mode-label {
-  color: var(--color-text);
+  color: var(--nav-panel-text);
   font-size: var(--font-size-2);
 }
 
@@ -166,7 +184,7 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: var(--color-text);
+  background: #ffffff;
   transition: transform 0.15s ease;
 }
 
@@ -183,5 +201,5 @@
   align-items: center;
   gap: var(--space-2);
   padding-top: var(--space-2);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--nav-panel-border);
 }

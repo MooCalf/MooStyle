@@ -10,6 +10,10 @@ export const Footer = () => {
     });
   };
 
+  // Three columns side by side, matching the headings already used
+  // elsewhere on the site. The former "Resources" section (InZoi ModKit,
+  // Modding Guidelines, Discord, Subreddit) has been removed entirely;
+  // Discord is still reachable from the nav menu's social icons.
   const footerSections = [
     {
       title: "Socials",
@@ -17,7 +21,8 @@ export const Footer = () => {
         { name: "Patreon", href: "https://www.patreon.com/c/MOOSTYLES" },
         { name: "Instagram", href: "https://www.instagram.com/moostyles_inzoi/" },
         { name: "CurseForge", href: "https://www.curseforge.com/members/moocalf" },
-        { name: "Pinterest", href: "https://pin.it/Zz1UgHeLi" }
+        { name: "Pinterest", href: "https://pin.it/Zz1UgHeLi" },
+        { name: "Discord", href: "https://discord.gg/Dpr5cs7TQc" }
       ]
     },
     {
@@ -25,15 +30,6 @@ export const Footer = () => {
       links: [
         { name: "Support Center", href: "/support" },
         { name: "Contact Support", href: "/common-questions#still-have-questions" }
-      ]
-    },
-    {
-      title: "Resources",
-      links: [
-        { name: "InZoi ModKit", href: "https://mod-docs.playinzoi.com" },
-        { name: "Modding Guidelines", href: "https://playinzoi.com/guide/mod" },
-        { name: "r/InZOIMods Discord", href: "https://discord.gg/Dpr5cs7TQc" },
-        { name: "r/inZOIMods Subreddit", href: "https://www.reddit.com/r/inZOIMods/" }
       ]
     },
     {
@@ -49,9 +45,9 @@ export const Footer = () => {
 
   return (
     <footer className="footer-main mt-16">
-      {/* Row 1: 5 Columns with Footer Sections */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+      {/* Row 1: 3 columns side by side */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12">
           {footerSections.map((section, index) => (
             <div key={index} className="footer-section">
               <h3 className="footer-section-title text-sm">
@@ -86,18 +82,18 @@ export const Footer = () => {
             />
           </div>
           {/* Large MOOSTYLES Text */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white tracking-tight opacity-90">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 tracking-tight opacity-90">
             MOOSTYLES
           </h2>
         </div>
       </div>
 
       {/* Row 3: Copyright and Scroll to Top Button */}
-      <div className="py-4">
+      <div className="py-4 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
             {/* Left: Copyright */}
-            <div className="text-sm text-white">
+            <div className="text-sm text-gray-500">
               Copyright © 2025 MOOSTYLES.COM. All rights reserved.
             </div>
 
@@ -105,7 +101,7 @@ export const Footer = () => {
             <div className="flex items-center">
               <motion.button
                 onClick={scrollToTop}
-                className="footer-icon p-2 bg-white bg-opacity-20 rounded-full shadow-sm hover:shadow-md hover:bg-opacity-30"
+                className="footer-icon p-2 bg-gray-100 rounded-full shadow-sm hover:shadow-md hover:bg-gray-200"
                 aria-label="Scroll to top"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

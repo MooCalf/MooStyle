@@ -361,26 +361,21 @@ img {
   max-width: 1200px;
 }
 
-/* Footer Styling */
+/* Footer Styling: white background with a shadow along the top edge,
+   dark text (this used to assume a solid teal background). */
 .footer-main {
-  background-color: #0d9488;
+  background-color: #ffffff;
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.08);
 }
 
 .footer-section {
-  background-color: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   padding: 1.5rem;
   transition: all 0.3s ease;
 }
 
-.footer-section:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
 .footer-section-title {
-  color: white;
+  color: #111827;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -388,7 +383,7 @@ img {
 }
 
 .footer-link {
-  color: white;
+  color: #4b5563;
   text-decoration: none;
   display: block;
   padding: 0.5rem 0;
@@ -399,8 +394,8 @@ img {
 }
 
 .footer-link:hover {
-  color: #E8D5F2;
-  background-color: rgba(255, 255, 255, 0.1);
+  color: #0d9488;
+  background-color: rgba(13, 148, 136, 0.08);
   transform: translateX(4px);
 }
 
