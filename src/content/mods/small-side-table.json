@@ -9,10 +9,10 @@
   },
   "media": {
     "banner": "/projects/Products/Archive Images/Small Side Table/Small Side Table_Thumbnail_CF.png",
-    "previews": [
+    "previews": [],
+    "screenshots": [
       "/projects/Products/Archive Images/Small Side Table/SST - Showcase1.jpg"
-    ],
-    "screenshots": []
+    ]
   },
   "description": "A side table with a simple design and a minimalistic appeal.",
   "highlights": null,

@@ -9,10 +9,10 @@
   },
   "media": {
     "banner": "/projects/Products/Archive Images/Gleems Glass Side Table/Gleems Glass Side Table_Thumbnail_CF.png",
-    "previews": [
+    "previews": [],
+    "screenshots": [
       "/projects/Products/Archive Images/Gleems Glass Side Table/Showcase1.jpg"
-    ],
-    "screenshots": []
+    ]
   },
   "description": "A simple wooden side table with a centered glass shelf piece.",
   "highlights": null,

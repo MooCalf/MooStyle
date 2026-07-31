@@ -5,6 +5,10 @@ import { ModDetail } from "./Pages/ModDetail";
 import { CollectionDetail } from "./Pages/CollectionDetail";
 import { ModsIndex } from "./Pages/ModsIndex";
 import { CollectionsIndex } from "./Pages/CollectionsIndex";
+import { Blog } from "./Pages/Blog";
+import { BlogPost } from "./Pages/BlogPost";
+import { Gallery } from "./Pages/Gallery";
+import { GalleryEntry } from "./Pages/GalleryEntry";
 import { Archive } from "./Pages/Archive";
 import AboutMe from "./Pages/AboutMe";
 import CommonQuestions from "./Pages/CommonQuestions";
@@ -45,6 +49,11 @@ function App() {
           <Route path="/brands" element={<ModsIndex />} />
 
           <Route path="/archive" element={<Archive />} />
+
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/gallery/:slug" element={<GalleryEntry />} />
           <Route path="/about" element={<AboutMe />} />
           <Route path="/common-questions" element={<CommonQuestions />} />
           <Route path="*" element={<NotFound />} />

@@ -9,10 +9,10 @@
   },
   "media": {
     "banner": "/projects/Products/Archive Images/JellyFish Light/JellyFish Light_Thumbnail.png",
-    "previews": [
+    "previews": [],
+    "screenshots": [
       "/projects/Products/Archive Images/JellyFish Light/Showcase1.jpg"
-    ],
-    "screenshots": []
+    ]
   },
   "description": "A whimsical, jellyfish inspired ceiling light that brings a soft, playful look into a room. Its rounded silhouette mimics a gentle, floating form of a jellyfish.",
   "highlights": null,

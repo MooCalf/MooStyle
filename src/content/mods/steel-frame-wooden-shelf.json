@@ -9,11 +9,11 @@
   },
   "media": {
     "banner": "/projects/Products/Archive Images/WoodSteelFrame/Wood - Steel Frame Shelf_Thumbnail_CF.png",
-    "previews": [
+    "previews": [],
+    "screenshots": [
       "/projects/Products/Archive Images/WoodSteelFrame/WSFS - Showcase1.jpg",
       "/projects/Products/Archive Images/WoodSteelFrame/WSFS - Showcase2.jpg"
-    ],
-    "screenshots": []
+    ]
   },
   "description": "A simple steel frame wooden shelf. Holds up to 24 small to medium sized items.",
   "highlights": null,

@@ -9,10 +9,10 @@
   },
   "media": {
     "banner": "/projects/Products/Archive Images/Glass Coffee Table/Glass Coffee Table_Thumbnail_CF.png",
-    "previews": [
+    "previews": [],
+    "screenshots": [
       "/projects/Products/Archive Images/Glass Coffee Table/GCT_Showcase1.jpg"
-    ],
-    "screenshots": []
+    ]
   },
   "description": "A simple, elegant looking coffee table for placing your beautiful decorations...and maybe a coffee or two",
   "highlights": null,
