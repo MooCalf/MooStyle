@@ -9,6 +9,15 @@ const allMods = Object.values(modules)
   .map((mod) => mod.default ?? mod)
   .sort((a, b) => a.name.localeCompare(b.name));
 
+// Every mod must ship a non-empty file manifest. Thrown at module load
+// (which happens during both the client and SSR builds) so an empty
+// manifest fails the build rather than silently rendering blank.
+for (const mod of allMods) {
+  if (!Array.isArray(mod.fileManifest) || mod.fileManifest.length === 0) {
+    throw new Error(`Mod "${mod.slug}" has an empty fileManifest.`);
+  }
+}
+
 const bySlug = new Map(allMods.map((mod) => [mod.slug, mod]));
 const byLegacyId = new Map(allMods.map((mod) => [mod.legacyId, mod]));
 

@@ -4,7 +4,7 @@
   "name": "PITAPATA",
   "collection": "PITAPATA",
   "status": {
-    "state": "active",
+    "compatibility": "untested",
     "gameVersion": "inZOI"
   },
   "media": {
