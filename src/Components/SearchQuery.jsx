@@ -316,25 +316,35 @@ const SearchQuery = ({
 
   const filterOptions = getFilterOptions();
 
+  // In iconOnly mode, the collapsed icon and the expanded search box used to
+  // be two independent conditionals: the icon button (no exit animation)
+  // would pop back in the instant isExpanded went false, while the expanded
+  // box (wrapped in its own AnimatePresence) was still mid-exit for another
+  // 300ms -- both rendered on top of each other during that window, which
+  // looked like a second search icon appearing while the real one was still
+  // closing. Wrapping both in one AnimatePresence with mode="wait" makes the
+  // exiting element fully finish before its replacement enters.
   return (
     <div ref={searchRef} className={`relative ${className}`}>
-      {/* Icon Only Mode */}
-      {iconOnly && !isExpanded && (
-        <motion.button
-          onClick={handleIconClick}
-          className="nav-primary-icon"
-          aria-label="Search"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Search size={18} className="sm:w-5 sm:h-5" />
-        </motion.button>
-      )}
-
-      {/* Expanded Search Mode */}
-      <AnimatePresence>
-        {(!iconOnly || isExpanded) && (
+      <AnimatePresence mode="wait" initial={false}>
+        {iconOnly && !isExpanded ? (
+          <motion.button
+            key="icon"
+            onClick={handleIconClick}
+            className="nav-primary-icon"
+            aria-label="Search"
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.85 }}
+            transition={{ duration: 0.15 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Search size={18} className="sm:w-5 sm:h-5" />
+          </motion.button>
+        ) : (
           <motion.div
+            key="expanded"
             className="relative"
             initial={iconOnly ? { width: 0, opacity: 0 } : false}
             animate={{ width: "auto", opacity: 1 }}

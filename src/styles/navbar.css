@@ -1,9 +1,10 @@
 /* ========================================
    SITE NAV BAR
-   Menu trigger + search icon, top right. Everything else lives in the
-   dropdown panel (see NAV MENU PANEL below). White icon buttons are a
-   deliberate exception to the dark token palette elsewhere on the
-   site, per the black/white/teal nav treatment.
+   Home logo button top left; search icon + menu trigger top right.
+   Everything else lives in the dropdown panel (see NAV MENU PANEL
+   below). White icon buttons are a deliberate exception to the dark
+   token palette elsewhere on the site, per the black/white/teal nav
+   treatment. Shared across every page via this one component.
    ======================================== */
 
 .site-nav {
@@ -21,17 +22,30 @@
 .site-nav__bar {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: var(--space-2);
+  justify-content: space-between;
   padding: var(--space-3);
+}
+
+.site-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.site-nav__home-logo {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
 }
 
 /* ========================================
    ICON BUTTON
-   Shared circular, shadowed white icon button: the nav trigger, the
-   search button (SearchQuery's iconOnly button, .nav-primary-icon),
-   and the social icons inside the dropdown panel all use this exact
-   look.
+   Shared circular, shadowed white icon button: the home logo button,
+   the menu trigger, the search button (SearchQuery's iconOnly button,
+   .nav-primary-icon), and the social icons inside the dropdown panel
+   all use this exact look. flex-shrink: 0 keeps it a true circle even
+   when a neighboring flex item (the collapsing search box) is
+   animating its width.
    ======================================== */
 
 .nav-icon-button,
@@ -39,6 +53,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   width: 40px;
   height: 40px;
   border-radius: 50%;

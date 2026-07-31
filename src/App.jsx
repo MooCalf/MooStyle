@@ -1,12 +1,10 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "./Pages/Home";
 import { ModDetail } from "./Pages/ModDetail";
 import { CollectionDetail } from "./Pages/CollectionDetail";
 import { ModsIndex } from "./Pages/ModsIndex";
 import { CollectionsIndex } from "./Pages/CollectionsIndex";
-import { Blog } from "./Pages/Blog";
-import { BlogPost } from "./Pages/BlogPost";
 import { Gallery } from "./Pages/Gallery";
 import { GalleryEntry } from "./Pages/GalleryEntry";
 import { Free } from "./Pages/Free";
@@ -15,7 +13,6 @@ import { ModDownload } from "./Pages/ModDownload";
 import { Redirector } from "./Pages/Redirector";
 import { Archive } from "./Pages/Archive";
 import AboutMe from "./Pages/AboutMe";
-import CommonQuestions from "./Pages/CommonQuestions";
 import { Support } from "./Pages/Support";
 import { SavedProducts } from "./Pages/SavedProducts";
 import { PrivacyPolicy } from "./Pages/PrivacyPolicy";
@@ -54,8 +51,6 @@ function App() {
 
           <Route path="/archive" element={<Archive />} />
 
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/gallery/:slug" element={<GalleryEntry />} />
 
@@ -64,7 +59,10 @@ function App() {
           <Route path="/api/mods/:id/download" element={<ModDownload />} />
           <Route path="/redirector" element={<Redirector />} />
           <Route path="/about" element={<AboutMe />} />
-          <Route path="/common-questions" element={<CommonQuestions />} />
+          {/* General Information's FAQ content now lives on /support; this
+              keeps any existing /common-questions link or bookmark working
+              instead of 404ing. */}
+          <Route path="/common-questions" element={<Navigate to="/support" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

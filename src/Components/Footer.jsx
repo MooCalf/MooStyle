@@ -27,10 +27,7 @@ export const Footer = () => {
     },
     {
       title: "Support",
-      links: [
-        { name: "Support Center", href: "/support" },
-        { name: "Contact Support", href: "/common-questions#still-have-questions" }
-      ]
+      links: [{ name: "Support Center", href: "/support" }]
     },
     {
       title: "About",

@@ -122,21 +122,6 @@ const getStaticPages = () => [
     image: '/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png'
   },
   {
-    id: 'common-questions',
-    title: 'Common Questions',
-    description: 'Find answers to frequently asked questions',
-    content: 'Get answers to common questions about mods, downloads, installation, compatibility, and more. Our FAQ section covers everything you need to know.',
-    excerpt: 'Find answers to frequently asked questions',
-    category: 'pages',
-    subcategory: 'help',
-    tags: ['faq', 'questions', 'help', 'answers'],
-    author: 'MOOSTYLES',
-    type: 'page',
-    date: new Date().toISOString(),
-    url: '/common-questions',
-    image: '/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png'
-  },
-  {
     id: 'privacy-policy',
     title: 'Privacy Policy',
     description: 'Read our privacy policy and data protection practices',
