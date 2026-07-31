@@ -315,3 +315,32 @@
   padding-left: 0;
   color: var(--color-text-muted);
 }
+
+/* ========================================
+   STATUS PAGE
+   Every mod with its StatusBadge, on /status.
+   ======================================== */
+
+.status-page__list {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+}
+
+.status-page__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.status-page__name {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.status-page__name:hover {
+  color: var(--color-accent);
+}
