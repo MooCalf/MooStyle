@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from "framer-motion";
 import { NavigationBar } from '@/Components/NavigationBar';
 import { WebsiteBackground } from '@/Components/WebsiteBackground';
+import { Metadata } from '@/Components/Metadata.jsx';
 
 const CommonQuestions = () => {
   const [openItems, setOpenItems] = useState({});
@@ -128,9 +129,13 @@ const CommonQuestions = () => {
 
   return (
     <div className="min-h-screen">
+      <Metadata
+        pageTitle="Frequently Asked Questions | MOOSTYLES"
+        pageDescription="Answers to common questions about downloading, installing, and using MOOSTYLES InZOI mods."
+      />
       <WebsiteBackground />
       <NavigationBar />
-      <motion.div 
+      <motion.div
         className="min-h-screen"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

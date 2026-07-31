@@ -23,18 +23,18 @@ import { WebsiteBackground } from "@/Components/WebsiteBackground";
 export const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [product, setProduct] = useState(null);
-  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [product, setProduct] = useState(() => (id ? getProductById(id) : null));
+  const [relatedProducts, setRelatedProducts] = useState(() => (id ? getRelatedProducts(id) : []));
   const [selectedImage, setSelectedImage] = useState(0);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !(id && getProductById(id)));
 
   useEffect(() => {
     if (id) {
       setLoading(true);
       try {
         const productData = getProductById(id);
-        
+
         if (productData) {
           setProduct(productData);
           setRelatedProducts(getRelatedProducts(id));

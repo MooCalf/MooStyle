@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { NavigationBar } from '@/Components/NavigationBar';
 import { WebsiteBackground } from '@/Components/WebsiteBackground';
+import { Metadata } from '@/Components/Metadata.jsx';
 
 const AboutMe = () => {
   const achievements = [
@@ -45,6 +46,10 @@ const AboutMe = () => {
 
   return (
     <div className="min-h-screen">
+      <Metadata
+        pageTitle="About MooCalf | MOOSTYLES"
+        pageDescription="Meet MooCalf, the creator behind MOOSTYLES — free InZOI mods, brand packs, and modding resources."
+      />
       <WebsiteBackground />
       <NavigationBar />
       {/* Header */}

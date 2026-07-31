@@ -18,42 +18,45 @@ import {
   Loader2
 } from "lucide-react";
 
+const buildBrandData = (id) => {
+  if (!id) return null;
+  const allProducts = getAllProducts();
+  const brandProducts = allProducts.filter(product =>
+    product.brand.toLowerCase() === decodeURIComponent(id).toLowerCase()
+  );
+
+  if (brandProducts.length === 0) return null;
+
+  const brand = brandProducts[0].brand;
+  const totalProducts = brandProducts.length;
+  const averageRating = brandProducts.reduce((sum, product) => sum + (product.rating || 0), 0) / totalProducts;
+  const totalDownloads = brandProducts.reduce((sum, product) => sum + (product.downloadCount || 0), 0);
+
+  return {
+    name: brand,
+    products: brandProducts,
+    totalProducts,
+    averageRating: Math.round(averageRating * 10) / 10,
+    totalDownloads,
+    description: getBrandDescription(brand),
+    category: getBrandCategory(brand),
+    logo: getBrandLogoImage(brand)
+  };
+};
+
 export const BrandDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [brandData, setBrandData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [brandData, setBrandData] = useState(() => buildBrandData(id));
+  const [loading, setLoading] = useState(() => !buildBrandData(id));
   const [viewMode, setViewMode] = useState("grid");
 
   useEffect(() => {
     if (id) {
       setLoading(true);
-      // Simulate loading delay
-      setTimeout(() => {
-        const allProducts = getAllProducts();
-        const brandProducts = allProducts.filter(product => 
-          product.brand.toLowerCase() === decodeURIComponent(id).toLowerCase()
-        );
-        
-        if (brandProducts.length > 0) {
-          const brand = brandProducts[0].brand;
-          const totalProducts = brandProducts.length;
-          const averageRating = brandProducts.reduce((sum, product) => sum + product.rating, 0) / totalProducts;
-          const totalDownloads = brandProducts.reduce((sum, product) => sum + product.downloadCount, 0);
-          
-          setBrandData({
-            name: brand,
-            products: brandProducts,
-            totalProducts,
-            averageRating: Math.round(averageRating * 10) / 10,
-            totalDownloads,
-            description: getBrandDescription(brand),
-            category: getBrandCategory(brand),
-            logo: getBrandLogoImage(brand)
-          });
-        }
-        setLoading(false);
-      }, 500);
+      const data = buildBrandData(id);
+      setBrandData(data);
+      setLoading(false);
     }
   }, [id]);
 

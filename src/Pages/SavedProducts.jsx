@@ -154,6 +154,11 @@ export const SavedProducts = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
+        <Metadata
+          pageTitle="Saved Products - MOOSTYLES"
+          pageDescription="View and manage your saved products on MOOSTYLES"
+          noindex
+        />
         <WebsiteBackground />
         <div className="text-center">
           <Loader2 size={32} className="animate-spin text-teal-600 mx-auto mb-4" />
@@ -165,7 +170,7 @@ export const SavedProducts = () => {
 
   return (
     <>
-      <Metadata 
+      <Metadata
         pageTitle="Saved Products - MOOSTYLES"
         pageDescription="View and manage your saved products on MOOSTYLES"
         ogTitle="Saved Products - MOOSTYLES"
@@ -173,8 +178,9 @@ export const SavedProducts = () => {
         ogImage="/projects/Brand Medias/Promotional Content/Promo Poster.png"
         ogType="website"
         keywords="saved products, favorites, MOOSTYLES, mods"
+        noindex
       />
-      
+
       <div className="min-h-screen">
         <WebsiteBackground />
         {/* Navigation Bars */}

@@ -10,5 +10,10 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname,"./src"),
     }
-  }
+  },
+  ssr: {
+    // react-helmet-async ships CJS; bundle it so Node's ESM loader doesn't
+    // choke trying to statically detect its named exports.
+    noExternal: ["react-helmet-async"],
+  },
 });
