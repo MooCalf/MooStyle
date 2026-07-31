@@ -1,4 +1,16 @@
 /* ========================================
+   FEATURED COLLECTIONS
+   Boxed hero/promo carousel: even spacing on both sides instead of a
+   full-bleed banner, per the Stage 2 hero redesign.
+   ======================================== */
+
+.featured-collections {
+  max-width: var(--maxw-content);
+  margin: 0 auto;
+  padding: var(--space-3);
+}
+
+/* ========================================
    SHARED HOMEPAGE SECTION SPACING
    ======================================== */
 

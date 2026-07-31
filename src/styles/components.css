@@ -41,280 +41,9 @@
 
 /* ========================================
    NAVIGATION BAR
+   Replaced by the modular nav system in src/styles/navbar.css and
+   src/Components/NavigationBar.jsx / src/Components/Navbar/.
    ======================================== */
-
-/* Main Navigation Container */
-.navbar-container {
-  border-bottom: 1px solid #99fff68f;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background-color: #50dbcf54;
-  backdrop-filter: blur(5px);
-}
-
-.navbar-content {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-@media (min-width: 640px) {
-  .navbar-content {
-    padding: 0 1.5rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .navbar-content {
-    padding: 0 2rem;
-  }
-}
-
-.navbar-flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 4rem;
-}
-
-/* Navigation Link Styles */
-.navbar-link {
-  border-radius: 9999px;
-  padding: 0.5rem 1rem;
-  border: 1px solid transparent;
-  transition: all 0.2s ease;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.navbar-link-active {
-  border-color: #99fff6;
-  background-color: #99fff6;
-  color: #111827;
-}
-
-.navbar-link-inactive {
-  color: #374151;
-}
-
-.navbar-link-inactive:hover {
-  color: #111827;
-  background-color: #f9fafb;
-}
-
-/* Logo Styling */
-.navbar-logo-container {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.navbar-logo-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  color: #374151;
-  transition: color 0.2s ease;
-}
-
-.navbar-logo-link:focus {
-  outline: none;
-}
-
-.navbar-logo-link:hover {
-  color: #111827;
-}
-
-.navbar-logo-image {
-  height: 2rem;
-  width: 2rem;
-  flex-shrink: 0;
-}
-
-.navbar-logo-text {
-  font-size: 1.125rem;
-  font-weight: bold;
-  color: #111827;
-  white-space: nowrap;
-}
-
-/* Icon Buttons */
-.navbar-icon-button {
-  color: #374151;
-  transition: all 0.2s ease;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  display: block;
-  position: relative;
-}
-
-.navbar-icon-button:hover {
-  color: #111827;
-}
-
-/* Heart Icon Specific */
-.navbar-heart-button {
-  color: #374151;
-  transition: all 0.2s ease;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  display: block;
-  position: relative;
-}
-
-.navbar-heart-button:hover {
-  color: #ffffff;
-  background: linear-gradient(to right, #f97316, #ef4444);
-}
-
-.navbar-badge {
-  position: absolute;
-  top: -0.25rem;
-  right: -0.25rem;
-  background-color: #ef4444;
-  color: #ffffff;
-  font-size: 0.75rem;
-  border-radius: 9999px;
-  height: 1.25rem;
-  width: 1.25rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 500;
-}
-
-/* Dropdown Menu */
-.navbar-dropdown {
-  position: absolute;
-  margin-top: 0.5rem;
-  width: 12rem;
-  background-color: #ffffff;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border-radius: 0.375rem;
-  z-index: 50;
-  transform-origin: top right;
-  border: 1px solid #e5e7eb;
-}
-
-.navbar-dropdown-link {
-  display: block;
-  padding: 0.5rem 1rem;
-  color: #374151;
-  transition: background-color 0.2s ease;
-}
-
-.navbar-dropdown-link:hover {
-  background-color: #f3f4f6;
-}
-
-.navbar-dropdown-link:first-child {
-  border-top-left-radius: 0.375rem;
-  border-top-right-radius: 0.375rem;
-}
-
-.navbar-dropdown-link:last-child {
-  border-bottom-left-radius: 0.375rem;
-  border-bottom-right-radius: 0.375rem;
-}
-
-/* Mobile Menu Button */
-.navbar-mobile-button {
-  padding: 0.5rem;
-  color: #374151;
-  transition: color 0.2s ease;
-}
-
-.navbar-mobile-button:hover {
-  color: #111827;
-}
-
-/* Mobile Menu */
-.navbar-mobile-menu {
-  border-top: 1px solid #e5e7eb;
-  padding: 1rem 0;
-}
-
-.navbar-mobile-menu-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 0 1rem;
-}
-
-.navbar-mobile-link {
-  display: block;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  transition: all 0.2s ease;
-}
-
-.navbar-mobile-link-active {
-  background-color: #f3f4f6;
-  color: #111827;
-}
-
-.navbar-mobile-link-inactive {
-  color: #374151;
-}
-
-.navbar-mobile-link-inactive:hover {
-  background-color: #f9fafb;
-}
-
-.navbar-mobile-divider {
-  padding-top: 0.5rem;
-  border-top: 1px solid #e5e7eb;
-  margin-top: 0.5rem;
-}
-
-/* Patreon Button */
-.navbar-patreon-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background: transparent;
-  color: #374151;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  border: 1.5px solid transparent;
-}
-
-.navbar-patreon-button:hover {
-  background: linear-gradient(to right, #f97316, #ef4444);
-  color: #ffffff;
-  border-color: transparent;
-}
-
-.navbar-patreon-icon {
-  width: 1rem;
-  height: 1rem;
-  margin-right: 0.5rem;
-}
-
-/* Section Containers */
-.navbar-left-section,
-.navbar-right-section {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-@media (min-width: 640px) {
-  .navbar-left-section,
-  .navbar-right-section {
-    gap: 0.5rem;
-  }
-}
-
-.navbar-right-section {
-  position: relative;
-}
 
 /* Homepage Premium Mods Carousel */
 .premium-carousel-shell {
@@ -447,30 +176,6 @@
 
   .premium-carousel-card-title {
     font-size: 0.8rem;
-  }
-}
-
-/* Desktop Only */
-.navbar-desktop-only {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .navbar-desktop-only {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-}
-
-/* Mobile Only */
-.navbar-mobile-only {
-  display: block;
-}
-
-@media (min-width: 768px) {
-  .navbar-mobile-only {
-    display: none;
   }
 }
 
@@ -1633,6 +1338,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: var(--radius-lg);
   transition: height 0.5s ease-in-out;
 }
 
@@ -1669,70 +1375,11 @@
   opacity: 0;
 }
 
-/* Hero Scroll Button */
-.hero-scroll-button {
-  position: absolute;
-  bottom: 100px;
-  left: 50%;
-  margin-left: -62px;
-  transform-origin: center center;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 24px;
-  background: rgba(150, 255, 246, 0.9);
-  border: 1.5px solid rgba(80, 219, 207, 0.5);
-  border-radius: 24px;
-  color: rgba(80, 219, 207, 0.9);
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(4px);
-  will-change: transform;
-}
-
-.hero-scroll-button:hover {
-  background: rgba(96, 253, 240, 0.473);
-  border-color: rgba(80, 219, 207, 0.8);
-  color: rgb(80, 219, 207);
-  box-shadow: 0 4px 12px rgba(80, 219, 207, 0.3);
-}
-
-.hero-scroll-button:active {
-  transform: scale(0.95);
-}
-
-/* Scroll Button Text */
-.hero-scroll-text {
-  font-family: var(--font-family-primary);
-  letter-spacing: 0.5px;
-}
-
-/* Scroll Button Icon */
-.hero-scroll-icon {
-  display: flex;
-  align-items: center;
-  transition: transform 0.3s ease;
-}
-
-.hero-scroll-button:hover .hero-scroll-icon {
-  transform: translateY(2px);
-}
-
 /* Hero Banner Responsive - Tablet */
 @media (max-width: 768px) {
   .hero-banner-container {
     height: 70vh;
     min-height: 400px;
-  }
-  
-  .hero-scroll-button {
-    bottom: 30px;
-    padding: 10px 20px;
-    font-size: 14px;
   }
 }
 
@@ -1741,12 +1388,6 @@
   .hero-banner-container {
     height: 50vh;
     min-height: 300px;
-  }
-  
-  .hero-scroll-button {
-    bottom: 20px;
-    padding: 8px 16px;
-    font-size: 13px;
   }
 }
 
