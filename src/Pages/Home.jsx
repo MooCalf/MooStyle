@@ -1,8 +1,7 @@
 import { NavigationBar } from "@/Components/NavigationBar";
 import { Metadata } from "@/Components/Metadata";
 import { FeaturedCollections } from "@/Components/HomepageComponents/FeaturedCollections";
-import { CharactersSection } from "@/Components/HomepageComponents/CharactersSection";
-import { BlogTeaser } from "@/Components/HomepageComponents/BlogTeaser";
+import { ModListSection } from "@/Components/HomepageComponents/ModListSection";
 import { GalleryTeaser } from "@/Components/HomepageComponents/GalleryTeaser";
 import { ComingSoonBand } from "@/Components/HomepageComponents/ComingSoonBand";
 import { Footer } from "@/Components/Footer";
@@ -27,8 +26,7 @@ export const Home = () => (
       <NavigationBar />
       <main id="main-content">
         <FeaturedCollections />
-        <CharactersSection />
-        <BlogTeaser />
+        <ModListSection />
         <GalleryTeaser />
         <ComingSoonBand />
         <Footer />

@@ -68,9 +68,6 @@ export const NotFound = () => {
               <Link to="/support" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
                 Support
               </Link>
-              <Link to="/common-questions" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
-                FAQ
-              </Link>
             </div>
           </div>
         </div>

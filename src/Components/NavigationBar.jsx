@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import SearchQuery from "@/Components/SearchQuery";
 import { getGlobalSearchData } from "@/lib/globalSearchData";
 import { NavMenuPanel } from "@/Components/Navbar/NavMenuPanel";
 
-// Site-wide nav bar: a search icon and a menu trigger, top right (trigger
-// is the outermost/rightmost icon). Everything
+// Site-wide nav bar: a home logo button top left, a search icon and a menu
+// trigger top right (trigger is the outermost/rightmost icon). Everything
 // else (brand, primary links, SafeMode, socials) lives inside the dropdown
 // panel this trigger opens, per the newdesign-layout Stage 1 nav redesign.
 // Modular by construction: NavigationBar is the only thing pages import, so
@@ -31,28 +32,38 @@ export const NavigationBar = () => {
   return (
     <nav className="site-nav">
       <div className="site-nav__bar">
-        {/* DOM order left-to-right within this flex-end row still reads
-            visually right-to-left: search sits left of the menu trigger,
-            so the trigger is the rightmost icon. */}
-        <SearchQuery
-          iconOnly
-          placeholder="Search mods, collections, pages..."
-          searchData={getGlobalSearchData()}
-          onSearchSelect={handleSearchSelect}
-          showFilters
-          searchFields={["title", "description", "content", "tags", "category", "subcategory", "author", "brand"]}
-          resultLimit={20}
-        />
+        <Link to="/" className="nav-icon-button site-nav__home" aria-label="MOOSTYLES home">
+          <img
+            src="/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png"
+            alt=""
+            className="site-nav__home-logo"
+          />
+        </Link>
 
-        <button
-          type="button"
-          className="nav-icon-button"
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-          aria-expanded={isOpen}
-          onClick={() => setIsOpen((open) => !open)}
-        >
-          {isOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
-        </button>
+        <div className="site-nav__actions">
+          {/* DOM order left-to-right here still reads visually right-to-left:
+              search sits left of the menu trigger, so the trigger is the
+              outermost/rightmost icon. */}
+          <SearchQuery
+            iconOnly
+            placeholder="Search mods, collections, pages..."
+            searchData={getGlobalSearchData()}
+            onSearchSelect={handleSearchSelect}
+            showFilters
+            searchFields={["title", "description", "content", "tags", "category", "subcategory", "author", "brand"]}
+            resultLimit={20}
+          />
+
+          <button
+            type="button"
+            className="nav-icon-button"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            onClick={() => setIsOpen((open) => !open)}
+          >
+            {isOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+          </button>
+        </div>
       </div>
 
       {isOpen && (

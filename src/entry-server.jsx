@@ -36,8 +36,6 @@ const STATIC_PATHS = [
   '/collections',
   '/archive',
   '/about',
-  '/common-questions',
-  '/blog',
   '/gallery',
   '/free',
   '/status',
