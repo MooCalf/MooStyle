@@ -29,4 +29,8 @@ export const OUTBOUND_ALLOWLIST = [
   "patreon.com",
   "www.patreon.com",
   "moostyles.com",
+  "instagram.com",
+  "www.instagram.com",
+  "pin.it",
+  "discord.gg",
 ];

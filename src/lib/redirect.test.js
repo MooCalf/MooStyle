@@ -12,6 +12,12 @@ describe("isAllowedRedirectTarget", () => {
     expect(isAllowedRedirectTarget("https://cdn.moostyles.com/uploads/x.png")).toBe(true);
   });
 
+  it("allows the social platforms linked from the nav menu", () => {
+    expect(isAllowedRedirectTarget("https://www.instagram.com/moostyles_inzoi/")).toBe(true);
+    expect(isAllowedRedirectTarget("https://pin.it/Zz1UgHeLi")).toBe(true);
+    expect(isAllowedRedirectTarget("https://discord.gg/Dpr5cs7TQc")).toBe(true);
+  });
+
   it("rejects a domain not on the allowlist", () => {
     expect(isAllowedRedirectTarget("https://evil-example.com/phish")).toBe(false);
   });
