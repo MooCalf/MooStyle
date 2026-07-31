@@ -14,9 +14,6 @@
    SHARED HOMEPAGE SECTION SPACING
    ======================================== */
 
-.home-hero,
-.early-access-band,
-.membership-section,
 .characters-section,
 .blog-teaser,
 .gallery-teaser,
@@ -27,85 +24,13 @@
 }
 
 /* ========================================
-   HERO
+   TIER CARDS
+   HomeHero, EarlyAccessBand, and the MembershipSection wrapper that
+   used to render these were removed from the homepage (everything
+   above the hero carousel other than nav). TierCard itself is kept as
+   a reusable primitive per the original component spec, so its styles
+   stay in case it's placed elsewhere later.
    ======================================== */
-
-.home-hero {
-  text-align: center;
-}
-
-.home-hero__eyebrow {
-  color: var(--color-accent);
-  font-size: var(--font-size-1);
-  margin: 0 0 var(--space-2);
-}
-
-.home-hero__title {
-  font-size: var(--font-size-5);
-  margin: 0 0 var(--space-3);
-}
-
-@media (min-width: 640px) {
-  .home-hero__title {
-    font-size: var(--font-size-6);
-  }
-}
-
-.home-hero__collections {
-  color: var(--color-text-muted);
-  margin: 0;
-}
-
-/* ========================================
-   EARLY ACCESS BAND
-   ======================================== */
-
-.early-access-band {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  align-items: center;
-  text-align: center;
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
-}
-
-.early-access-band__text {
-  margin: 0;
-  color: var(--color-text);
-  max-width: var(--maxw-text);
-}
-
-.early-access-band__link {
-  color: var(--color-accent);
-  font-weight: 600;
-}
-
-/* ========================================
-   MEMBERSHIP / TIER CARDS
-   ======================================== */
-
-.membership-section {
-  text-align: center;
-}
-
-.membership-section__heading {
-  font-size: var(--font-size-5);
-  margin: 0 0 var(--space-4);
-}
-
-.membership-section__cards {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-@media (min-width: 640px) {
-  .membership-section__cards {
-    flex-direction: row;
-    justify-content: center;
-  }
-}
 
 .tier-card {
   flex: 1 1 0;
@@ -174,12 +99,6 @@
   background: var(--color-locked);
   color: var(--color-text-muted);
   cursor: not-allowed;
-}
-
-.membership-section__fine-print {
-  color: var(--color-text-muted);
-  font-size: var(--font-size-1);
-  margin-top: var(--space-3);
 }
 
 /* ========================================
