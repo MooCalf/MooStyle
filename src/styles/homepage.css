@@ -17,7 +17,6 @@
 .home-hero,
 .early-access-band,
 .membership-section,
-.brand-sections,
 .characters-section,
 .blog-teaser,
 .gallery-teaser,
@@ -181,56 +180,6 @@
   color: var(--color-text-muted);
   font-size: var(--font-size-1);
   margin-top: var(--space-3);
-}
-
-/* ========================================
-   BRAND SECTIONS
-   Dense text link lists, one block per collection.
-   ======================================== */
-
-.brand-sections__heading {
-  font-size: var(--font-size-5);
-  margin: 0 0 var(--space-4);
-}
-
-.brand-sections__block {
-  margin-bottom: var(--space-4);
-}
-
-.brand-sections__name {
-  font-size: var(--font-size-3);
-  margin: 0 0 var(--space-2);
-}
-
-.brand-sections__name a {
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-.brand-sections__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  columns: 1;
-}
-
-@media (min-width: 640px) {
-  .brand-sections__list {
-    columns: 2;
-  }
-}
-
-.brand-sections__list li {
-  padding: var(--space-1) 0;
-}
-
-.brand-sections__list a {
-  color: var(--color-text-muted);
-  text-decoration: none;
-}
-
-.brand-sections__list a:hover {
-  color: var(--color-accent);
 }
 
 /* ========================================

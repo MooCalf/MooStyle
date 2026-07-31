@@ -81,8 +81,8 @@ export const Footer = () => {
               className="h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 mx-auto object-contain"
             />
           </div>
-          {/* Large MOOSTYLES Text */}
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 tracking-tight opacity-90">
+          {/* Large MOOSTYLES Text (halved from the original text-3xl..text-7xl scale) */}
+          <h2 className="text-base sm:text-lg md:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 tracking-tight opacity-90">
             MOOSTYLES
           </h2>
         </div>
