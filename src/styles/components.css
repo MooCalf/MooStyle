@@ -1328,18 +1328,19 @@
    HERO BANNER / PROMOTIONAL CAROUSEL
    ======================================== */
 
-/* Hero Banner Container */
+/* Hero Banner Container
+   aspect-ratio (not a viewport-height value) so the box and the
+   object-fit: cover image inside it stay proportioned to each other
+   now that the hero is boxed with side margins instead of full-bleed. */
 .hero-banner-container {
   position: relative;
   width: 100%;
-  height: 100vh;
-  min-height: 600px;
+  aspect-ratio: 21 / 9;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-lg);
-  transition: height 0.5s ease-in-out;
 }
 
 /* Hero Banner Image Wrapper */
@@ -1378,16 +1379,14 @@
 /* Hero Banner Responsive - Tablet */
 @media (max-width: 768px) {
   .hero-banner-container {
-    height: 70vh;
-    min-height: 400px;
+    aspect-ratio: 16 / 9;
   }
 }
 
 /* Hero Banner Responsive - Mobile */
 @media (max-width: 480px) {
   .hero-banner-container {
-    height: 50vh;
-    min-height: 300px;
+    aspect-ratio: 4 / 3;
   }
 }
 
