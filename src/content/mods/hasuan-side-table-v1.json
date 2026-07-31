@@ -1,0 +1,49 @@
+{
+  "slug": "hasuan-side-table-v1",
+  "legacyId": "archive-021",
+  "name": "Hasuan Side Table V1",
+  "collection": null,
+  "status": {
+    "state": "archived",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/Hasaun Side Table V1/Hasaun Side Table V1_Thumbnail_CF.png",
+    "previews": [
+      "/projects/Products/Archive Images/Hasaun Side Table V1/Showcase1.jpg"
+    ],
+    "screenshots": []
+  },
+  "description": "A side table with a classic simple design. Square Legs and a shiny finish.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/hasuan-side-table-v1-c5eae02d",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/MOOSTYLES/posts/hasaun-side-v1-162258604?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "metadataList": [
+    {
+      "label": "Game Version",
+      "value": "inZOI"
+    }
+  ],
+  "fileManifest": [
+    {
+      "filename": "Hasuan Side Table V1",
+      "description": "A side table with a classic simple design. Square Legs and a shiny finish."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": true
+  }
+}

@@ -1,198 +1,94 @@
-// Shopping Content Data System
-// This file contains all the dynamic content for the shopping page
-import { getArchiveById } from "@/lib/archive";
+// Legacy-shaped shim over src/lib/mods.js. Existing consumers (ProductCard,
+// ProductDetail, BrandDetail, InZOI, AdvancedSearch, useProductData) expect
+// the old { id, brand, image, images, downloadlink, patreonlink, ... }
+// product shape; this file translates the new mod content model into that
+// shape so those pages keep working unmodified while they're migrated to
+// consume mods.js directly. New code should import from "@/lib/mods" instead.
+import {
+  getActiveMods,
+  getModByAnyId,
+  getRelatedMods as getRelatedModsFromStore,
+} from "@/lib/mods";
 
-export const shoppingCategories = {
-  inZOI: {
-    products: [
-      // MOCA PRODUCT BRAND
-      {
-        id: "MOCA-001",
-        name: "MOCA Cafe Brand",
-        nameColor: "#ffffff",
-        brand: "MOCA",
-        image: "/projects/Products/MOCA Brand/MOCA Logo - ModPack.png",
-        images: [
-          "/projects/Products/MOCA Brand/MOCA Logo - ModPack.png",
-          "/projects/Products/MOCA Brand/Preview Image 1.png",
-          "/projects/Products/MOCA Brand/MOCA CUP ADVERTISING.png",
-          "/projects/Products/MOCA Brand/MOCA CAN ADVERTISING.png",
-        ],
-        description: "A full on brand experience for MOCA Cafe, your local coffee shop.",
-        detailedDescription: "A full on brand experience for MOCA Cafe, your local coffee shop.",
-        features: [
-          "Large Exterior Signs foir Branding",
-          "Wall Mounted Signs",
-          "Menu Boards"
-          
-        ],
-        tags: ["Cafe", "Coffee", "MOCA", "Shop"],
-        isNew: true,
-        downloadlink: "https://www.curseforge.com/inzoi/build-mode/moca-cafe-brand-39eb36ff",
-        patreonlink: "https://www.patreon.com/posts/moca-cafe-brand-151972427?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link",
-        howToUse: "Place the exterior signs on the outside of your building to create a welcoming storefront. Use the wall-mounted signs to add character and charm to your interior spaces. The menu boards can be placed near your counter or seating areas to display your offerings in style. Perfect for creating a cozy and inviting atmosphere in your cafe or coffee shop. Can't find my mods in your build menu? Try looking for 'MOCA' or 'Sign' and you should see them! If you still can't find them, make sure your mod is up to date and that you have the correct version of Build Mode installed. Happy building!",
-
-      },
-
-// PITAPATA PRODUCT BRAND
-      {
-        id: "PITAPATA-001",
-        name: "PITAPATA",
-        nameColor: "#ffffff",
-        brand: "PITAPATA",
-        image: "/projects/Products/PITAPATA/PITAPATA_Thumbnail_CF.png",
-        images: [
-          "/projects/Products/PITAPATA/PITA_Thumbnail_CF.png",
-          "/projects/Products/PITAPATA/Kevin-SugarZoi_Thumbnail_CF.png"
-        ],
-        description: "PITAPATA is a character brand centered around making collectible chibi-style avatars inspired by YouTubers and creators within the inZOI communityy here",
-        detailedDescription: "PITAPATA is a character brand centered around making collectible chibi-style avatars inspired by YouTubers and creators within the inZOI community. Explore playful, stylized miniature characters with oversized heads and simple outfits with recognizable traits that reflect each creator’s identity. ",
-        features: [
-          "Cute and Collectible Chibi Avatars",
-          "Influencers and Creators from the inZOI Community"
-        ],
-        tags: ["Chibi", "Characters", "Youtubers", "PITAPATA"],
-        isNew: true,
-        downloadlink: "https://www.curseforge.com/inzoi/build-mode/pitapata-74c2b4c5",
-        patreonlink: "https://www.patreon.com/posts/pitapata-155793436?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link",
-        howToUse: "",
-
-      },
-    ]
-  }
+const toLegacyProduct = (mod) => {
+  const images = [mod.media.banner, ...mod.media.previews].filter(Boolean);
+  const downloadLink = mod.downloadOptions.public?.url ?? null;
+  const patreonLink = mod.downloadOptions.patreonUrl ?? null;
+  return {
+    id: mod.legacyId,
+    slug: mod.slug,
+    name: mod.name,
+    brand: mod.collection || "Archive",
+    category: mod.legacy.isArchiveItem ? "archive" : "inZOI",
+    image: images[0] || "",
+    images,
+    description: mod.description,
+    detailedDescription: mod.description,
+    features: mod.highlights || [],
+    tags: mod.tags.length ? mod.tags : mod.legacy.isArchiveItem ? ["archive"] : [],
+    isNew: mod.legacy.isNew,
+    downloadlink: downloadLink,
+    downloadLink,
+    patreonlink: patreonLink,
+    patreonLink,
+    howToUse: (mod.installation || []).join("\n\n"),
+  };
 };
 
+export const getAllProducts = () => getActiveMods().map(toLegacyProduct);
 
-Object.values(shoppingCategories).forEach(category => {
-  category.products.forEach(p => {
-    const dl = p.downloadLink ?? p.downloadlink ?? p.modFile?.url ?? (p.modFile?.filename ? `/download/${p.id}` : null);
-    p.downloadLink = dl;
-    p.downloadlink = dl;
-  });
-});
+export const getProductsByCategory = () => getAllProducts();
 
-export const getCategoryData = (category) => {
-  return shoppingCategories[category] || null;
-};
-
-export const getAllProducts = () => {
-  const allProducts = [];
-  Object.values(shoppingCategories).forEach(category => {
-    allProducts.push(...category.products);
-  });
-  return allProducts.map(p => ({
-    ...p,
-    downloadLink: p.downloadLink ?? p.downloadlink ?? p.modFile?.url ?? (p.modFile?.filename ? `/download/${p.id}` : null),
-    downloadlink: p.downloadLink ?? p.downloadlink ?? p.modFile?.url ?? (p.modFile?.filename ? `/download/${p.id}` : null)
-  }));
-};
-
-export const getProductsByCategory = (category) => {
-  const categoryData = getCategoryData(category);
-  return categoryData ? categoryData.products : [];
-};
+export const getCategoryData = (category) =>
+  category === "inZOI" ? { products: getAllProducts() } : null;
 
 export const searchProducts = (query, filters = {}) => {
   let products = getAllProducts();
-  
+
   if (query) {
-    products = products.filter(product => 
-      product.name.toLowerCase().includes(query.toLowerCase()) ||
-      product.description.toLowerCase().includes(query.toLowerCase()) ||
-      product.brand.toLowerCase().includes(query.toLowerCase()) ||
-      product.tags.some(tag => tag.toLowerCase().includes(query.toLowerCase()))
+    const q = query.toLowerCase();
+    products = products.filter(
+      (product) =>
+        product.name.toLowerCase().includes(q) ||
+        product.description.toLowerCase().includes(q) ||
+        product.brand.toLowerCase().includes(q) ||
+        product.tags.some((tag) => tag.toLowerCase().includes(q))
     );
   }
-  
-  if (filters.category) {
-    products = products.filter(product => 
-      getProductsByCategory(filters.category).includes(product)
-    );
-  }
-  
-  if (filters.subcategory) {
-    products = products.filter(product => 
-      product.tags.includes(filters.subcategory)
-    );
-  }
-  
+
   if (filters.brand) {
-    products = products.filter(product => 
+    products = products.filter((product) =>
       product.brand.toLowerCase().includes(filters.brand.toLowerCase())
     );
   }
-  
+
+  if (filters.subcategory) {
+    products = products.filter((product) => product.tags.includes(filters.subcategory));
+  }
+
   return products;
 };
 
-export const getFilterOptions = (category = null) => {
-  const products = category ? getProductsByCategory(category) : getAllProducts();
-  
-  const brands = [...new Set(products.map(p => p.brand))];
-  const tags = [...new Set(products.flatMap(p => p.tags))];
-  
+export const getFilterOptions = () => {
+  const products = getAllProducts();
   return {
-    brands: brands.sort(),
-    subcategories: tags.sort(),
+    brands: [...new Set(products.map((p) => p.brand))].sort(),
+    subcategories: [...new Set(products.flatMap((p) => p.tags))].sort(),
     priceRanges: [],
-    ratings: []
+    ratings: [],
   };
 };
 
-export const getProductById = (productId) => {
-  const allProducts = getAllProducts();
-  const product = allProducts.find(p => p.id === productId);
-  if (product) return product;
-
-  const archiveItem = getArchiveById(productId);
-  if (!archiveItem) return null;
-
-  const downloadLink = (archiveItem.downloadLink ?? archiveItem.downloadlink ?? "").trim() || null;
-  const patreonLink = (archiveItem.patreonLink ?? archiveItem.patreonlink ?? "").trim() || null;
-
-  return {
-    ...archiveItem,
-    image: archiveItem.image || archiveItem.images?.[0] || "",
-    brand: archiveItem.brand || "Archive",
-    category: archiveItem.category || "archive",
-    tags: Array.isArray(archiveItem.tags) && archiveItem.tags.length ? archiveItem.tags : ["archive"],
-    downloadLink,
-    downloadlink: downloadLink,
-    patreonLink,
-    patreonlink: patreonLink,
-  };
+export const getProductById = (id) => {
+  const mod = getModByAnyId(id);
+  return mod ? toLegacyProduct(mod) : null;
 };
 
-export const getRelatedProducts = (productId, limit = 4) => {
-  const product = getProductById(productId);
-  if (!product) return [];
-  
-  const allProducts = getAllProducts();
-  const relatedProducts = allProducts
-    .filter(
-      (p) =>
-        p.id !== productId &&
-        Array.isArray(p.tags) &&
-        Array.isArray(product.tags) &&
-        p.tags.some((tag) => product.tags.includes(tag))
-    )
-    .slice(0, limit);
-  
-  return relatedProducts;
-};
+export const getRelatedProducts = (id, limit = 4) =>
+  getRelatedModsFromStore(id, limit).map(toLegacyProduct);
 
-export const getProductCategory = (productId) => {
-  const product = getProductById(productId);
-  if (!product) return null;
-
-  if (product.category === "archive") {
-    return "archive";
-  }
-  
-  for (const [categoryName, categoryData] of Object.entries(shoppingCategories)) {
-    if (categoryData.products.some(p => p.id === productId)) {
-      return categoryName;
-    }
-  }
-  return null;
+export const getProductCategory = (id) => {
+  const mod = getModByAnyId(id);
+  if (!mod) return null;
+  return mod.legacy.isArchiveItem ? "archive" : "inZOI";
 };

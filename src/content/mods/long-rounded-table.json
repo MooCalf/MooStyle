@@ -1,0 +1,49 @@
+{
+  "slug": "long-rounded-table",
+  "legacyId": "archive-004",
+  "name": "Long Rounded Table",
+  "collection": null,
+  "status": {
+    "state": "archived",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/LongRoundedTable/Long Rounded Table_Thumbnail_CF.png",
+    "previews": [
+      "/projects/Products/Archive Images/LongRoundedTable/LRT_Showcase1.jpg"
+    ],
+    "screenshots": []
+  },
+  "description": "A simple curved and rounded wooden shelf for decorative pieces. Holds up to 20+ items total.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/long-rounded-table-8e12edc1",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/posts/long-rounded-155742726"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "metadataList": [
+    {
+      "label": "Game Version",
+      "value": "inZOI"
+    }
+  ],
+  "fileManifest": [
+    {
+      "filename": "Long Rounded Table",
+      "description": "A simple curved and rounded wooden shelf for decorative pieces. Holds up to 20+ items total."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": false
+  }
+}
