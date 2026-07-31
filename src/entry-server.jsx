@@ -39,6 +39,8 @@ const STATIC_PATHS = [
   '/common-questions',
   '/blog',
   '/gallery',
+  '/free',
+  '/status',
 ];
 
 export function getStaticRoutes() {

@@ -9,6 +9,10 @@ import { Blog } from "./Pages/Blog";
 import { BlogPost } from "./Pages/BlogPost";
 import { Gallery } from "./Pages/Gallery";
 import { GalleryEntry } from "./Pages/GalleryEntry";
+import { Free } from "./Pages/Free";
+import { Status } from "./Pages/Status";
+import { ModDownload } from "./Pages/ModDownload";
+import { Redirector } from "./Pages/Redirector";
 import { Archive } from "./Pages/Archive";
 import AboutMe from "./Pages/AboutMe";
 import CommonQuestions from "./Pages/CommonQuestions";
@@ -54,6 +58,11 @@ function App() {
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/gallery/:slug" element={<GalleryEntry />} />
+
+          <Route path="/free" element={<Free />} />
+          <Route path="/status" element={<Status />} />
+          <Route path="/api/mods/:id/download" element={<ModDownload />} />
+          <Route path="/redirector" element={<Redirector />} />
           <Route path="/about" element={<AboutMe />} />
           <Route path="/common-questions" element={<CommonQuestions />} />
           <Route path="*" element={<NotFound />} />
