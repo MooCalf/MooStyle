@@ -3,8 +3,8 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App.jsx';
-import { getAllProducts } from './lib/shoppingData';
-import { getAllArchives } from './lib/archive';
+import { getAllMods, getCollections } from './lib/mods';
+import { slugify } from './lib/slugify';
 
 export function render(url) {
   const helmetContext = {};
@@ -32,23 +32,26 @@ const STATIC_PATHS = [
   '/offline',
   '/links',
   '/brands',
+  '/mods',
+  '/collections',
   '/archive',
   '/about',
   '/common-questions',
 ];
 
 export function getStaticRoutes() {
-  const products = getAllProducts();
-  const archives = getAllArchives();
+  const mods = getAllMods();
+  const collections = getCollections();
 
-  const productPaths = [
-    ...products.map((p) => `/product/${p.id}`),
-    ...archives.map((a) => `/product/${a.id}`),
-  ];
+  const modPaths = mods.flatMap((mod) => [
+    `/mods/${mod.slug}`,
+    `/product/${mod.legacyId}`,
+  ]);
 
-  const brandPaths = [...new Set(products.map((p) => p.brand))].map(
-    (brand) => `/brand/${brand}`
-  );
+  const collectionPaths = collections.flatMap((collection) => [
+    `/collections/${slugify(collection)}`,
+    `/brand/${collection}`,
+  ]);
 
-  return [...STATIC_PATHS, ...productPaths, ...brandPaths];
+  return [...STATIC_PATHS, ...modPaths, ...collectionPaths];
 }

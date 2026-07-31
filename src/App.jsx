@@ -1,9 +1,10 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./Pages/Home";
-import { ProductDetail } from "./Pages/ProductDetail";
-import { BrandDetail } from "./Pages/BrandDetail";
-import { InZOI } from "./Pages/InZOI";
+import { ModDetail } from "./Pages/ModDetail";
+import { CollectionDetail } from "./Pages/CollectionDetail";
+import { ModsIndex } from "./Pages/ModsIndex";
+import { CollectionsIndex } from "./Pages/CollectionsIndex";
 import { Archive } from "./Pages/Archive";
 import AboutMe from "./Pages/AboutMe";
 import CommonQuestions from "./Pages/CommonQuestions";
@@ -29,9 +30,20 @@ function App() {
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/offline" element={<Offline />} />
           <Route path="/links" element={<Links />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/brand/:id" element={<BrandDetail />} />
-          <Route path="/brands" element={<InZOI />} />
+          {/* Canonical mod/collection routes */}
+          <Route path="/mods" element={<ModsIndex />} />
+          <Route path="/mods/:slug" element={<ModDetail />} />
+          <Route path="/collections" element={<CollectionsIndex />} />
+          <Route path="/collections/:slug" element={<CollectionDetail />} />
+
+          {/* Legacy routes, dual-mounted onto the same page components so
+              every existing mod/brand URL keeps working. Metadata.jsx sets
+              the canonical link to the new path regardless of which route
+              matched. */}
+          <Route path="/product/:id" element={<ModDetail />} />
+          <Route path="/brand/:id" element={<CollectionDetail />} />
+          <Route path="/brands" element={<ModsIndex />} />
+
           <Route path="/archive" element={<Archive />} />
           <Route path="/about" element={<AboutMe />} />
           <Route path="/common-questions" element={<CommonQuestions />} />

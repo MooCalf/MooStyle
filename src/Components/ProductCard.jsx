@@ -81,8 +81,13 @@ export const ProductCard = ({ product, onToggleFavorite, onQuickView }) => {
     setImageError(true);
   };
 
+  // Prefer the canonical /mods/:slug route; fall back to the legacy
+  // /product/:id path for any caller that hasn't been migrated to pass a
+  // slug yet.
+  const detailHref = product.slug ? `/mods/${product.slug}` : `/product/${product.id}`;
+
   return (
-    <Link to={`/product/${product.id}`} className="block">
+    <Link to={detailHref} className="block">
       <motion.div 
         className="product-card bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group cursor-pointer relative"
         initial={{ opacity: 0, y: 20 }}
