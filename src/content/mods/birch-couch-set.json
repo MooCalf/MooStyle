@@ -1,0 +1,49 @@
+{
+  "slug": "birch-couch-set",
+  "legacyId": "archive-017",
+  "name": "Birch Couch Set",
+  "collection": null,
+  "status": {
+    "state": "archived",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/Birch Couch Set/Birch Couch_Thumbnail_CF.png",
+    "previews": [
+      "/projects/Products/Archive Images/Birch Couch Set/Showcase.jpg"
+    ],
+    "screenshots": []
+  },
+  "description": "Bringing warmth and simplicity to your home featuring a soft cushioned seating paired with natural birch wood panels, this modern minimalist, cozy and inviting atmosphere perfect for living rooms, lounges, and reading nooks. A clean design that blends comfort with contemporary style.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/birch-couch-aa4752cd",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/MOOSTYLES/posts/birch-couch-set-162257737?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "metadataList": [
+    {
+      "label": "Game Version",
+      "value": "inZOI"
+    }
+  ],
+  "fileManifest": [
+    {
+      "filename": "Birch Couch Set",
+      "description": "Bringing warmth and simplicity to your home featuring a soft cushioned seating paired with natural birch wood panels, this modern minimalist, cozy and inviting atmosphere perfect for living rooms, lounges, and reading nooks. A clean design that blends comfort with contemporary style."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": true
+  }
+}

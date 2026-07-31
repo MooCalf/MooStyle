@@ -1,0 +1,66 @@
+{
+  "slug": "moca-cafe-brand",
+  "legacyId": "MOCA-001",
+  "name": "MOCA Cafe Brand",
+  "collection": "MOCA",
+  "status": {
+    "state": "active",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/MOCA Brand/MOCA Logo - ModPack.png",
+    "previews": [
+      "/projects/Products/MOCA Brand/Preview Image 1.png",
+      "/projects/Products/MOCA Brand/MOCA CUP ADVERTISING.png",
+      "/projects/Products/MOCA Brand/MOCA CAN ADVERTISING.png"
+    ],
+    "screenshots": []
+  },
+  "description": "A full on brand experience for MOCA Cafe, your local coffee shop.",
+  "highlights": [
+    "Large Exterior Signs foir Branding",
+    "Wall Mounted Signs",
+    "Menu Boards"
+  ],
+  "knownIssues": null,
+  "installation": [
+    "Place the exterior signs on the outside of your building to create a welcoming storefront. Use the wall-mounted signs to add character and charm to your interior spaces. The menu boards can be placed near your counter or seating areas to display your offerings in style. Perfect for creating a cozy and inviting atmosphere in your cafe or coffee shop. Can't find my mods in your build menu? Try looking for 'MOCA' or 'Sign' and you should see them! If you still can't find them, make sure your mod is up to date and that you have the correct version of Build Mode installed. Happy building!"
+  ],
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/moca-cafe-brand-39eb36ff",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/posts/moca-cafe-brand-151972427?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [
+    "Cafe",
+    "Coffee",
+    "MOCA",
+    "Shop"
+  ],
+  "metadataList": [
+    {
+      "label": "Game Version",
+      "value": "inZOI"
+    },
+    {
+      "label": "Collection",
+      "value": "MOCA"
+    }
+  ],
+  "fileManifest": [
+    {
+      "filename": "MOCA Cafe Brand",
+      "description": "A full on brand experience for MOCA Cafe, your local coffee shop."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": false,
+    "isNew": true
+  }
+}

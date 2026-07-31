@@ -1,0 +1,49 @@
+{
+  "slug": "interlocked-shelf",
+  "legacyId": "archive-023",
+  "name": "Interlocked Shelf",
+  "collection": null,
+  "status": {
+    "state": "archived",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/Interlocked BookShelf/Interlocked BookShelf_Thumbnail_CF.jpg",
+    "previews": [
+      "/projects/Products/Archive Images/Interlocked BookShelf/Showcase1.jpg"
+    ],
+    "screenshots": []
+  },
+  "description": "A modern interlocked wall shelf designed to add clean style and functional storage to your inZOI interiors. Perfect for living rooms, offices, etc.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/interlocked-shelf-e316e399",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/MOOSTYLES/posts/interlocked-162258843?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "metadataList": [
+    {
+      "label": "Game Version",
+      "value": "inZOI"
+    }
+  ],
+  "fileManifest": [
+    {
+      "filename": "Interlocked Shelf",
+      "description": "A modern interlocked wall shelf designed to add clean style and functional storage to your inZOI interiors. Perfect for living rooms, offices, etc."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": true
+  }
+}

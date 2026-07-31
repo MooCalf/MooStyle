@@ -1,0 +1,49 @@
+{
+  "slug": "wooden-swirled-shelf",
+  "legacyId": "archive-002",
+  "name": "Wooden Swirled Shelf",
+  "collection": null,
+  "status": {
+    "state": "archived",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/WoodenSwirledShelf/Wooden Swirled Shelf_Thumbnail_CF.png",
+    "previews": [
+      "/projects/Products/Archive Images/WoodenSwirledShelf/WSS - Showcase1.jpg"
+    ],
+    "screenshots": []
+  },
+  "description": "A simple Wooden Swirled Shelf. Holds one item on each shelf.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/wooden-swirled-shelf-1bf8a69c",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/posts/wooden-swirled-154530647?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "metadataList": [
+    {
+      "label": "Game Version",
+      "value": "inZOI"
+    }
+  ],
+  "fileManifest": [
+    {
+      "filename": "Wooden Swirled Shelf",
+      "description": "A simple Wooden Swirled Shelf. Holds one item on each shelf."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": false
+  }
+}
