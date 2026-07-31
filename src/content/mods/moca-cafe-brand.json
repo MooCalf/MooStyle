@@ -4,7 +4,7 @@
   "name": "MOCA Cafe Brand",
   "collection": "MOCA",
   "status": {
-    "state": "active",
+    "compatibility": "untested",
     "gameVersion": "inZOI"
   },
   "media": {

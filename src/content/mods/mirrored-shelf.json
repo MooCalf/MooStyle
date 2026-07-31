@@ -4,7 +4,7 @@
   "name": "Mirrored Shelf",
   "collection": null,
   "status": {
-    "state": "archived",
+    "compatibility": "untested",
     "gameVersion": "inZOI"
   },
   "media": {

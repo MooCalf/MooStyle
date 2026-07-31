@@ -4,7 +4,7 @@
   "name": "JellyFish Light",
   "collection": null,
   "status": {
-    "state": "archived",
+    "compatibility": "untested",
     "gameVersion": "inZOI"
   },
   "media": {
