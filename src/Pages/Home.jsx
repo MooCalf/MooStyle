@@ -3,7 +3,6 @@ import { Metadata } from "@/Components/Metadata";
 import { HomeHero } from "@/Components/HomepageComponents/HomeHero";
 import { EarlyAccessBand } from "@/Components/HomepageComponents/EarlyAccessBand";
 import { MembershipSection } from "@/Components/HomepageComponents/MembershipSection";
-import { BrandSections } from "@/Components/HomepageComponents/BrandSections";
 import { FeaturedCollections } from "@/Components/HomepageComponents/FeaturedCollections";
 import { CharactersSection } from "@/Components/HomepageComponents/CharactersSection";
 import { BlogTeaser } from "@/Components/HomepageComponents/BlogTeaser";
@@ -12,9 +11,8 @@ import { ComingSoonBand } from "@/Components/HomepageComponents/ComingSoonBand";
 import { Footer } from "@/Components/Footer";
 import { WebsiteBackground } from "@/Components/WebsiteBackground";
 
-// Homepage section order follows newdesign-layout Section 1.2 exactly:
-// hero, early access band, membership, brand sections, featured
-// collections, characters, blog teaser, gallery teaser, coming soon, footer.
+// Homepage section order follows newdesign-layout Section 1.2, minus the
+// per-collection brand sections block (removed per request).
 export const Home = () => (
   <>
     <Metadata
@@ -32,7 +30,6 @@ export const Home = () => (
         <HomeHero />
         <EarlyAccessBand />
         <MembershipSection />
-        <BrandSections />
         <FeaturedCollections />
         <CharactersSection />
         <BlogTeaser />
