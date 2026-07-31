@@ -81,6 +81,15 @@ const sitemapEntries = routes
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries}\n</urlset>\n`;
 fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemap, 'utf-8');
 
+// Manifest for scripts/verify-prerender-count.mjs (run in CI) to check
+// against, since dist-ssr — and therefore getStaticRoutes() — is gone by
+// the time a separate verification step could otherwise call it.
+fs.writeFileSync(
+  path.join(distDir, '.prerender-manifest.json'),
+  JSON.stringify({ routeCount: count }),
+  'utf-8'
+);
+
 fs.rmSync(path.join(root, 'dist-ssr'), { recursive: true, force: true });
 
 console.log(`Prerendered ${count} routes + 404.html + sitemap.xml`);

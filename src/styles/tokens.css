@@ -1,0 +1,77 @@
+/* ========================================
+   DESIGN TOKENS
+   Black and white minimalistic clay theme with a teal accent.
+   Every new component in the newdesign-layout redesign reads
+   colors, radii, and spacing from these custom properties rather
+   than hardcoding values, so the palette can be adjusted in one
+   place. Existing pre-redesign pages keep their own inline styles
+   and are migrated over time, not touched by this file.
+   ======================================== */
+
+:root {
+  /* ---- Color: accent ---- */
+  --color-accent: #0d9488;
+  --color-accent-hover: #0f766e;
+
+  /* ---- Color: surfaces ---- */
+  --color-bg: #0b0f10;
+  --color-surface: #14191b;
+  --color-surface-alt: #1c2325;
+  --color-border: #263133;
+
+  /* ---- Color: text ---- */
+  --color-text: #e8eceb;
+  --color-text-muted: #9aa5a3;
+
+  /* ---- Color: state ---- */
+  --color-locked: #4a5254;
+  --color-success: #3f9a5e;
+  --color-warning: #c08b2e;
+  --color-danger: #b04a4a;
+
+  /* ---- Radius ---- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+
+  /* ---- Spacing ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --space-6: 64px;
+
+  /* ---- Layout ---- */
+  --maxw-content: 1180px;
+  --maxw-text: 720px;
+
+  /* ---- Type scale ---- */
+  --font-size-1: 14px;
+  --font-size-2: 16px;
+  --font-size-3: 18px;
+  --font-size-4: 22px;
+  --font-size-5: 28px;
+  --font-size-6: 40px;
+}
+
+/* ========================================
+   TYPE RULES
+   Body copy vs. headings vs. brand/product-name casing, per the
+   newdesign-layout type scale.
+   ======================================== */
+
+.newdesign-body {
+  font-size: var(--font-size-2);
+  line-height: 1.6;
+}
+
+.newdesign-heading {
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.newdesign-brand-label {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
