@@ -3,7 +3,7 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App.jsx';
-import { getAllMods, getCollections } from './lib/mods';
+import { getAllMods, getCollections, getGalleryEntries } from './lib/mods';
 import { slugify } from './lib/slugify';
 
 export function render(url) {
@@ -37,11 +37,14 @@ const STATIC_PATHS = [
   '/archive',
   '/about',
   '/common-questions',
+  '/blog',
+  '/gallery',
 ];
 
 export function getStaticRoutes() {
   const mods = getAllMods();
   const collections = getCollections();
+  const galleryEntries = getGalleryEntries();
 
   const modPaths = mods.flatMap((mod) => [
     `/mods/${mod.slug}`,
@@ -53,5 +56,7 @@ export function getStaticRoutes() {
     `/brand/${collection}`,
   ]);
 
-  return [...STATIC_PATHS, ...modPaths, ...collectionPaths];
+  const galleryPaths = galleryEntries.map((entry) => `/gallery/${entry.key}`);
+
+  return [...STATIC_PATHS, ...modPaths, ...collectionPaths, ...galleryPaths];
 }

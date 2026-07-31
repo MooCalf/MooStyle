@@ -9,10 +9,10 @@
   },
   "media": {
     "banner": "/projects/Products/Archive Images/Gleems Side Table/Gleems Side Table_Thumbnail_CF.png",
-    "previews": [
+    "previews": [],
+    "screenshots": [
       "/projects/Products/Archive Images/Gleems Side Table/Showcase1.jpg"
-    ],
-    "screenshots": []
+    ]
   },
   "description": "A simple wooden side table box like design.",
   "highlights": null,

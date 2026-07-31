@@ -9,10 +9,10 @@
   },
   "media": {
     "banner": "/projects/Products/Archive Images/WoodenSwirledShelf/Wooden Swirled Shelf_Thumbnail_CF.png",
-    "previews": [
+    "previews": [],
+    "screenshots": [
       "/projects/Products/Archive Images/WoodenSwirledShelf/WSS - Showcase1.jpg"
-    ],
-    "screenshots": []
+    ]
   },
   "description": "A simple Wooden Swirled Shelf. Holds one item on each shelf.",
   "highlights": null,

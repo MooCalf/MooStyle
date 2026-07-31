@@ -69,6 +69,20 @@ export const getRelatedMods = (slug, limit = 4) => {
     .slice(0, limit);
 };
 
+// Flattens every mod's real in-game screenshots into a single list, for the
+// /gallery page and its homepage teaser. No fabricated "posted date" is
+// attached, since the source data has never tracked when a screenshot was
+// taken or published.
+export const getGalleryEntries = () =>
+  allMods.flatMap((mod) =>
+    mod.media.screenshots.map((src, index) => ({
+      src,
+      modName: mod.name,
+      modSlug: mod.slug,
+      key: `${mod.slug}-${index}`,
+    }))
+  );
+
 export const searchMods = (query) => {
   if (!query) return allMods;
   const q = query.toLowerCase();

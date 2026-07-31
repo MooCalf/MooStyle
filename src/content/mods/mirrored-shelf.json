@@ -9,10 +9,10 @@
   },
   "media": {
     "banner": "/projects/Products/Archive Images/Mirrored Shelf/Mirrored Shelf_Thumbnail_CF.png",
-    "previews": [
+    "previews": [],
+    "screenshots": [
       "/projects/Products/Archive Images/Mirrored Shelf/MS - Showcase1.jpg"
-    ],
-    "screenshots": []
+    ]
   },
   "description": "A simple and minimalistic shelf capable of neatly storing multiple rows of decoration.",
   "highlights": null,
