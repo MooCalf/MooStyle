@@ -43,18 +43,19 @@
 }
 
 /* Custom Font Configuration
-   Site brand typeface is Modak (see index.html's Google Fonts <link> for
-   the Cherry Bomb One / Comfortaa / Modak / Poiret One family, imported
-   together; only Modak is wired up as the active typeface here). Every
-   text-facing family variable points at the same Modak + system fallback
-   stack so headings, body copy, and buttons stay consistent -- Inter,
-   Poppins, and Playfair Display have been fully removed. --font-family-mono
-   is left as a real monospace stack since it serves a distinct functional
-   role (code/pre elements), not the site's brand voice. */
+   Site brand typeface is Quicksand (see index.html's Google Fonts <link>
+   for the full Cherry Bomb One / Comfortaa / Modak / Poiret One / Quicksand
+   family, imported together; only Quicksand is wired up as the active
+   typeface here). Every text-facing family variable points at the same
+   Quicksand + system fallback stack so headings, body copy, and buttons
+   stay consistent -- Inter, Poppins, and Playfair Display have been fully
+   removed. --font-family-mono is left as a real monospace stack since it
+   serves a distinct functional role (code/pre elements), not the site's
+   brand voice. */
 :root {
-  --font-family-primary: 'Modak', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-family-secondary: 'Modak', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-family-luxury: 'Modak', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-primary: 'Quicksand', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-secondary: 'Quicksand', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-luxury: 'Quicksand', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-family-mono: 'Roboto Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
   
   /* Premium Color Palette */
