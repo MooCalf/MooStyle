@@ -12,7 +12,7 @@ export const ModListSection = () => {
 
   return (
     <section className="mod-list-section">
-      <h2 className="mod-list-section__heading">Mod List</h2>
+      <h1 className="mod-list-section__heading">Mod List</h1>
       <div className="mod-list-section__grid">
         {mods.map((mod) => (
           <InZOIMods

@@ -10,7 +10,7 @@ export const GalleryTeaser = () => {
 
   return (
     <section className="gallery-teaser">
-      <h2 className="gallery-teaser__heading newdesign-heading">Gallery</h2>
+      <h1 className="gallery-teaser__heading newdesign-heading">Gallery</h1>
       {entries.length > 0 ? (
         <div className="gallery-teaser__grid">
           {entries.map((entry) => (

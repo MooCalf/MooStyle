@@ -28,6 +28,17 @@
   background: transparent;
 }
 
+/* Every homepage component title: rendered as an <h1> (see each
+   component), styled at the type scale's largest step, and left-bound
+   regardless of whatever alignment the rest of that section uses. */
+.mod-list-section__heading,
+.support-my-work__heading,
+.gallery-teaser__heading {
+  font-size: var(--font-size-6);
+  text-align: left;
+  margin: 0 0 var(--space-3);
+}
+
 /* ========================================
    SUPPORT MY WORK
    Intro copy + two membership tip cards (Maison / Château), placed
@@ -35,7 +46,7 @@
    ======================================== */
 
 .support-my-work {
-  text-align: center;
+  text-align: left;
 }
 
 .support-my-work__intro {
@@ -43,21 +54,20 @@
   margin: 0 0 var(--space-4);
 }
 
-.support-my-work__heading {
-  font-size: var(--font-size-5);
-  margin: 0 0 var(--space-2);
-}
-
 .support-my-work__body {
   color: var(--color-text);
   max-width: var(--maxw-text);
-  margin: 0 auto var(--space-4);
+  margin: 0 0 var(--space-4);
 }
 
+/* Card row stays centered as a pair even though the heading/body text
+   above it is left-aligned; gap and the row's own side margins (inherited
+   from .support-my-work's padding) are equal, so spacing reads as
+   symmetric left/right/between. */
 .support-my-work__cards {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 @media (min-width: 640px) {
@@ -69,9 +79,11 @@
 
 .support-card {
   flex: 1 1 0;
-  max-width: 320px;
-  margin: 0 auto;
-  padding: var(--space-4);
+  max-width: 380px;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
   border-radius: var(--radius-lg);
   border: 2px solid #000000;
   text-align: left;
@@ -95,13 +107,25 @@
 }
 
 .support-card__description {
-  margin: 0 0 var(--space-4);
+  margin: 0;
+}
+
+/* Pushed to the bottom of the card (flex column + margin-top: auto) and
+   right-aligned, per request. */
+.support-card__footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-1);
+  padding-top: var(--space-4);
 }
 
 .support-card__price {
-  font-weight: 700;
-  font-size: var(--font-size-3);
-  margin: 0 0 var(--space-2);
+  font-weight: 800;
+  font-size: var(--font-size-6);
+  line-height: 1;
+  margin: 0;
 }
 
 .support-card__cta {
@@ -110,6 +134,7 @@
   gap: var(--space-1);
   text-decoration: none;
   font-weight: 600;
+  font-size: var(--font-size-1);
   color: inherit;
 }
 
@@ -205,11 +230,6 @@
   text-align: center;
 }
 
-.mod-list-section__heading {
-  font-size: var(--font-size-5);
-  margin: 0 0 var(--space-3);
-}
-
 .mod-list-section__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -239,11 +259,6 @@
 /* ========================================
    COMING SOON BAND
    ======================================== */
-
-.gallery-teaser__heading {
-  font-size: var(--font-size-5);
-  margin: 0 0 var(--space-2);
-}
 
 .gallery-teaser__empty {
   color: var(--color-text-muted);
