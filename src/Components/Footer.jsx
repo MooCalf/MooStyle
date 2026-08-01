@@ -27,15 +27,17 @@ export const Footer = () => {
     },
     {
       title: "Support",
-      links: [{ name: "Support Center", href: "/support" }]
+      links: [
+        { name: "Support Center", href: "/support" },
+        { name: "Privacy Policy", href: "/privacy-policy" },
+        { name: "Terms of Service", href: "/terms-of-service" }
+      ]
     },
     {
       title: "About",
       links: [
         { name: "About Me", href: "/about" },
-        { name: "Moocalf.com", href: "https://moocalf.com" },
-        { name: "Privacy Policy", href: "/privacy-policy" },
-        { name: "Terms of Service", href: "/terms-of-service" }
+        { name: "Moocalf.com", href: "https://moocalf.com" }
       ]
     }
   ];

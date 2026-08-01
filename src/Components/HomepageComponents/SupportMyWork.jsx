@@ -1,0 +1,61 @@
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
+
+// NOTE: the URL provided for this section was pasted as a duplicated
+// string ("...membershiphttps://...membership"); using the single valid
+// URL it doubles up on. Real per-tier pricing was not provided either, so
+// price renders as an honest "Price TBD" placeholder rather than a
+// fabricated dollar amount -- update both once the real numbers are known.
+const PATREON_MEMBERSHIP_URL = "https://www.patreon.com/cw/MOOSTYLES/membership";
+
+const SUPPORT_TIERS = [
+  {
+    key: "maison",
+    name: "Maison",
+    description: "Support MOOSTYLE by contributing a small tip!",
+    price: "Price TBD",
+    theme: "light",
+  },
+  {
+    key: "chateau",
+    name: "Château",
+    description:
+      "Support MOOSTYLE by contributing a small tip! Gain Access to behind the scene updates and access to Quicklink downloads and more!",
+    price: "Price TBD",
+    theme: "dark",
+  },
+];
+
+export const SupportMyWork = () => (
+  <section className="support-my-work">
+    <p className="support-my-work__intro">
+      The official website of MOOSTYLES and Partnered Brands.
+      <br />
+      All contents made for inZOI.
+    </p>
+
+    <h2 className="support-my-work__heading">Support My Work</h2>
+    <p className="support-my-work__body">
+      All contents are made with sincerity and as much detail as possible. These contents usually
+      take some time and your support would be greatly appreciated!{" "}
+      <strong>Consider joining the Membership and Support my work.</strong>
+    </p>
+
+    <div className="support-my-work__cards">
+      {SUPPORT_TIERS.map((tier) => (
+        <div key={tier.key} className={`support-card support-card--${tier.theme}`}>
+          <h3 className="support-card__name">{tier.name}</h3>
+          <p className="support-card__description">{tier.description}</p>
+          <p className="support-card__price">{tier.price}</p>
+          <Link
+            to={`/redirector?to=${encodeURIComponent(PATREON_MEMBERSHIP_URL)}`}
+            className="support-card__cta"
+          >
+            Join Now
+            <ArrowRight size={16} aria-hidden="true" />
+          </Link>
+        </div>
+      ))}
+    </div>
+  </section>
+);
