@@ -1,6 +1,7 @@
 import { NavigationBar } from "@/Components/NavigationBar";
 import { Metadata } from "@/Components/Metadata";
 import { FeaturedCollections } from "@/Components/HomepageComponents/FeaturedCollections";
+import { SupportMyWork } from "@/Components/HomepageComponents/SupportMyWork";
 import { ModListSection } from "@/Components/HomepageComponents/ModListSection";
 import { GalleryTeaser } from "@/Components/HomepageComponents/GalleryTeaser";
 import { ComingSoonBand } from "@/Components/HomepageComponents/ComingSoonBand";
@@ -26,6 +27,7 @@ export const Home = () => (
       <NavigationBar />
       <main id="main-content">
         <FeaturedCollections />
+        <SupportMyWork />
         <ModListSection />
         <GalleryTeaser />
         <ComingSoonBand />

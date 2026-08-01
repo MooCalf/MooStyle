@@ -9,10 +9,10 @@ const InZOIMods = ({ item, href, onClick }) => {
 
   const CardInner = (
     <div
-      className="relative rounded-lg overflow-hidden bg-gray-100 group cursor-pointer select-none"
+      className="relative rounded-lg overflow-hidden group cursor-pointer select-none"
       aria-label={item?.title || 'InZOI mod'}
     >
-      <div className="w-full aspect-[4/3] bg-gray-200">
+      <div className="w-full aspect-[4/3]">
         <img
           src={imageSrc}
           alt={item?.title || 'InZOI mod image'}

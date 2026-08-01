@@ -8,18 +8,113 @@
   max-width: var(--maxw-content);
   margin: 0 auto;
   padding: var(--space-3);
+  background: transparent;
 }
 
 /* ========================================
    SHARED HOMEPAGE SECTION SPACING
+   Every homepage section (other than the footer) is explicitly
+   transparent so the animated WebsiteBackground grid/glow effect
+   shows through, rather than being blocked by an opaque panel.
    ======================================== */
 
 .mod-list-section,
+.support-my-work,
 .gallery-teaser,
 .coming-soon-band {
   max-width: var(--maxw-content);
   margin: 0 auto;
   padding: var(--space-5) var(--space-3);
+  background: transparent;
+}
+
+/* ========================================
+   SUPPORT MY WORK
+   Intro copy + two membership tip cards (Maison / Château), placed
+   between the Mod List and hero sections.
+   ======================================== */
+
+.support-my-work {
+  text-align: center;
+}
+
+.support-my-work__intro {
+  color: var(--color-text-muted);
+  margin: 0 0 var(--space-4);
+}
+
+.support-my-work__heading {
+  font-size: var(--font-size-5);
+  margin: 0 0 var(--space-2);
+}
+
+.support-my-work__body {
+  color: var(--color-text);
+  max-width: var(--maxw-text);
+  margin: 0 auto var(--space-4);
+}
+
+.support-my-work__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .support-my-work__cards {
+    flex-direction: row;
+    justify-content: center;
+  }
+}
+
+.support-card {
+  flex: 1 1 0;
+  max-width: 320px;
+  margin: 0 auto;
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 2px solid #000000;
+  text-align: left;
+}
+
+.support-card--light {
+  background: #ffffff;
+  color: #000000;
+}
+
+.support-card--dark {
+  background: #000000;
+  color: #ffffff;
+}
+
+.support-card__name {
+  font-size: var(--font-size-5);
+  font-weight: 800;
+  text-transform: uppercase;
+  margin: 0 0 var(--space-3);
+}
+
+.support-card__description {
+  margin: 0 0 var(--space-4);
+}
+
+.support-card__price {
+  font-weight: 700;
+  font-size: var(--font-size-3);
+  margin: 0 0 var(--space-2);
+}
+
+.support-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  text-decoration: none;
+  font-weight: 600;
+  color: inherit;
+}
+
+.support-card__cta:hover {
+  opacity: 0.75;
 }
 
 /* ========================================
