@@ -8,7 +8,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);
-  color: var(--color-text-muted);
+  color: #000000;
   text-decoration: none;
   font-size: var(--font-size-1);
   margin-bottom: var(--space-3);
@@ -21,7 +21,7 @@
 .mod-detail__title {
   font-size: var(--font-size-6);
   margin: 0 0 var(--space-3);
-  color: var(--color-text);
+  color: #000000;
 }
 
 .mod-detail__content {
@@ -53,19 +53,19 @@
 }
 
 .mod-detail__description {
-  color: var(--color-text);
+  color: #000000;
   margin: 0;
 }
 
 .mod-detail__highlights {
   margin: 0;
   padding-left: 1.25em;
-  color: var(--color-text);
+  color: #000000;
 }
 
 .mod-detail__license-summary {
   font-size: var(--font-size-1);
-  color: var(--color-text-muted);
+  color: #4b5563;
 }
 
 .mod-detail__license-summary a {
@@ -73,7 +73,7 @@
 }
 
 .mod-detail__empty-state {
-  color: var(--color-text-muted);
+  color: #4b5563;
 }
 
 .mod-detail__related {
@@ -82,46 +82,38 @@
 
 /* ========================================
    MEDIA GALLERY
-   Banner + horizontally scrollable thumbnail strips. Mobile-first:
-   the strips scroll on all sizes, they just have more room on desktop.
+   The extra-image thumbnail list sits to the left of the main image as
+   a vertical, scrollable column (row layout works at 375px already,
+   since the thumb column is a fixed small width and the main image
+   just takes whatever remains). Main image is intentionally smaller
+   and capped in width now, rather than stretching full column width.
    ======================================== */
 
 .media-gallery {
   display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.media-gallery__thumbs {
+  flex-shrink: 0;
+  display: flex;
   flex-direction: column;
   gap: var(--space-2);
-}
-
-.media-gallery__main {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: var(--color-surface);
-}
-
-.media-gallery__main-media {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.media-gallery__strip {
-  display: flex;
-  gap: var(--space-2);
-  overflow-x: auto;
-  padding-bottom: var(--space-1);
+  width: 64px;
+  max-height: 340px;
+  overflow-y: auto;
 }
 
 .media-gallery__thumb {
-  flex: 0 0 auto;
-  width: 72px;
-  height: 72px;
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
   padding: 0;
   border-radius: var(--radius-sm);
   border: 2px solid transparent;
   overflow: hidden;
-  background: var(--color-surface);
+  background: #f3f4f6;
   cursor: pointer;
 }
 
@@ -130,6 +122,22 @@
 }
 
 .media-gallery__thumb-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-gallery__main {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 420px;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.media-gallery__main-media {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -148,14 +156,14 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--color-bg);
+  background: transparent;
   padding: var(--space-2) 0;
   border-bottom: 1px solid var(--color-border);
 }
 
 .section-tabs__label {
   flex-shrink: 0;
-  color: var(--color-text-muted);
+  color: #000000;
   font-size: var(--font-size-1);
 }
 
@@ -171,16 +179,17 @@
   border-radius: var(--radius-sm);
   border: 1px solid transparent;
   background: transparent;
-  color: var(--color-text-muted);
+  color: #000000;
   font: inherit;
   font-size: var(--font-size-1);
   cursor: pointer;
 }
 
 .section-tabs__tab--active {
-  color: var(--color-text);
-  border-color: var(--color-accent);
-  background: var(--color-surface);
+  color: #000000;
+  border-color: #000000;
+  background: transparent;
+  font-weight: 700;
 }
 
 /* ========================================
@@ -209,13 +218,13 @@
 }
 
 .metadata-list__label {
-  color: var(--color-text-muted);
+  color: #4b5563;
   font-size: var(--font-size-1);
 }
 
 .metadata-list__value {
   margin: 0;
-  color: var(--color-text);
+  color: #000000;
 }
 
 /* ========================================
@@ -243,7 +252,7 @@
 
 .file-manifest__description {
   display: block;
-  color: var(--color-text-muted);
+  color: #4b5563;
   font-size: var(--font-size-1);
 }
 
@@ -261,7 +270,7 @@
   border-radius: var(--radius-sm);
   font-size: var(--font-size-1);
   border: 1px solid var(--color-border);
-  color: var(--color-text-muted);
+  color: #4b5563;
 }
 
 .status-badge__dot {
@@ -272,7 +281,7 @@
 }
 
 .status-badge__version {
-  color: var(--color-text-muted);
+  color: #4b5563;
 }
 
 .status-badge--compatible {
@@ -290,11 +299,6 @@
   border-color: var(--color-danger);
 }
 
-.status-badge--untested {
-  color: var(--color-locked);
-  border-color: var(--color-locked);
-}
-
 /* ========================================
    INSTALLATION STEPS + KNOWN ISSUES
    Shared list styling for the Details/Installation tab content.
@@ -307,13 +311,13 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  color: var(--color-text);
+  color: #000000;
 }
 
 .installation-steps--empty,
 .known-issues--empty {
   padding-left: 0;
-  color: var(--color-text-muted);
+  color: #4b5563;
 }
 
 /* ========================================
@@ -337,7 +341,7 @@
 }
 
 .status-page__name {
-  color: var(--color-text);
+  color: #000000;
   text-decoration: none;
 }
 

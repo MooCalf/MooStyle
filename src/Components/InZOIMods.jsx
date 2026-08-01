@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-// Image card used on the InZOI page.
+// Image card used on the Mod List. Title sits in an always-visible rounded
+// badge inset into the bottom of the image (not a hover-only reveal), per
+// the same "title under/on the image" treatment as the gallery teaser.
 // - `item` props: { id, title, image, href }
-// - shows title only on hover (bottom-left)
 const InZOIMods = ({ item, href, onClick }) => {
   const imageSrc = item?.image || item?.images?.[0] || item?.src || '/projects/Brand Medias/Recommend Category/placeholder.png';
 
@@ -20,15 +21,10 @@ const InZOIMods = ({ item, href, onClick }) => {
         />
       </div>
 
-      {/* Dark gradient on hover to improve title contrast */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-
-      {/* Title - bottom-left, visible on hover */}
-      <div className="absolute left-4 bottom-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <span 
-          className="text-lg font-semibold drop-shadow"
-          style={{ color: item?.nameColor || '#ffffff' }}
-        >
+      {/* Title badge: always visible, rounded background inset into the
+          bottom of the image so the label stays legible over any photo. */}
+      <div className="absolute inset-x-2 bottom-2 rounded-md bg-black/70 px-2 py-1.5">
+        <span className="block truncate text-sm font-semibold text-white">
           {item?.name || item?.title}
         </span>
       </div>
@@ -51,4 +47,3 @@ const InZOIMods = ({ item, href, onClick }) => {
 };
 
 export default InZOIMods;
-

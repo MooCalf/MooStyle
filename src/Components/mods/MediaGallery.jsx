@@ -18,14 +18,24 @@ const Thumb = ({ src, isActive, onSelect }) => (
   </button>
 );
 
-// Banner + previews strip + screenshots strip, per the newdesign-layout mod
-// detail template. Thumbnail buttons are native <button> elements, so they
-// are keyboard reachable and swap the main image on Enter/Space for free.
+// Banner + a single vertical list of the extra images (previews and
+// screenshots combined), positioned to the left of the main image.
+// Thumbnail buttons are native <button> elements, so they are keyboard
+// reachable and swap the main image on Enter/Space for free.
 export const MediaGallery = ({ banner, previews = [], screenshots = [] }) => {
   const [selected, setSelected] = useState(banner);
+  const extras = [...previews, ...screenshots];
 
   return (
     <div className="media-gallery">
+      {extras.length > 0 && (
+        <div className="media-gallery__thumbs" role="list" aria-label="Additional images">
+          {extras.map((src, index) => (
+            <Thumb key={`extra-${index}`} src={src} isActive={src === selected} onSelect={setSelected} />
+          ))}
+        </div>
+      )}
+
       <div className="media-gallery__main">
         {isVideo(selected) ? (
           <video
@@ -47,22 +57,6 @@ export const MediaGallery = ({ banner, previews = [], screenshots = [] }) => {
           />
         )}
       </div>
-
-      {previews.length > 0 && (
-        <div className="media-gallery__strip" role="list" aria-label="Preview images">
-          {previews.map((src, index) => (
-            <Thumb key={`preview-${index}`} src={src} isActive={src === selected} onSelect={setSelected} />
-          ))}
-        </div>
-      )}
-
-      {screenshots.length > 0 && (
-        <div className="media-gallery__strip" role="list" aria-label="In-game screenshots">
-          {screenshots.map((src, index) => (
-            <Thumb key={`screenshot-${index}`} src={src} isActive={src === selected} onSelect={setSelected} />
-          ))}
-        </div>
-      )}
     </div>
   );
 };
