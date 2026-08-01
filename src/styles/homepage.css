@@ -122,14 +122,17 @@
   color: #ffffff;
 }
 
+/* Intentionally a touch above the type scale's largest step (40px), so
+   the name reads as slightly bigger than .support-card__price below it. */
 .support-card__name {
-  font-size: var(--font-size-5);
+  font-size: 44px;
   font-weight: 800;
   text-transform: uppercase;
   margin: 0 0 var(--space-3);
 }
 
 .support-card__description {
+  font-size: var(--font-size-3);
   margin: 0;
 }
 
@@ -253,14 +256,21 @@
   text-align: center;
 }
 
-/* Grid cells stay at 3 columns, but each card is capped well under the
-   column width and centered within it (justify-items), so the images
-   read as smaller with generous, even gaps on every side. */
+/* 5 items in a single row. Each card is capped well under its column
+   width and centered within it (justify-items), so the images read as
+   smaller with generous, even gaps on every side. Gap tightens up below
+   640px so five columns still has breathing room on a 375px screen. */
 .mod-list-section__grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4);
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-2);
   justify-items: center;
+}
+
+@media (min-width: 640px) {
+  .mod-list-section__grid {
+    gap: var(--space-4);
+  }
 }
 
 .mod-list-section__grid > * {
@@ -285,11 +295,14 @@
   color: #000000;
   font-weight: 600;
   text-decoration: none;
-  transition: color 0.2s ease, transform 0.2s ease;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
 .homepage-text-link:hover {
   color: var(--color-accent);
+  background-color: rgba(13, 148, 136, 0.08);
   transform: translateX(4px);
 }
 
