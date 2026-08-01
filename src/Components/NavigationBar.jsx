@@ -61,7 +61,7 @@ export const NavigationBar = () => {
             aria-expanded={isOpen}
             onClick={() => setIsOpen((open) => !open)}
           >
-            {isOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+            {isOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
           </button>
         </div>
       </div>

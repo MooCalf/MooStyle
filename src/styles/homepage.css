@@ -12,6 +12,32 @@
 }
 
 /* ========================================
+   HOMEPAGE TEXT COLOR
+   Every homepage section renders pure black text by default; the
+   Château card is the one deliberate exception (pure white, since it
+   sits on a black card background). The `section, section *` pattern
+   beats the sitewide `* { color: #1f2937 }` reset in index.css, which
+   otherwise wins over inherited color on every element it matches
+   directly, no matter how it's ordered relative to this file.
+   ======================================== */
+
+.featured-collections,
+.featured-collections *,
+.support-my-work,
+.support-my-work *,
+.mod-list-section,
+.mod-list-section *,
+.gallery-teaser,
+.gallery-teaser * {
+  color: #000000;
+}
+
+.support-card--dark,
+.support-card--dark * {
+  color: #ffffff;
+}
+
+/* ========================================
    SHARED HOMEPAGE SECTION SPACING
    Every homepage section (other than the footer) is explicitly
    transparent so the animated WebsiteBackground grid/glow effect
@@ -20,8 +46,7 @@
 
 .mod-list-section,
 .support-my-work,
-.gallery-teaser,
-.coming-soon-band {
+.gallery-teaser {
   max-width: var(--maxw-content);
   margin: 0 auto;
   padding: var(--space-5) var(--space-3);
@@ -50,12 +75,10 @@
 }
 
 .support-my-work__intro {
-  color: var(--color-text-muted);
   margin: 0 0 var(--space-4);
 }
 
 .support-my-work__body {
-  color: var(--color-text);
   max-width: var(--maxw-text);
   margin: 0 0 var(--space-4);
 }
@@ -230,48 +253,44 @@
   text-align: center;
 }
 
+/* Grid cells stay at 3 columns, but each card is capped well under the
+   column width and centered within it (justify-items), so the images
+   read as smaller with generous, even gaps on every side. */
 .mod-list-section__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-2);
+  gap: var(--space-4);
+  justify-items: center;
+}
+
+.mod-list-section__grid > * {
+  width: 100%;
+  max-width: 180px;
 }
 
 .mod-list-section__footer {
   margin-top: var(--space-4);
 }
 
-.mod-list-section__view-more {
-  display: inline-block;
-  padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-accent);
-  color: var(--color-accent);
-  font-weight: 600;
-  text-decoration: none;
-  transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-.mod-list-section__view-more:hover {
-  background: var(--color-accent);
-  color: var(--color-bg);
-}
-
 /* ========================================
-   COMING SOON BAND
+   HOMEPAGE TEXT LINK
+   Shared by "View More" and "View Gallery": matches the footer's own
+   .footer-link treatment (plain text, no border/pill, teal on hover
+   with a small slide) instead of a bordered button.
    ======================================== */
 
-.gallery-teaser__empty {
-  color: var(--color-text-muted);
-}
-
-.gallery-teaser__link {
-  color: var(--color-accent);
+.homepage-text-link {
+  display: inline-flex;
+  align-items: center;
+  color: #000000;
   font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.coming-soon-band {
-  text-align: center;
-  color: var(--color-text-muted);
+.homepage-text-link:hover {
+  color: var(--color-accent);
+  transform: translateX(4px);
 }
 
 /* ========================================
@@ -280,6 +299,12 @@
 
 .gallery-teaser {
   text-align: center;
+}
+
+.gallery-teaser__note {
+  max-width: var(--maxw-text);
+  text-align: left;
+  margin: 0 0 var(--space-4);
 }
 
 .gallery-teaser__grid {
@@ -304,7 +329,7 @@
   flex-direction: column;
   gap: var(--space-1);
   text-decoration: none;
-  color: var(--color-text-muted);
+  color: #000000;
   font-size: var(--font-size-1);
 }
 

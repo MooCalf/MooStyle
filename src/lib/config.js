@@ -21,6 +21,13 @@ export const resolveImagePath = (path) => {
 // /status alongside each mod's compatibility state.
 export const CURRENT_GAME_VERSION = "inZOI";
 
+// Shared by the "Join Now" cards (SupportMyWork) and the nav dropdown's
+// Patreon Membership link, so both point at the same destination. The URL
+// as originally provided was pasted doubled up
+// ("...membershiphttps://...membership"); this is the single valid URL it
+// doubles.
+export const PATREON_MEMBERSHIP_URL = "https://www.patreon.com/cw/MOOSTYLES/membership";
+
 // Outbound domains the /redirector route will forward to. Anything else is
 // rejected. Keep in sync with src/lib/redirect.js.
 export const OUTBOUND_ALLOWLIST = [
