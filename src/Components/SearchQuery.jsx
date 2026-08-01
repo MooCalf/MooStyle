@@ -340,7 +340,7 @@ const SearchQuery = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Search size={18} className="sm:w-5 sm:h-5" />
+            <Search size={22} className="sm:w-6 sm:h-6" />
           </motion.button>
         ) : (
           <motion.div

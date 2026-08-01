@@ -1,17 +1,21 @@
 import { Link } from "react-router-dom";
-import { Heart, Instagram, Gamepad2, MessageCircle, Hash } from "lucide-react";
+import { Heart, Instagram, Gamepad2, MessageCircle, Hash, ArrowRight } from "lucide-react";
 import { SafeModeToggle } from "./SafeModeToggle";
 import { NavIconButton } from "./NavIconButton";
+import { PATREON_MEMBERSHIP_URL } from "@/lib/config";
 
 const NAV_LINKS = [
   { label: "Home", to: "/" },
-  {
-    label: "Patreon Membership",
-    to: `/redirector?to=${encodeURIComponent("https://www.patreon.com/MOOSTYLES")}`,
-  },
   { label: "Mod List", to: "/mods" },
   { label: "Support", to: "/support" },
 ];
+
+// Same destination and arrow-suffixed treatment as the "Join Now" buttons
+// on the Support My Work cards, per request.
+const PATREON_MEMBERSHIP_LINK = {
+  label: "Patreon Membership",
+  to: `/redirector?to=${encodeURIComponent(PATREON_MEMBERSHIP_URL)}`,
+};
 
 // Same social destinations already published in Footer.jsx/Links.jsx.
 // lucide-react has no real brand marks for these platforms, so each uses
@@ -36,7 +40,18 @@ export const NavMenuPanel = ({ onNavigate }) => (
     </Link>
 
     <nav className="nav-menu__links" aria-label="Primary">
-      {NAV_LINKS.map((link) => (
+      <Link to={NAV_LINKS[0].to} className="nav-menu__link" onClick={onNavigate}>
+        {NAV_LINKS[0].label}
+      </Link>
+      <Link
+        to={PATREON_MEMBERSHIP_LINK.to}
+        className="nav-menu__link nav-menu__link--cta"
+        onClick={onNavigate}
+      >
+        {PATREON_MEMBERSHIP_LINK.label}
+        <ArrowRight size={14} aria-hidden="true" />
+      </Link>
+      {NAV_LINKS.slice(1).map((link) => (
         <Link key={link.label} to={link.to} className="nav-menu__link" onClick={onNavigate}>
           {link.label}
         </Link>

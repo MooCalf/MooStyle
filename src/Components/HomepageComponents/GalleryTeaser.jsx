@@ -11,6 +11,10 @@ export const GalleryTeaser = () => {
   return (
     <section className="gallery-teaser">
       <h1 className="gallery-teaser__heading newdesign-heading">Gallery</h1>
+      <p className="gallery-teaser__note">
+        More resource types, including character downloads and community showcases, are coming
+        soon.
+      </p>
       {entries.length > 0 ? (
         <div className="gallery-teaser__grid">
           {entries.map((entry) => (
@@ -23,8 +27,8 @@ export const GalleryTeaser = () => {
       ) : (
         <p className="gallery-teaser__empty">No gallery entries yet.</p>
       )}
-      <Link to="/gallery" className="gallery-teaser__link">
-        View gallery
+      <Link to="/gallery" className="homepage-text-link">
+        View Gallery
       </Link>
     </section>
   );

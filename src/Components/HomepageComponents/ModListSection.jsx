@@ -23,7 +23,7 @@ export const ModListSection = () => {
         ))}
       </div>
       <div className="mod-list-section__footer">
-        <Link to="/mods" className="mod-list-section__view-more">
+        <Link to="/mods" className="homepage-text-link">
           View More
         </Link>
       </div>

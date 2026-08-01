@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-
-// NOTE: the URL provided for this section was pasted as a duplicated
-// string ("...membershiphttps://...membership"); using the single valid
-// URL it doubles up on.
-const PATREON_MEMBERSHIP_URL = "https://www.patreon.com/cw/MOOSTYLES/membership";
+import { PATREON_MEMBERSHIP_URL } from "@/lib/config";
 
 const SUPPORT_TIERS = [
   {

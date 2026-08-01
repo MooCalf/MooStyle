@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 // button, and the social icon row in the dropdown menu. `to` renders a
 // react-router Link (internal route, e.g. /redirector?to=...); `onClick`
 // renders a plain button.
-export const NavIconButton = ({ icon, label, onClick, to, size = 18 }) => {
+export const NavIconButton = ({ icon, label, onClick, to, size = 20 }) => {
   // This project's eslint config has no react/jsx-uses-vars rule, so a
   // capitalized destructured parameter renders correctly but reads as
   // "unused" to no-unused-vars. Re-binding to a `const` (which the config's
