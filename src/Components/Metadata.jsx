@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-
-const DEFAULT_SITE_URL = 'https://moostyles.com';
+import { useLocation } from 'react-router-dom';
+import { SITE_URL } from '@/lib/config';
 
 const toAbsoluteUrl = (value, siteUrl, fallback = siteUrl) => {
   if (!value) {
@@ -20,57 +20,48 @@ const toAbsoluteUrl = (value, siteUrl, fallback = siteUrl) => {
 };
 
 const Metadata = ({
-  // Basic SEO - Optimized for InZOI mod search terms
   pageTitle = "MOOSTYLES | Best Free InZOI Mods, Downloads & Modding Resources",
   pageDescription = "Download quality InZOI mods and modding resources at MOOSTYLES. Browse free mods for InZOI, mod downloads, archived builds, custom content, decor packs, and join the InZOI modding community.",
   keywords = "InZOI mods, InZOI mod downloads, modding InZOI, mods for InZOI, InZOI modding, InZOI mods website, free InZOI mods, InZOI custom content, InZOI downloads, MOOSTYLES, archive builds, InZOI mod resources, InZOI modding community, InZOI mod packs",
-  
-  // Open Graph
+
   ogTitle = "",
   ogDescription = "",
   ogImage = "/projects/HeroSection/MOOSTYLESBANNER.png",
   ogUrl = "",
   ogType = "website",
   ogSiteName = "MOOSTYLES",
-  
-  // Twitter Cards
+
   twitterCard = "summary_large_image",
   twitterTitle = "",
   twitterDescription = "",
   twitterImage = "",
   twitterSite = "",
   twitterCreator = "",
-  
-  // Additional Meta
+
   author = "MooCalf",
   canonical = "",
   noindex = false,
-  
-  // Product-specific (for product pages)
+
   product = null,
-  
-  // Article-specific (for blog posts)
+
   article = null,
-  
-  // Category-specific (for collection pages)
+
   category = null
 }) => {
-  const siteUrl = typeof window !== 'undefined' ? window.location.origin : DEFAULT_SITE_URL;
-  const currentUrl = typeof window !== 'undefined' ? window.location.href : siteUrl;
-  
-  // Determine final values with fallbacks
+  const location = useLocation();
+  const siteUrl = SITE_URL;
+  const currentUrl = `${siteUrl}${location.pathname}${location.search}`;
+
   const finalTitle = ogTitle || pageTitle;
   const finalDescription = ogDescription || pageDescription;
   const finalImage = toAbsoluteUrl(ogImage, siteUrl);
   const finalUrl = toAbsoluteUrl(ogUrl, siteUrl, currentUrl);
   const finalCanonical = toAbsoluteUrl(canonical, siteUrl, finalUrl);
-  
-  // Twitter fallbacks
+
   const finalTwitterTitle = twitterTitle || finalTitle;
   const finalTwitterDescription = twitterDescription || finalDescription;
   const finalTwitterImage = twitterImage || finalImage;
 
-  // Generate structured data based on content type
   const generateStructuredData = () => {
     const baseData = {
       "@context": "https://schema.org",
@@ -93,7 +84,6 @@ const Metadata = ({
       }
     };
 
-    // Add Website schema with search action
     const websiteData = {
       "@context": "https://schema.org",
       "@type": "WebSite",
@@ -110,7 +100,6 @@ const Metadata = ({
       }
     };
 
-    // Add Breadcrumb schema for better navigation understanding
     const breadcrumbData = {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
@@ -126,19 +115,12 @@ const Metadata = ({
           "position": 2,
           "name": "InZOI Mods",
           "item": `${siteUrl}/brands`
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Archive",
-          "item": `${siteUrl}/archive`
         }
       ]
     };
 
     const structuredData = [baseData, websiteData, breadcrumbData];
 
-    // Add Product schema if product data is provided
     if (product) {
       const productData = {
         "@context": "https://schema.org",
@@ -168,15 +150,14 @@ const Metadata = ({
         } : undefined,
         "category": product.category || "InZOI Mods"
       };
-      
+
       if (product.originalPrice && product.originalPrice > product.price) {
         productData.offers.priceValidUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
       }
-      
+
       structuredData.push(productData);
     }
 
-    // Add Article schema if article data is provided
     if (article) {
       const articleData = {
         "@context": "https://schema.org",
@@ -204,15 +185,14 @@ const Metadata = ({
           "@id": finalUrl
         }
       };
-      
+
       if (article.tags && article.tags.length > 0) {
         articleData.keywords = article.tags.join(", ");
       }
-      
+
       structuredData.push(articleData);
     }
 
-    // Add CollectionPage schema for category pages
     if (category) {
       const collectionData = {
         "@context": "https://schema.org",
@@ -226,7 +206,7 @@ const Metadata = ({
           "description": category.description
         }
       };
-      
+
       structuredData.push(collectionData);
     }
 
@@ -237,34 +217,28 @@ const Metadata = ({
 
   return (
     <Helmet>
-      {/* Basic Meta Tags */}
       <title>{finalTitle}</title>
       <meta name="description" content={finalDescription} />
       <meta name="keywords" content={keywords} />
       <meta name="author" content={author} />
       <link rel="canonical" href={finalCanonical} />
-      
-      {/* Robots */}
+
       {noindex && <meta name="robots" content="noindex,nofollow" />}
       {!noindex && <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />}
-      
-      {/* Mobile Optimization */}
+
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       <meta name="apple-mobile-web-app-title" content="MOOSTYLES" />
-      
-      {/* Additional SEO Meta Tags */}
+
       <meta name="revisit-after" content="7 days" />
       <meta name="language" content="English" />
       <meta name="rating" content="general" />
       <meta name="distribution" content="global" />
-      
-      {/* Google-specific tags */}
+
       <meta name="googlebot" content="index, follow" />
       <meta name="bingbot" content="index, follow" />
-      
-      {/* Open Graph / Facebook */}
+
       <meta property="og:type" content={ogType} />
       <meta property="og:title" content={finalTitle} />
       <meta property="og:description" content={finalDescription} />
@@ -272,8 +246,7 @@ const Metadata = ({
       <meta property="og:url" content={finalUrl} />
       <meta property="og:site_name" content={ogSiteName} />
       <meta property="og:locale" content="en_US" />
-      
-      {/* Enhanced Open Graph for products */}
+
       {product && (
         <>
           <meta property="og:price:amount" content={product.price} />
@@ -285,21 +258,18 @@ const Metadata = ({
           <meta property="product:price:currency" content="USD" />
         </>
       )}
-      
-      {/* Twitter Cards */}
+
       <meta name="twitter:card" content={twitterCard} />
       <meta name="twitter:title" content={finalTwitterTitle} />
       <meta name="twitter:description" content={finalTwitterDescription} />
       <meta name="twitter:image" content={finalTwitterImage} />
       <meta name="twitter:site" content={twitterSite} />
       <meta name="twitter:creator" content={twitterCreator} />
-      
-      {/* Additional SEO Meta Tags */}
+
       <meta name="theme-color" content="#0d9488" />
       <meta name="msapplication-TileColor" content="#0d9488" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      
-      {/* Structured Data */}
+
       {structuredData.map((data, index) => (
         <script key={index} type="application/ld+json">
           {JSON.stringify(data)}

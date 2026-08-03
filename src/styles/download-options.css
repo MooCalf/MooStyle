@@ -1,0 +1,77 @@
+/* ========================================
+   DOWNLOAD OPTIONS
+   ======================================== */
+
+.download-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.download-options__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+@media (min-width: 640px) {
+  .download-options__buttons {
+    flex-direction: row;
+  }
+}
+
+.download-options__button {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  border: 2px solid #000000;
+  text-align: center;
+  text-decoration: none;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.download-options__button--patreon {
+  background: #000000;
+  color: #ffffff;
+}
+
+.download-options__button--patreon:hover:not(:disabled) {
+  border-color: #ffffff;
+}
+
+.download-options__button--curseforge {
+  background: #ffffff;
+  color: #000000;
+}
+
+.download-options__button--curseforge:hover:not(:disabled) {
+  background: #000000;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.download-options__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.download-options__file-types,
+.download-options__tou {
+  margin: 0;
+  font-size: var(--font-size-1);
+  color: #4b5563;
+}
+
+.download-options__tou a {
+  color: var(--color-accent);
+}

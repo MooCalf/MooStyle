@@ -1,412 +1,97 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Heart, Menu, X, Link as LinkIcon } from 'lucide-react';
-import { motion } from 'framer-motion';
-import SearchQuery from '@/Components/SearchQuery';
-import { getGlobalSearchData } from '@/lib/globalSearchData';
-import { getSavedProductsCount } from '@/lib/savedProducts';
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import SearchQuery from "@/Components/SearchQuery";
+import { getGlobalSearchData } from "@/lib/globalSearchData";
+import { NavMenuPanel } from "@/Components/Navbar/NavMenuPanel";
+
+const MotionLink = motion.create(Link);
+const TAP_TRANSITION = { type: "spring", stiffness: 400, damping: 17 };
 
 export const NavigationBar = () => {
-  const location = useLocation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [hoveredIcon, setHoveredIcon] = useState(null);
-  const [savedProductsCount, setSavedProductsCount] = useState(0);
-  const mobileMenuRef = useRef(null);
-  const dropdownRef = useRef(null);
-  const [dropdownStyle, setDropdownStyle] = useState({ right: 0, top: '100%' });
+  const [isOpen, setIsOpen] = useState(false);
 
-  // Check active routes
-  const isHomeActive = location.pathname === "/" || location.pathname.startsWith("/home");
-  const isArchiveActive = location.pathname.startsWith("/archive");
-  const isInZOIActive = location.pathname.startsWith("/brands");
-
-  // Update saved products count
   useEffect(() => {
-    const updateSavedCount = () => {
-      setSavedProductsCount(getSavedProductsCount());
+    if (!isOpen) return undefined;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setIsOpen(false);
     };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
 
-    updateSavedCount();
-
-    const handleStorageChange = (e) => {
-      if (e.key === 'moostyle_saved_products') {
-        updateSavedCount();
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('savedProductsChanged', updateSavedCount);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('savedProductsChanged', updateSavedCount);
-    };
-  }, []);
-
-  // Close mobile menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    if (isMenuOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isMenuOpen]);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutsideDropdown = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    if (isDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutsideDropdown);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutsideDropdown);
-    };
-  }, [isDropdownOpen]);
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  // Reposition dropdown if it would overflow viewport
-  useEffect(() => {
-    if (isDropdownOpen && dropdownRef.current) {
-      const rect = dropdownRef.current.getBoundingClientRect();
-      const overflow = rect.right - window.innerWidth;
-      if (overflow > 0) {
-        setDropdownStyle({ right: 'auto', left: 0, top: '100%' });
-      } else {
-        setDropdownStyle({ right: 0, left: 'auto', top: '100%' });
-      }
-    }
-  }, [isDropdownOpen]);
-
-  const getIconColor = (iconName) => {
-    return hoveredIcon === iconName ? '#111827' : '#374151';
-  };
-
-  const getHeartColor = () => {
-    return hoveredIcon === 'heart' ? '#ffffff' : '#374151';
+  const handleSearchSelect = (result) => {
+    window.location.href = result?.url || "/";
   };
 
   return (
-    <nav className="navbar-container">
-      <div className="navbar-content">
-        <div className="navbar-flex">
-          
-          {/* LEFT SECTION - Nav Items */}
-          <div className="navbar-left-section">
-            {/* Mobile menu button */}
-            <motion.button
-              onClick={toggleMenu}
-              className="navbar-mobile-button navbar-mobile-only"
-              onMouseEnter={() => setHoveredIcon('menu')}
-              onMouseLeave={() => setHoveredIcon(null)}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            >
-              {isMenuOpen ? <X size={24} color={getIconColor('menu')} /> : <Menu size={24} color={getIconColor('menu')} />}
-            </motion.button>
+    <nav className="site-nav">
+      <div className="site-nav__bar">
+        <MotionLink
+          to="/"
+          className="nav-icon-button site-nav__home"
+          aria-label="MOOSTYLES home"
+          whileHover={{ y: -1 }}
+          whileTap={{ scale: 0.95 }}
+          transition={TAP_TRANSITION}
+        >
+          <img
+            src="/projects/Website Branding/MOOSTYLES LOGO - BLACK COLOR.png"
+            alt=""
+            className="site-nav__home-logo"
+          />
+        </MotionLink>
 
-            {/* Desktop Nav Links */}
-            <div className="navbar-desktop-only">
-              <Link
-                to="/home"
-                className={`navbar-link ${isHomeActive ? 'navbar-link-active' : 'navbar-link-inactive'}`}
-              >
-                Home
-              </Link>
+        <div className="site-nav__actions">
+          <SearchQuery
+            iconOnly
+            placeholder="Search mods, collections, pages..."
+            searchData={getGlobalSearchData()}
+            onSearchSelect={handleSearchSelect}
+            resultLimit={20}
+          />
 
-              <Link
-                to="/brands"
-                className={`navbar-link ${isInZOIActive ? 'navbar-link-active' : 'navbar-link-inactive'}`}
-              >
-                InZOI
-              </Link>
-
-              <Link
-                to="/archive"
-                className={`navbar-link ${isArchiveActive ? 'navbar-link-active' : 'navbar-link-inactive'}`}
-              >
-                Archive
-              </Link>
-
-              <motion.a
-                href="https://www.patreon.com/MOOSTYLES"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="navbar-patreon-button"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Heart className="navbar-patreon-icon" />
-                Patreon
-              </motion.a>
-            </div>
-          </div>
-
-          {/* CENTER SECTION - Logo */}
-          <div className="navbar-logo-container">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            >
-              <Link
-                to="/home"
-                className="navbar-logo-link"
-                title="Home"
-                onMouseEnter={() => setHoveredIcon('logo')}
-                onMouseLeave={() => setHoveredIcon(null)}
-              >
-                <img
-                  src="/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png"
-                  alt="MOOSTYLES Logo"
-                  className="navbar-logo-image"
-                />
-                <span className="navbar-logo-text hidden sm:inline">MOOSTYLES</span>
-              </Link>
-            </motion.div>
-          </div>
-
-          {/* RIGHT SECTION - Icons */}
-          <div className="navbar-right-section">
-            {/* Search Icon */}
-            <div className="navbar-desktop-only">
-              <SearchQuery
-                iconOnly={true}
-                placeholder="Search products, brands, blog posts..."
-                searchData={getGlobalSearchData()}
-                onSearchSelect={(result) => {
-                  if (result.url) {
-                    window.location.href = result.url;
-                  } else if (result.path) {
-                    window.location.href = result.path;
-                  } else if (result.type === 'blog') {
-                    window.location.href = '/blog';
-                  } else if (result.type === 'product') {
-                    window.location.href = `/product/${result.id}`;
-                  } else if (result.type === 'brand') {
-                    window.location.href = `/brand/${result.id}`;
-                  } else if (result.type === 'category') {
-                    window.location.href = `/brands`;
-                  } else if (result.type === 'page') {
-                    window.location.href = result.url || '/';
-                  } else {
-                    window.location.href = '/';
-                  }
-                }}
-                showFilters={true}
-                searchFields={['title', 'description', 'content', 'tags', 'category', 'subcategory', 'author', 'brand']}
-                resultLimit={20}
-              />
-            </div>
-
-            {/* Heart Icon - Saved Products */}
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            >
-              <Link
-                to="/saved-products"
-                className="navbar-heart-button"
-                title="Saved Products"
-                onMouseEnter={() => setHoveredIcon('heart')}
-                onMouseLeave={() => setHoveredIcon(null)}
-              >
-                <Heart size={20} color={getHeartColor()} />
-              </Link>
-            </motion.div>
-
-            {/* Links Icon */}
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            >
-              <Link
-                to="/links"
-                className="navbar-icon-button"
-                title="Links"
-                onMouseEnter={() => setHoveredIcon('links')}
-                onMouseLeave={() => setHoveredIcon(null)}
-              >
-                <LinkIcon size={20} color={getIconColor('links')} />
-              </Link>
-            </motion.div>
-
-            {/* Dropdown menu trigger */}
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              transition={{ type: "spring", stiffness: 400, damping: 17 }}
-            >
-              <button
-                onClick={() => setIsDropdownOpen((open) => !open)}
-                className="navbar-icon-button"
-                title="More"
-                onMouseEnter={() => setHoveredIcon('dropdown')}
-                onMouseLeave={() => setHoveredIcon(null)}
-              >
-                <Menu size={20} color={getIconColor('dropdown')} />
-              </button>
-            </motion.div>
-
-            {/* Dropdown panel */}
-            {isDropdownOpen && (
-              <div
-                ref={dropdownRef}
-                style={dropdownStyle}
-                className="navbar-dropdown"
-              >
-                <Link
-                  to="/common-questions"
-                  className="navbar-dropdown-link"
-                  onClick={() => setIsDropdownOpen(false)}
-                >
-                  General Information
-                </Link>
-                <Link
-                  to="/support"
-                  className="navbar-dropdown-link"
-                  onClick={() => setIsDropdownOpen(false)}
-                >
-                  Support
-                </Link>
-                <Link
-                  to="/about"
-                  className="navbar-dropdown-link"
-                  onClick={() => setIsDropdownOpen(false)}
-                >
-                  About Me
-                </Link>
-              </div>
-            )}
-          </div>
+          <motion.button
+            type="button"
+            className="nav-icon-button"
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isOpen}
+            onClick={() => setIsOpen((open) => !open)}
+            whileHover={{ y: -1 }}
+            whileTap={{ scale: 0.95 }}
+            transition={TAP_TRANSITION}
+          >
+            {isOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
+          </motion.button>
         </div>
-
-        {/* Mobile Navigation Menu */}
-        {isMenuOpen && (
-          <div ref={mobileMenuRef} className="navbar-mobile-menu navbar-mobile-only">
-            <div className="navbar-mobile-menu-content">
-              {/* Mobile Nav Links */}
-              <Link
-                to="/home"
-                className={`navbar-mobile-link ${isHomeActive ? 'navbar-mobile-link-active' : 'navbar-mobile-link-inactive'}`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Home
-              </Link>
-              
-              <Link
-                to="/brands"
-                className={`navbar-mobile-link ${isInZOIActive ? 'navbar-mobile-link-active' : 'navbar-mobile-link-inactive'}`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                InZOI
-              </Link>
-              
-              <Link
-                to="/archive"
-                className={`navbar-mobile-link ${isArchiveActive ? 'navbar-mobile-link-active' : 'navbar-mobile-link-inactive'}`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Archive
-              </Link>
-
-              <a
-                href="https://www.patreon.com/MOOSTYLES"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="navbar-patreon-button"
-              >
-                <Heart className="navbar-patreon-icon" />
-                Patreon
-              </a>
-
-              <div className="navbar-mobile-divider">
-                <SearchQuery
-                  iconOnly={false}
-                  placeholder="Search products, brands, blog posts..."
-                  searchData={getGlobalSearchData()}
-                  onSearchSelect={(result) => {
-                    if (result.url) {
-                      window.location.href = result.url;
-                    } else if (result.path) {
-                      window.location.href = result.path;
-                    } else if (result.type === 'blog') {
-                      window.location.href = '/blog';
-                    } else if (result.type === 'product') {
-                      window.location.href = `/product/${result.id}`;
-                    } else if (result.type === 'brand') {
-                      window.location.href = `/brand/${result.id}`;
-                    } else if (result.type === 'category') {
-                      window.location.href = `/brands`;
-                    } else if (result.type === 'page') {
-                      window.location.href = result.url || '/';
-                    } else {
-                      window.location.href = '/';
-                    }
-                    setIsMenuOpen(false);
-                  }}
-                  showFilters={true}
-                  searchFields={['title', 'description', 'content', 'tags', 'category', 'subcategory', 'author', 'brand']}
-                  resultLimit={20}
-                />
-              </div>
-
-              <Link
-                to="/common-questions"
-                className="navbar-mobile-link navbar-mobile-link-inactive"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                General Information
-              </Link>
-
-              <Link
-                to="/support"
-                className="navbar-mobile-link navbar-mobile-link-inactive"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Support
-              </Link>
-
-              <Link
-                to="/about"
-                className="navbar-mobile-link navbar-mobile-link-inactive"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                About Me
-              </Link>
-
-              <Link
-                to="/saved-products"
-                className="navbar-mobile-link navbar-mobile-link-inactive"
-                onClick={() => setIsMenuOpen(false)}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-              >
-                <span>Saved Products</span>
-              </Link>
-            </div>
-          </div>
-        )}
       </div>
+
+      <AnimatePresence>
+        {isOpen && [
+          <motion.button
+            key="backdrop"
+            type="button"
+            className="site-nav__backdrop"
+            aria-label="Close menu"
+            onClick={() => setIsOpen(false)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+          />,
+          <motion.div
+            key="panel"
+            className="site-nav__panel"
+            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+          >
+            <NavMenuPanel onNavigate={() => setIsOpen(false)} />
+          </motion.div>,
+        ]}
+      </AnimatePresence>
     </nav>
   );
 };

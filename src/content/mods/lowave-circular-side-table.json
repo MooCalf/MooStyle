@@ -1,0 +1,43 @@
+{
+  "slug": "lowave-circular-side-table",
+  "legacyId": "archive-012",
+  "name": "LoWave Circular Side Table",
+  "collection": null,
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/LoWave Circular Side Table/LoWave Circular Side Table_Thumbnail_CF.png",
+    "previews": [],
+    "screenshots": [
+      "/projects/Products/Archive Images/LoWave Circular Side Table/Showcase1.jpg"
+    ]
+  },
+  "description": "LoWave Circular Side Table was made for the purpose of smoothing the atmosphere beside your rest areas. Preventing sharp corners and stubbing your toes, its truly a nice side piece for a calm atmospheric room.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/lowave-circular-side-table-c5868295",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/posts/lowave-circular-157492083?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "fileManifest": [
+    {
+      "filename": "LoWave Circular Side Table",
+      "description": "LoWave Circular Side Table was made for the purpose of smoothing the atmosphere beside your rest areas. Preventing sharp corners and stubbing your toes, its truly a nice side piece for a calm atmospheric room."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": false
+  }
+}

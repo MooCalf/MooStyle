@@ -1,0 +1,52 @@
+import { StrictMode } from 'react';
+import { renderToString } from 'react-dom/server';
+import { StaticRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
+import App from './App.jsx';
+import { getAllMods, getGalleryEntries } from './lib/mods';
+
+export function render(url) {
+  const helmetContext = {};
+
+  const appHtml = renderToString(
+    <StrictMode>
+      <HelmetProvider context={helmetContext}>
+        <StaticRouter location={url}>
+          <App />
+        </StaticRouter>
+      </HelmetProvider>
+    </StrictMode>
+  );
+
+  return { appHtml, helmet: helmetContext.helmet };
+}
+
+const STATIC_PATHS = [
+  '/',
+  '/home',
+  '/support',
+  '/saved-products',
+  '/privacy-policy',
+  '/terms-of-service',
+  '/offline',
+  '/links',
+  '/brands',
+  '/mods',
+  '/about',
+  '/gallery',
+  '/status',
+];
+
+export function getStaticRoutes() {
+  const mods = getAllMods();
+  const galleryEntries = getGalleryEntries();
+
+  const modPaths = mods.flatMap((mod) => [
+    `/mods/${mod.slug}`,
+    `/product/${mod.legacyId}`,
+  ]);
+
+  const galleryPaths = galleryEntries.map((entry) => `/gallery/${entry.key}`);
+
+  return [...STATIC_PATHS, ...modPaths, ...galleryPaths];
+}

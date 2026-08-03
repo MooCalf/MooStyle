@@ -1,0 +1,43 @@
+{
+  "slug": "glass-coffee-table",
+  "legacyId": "archive-009",
+  "name": "Glass Coffee Table",
+  "collection": null,
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/Glass Coffee Table/Glass Coffee Table_Thumbnail_CF.png",
+    "previews": [],
+    "screenshots": [
+      "/projects/Products/Archive Images/Glass Coffee Table/GCT_Showcase1.jpg"
+    ]
+  },
+  "description": "A simple, elegant looking coffee table for placing your beautiful decorations...and maybe a coffee or two",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/glass-coffee-table-6ef22060",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/posts/glass-coffee-157491562?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "fileManifest": [
+    {
+      "filename": "Glass Coffee Table",
+      "description": "A simple, elegant looking coffee table for placing your beautiful decorations...and maybe a coffee or two"
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": false
+  }
+}

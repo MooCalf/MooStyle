@@ -35,6 +35,16 @@
   Content-Type: application/xml; charset=utf-8
   Cache-Control: public, max-age=3600
 
+# Web App Manifest
+/manifest.json
+  Content-Type: application/manifest+json; charset=utf-8
+  Cache-Control: public, max-age=86400
+
+# Internal build artifact - no client caching, no indexing
+/.prerender-manifest.json
+  Cache-Control: no-store
+  X-Robots-Tag: noindex
+
 # JSON files (except service worker)
 /*.json
   Content-Type: application/json; charset=utf-8
@@ -116,3 +126,4 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   X-XSS-Protection: 1; mode=block
   Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.googlesyndication.com https://*.doubleclick.net https://www.google.com https://www.gstatic.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://formspree.io https://*.googlesyndication.com; frame-src https://*.doubleclick.net https://*.googlesyndication.com https://www.google.com; frame-ancestors 'none'; form-action 'self' https://formspree.io; upgrade-insecure-requests

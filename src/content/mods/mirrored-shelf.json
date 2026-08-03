@@ -1,0 +1,43 @@
+{
+  "slug": "mirrored-shelf",
+  "legacyId": "archive-006",
+  "name": "Mirrored Shelf",
+  "collection": null,
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/Mirrored Shelf/Mirrored Shelf_Thumbnail_CF.png",
+    "previews": [],
+    "screenshots": [
+      "/projects/Products/Archive Images/Mirrored Shelf/MS - Showcase1.jpg"
+    ]
+  },
+  "description": "A simple and minimalistic shelf capable of neatly storing multiple rows of decoration.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/mirrored-shelf-2b73a820",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/posts/mirrored-shelf-157011682?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "fileManifest": [
+    {
+      "filename": "Mirrored Shelf",
+      "description": "A simple and minimalistic shelf capable of neatly storing multiple rows of decoration."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": false
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "slug": "steel-frame-wooden-shelf",
+  "legacyId": "archive-001",
+  "name": "Steel Frame - Wooden Shelf",
+  "collection": null,
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/WoodSteelFrame/Wood - Steel Frame Shelf_Thumbnail_CF.png",
+    "previews": [],
+    "screenshots": [
+      "/projects/Products/Archive Images/WoodSteelFrame/WSFS - Showcase1.jpg",
+      "/projects/Products/Archive Images/WoodSteelFrame/WSFS - Showcase2.jpg"
+    ]
+  },
+  "description": "A simple steel frame wooden shelf. Holds up to 24 small to medium sized items.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/steel-frame-wooden-shelf-0204e68b",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/posts/steel-frame-154530041?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "fileManifest": [
+    {
+      "filename": "Steel Frame - Wooden Shelf",
+      "description": "A simple steel frame wooden shelf. Holds up to 24 small to medium sized items."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": false
+  }
+}

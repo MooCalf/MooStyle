@@ -1,0 +1,43 @@
+{
+  "slug": "inzoi-1st-anniversary-gift",
+  "legacyId": "archive-016",
+  "name": "inZOI 1st Anniversary Gift",
+  "collection": null,
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/Anniversary Gift/AnniversaryGift_Thumbnail_CF.png",
+    "previews": [],
+    "screenshots": [
+      "/projects/Products/Archive Images/Anniversary Gift/showcase1.jpg"
+    ]
+  },
+  "description": "A item given to influencers by inZOI Studios as a gift for the game 1st Anniversary. Congratulations to inZOI, wishing it many more years of developement and success!",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/inzoi-1st-anniversary-gift-5f3b4dcb",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/MOOSTYLES/posts/inzoi-1st-gift-162257404?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "fileManifest": [
+    {
+      "filename": "inZOI 1st Anniversary Gift",
+      "description": "A item given to influencers by inZOI Studios as a gift for the game 1st Anniversary. Congratulations to inZOI, wishing it many more years of developement and success!"
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": true
+  }
+}

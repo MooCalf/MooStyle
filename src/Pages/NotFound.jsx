@@ -2,16 +2,21 @@ import { Link } from "react-router-dom";
 import { NavigationBar } from "@/Components/NavigationBar";
 import { Home, ArrowLeft, Search, Package } from "lucide-react";
 import { WebsiteBackground } from "@/Components/WebsiteBackground";
+import { Metadata } from "@/Components/Metadata.jsx";
 
 export const NotFound = () => {
   return (
     <div className="min-h-screen">
+      <Metadata
+        pageTitle="Page Not Found | MOOSTYLES"
+        pageDescription="The page you're looking for doesn't exist or has been moved."
+        noindex
+      />
       <WebsiteBackground />
       <NavigationBar />
-      
+
       <div className="flex items-center justify-center min-h-[calc(100vh-140px)] px-4">
         <div className="max-w-md w-full text-center">
-          {/* 404 Illustration */}
           <div className="mb-8">
             <div className="text-8xl font-bold text-teal-600 mb-4">404</div>
             <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-teal-100 to-teal-200 rounded-full flex items-center justify-center">
@@ -19,18 +24,16 @@ export const NotFound = () => {
             </div>
           </div>
 
-          {/* Error Message */}
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">
               Oops! Page Not Found
             </h1>
             <p className="text-gray-600 mb-6">
-              The page you're looking for doesn't exist or has been moved. 
+              The page you're looking for doesn't exist or has been moved.
               Don't worry, let's get you back on track!
             </p>
           </div>
 
-          {/* Action Buttons */}
           <div className="space-y-4">
             <Link
               to="/home"
@@ -39,7 +42,7 @@ export const NotFound = () => {
               <Home size={20} />
               Go Home
             </Link>
-            
+
             <button
               onClick={() => window.history.back()}
               className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center gap-2"
@@ -49,7 +52,6 @@ export const NotFound = () => {
             </button>
           </div>
 
-          {/* Quick Links */}
           <div className="mt-8 pt-8 border-t border-gray-200">
             <p className="text-sm text-gray-500 mb-4">Quick Links:</p>
             <div className="flex flex-wrap justify-center gap-4">
@@ -61,9 +63,6 @@ export const NotFound = () => {
               </Link>
               <Link to="/support" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
                 Support
-              </Link>
-              <Link to="/common-questions" className="text-teal-600 hover:text-teal-700 text-sm font-medium">
-                FAQ
               </Link>
             </div>
           </div>

@@ -1,0 +1,43 @@
+{
+  "slug": "small-side-table",
+  "legacyId": "archive-005",
+  "name": "Small Side Table",
+  "collection": null,
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/Small Side Table/Small Side Table_Thumbnail_CF.png",
+    "previews": [],
+    "screenshots": [
+      "/projects/Products/Archive Images/Small Side Table/SST - Showcase1.jpg"
+    ]
+  },
+  "description": "A side table with a simple design and a minimalistic appeal.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": null,
+      "date": null
+    },
+    "patreonUrl": null
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "fileManifest": [
+    {
+      "filename": "Small Side Table",
+      "description": "A side table with a simple design and a minimalistic appeal."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": false
+  }
+}

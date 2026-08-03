@@ -1,0 +1,52 @@
+{
+  "slug": "pitapata",
+  "legacyId": "PITAPATA-001",
+  "name": "PITAPATA",
+  "collection": "PITAPATA",
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/PITAPATA/PITAPATA_Thumbnail_CF.png",
+    "previews": [
+      "/projects/Products/PITAPATA/PITA_Thumbnail_CF.png",
+      "/projects/Products/PITAPATA/Kevin-SugarZoi_Thumbnail_CF.png"
+    ],
+    "screenshots": []
+  },
+  "description": "PITAPATA is a character brand centered around making collectible chibi-style avatars inspired by YouTubers and creators within the inZOI community. Explore playful, stylized miniature characters with oversized heads and simple outfits with recognizable traits that reflect each creator’s identity. ",
+  "highlights": [
+    "Cute and Collectible Chibi Avatars",
+    "Influencers and Creators from the inZOI Community"
+  ],
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/pitapata-74c2b4c5",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/posts/pitapata-155793436?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [
+    "Chibi",
+    "Characters",
+    "Youtubers",
+    "PITAPATA"
+  ],
+  "fileManifest": [
+    {
+      "filename": "PITAPATA",
+      "description": "PITAPATA is a character brand centered around making collectible chibi-style avatars inspired by YouTubers and creators within the inZOI communityy here"
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": false,
+    "isNew": true
+  }
+}

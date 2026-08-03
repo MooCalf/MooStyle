@@ -1,0 +1,43 @@
+{
+  "slug": "stylized-metal-tv-stand",
+  "legacyId": "archive-013",
+  "name": "Stylized Metal TV Stand",
+  "collection": null,
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/Stylized Metal TV Stand/Stylized Metal TV Stand_Thumbnail_CF.png",
+    "previews": [],
+    "screenshots": [
+      "/projects/Products/Archive Images/Stylized Metal TV Stand/Showcase1.jpg"
+    ]
+  },
+  "description": "A sleek, sculptural table defined by its continuous flowing form and soft, rounded edges. Crafted from a single bent surface, creating a seamless loop that transitions effortlessly between the tabletop and base.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/stylize-metal-tv-stand-3b2cc361",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/posts/stylize-metal-tv-157490912?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "fileManifest": [
+    {
+      "filename": "Stylized Metal TV Stand",
+      "description": "A sleek, sculptural table defined by its continuous flowing form and soft, rounded edges. Crafted from a single bent surface, creating a seamless loop that transitions effortlessly between the tabletop and base."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": false
+  }
+}

@@ -1,20 +1,24 @@
 import { RotateCw, Package } from "lucide-react";
 import { WebsiteBackground } from "@/Components/WebsiteBackground";
+import { Metadata } from "@/Components/Metadata.jsx";
 
 export const Offline = () => {
   return (
     <div className="min-h-screen">
+      <Metadata
+        pageTitle="Page Offline | MOOSTYLES"
+        pageDescription="This page is temporarily offline."
+        noindex
+      />
       <WebsiteBackground />
       <div className="flex items-center justify-center min-h-screen px-4">
         <div className="max-w-md w-full text-center">
-          {/* Offline Illustration */}
           <div className="mb-8">
             <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-teal-100 to-teal-200 rounded-full flex items-center justify-center">
               <Package size={48} className="text-teal-600" />
             </div>
           </div>
 
-          {/* Error Message */}
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-gray-900 mb-4">
               Page Offline
@@ -24,7 +28,6 @@ export const Offline = () => {
             </p>
           </div>
 
-          {/* Action Buttons */}
           <div className="space-y-4">
             <button
               onClick={() => window.location.reload()}

@@ -1,0 +1,46 @@
+{
+  "slug": "organizer-set",
+  "legacyId": "archive-024",
+  "name": "Organizer Set",
+  "collection": null,
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/Stationary Organizer/Stationary Organizer_Thumbnail_CF.png",
+    "previews": [
+      "/projects/Products/Archive Images/Stationary Organizer/glasses.png",
+      "/projects/Products/Archive Images/Stationary Organizer/phone.png",
+      "/projects/Products/Archive Images/Stationary Organizer/_thumbnail1.png",
+      "/projects/Products/Archive Images/Stationary Organizer/large.png"
+    ],
+    "screenshots": []
+  },
+  "description": "Simple desk organizers and utensil holders.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/organizer-set-959ce2be",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/MOOSTYLES/posts/organizer-set-162258932?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "fileManifest": [
+    {
+      "filename": "Organizer Set",
+      "description": "Simple desk organizers and utensil holders."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": true
+  }
+}

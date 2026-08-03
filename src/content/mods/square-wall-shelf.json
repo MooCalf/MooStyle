@@ -1,0 +1,43 @@
+{
+  "slug": "square-wall-shelf",
+  "legacyId": "archive-014",
+  "name": "Square Wall Shelf",
+  "collection": null,
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/Square Wall Shelf/Square Wall Shelf_Thumbnail_CF.png",
+    "previews": [],
+    "screenshots": [
+      "/projects/Products/Archive Images/Square Wall Shelf/Showcase1.jpg"
+    ]
+  },
+  "description": "A simple square wall mounted shelf. Much larger than it looks, it truly is the best piece for holding all those books you've had piling up in your closet.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/square-wall-shelf-346133a8",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/posts/square-wall-157490464?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "fileManifest": [
+    {
+      "filename": "Square Wall Shelf",
+      "description": "A simple square wall mounted shelf. Much larger than it looks, it truly is the best piece for holding all those books you've had piling up in your closet."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": false
+  }
+}

@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// Loading Spinner Component
 export const LoadingSpinner = ({ size = 'md', className = '' }) => {
   const sizeClasses = {
     sm: 'w-4 h-4',
@@ -39,12 +38,11 @@ export const LoadingSpinner = ({ size = 'md', className = '' }) => {
   );
 };
 
-// Loading Skeleton Component
-export const LoadingSkeleton = ({ 
-  variant = 'text', 
-  width = '100%', 
+export const LoadingSkeleton = ({
+  variant = 'text',
+  width = '100%',
   height = '1rem',
-  className = '' 
+  className = ''
 }) => {
   const variants = {
     text: 'rounded',
@@ -62,39 +60,32 @@ export const LoadingSkeleton = ({
   );
 };
 
-// Blog Post Card Loading Skeleton
 export const BlogPostCardSkeleton = () => (
   <div className="blog-post-card-default animate-pulse">
-    {/* Image Skeleton */}
     <div className="relative overflow-hidden">
-      <LoadingSkeleton 
-        variant="rectangular" 
-        height="12rem" 
+      <LoadingSkeleton
+        variant="rectangular"
+        height="12rem"
         className="w-full"
       />
     </div>
-    
-    {/* Content Skeleton */}
+
     <div className="blog-post-content-default">
-      {/* Title Skeleton */}
       <LoadingSkeleton height="1.5rem" className="mb-3" />
       <LoadingSkeleton height="1rem" width="80%" className="mb-4" />
-      
-      {/* Meta Skeleton */}
+
       <div className="flex items-center space-x-3 mb-4">
         <LoadingSkeleton height="0.875rem" width="4rem" />
         <LoadingSkeleton height="0.875rem" width="3rem" />
         <LoadingSkeleton height="0.875rem" width="3rem" />
       </div>
-      
-      {/* Tags Skeleton */}
+
       <div className="flex space-x-2 mb-4">
         <LoadingSkeleton height="1.5rem" width="3rem" className="rounded-full" />
         <LoadingSkeleton height="1.5rem" width="4rem" className="rounded-full" />
         <LoadingSkeleton height="1.5rem" width="3.5rem" className="rounded-full" />
       </div>
-      
-      {/* Button Skeleton */}
+
       <div className="flex justify-between items-center">
         <LoadingSkeleton height="1.5rem" width="5rem" />
         <LoadingSkeleton height="2rem" width="2rem" className="rounded-full" />
@@ -103,7 +94,6 @@ export const BlogPostCardSkeleton = () => (
   </div>
 );
 
-// Page Loading Component
 export const PageLoading = ({ message = "Loading..." }) => (
   <div className="min-h-screen flex items-center justify-center bg-gray-50">
     <div className="text-center">
@@ -113,13 +103,12 @@ export const PageLoading = ({ message = "Loading..." }) => (
   </div>
 );
 
-// Button Loading State
-export const LoadingButton = ({ 
-  children, 
-  loading = false, 
+export const LoadingButton = ({
+  children,
+  loading = false,
   loadingText = "Loading...",
   className = "",
-  ...props 
+  ...props
 }) => (
   <button
     className={`relative ${className}`}
@@ -137,13 +126,12 @@ export const LoadingButton = ({
   </button>
 );
 
-// Image Loading Component
-export const LoadingImage = ({ 
-  src, 
-  alt, 
+export const LoadingImage = ({
+  src,
+  alt,
   className = "",
   fallback = "/projects/Brand Medias/Promotional Content/Promo Poster.png",
-  ...props 
+  ...props
 }) => {
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(false);
@@ -178,7 +166,6 @@ export const LoadingImage = ({
   );
 };
 
-// Search Loading Component
 export const SearchLoading = () => (
   <div className="p-4">
     <div className="space-y-3">

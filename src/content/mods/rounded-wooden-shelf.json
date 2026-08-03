@@ -1,0 +1,43 @@
+{
+  "slug": "rounded-wooden-shelf",
+  "legacyId": "archive-003",
+  "name": "Rounded Wooden Shelf",
+  "collection": null,
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/RoundedWoodenShelf/Rounded Wooden Shelf_Thumbnail_CF.png",
+    "previews": [],
+    "screenshots": [
+      "/projects/Products/Archive Images/RoundedWoodenShelf/RWS_Showcase1.jpg"
+    ]
+  },
+  "description": "A simple curved and rounded wooden shelf for decorative pieces. Holds up to 20+ items total.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/rounded-wooden-shelf-39a558bb",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/posts/rounded-wooden-154530898?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "fileManifest": [
+    {
+      "filename": "Rounded Wooden Shelf",
+      "description": "A simple curved and rounded wooden shelf for decorative pieces. Holds up to 20+ items total."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": false
+  }
+}

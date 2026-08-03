@@ -1,0 +1,43 @@
+{
+  "slug": "iroe-coffee-table",
+  "legacyId": "archive-011",
+  "name": "IROE Coffee Table",
+  "collection": null,
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/IROE Coffee Table/IROE Coffee Table_Thumbnail_CF.png",
+    "previews": [],
+    "screenshots": [
+      "/projects/Products/Archive Images/IROE Coffee Table/Showcase1.jpg"
+    ]
+  },
+  "description": "The IROE Coffee Table features a perfectly rounded tabletop with a smooth, high gloss finish that subtly reflects light, adding depth and warmth to its surface. Its clean circular form encourages natural flow within a space, making it an inviting centerpiece for living areas.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/iroe-coffee-table-820c4313",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/posts/iroe-coffee-157491742?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "fileManifest": [
+    {
+      "filename": "IROE Coffee Table",
+      "description": "The IROE Coffee Table features a perfectly rounded tabletop with a smooth, high gloss finish that subtly reflects light, adding depth and warmth to its surface. Its clean circular form encourages natural flow within a space, making it an inviting centerpiece for living areas."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": false
+  }
+}

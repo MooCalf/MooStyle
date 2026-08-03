@@ -1,0 +1,43 @@
+{
+  "slug": "hasaan-wooden-tv",
+  "legacyId": "archive-020",
+  "name": "Hasaan Wooden TV",
+  "collection": null,
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "media": {
+    "banner": "/projects/Products/Archive Images/Hasaan Wooden TV Stand/Hasaan Wooden TV Stand_Thumbnail_CF.png",
+    "previews": [],
+    "screenshots": [
+      "/projects/Products/Archive Images/Hasaan Wooden TV Stand/Showcase1.jpg"
+    ]
+  },
+  "description": "A wooden table crafted with hollowed out wood and a simple open design for spacious looks and functionality.",
+  "highlights": null,
+  "knownIssues": null,
+  "installation": null,
+  "downloadOptions": {
+    "earlyAccess": null,
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/hasaan-wooden-tv-stand-3bf3c2df",
+      "date": null
+    },
+    "patreonUrl": "https://www.patreon.com/MOOSTYLES/posts/hasaan-wooden-tv-162258510?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "tags": [],
+  "fileManifest": [
+    {
+      "filename": "Hasaan Wooden TV",
+      "description": "A wooden table crafted with hollowed out wood and a simple open design for spacious looks and functionality."
+    }
+  ],
+  "legacy": {
+    "isArchiveItem": true,
+    "isNew": true
+  }
+}

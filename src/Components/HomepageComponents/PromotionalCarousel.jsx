@@ -1,5 +1,3 @@
-import { ChevronDown } from "lucide-react";
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const HERO_IMAGES = [
@@ -22,44 +20,8 @@ export const PromotionalCarousel = () => {
     return () => window.clearInterval(intervalId);
   }, []);
 
-  const handleScrollDown = () => {
-    const duration = 300;
-    const startY = window.scrollY;
-    const maxScrollY = document.documentElement.scrollHeight - window.innerHeight;
-    const targetY = Math.min(startY + window.innerHeight, maxScrollY);
-    const distance = targetY - startY;
-
-    if (distance <= 0) {
-      return;
-    }
-
-    const startTime = performance.now();
-
-    const easeInOutQuad = (value) => {
-      return value < 0.5 ? 2 * value * value : 1 - Math.pow(-2 * value + 2, 2) / 2;
-    };
-
-    const animate = (currentTime) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const easedProgress = easeInOutQuad(progress);
-
-      window.scrollTo({
-        top: startY + distance * easedProgress,
-        behavior: "auto",
-      });
-
-      if (progress < 1) {
-        window.requestAnimationFrame(animate);
-      }
-    };
-
-    window.requestAnimationFrame(animate);
-  };
-
   return (
     <div className="hero-banner-container">
-      {/* Full Screen Banner Image */}
       <div className="hero-banner-image-wrapper">
         {HERO_IMAGES.map((imagePath, index) => (
           <img
@@ -75,19 +37,6 @@ export const PromotionalCarousel = () => {
           />
         ))}
       </div>
-
-      {/* Scroll Button */}
-      <motion.button
-        className="hero-scroll-button"
-        onClick={handleScrollDown}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        transition={{ type: "spring", stiffness: 400, damping: 17 }}
-        aria-label="Scroll to next section"
-      >
-        <span className="hero-scroll-text">Scroll</span>
-        <ChevronDown size={20} className="hero-scroll-icon" />
-      </motion.button>
     </div>
   );
 };
