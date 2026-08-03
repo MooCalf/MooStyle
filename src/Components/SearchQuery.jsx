@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Search, X, Clock, Tag, Folder, User, Calendar, Filter, TrendingUp, Star, Zap, Loader2 } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Search, X, Clock, Tag, Folder, User, Calendar, TrendingUp, Star, Zap, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AdvancedSearchEngine } from '@/lib/advancedSearchEngine';
 
-const SearchQuery = ({ 
-  searchData = [], 
-  onSearchSelect, 
+const SearchQuery = ({
+  searchData = [],
+  onSearchSelect,
   placeholder = "Search...",
-  showFilters = true,
   className = "",
-  searchFields = ['title', 'content', 'tags', 'category', 'author'],
   resultLimit = 10,
   iconOnly = false
 }) => {
@@ -17,7 +15,7 @@ const SearchQuery = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [filteredResults, setFilteredResults] = useState([]);
-  const [selectedFilters, setSelectedFilters] = useState({
+  const [selectedFilters] = useState({
     type: 'all',
     category: 'all',
     tags: [],
@@ -27,20 +25,18 @@ const SearchQuery = ({
   const [recentSearches, setRecentSearches] = useState([]);
   const [popularSearches, setPopularSearches] = useState([]);
   const [searchSuggestions, setSearchSuggestions] = useState([]);
-  const [showSuggestions, setShowSuggestions] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const searchRef = useRef(null);
   const inputRef = useRef(null);
-  
-  // Initialize advanced search engine
+
   const [searchEngine, setSearchEngine] = useState(null);
-  
+
   useEffect(() => {
     if (!searchData || searchData.length === 0) {
       setSearchEngine(null);
       return;
     }
-    
+
     try {
       const engine = new AdvancedSearchEngine(searchData, {
         debounceMs: 150,
@@ -54,18 +50,16 @@ const SearchQuery = ({
       console.error('SearchQuery: Failed to initialize search engine:', error);
       setSearchEngine(null);
     }
-  }, [searchData, resultLimit]); // Only re-initialize when searchData or resultLimit changes
+  }, [searchData, resultLimit]);
 
-  // Load recent and popular searches
   useEffect(() => {
     const recent = JSON.parse(localStorage.getItem('recentSearches') || '[]');
     const popular = JSON.parse(localStorage.getItem('popularSearches') || '{}');
-    
-    // Ensure recent searches are strings
+
     const recentStrings = recent
       .filter(item => typeof item === 'string')
       .slice(0, 5);
-    
+
     setRecentSearches(recentStrings);
     setPopularSearches(
       Object.entries(popular)
@@ -75,7 +69,6 @@ const SearchQuery = ({
     );
   }, []);
 
-  // Perform search with advanced engine
   const performSearch = async (searchQuery) => {
     if (!searchQuery.trim()) {
       setFilteredResults([]);
@@ -91,15 +84,14 @@ const SearchQuery = ({
     }
 
     setIsSearching(true);
-    
+
     try {
       const results = await searchEngine.search(searchQuery, selectedFilters);
       setFilteredResults(results);
-      
-      // Update suggestions
+
       const suggestions = searchEngine.getSuggestions(searchQuery, 8);
       setSearchSuggestions(suggestions);
-      
+
     } catch (error) {
       console.error('Search error:', error);
       setFilteredResults([]);
@@ -108,11 +100,10 @@ const SearchQuery = ({
     }
   };
 
-  // Handle search input change
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setQuery(value);
-    
+
     if (value.trim()) {
       performSearch(value);
     } else {
@@ -121,43 +112,35 @@ const SearchQuery = ({
     }
   };
 
-  // Handle result selection
   const handleResultSelect = (result) => {
-    // Track analytics
     if (searchEngine) {
       searchEngine.trackResultClick(result.id, query);
     }
-    
-    // Update recent searches (only store strings)
+
     const recent = JSON.parse(localStorage.getItem('recentSearches') || '[]');
     const updatedRecent = [query, ...recent.filter(s => s !== query && typeof s === 'string')].slice(0, 10);
     localStorage.setItem('recentSearches', JSON.stringify(updatedRecent));
-    
-    // Update popular searches (use query string as key)
+
     const popular = JSON.parse(localStorage.getItem('popularSearches') || '{}');
     popular[query] = (popular[query] || 0) + 1;
     localStorage.setItem('popularSearches', JSON.stringify(popular));
 
-    // Call parent callback
     if (onSearchSelect) {
       onSearchSelect(result);
     }
 
-    // Close search
     setIsOpen(false);
     setQuery('');
     setFilteredResults([]);
     setSearchSuggestions([]);
   };
 
-  // Handle suggestion selection
   const handleSuggestionSelect = (suggestion) => {
     const searchTerm = typeof suggestion === 'string' ? suggestion : suggestion.title || suggestion.name || '';
     setQuery(searchTerm);
     performSearch(searchTerm);
   };
 
-  // Handle search submission
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (filteredResults.length > 0) {
@@ -165,12 +148,10 @@ const SearchQuery = ({
     }
   };
 
-  // Clear search
   const clearSearch = () => {
     setQuery('');
     setFilteredResults([]);
     setSearchSuggestions([]);
-    setShowSuggestions(false);
     if (iconOnly) {
       handleCollapse();
     } else {
@@ -178,7 +159,6 @@ const SearchQuery = ({
     }
   };
 
-  // Handle icon click (expand search)
   const handleIconClick = () => {
     setIsExpanded(true);
     setTimeout(() => {
@@ -186,7 +166,6 @@ const SearchQuery = ({
     }, 100);
   };
 
-  // Handle collapse
   const handleCollapse = () => {
     setIsExpanded(false);
     setIsOpen(false);
@@ -195,36 +174,9 @@ const SearchQuery = ({
     setSearchSuggestions([]);
   };
 
-  // Handle filter change
-  const handleFilterChange = (filterType, value) => {
-    const newFilters = { ...selectedFilters, [filterType]: value };
-    setSelectedFilters(newFilters);
-    
-    if (query.trim()) {
-      performSearch(query);
-    }
-  };
-
-  // Clear filters
-  const clearFilters = () => {
-    const clearedFilters = {
-      type: 'all',
-      category: 'all',
-      tags: [],
-      dateRange: 'all',
-      author: 'all'
-    };
-    setSelectedFilters(clearedFilters);
-    
-    if (query.trim()) {
-      performSearch(query);
-    }
-  };
-
-  // Get result icon
   const getResultIcon = (result) => {
     const iconProps = { size: 16, className: "text-gray-400" };
-    
+
     switch (result.type) {
       case 'product':
         return <Star {...iconProps} className="text-yellow-500" />;
@@ -239,7 +191,6 @@ const SearchQuery = ({
     }
   };
 
-  // Get result color
   const getResultColor = (result) => {
     switch (result.type) {
       case 'product':
@@ -255,13 +206,12 @@ const SearchQuery = ({
     }
   };
 
-  // Format date
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const now = new Date();
     const diffTime = Math.abs(now - date);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 1) return 'Today';
     if (diffDays === 2) return 'Yesterday';
     if (diffDays < 7) return `${diffDays} days ago`;
@@ -269,27 +219,24 @@ const SearchQuery = ({
     return date.toLocaleDateString();
   };
 
-  // Highlight text
   const highlightText = (text, query) => {
     if (!query || !text) return text;
-    
+
     if (!searchEngine) {
-      // Fallback highlighting without search engine
       const queryWords = query.split(' ').filter(word => word.length > 1);
       let highlightedText = text;
-      
+
       queryWords.forEach(word => {
         const regex = new RegExp(`(${word})`, 'gi');
         highlightedText = highlightedText.replace(regex, '<mark class="bg-yellow-200 px-1 rounded">$1</mark>');
       });
-      
+
       return highlightedText;
     }
-    
+
     return searchEngine.highlightText(text, query);
   };
 
-  // Close search when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -304,26 +251,6 @@ const SearchQuery = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [iconOnly]);
 
-  // Get available filter options
-  const getFilterOptions = () => {
-    const types = [...new Set(searchData.map(item => item.type))];
-    const categories = [...new Set(searchData.map(item => item.category).filter(Boolean))];
-    const authors = [...new Set(searchData.map(item => item.author).filter(Boolean))];
-    const tags = [...new Set(searchData.flatMap(item => item.tags || []))];
-
-    return { types, categories, authors, tags };
-  };
-
-  const filterOptions = getFilterOptions();
-
-  // In iconOnly mode, the collapsed icon and the expanded search box used to
-  // be two independent conditionals: the icon button (no exit animation)
-  // would pop back in the instant isExpanded went false, while the expanded
-  // box (wrapped in its own AnimatePresence) was still mid-exit for another
-  // 300ms -- both rendered on top of each other during that window, which
-  // looked like a second search icon appearing while the real one was still
-  // closing. Wrapping both in one AnimatePresence with mode="wait" makes the
-  // exiting element fully finish before its replacement enters.
   return (
     <div ref={searchRef} className={`relative ${className}`}>
       <AnimatePresence mode="wait" initial={false}>
@@ -351,7 +278,6 @@ const SearchQuery = ({
             exit={iconOnly ? { width: 0, opacity: 0 } : false}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            {/* Search Input */}
             <form onSubmit={handleSearchSubmit} className="relative">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -391,7 +317,6 @@ const SearchQuery = ({
               </div>
             </form>
 
-            {/* Search Results Dropdown */}
             <AnimatePresence>
               {isOpen && (query || recentSearches.length > 0 || popularSearches.length > 0) && (
                 <motion.div
@@ -401,7 +326,6 @@ const SearchQuery = ({
                   exit={{ opacity: 0, y: -10, scale: 0.95 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
                 >
-                  {/* Search Suggestions */}
                   {query && searchSuggestions.length > 0 && (
                     <div className="p-2 border-b border-gray-200 bg-gray-50">
                       <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide flex items-center space-x-2">
@@ -422,7 +346,6 @@ const SearchQuery = ({
                     </div>
                   )}
 
-                  {/* Search Results */}
                   {query && filteredResults.length > 0 && (
                     <div className="p-2">
                       <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide flex items-center space-x-2">
@@ -442,10 +365,10 @@ const SearchQuery = ({
                             {getResultIcon(result)}
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center space-x-2 mb-1">
-                                <h4 
+                                <h4
                                   className="text-sm font-medium text-gray-900 truncate"
-                                  dangerouslySetInnerHTML={{ 
-                                    __html: highlightText(result.title, query) 
+                                  dangerouslySetInnerHTML={{
+                                    __html: highlightText(result.title, query)
                                   }}
                                 />
                                 <span className={`text-xs px-2 py-1 rounded-full border ${getResultColor(result)}`}>
@@ -455,10 +378,10 @@ const SearchQuery = ({
                                   <Star className="w-3 h-3 text-yellow-500" />
                                 )}
                               </div>
-                              <p 
+                              <p
                                 className="text-xs text-gray-600 line-clamp-2 mb-2"
-                                dangerouslySetInnerHTML={{ 
-                                  __html: highlightText(result.excerpt || result.description || result.content?.substring(0, 100) + '...', query) 
+                                dangerouslySetInnerHTML={{
+                                  __html: highlightText(result.excerpt || result.description || result.content?.substring(0, 100) + '...', query)
                                 }}
                               />
                               <div className="flex items-center space-x-3 text-xs text-gray-500">
@@ -488,7 +411,6 @@ const SearchQuery = ({
                     </div>
                   )}
 
-                  {/* No Results */}
                   {query && filteredResults.length === 0 && !isSearching && (
                     <div className="p-4 text-center text-gray-500">
                       <Search className="w-8 h-8 mx-auto mb-2 text-gray-300" />
@@ -497,7 +419,6 @@ const SearchQuery = ({
                     </div>
                   )}
 
-                  {/* Recent Searches */}
                   {!query && recentSearches.length > 0 && (
                     <div className="p-2 border-b border-gray-200">
                       <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide flex items-center space-x-2">
@@ -516,7 +437,6 @@ const SearchQuery = ({
                     </div>
                   )}
 
-                  {/* Popular Searches */}
                   {!query && popularSearches.length > 0 && (
                     <div className="p-2">
                       <div className="px-2 py-1 text-xs font-semibold text-gray-500 uppercase tracking-wide flex items-center space-x-2">

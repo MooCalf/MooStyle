@@ -22,7 +22,6 @@ export const PromotionalCarousel = () => {
 
   return (
     <div className="hero-banner-container">
-      {/* Full Screen Banner Image */}
       <div className="hero-banner-image-wrapper">
         {HERO_IMAGES.map((imagePath, index) => (
           <img

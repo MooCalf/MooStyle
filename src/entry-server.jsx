@@ -3,8 +3,7 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App.jsx';
-import { getAllMods, getCollections, getGalleryEntries } from './lib/mods';
-import { slugify } from './lib/slugify';
+import { getAllMods, getGalleryEntries } from './lib/mods';
 
 export function render(url) {
   const helmetContext = {};
@@ -33,17 +32,13 @@ const STATIC_PATHS = [
   '/links',
   '/brands',
   '/mods',
-  '/collections',
-  '/archive',
   '/about',
   '/gallery',
-  '/free',
   '/status',
 ];
 
 export function getStaticRoutes() {
   const mods = getAllMods();
-  const collections = getCollections();
   const galleryEntries = getGalleryEntries();
 
   const modPaths = mods.flatMap((mod) => [
@@ -51,12 +46,7 @@ export function getStaticRoutes() {
     `/product/${mod.legacyId}`,
   ]);
 
-  const collectionPaths = collections.flatMap((collection) => [
-    `/collections/${slugify(collection)}`,
-    `/brand/${collection}`,
-  ]);
-
   const galleryPaths = galleryEntries.map((entry) => `/gallery/${entry.key}`);
 
-  return [...STATIC_PATHS, ...modPaths, ...collectionPaths, ...galleryPaths];
+  return [...STATIC_PATHS, ...modPaths, ...galleryPaths];
 }

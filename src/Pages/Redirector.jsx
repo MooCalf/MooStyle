@@ -6,11 +6,6 @@ import { WebsiteBackground } from "@/Components/WebsiteBackground";
 import { Metadata } from "@/Components/Metadata.jsx";
 import { isAllowedRedirectTarget, logRedirect } from "@/lib/redirect";
 
-// Outbound link interstitial. MOOSTYLES is a static SPA with no server, so a
-// literal HTTP 400 status code cannot be issued for a rejected target --
-// there is no response cycle to attach one to. This renders the closest
-// honest equivalent: a client-rendered page styled and labeled like an
-// error, rather than silently claiming to satisfy a real 400 response.
 export const Redirector = () => {
   const [searchParams] = useSearchParams();
   const target = searchParams.get("to");

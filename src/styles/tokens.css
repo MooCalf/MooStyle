@@ -1,11 +1,5 @@
 /* ========================================
    DESIGN TOKENS
-   Black and white minimalistic clay theme with a teal accent.
-   Every new component in the newdesign-layout redesign reads
-   colors, radii, and spacing from these custom properties rather
-   than hardcoding values, so the palette can be adjusted in one
-   place. Existing pre-redesign pages keep their own inline styles
-   and are migrated over time, not touched by this file.
    ======================================== */
 
 :root {
@@ -57,8 +51,6 @@
 
 /* ========================================
    TYPE RULES
-   Body copy vs. headings vs. brand/product-name casing, per the
-   newdesign-layout type scale.
    ======================================== */
 
 .newdesign-body {

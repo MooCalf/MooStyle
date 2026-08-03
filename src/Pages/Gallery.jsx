@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { NavigationBar } from "@/Components/NavigationBar";
 import { Footer } from "@/Components/Footer";
 import { WebsiteBackground } from "@/Components/WebsiteBackground";
 import { Metadata } from "@/Components/Metadata.jsx";
 import { getGalleryEntries } from "@/lib/mods";
+import { SkeletonImage } from "@/Components/ui/SkeletonImage";
 
-// Real grid of in-game screenshots already present in mod content files
-// (media.screenshots), per newdesign-layout Section 3 sequencing.
+const MotionLink = motion.create(Link);
+
 export const Gallery = () => {
   const entries = getGalleryEntries();
 
@@ -24,10 +26,19 @@ export const Gallery = () => {
         {entries.length > 0 ? (
           <div className="gallery-teaser__grid gallery-page__grid">
             {entries.map((entry) => (
-              <Link to={`/gallery/${entry.key}`} key={entry.key} className="gallery-teaser__item">
-                <img src={entry.src} alt={entry.modName} loading="lazy" />
-                <span>{entry.modName}</span>
-              </Link>
+              <MotionLink
+                to={`/gallery/${entry.key}`}
+                key={entry.key}
+                className="media-card"
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              >
+                <div className="media-card__image">
+                  <SkeletonImage src={entry.src} alt={entry.modName} loading="lazy" />
+                </div>
+                <span className="media-card__title">{entry.modName}</span>
+              </MotionLink>
             ))}
           </div>
         ) : (

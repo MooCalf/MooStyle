@@ -8,11 +8,6 @@ import { getModByAnyId } from "@/lib/mods";
 import { logRedirect } from "@/lib/redirect";
 import { isPublicLocked } from "@/lib/downloadOptions";
 
-// /api/mods/:id/download. Per Section 6 decision 4, with no backend to run a
-// real server route, this stubs the "log the hit, then redirect" behavior
-// client-side: log, then replace the page with the real download URL. The
-// 30 day rolling download counter stays behind the downloadCounter feature
-// flag (off) until a real backend exists to count hits.
 export const ModDownload = () => {
   const { id } = useParams();
   const mod = getModByAnyId(id);

@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { getGalleryEntries } from "@/lib/mods";
+import { SkeletonImage } from "@/Components/ui/SkeletonImage";
 
-// Section 1.2 item 8. bank42n shows the three most recent entries with a
-// posted date; MOOSTYLES has never tracked when a screenshot was taken or
-// published, so entries are shown without a fabricated date rather than
-// claiming a false "recency."
+const MotionLink = motion.create(Link);
+
 export const GalleryTeaser = () => {
   const entries = getGalleryEntries().slice(0, 3);
 
@@ -18,10 +18,19 @@ export const GalleryTeaser = () => {
       {entries.length > 0 ? (
         <div className="gallery-teaser__grid">
           {entries.map((entry) => (
-            <Link to={`/mods/${entry.modSlug}`} key={entry.key} className="gallery-teaser__item">
-              <img src={entry.src} alt={entry.modName} loading="lazy" />
-              <span>{entry.modName}</span>
-            </Link>
+            <MotionLink
+              to={`/mods/${entry.modSlug}`}
+              key={entry.key}
+              className="media-card"
+              whileHover={{ y: -4 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            >
+              <div className="media-card__image">
+                <SkeletonImage src={entry.src} alt={entry.modName} loading="lazy" />
+              </div>
+              <span className="media-card__title">{entry.modName}</span>
+            </MotionLink>
           ))}
         </div>
       ) : (

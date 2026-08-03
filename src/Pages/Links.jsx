@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationBar } from '@/Components/NavigationBar';
 import { Metadata } from '@/Components/Metadata.jsx';
-import { 
-  ExternalLink, 
-  Instagram, 
+import {
+  ExternalLink,
+  Instagram,
   MessageCircle,
   Gamepad2,
   Heart
@@ -51,26 +51,25 @@ export const Links = () => {
 
   return (
     <>
-      <Metadata 
+      <Metadata
         pageTitle="Links - MOOSTYLES"
         pageDescription="Connect with MOOSTYLES on social media and support platforms"
       />
-      
+
       <div className="min-h-screen">
         <WebsiteBackground />
         <NavigationBar />
 
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          {/* Header */}
           <div className="text-center mb-12">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <img 
-                src="/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png" 
-                alt="MOOSTYLES Logo" 
+              <img
+                src="/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png"
+                alt="MOOSTYLES Logo"
                 className="w-24 h-24 mx-auto mb-6 rounded-2xl"
               />
               <h1 className="text-4xl font-bold text-gray-900 mb-4">Links</h1>
@@ -80,7 +79,6 @@ export const Links = () => {
             </motion.div>
           </div>
 
-          {/* Links List */}
           <div className="space-y-4">
             {links.map((link, index) => (
               <motion.a
@@ -98,17 +96,17 @@ export const Links = () => {
                 onMouseLeave={() => setHoveredIndex(null)}
               >
                 <div className="links-button-icon">
-                  {React.cloneElement(link.icon, { 
+                  {React.cloneElement(link.icon, {
                     color: hoveredIndex === index ? link.hoverColor : '#6b7280',
-                    size: 24 
+                    size: 24
                   })}
                 </div>
                 <div className="links-button-content">
                   <span className="links-button-title">{link.title}</span>
                   <span className="links-button-description">{link.description}</span>
                 </div>
-                <ExternalLink 
-                  size={20} 
+                <ExternalLink
+                  size={20}
                   className="links-button-arrow"
                   color={hoveredIndex === index ? link.hoverColor : '#9ca3af'}
                 />
@@ -116,7 +114,6 @@ export const Links = () => {
             ))}
           </div>
 
-          {/* Footer */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

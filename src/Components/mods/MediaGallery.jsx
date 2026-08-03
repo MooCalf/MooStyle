@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { SkeletonImage } from "@/Components/ui/SkeletonImage";
 
 const isVideo = (src) => typeof src === "string" && /\.mp4(\?|$)/i.test(src);
 
@@ -13,15 +14,11 @@ const Thumb = ({ src, isActive, onSelect }) => (
     {isVideo(src) ? (
       <video className="media-gallery__thumb-media" src={src} muted loading="lazy" />
     ) : (
-      <img className="media-gallery__thumb-media" src={src} alt="" loading="lazy" />
+      <SkeletonImage src={src} alt="" imgClassName="media-gallery__thumb-media" loading="lazy" />
     )}
   </button>
 );
 
-// Banner + a single vertical list of the extra images (previews and
-// screenshots combined), positioned to the left of the main image.
-// Thumbnail buttons are native <button> elements, so they are keyboard
-// reachable and swap the main image on Enter/Space for free.
 export const MediaGallery = ({ banner, previews = [], screenshots = [] }) => {
   const [selected, setSelected] = useState(banner);
   const extras = [...previews, ...screenshots];
@@ -48,9 +45,9 @@ export const MediaGallery = ({ banner, previews = [], screenshots = [] }) => {
             playsInline
           />
         ) : (
-          <img
+          <SkeletonImage
             key={selected}
-            className="media-gallery__main-media"
+            imgClassName="media-gallery__main-media"
             src={selected}
             alt=""
             loading="eager"

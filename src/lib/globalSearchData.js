@@ -1,9 +1,5 @@
-// Global Search Data
-// Centralized search data for all webpages and content
-
 import { getAllProducts } from './shoppingData.js';
 
-// Get all products for search
 const getAllProductsForSearch = () => {
   const products = getAllProducts();
   return products.map(product => ({
@@ -29,7 +25,6 @@ const getAllProductsForSearch = () => {
   }));
 };
 
-// Static page content
 const getStaticPages = () => [
   {
     id: 'home',
@@ -74,21 +69,6 @@ const getStaticPages = () => [
     type: 'page',
     date: new Date().toISOString(),
     url: '/brands',
-    image: '/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png'
-  },
-  {
-    id: 'archive',
-    title: 'Archive',
-    description: 'Browse archived content and past projects',
-    content: 'Explore our archive of past projects, retired mods, and historical content. Discover the evolution of our creative work.',
-    excerpt: 'Browse archived content and past projects',
-    category: 'pages',
-    subcategory: 'archive',
-    tags: ['archive', 'history', 'past projects', 'content'],
-    author: 'MOOSTYLES',
-    type: 'page',
-    date: new Date().toISOString(),
-    url: '/archive',
     image: '/projects/Website Branding/MOOSTYLES LOGO - TEAL COLOR.png'
   },
   {
@@ -153,15 +133,9 @@ const getStaticPages = () => [
   }
 ];
 
-// Combine all search data
 export const getGlobalSearchData = () => {
   return [
     ...getAllProductsForSearch(),
     ...getStaticPages()
   ];
 };
-
-// Export individual data sources for specific use cases
-export const getProductSearchData = getAllProductsForSearch;
-export const getPageSearchData = getStaticPages;
-

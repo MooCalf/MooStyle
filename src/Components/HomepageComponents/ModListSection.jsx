@@ -2,10 +2,6 @@ import { Link } from "react-router-dom";
 import InZOIMods from "@/Components/InZOIMods";
 import { getAllMods } from "@/lib/mods";
 
-// Beneath the hero carousel, above the gallery teaser: 5 items in a single
-// row, then a View More button to /mods. Reuses InZOIMods, the image-card
-// component the old /brands grid used to render mod cards (unused since
-// that page was rebuilt as ModsIndex).
 export const ModListSection = () => {
   const mods = getAllMods().slice(0, 5);
   if (!mods.length) return null;

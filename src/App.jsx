@@ -2,16 +2,12 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Home } from "./Pages/Home";
 import { ModDetail } from "./Pages/ModDetail";
-import { CollectionDetail } from "./Pages/CollectionDetail";
 import { ModsIndex } from "./Pages/ModsIndex";
-import { CollectionsIndex } from "./Pages/CollectionsIndex";
 import { Gallery } from "./Pages/Gallery";
 import { GalleryEntry } from "./Pages/GalleryEntry";
-import { Free } from "./Pages/Free";
 import { Status } from "./Pages/Status";
 import { ModDownload } from "./Pages/ModDownload";
 import { Redirector } from "./Pages/Redirector";
-import { Archive } from "./Pages/Archive";
 import AboutMe from "./Pages/AboutMe";
 import { Support } from "./Pages/Support";
 import { SavedProducts } from "./Pages/SavedProducts";
@@ -21,11 +17,13 @@ import { NotFound } from "./Pages/NotFound";
 import { Offline } from "./Pages/Offline";
 import { Links } from "./Pages/Links";
 import ErrorBoundary from "./Components/ErrorBoundary";
+import { FirstVisitGates } from "./Components/gates/FirstVisitGates";
 
 function App() {
   return (
     <ErrorBoundary>
       <div className="App">
+        <FirstVisitGates />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
@@ -35,34 +33,25 @@ function App() {
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/offline" element={<Offline />} />
           <Route path="/links" element={<Links />} />
-          {/* Canonical mod/collection routes */}
           <Route path="/mods" element={<ModsIndex />} />
           <Route path="/mods/:slug" element={<ModDetail />} />
-          <Route path="/collections" element={<CollectionsIndex />} />
-          <Route path="/collections/:slug" element={<CollectionDetail />} />
 
-          {/* Legacy routes, dual-mounted onto the same page components so
-              every existing mod/brand URL keeps working. Metadata.jsx sets
-              the canonical link to the new path regardless of which route
-              matched. */}
           <Route path="/product/:id" element={<ModDetail />} />
-          <Route path="/brand/:id" element={<CollectionDetail />} />
           <Route path="/brands" element={<ModsIndex />} />
 
-          <Route path="/archive" element={<Archive />} />
+          <Route path="/collections" element={<Navigate to="/mods" replace />} />
+          <Route path="/collections/:slug" element={<Navigate to="/mods" replace />} />
+          <Route path="/brand/:id" element={<Navigate to="/mods" replace />} />
 
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/gallery/:slug" element={<GalleryEntry />} />
 
-          <Route path="/free" element={<Free />} />
           <Route path="/status" element={<Status />} />
           <Route path="/api/mods/:id/download" element={<ModDownload />} />
           <Route path="/redirector" element={<Redirector />} />
           <Route path="/about" element={<AboutMe />} />
-          {/* General Information's FAQ content now lives on /support; this
-              keeps any existing /common-questions link or bookmark working
-              instead of 404ing. */}
           <Route path="/common-questions" element={<Navigate to="/support" replace />} />
+          <Route path="/archive" element={<Navigate to="/mods" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

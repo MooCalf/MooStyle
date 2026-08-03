@@ -7,21 +7,18 @@ import { Metadata } from "@/Components/Metadata.jsx";
 import { MediaGallery } from "@/Components/mods/MediaGallery";
 import { SectionTabs } from "@/Components/mods/SectionTabs";
 import { DownloadOptions } from "@/Components/mods/DownloadOptions";
-import { MetadataList } from "@/Components/mods/MetadataList";
 import { FileManifest } from "@/Components/mods/FileManifest";
 import { StatusBadge } from "@/Components/mods/StatusBadge";
-import { InstallationSteps } from "@/Components/mods/InstallationSteps";
 import { KnownIssues } from "@/Components/mods/KnownIssues";
 import { Breadcrumb } from "@/Components/mods/Breadcrumb";
 import { getModByAnyId, getRelatedMods } from "@/lib/mods";
-import { slugify } from "@/lib/slugify";
 import { DEFAULT_MOD_TABS } from "@/lib/modDetailTabs";
 import { ProductCard } from "@/Components/ProductCard";
 
 const toLegacyCard = (mod) => ({
   id: mod.legacyId,
   name: mod.name,
-  brand: mod.collection || "Archive",
+  brand: mod.collection ? "Collections" : "Individual",
   image: mod.media.banner,
   images: [mod.media.banner, ...mod.media.previews],
   isNew: mod.legacy.isNew,
@@ -56,12 +53,6 @@ export const ModDetail = () => {
   const activeTabDef = DEFAULT_MOD_TABS.find((tab) => tab.label === activeTab) || DEFAULT_MOD_TABS[0];
   const isSectionVisible = (sectionId) => activeTabDef.sectionIds.includes(sectionId);
 
-  const breadcrumb = mod.collection
-    ? { to: `/collections/${slugify(mod.collection)}`, label: mod.collection }
-    : mod.legacy.isArchiveItem
-    ? { to: "/archive", label: "Archive" }
-    : { to: "/mods", label: "All Mods" };
-
   const relatedMods = getRelatedMods(mod.slug, 4);
 
   return (
@@ -80,7 +71,7 @@ export const ModDetail = () => {
           name: mod.name,
           description: mod.description,
           image: mod.media.banner || "",
-          brand: mod.collection || "Archive",
+          brand: mod.collection ? "Collections" : "Individual",
           category: mod.legacy.isArchiveItem ? "archive" : "inZOI",
         }}
       />
@@ -88,92 +79,77 @@ export const ModDetail = () => {
       <WebsiteBackground />
       <NavigationBar />
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Breadcrumb to={breadcrumb.to} label={breadcrumb.label} />
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Breadcrumb to="/mods" label="All Mods" />
 
         <h1 className="mod-detail__title newdesign-heading newdesign-brand-label">{mod.name}</h1>
 
-        <MediaGallery
-          banner={mod.media.banner}
-          previews={mod.media.previews}
-          screenshots={mod.media.screenshots}
-        />
-
-        <div className="mod-detail__content">
-          <h2 className="mod-detail__title newdesign-heading">{mod.name}</h2>
-
-          <div className="mod-detail__status-row">
-            <StatusBadge state={mod.status.compatibility} gameVersion={mod.status.gameVersion} />
+        <div className="mod-detail__layout">
+          <div className="mod-detail__media-col">
+            <MediaGallery
+              banner={mod.media.banner}
+              previews={mod.media.previews}
+              screenshots={mod.media.screenshots}
+            />
           </div>
 
-          <SectionTabs tabs={DEFAULT_MOD_TABS} activeLabel={activeTab} onSelect={setActiveTab} />
+          <div className="mod-detail__content mod-detail__content-col">
+            <h2 className="mod-detail__title newdesign-heading">{mod.name}</h2>
 
-          {isSectionVisible("download") && (
-            <section
-              id="section-tabpanel-download"
-              role="tabpanel"
-              aria-labelledby={`section-tab-${activeTab}`}
-              className="mod-detail__section"
-            >
-              <DownloadOptions
-                modSlug={mod.slug}
-                earlyAccess={mod.downloadOptions.earlyAccess}
-                publicAccess={mod.downloadOptions.public}
-                fileTypes={mod.fileTypes}
-              />
-            </section>
-          )}
+            <div className="mod-detail__status-row">
+              <StatusBadge state={mod.status.compatibility} gameVersion={mod.status.gameVersion} />
+            </div>
 
-          {isSectionVisible("details") && (
-            <section className="mod-detail__section">
-              <h3 className="mod-detail__section-heading">Details</h3>
-              <p className="mod-detail__description">{mod.description}</p>
+            <SectionTabs tabs={DEFAULT_MOD_TABS} activeLabel={activeTab} onSelect={setActiveTab} />
 
-              {mod.highlights && mod.highlights.length > 0 && (
-                <>
-                  <h4 className="mod-detail__subheading">Highlights</h4>
-                  <ul className="mod-detail__highlights">
-                    {mod.highlights.map((highlight) => (
-                      <li key={highlight}>{highlight}</li>
-                    ))}
-                  </ul>
-                </>
-              )}
+            {isSectionVisible("details") && (
+              <section
+                id="section-tabpanel-details"
+                role="tabpanel"
+                aria-labelledby={`section-tab-${activeTab}`}
+                className="mod-detail__section"
+              >
+                <h3 className="mod-detail__section-heading">Details & Download</h3>
 
-              <h4 className="mod-detail__subheading">Known Issues</h4>
-              <KnownIssues issues={mod.knownIssues} />
+                <DownloadOptions
+                  patreonUrl={mod.downloadOptions.patreonUrl}
+                  curseforgeUrl={mod.downloadOptions.public?.url}
+                  fileTypes={mod.fileTypes}
+                />
 
-              <h4 className="mod-detail__subheading">Metadata</h4>
-              <MetadataList fields={mod.metadataList} />
+                <p className="mod-detail__description">{mod.description}</p>
 
-              <FileManifest files={mod.fileManifest} />
+                {mod.highlights && mod.highlights.length > 0 && (
+                  <>
+                    <h4 className="mod-detail__subheading">Highlights</h4>
+                    <ul className="mod-detail__highlights">
+                      {mod.highlights.map((highlight) => (
+                        <li key={highlight}>{highlight}</li>
+                      ))}
+                    </ul>
+                  </>
+                )}
 
-              <p className="mod-detail__license-summary">
-                Personal use is always free. Reselling, redistributing, or claiming this mod as
-                your own work is not permitted under any license tier. Full terms are available
-                on the <Link to="/terms-of-service">Terms of Service</Link> page.
-              </p>
-            </section>
-          )}
+                <h4 className="mod-detail__subheading">Known Issues</h4>
+                <KnownIssues issues={mod.knownIssues} />
 
-          {isSectionVisible("installation") && (
-            <section
-              id="section-tabpanel-installation"
-              role="tabpanel"
-              aria-labelledby={`section-tab-${activeTab}`}
-              className="mod-detail__section"
-            >
-              <h3 className="mod-detail__section-heading">Installation</h3>
-              <InstallationSteps steps={mod.installation} />
-            </section>
-          )}
+                <FileManifest files={mod.fileManifest} />
 
-          {isSectionVisible("changelog") && (
-            <section className="mod-detail__section">
-              <h3 className="mod-detail__section-heading">Changelog</h3>
-              <p className="mod-detail__empty-state">No changelog entries yet.</p>
-            </section>
-          )}
+                <p className="mod-detail__license-summary">
+                  Personal use is always free. Reselling, redistributing, or claiming this mod as
+                  your own work is not permitted under any license tier. Full terms are available
+                  on the <Link to="/terms-of-service">Terms of Service</Link> page.
+                </p>
+              </section>
+            )}
+
+            {isSectionVisible("changelog") && (
+              <section className="mod-detail__section">
+                <h3 className="mod-detail__section-heading">Changelog</h3>
+                <p className="mod-detail__empty-state">No changelog entries yet.</p>
+              </section>
+            )}
+          </div>
         </div>
 
         {relatedMods.length > 0 && (

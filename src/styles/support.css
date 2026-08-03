@@ -1,0 +1,250 @@
+/* ========================================
+   SUPPORT PAGE
+   ======================================== */
+
+.support-page__intro {
+  max-width: var(--maxw-text);
+  color: #000000;
+  margin: var(--space-3) 0 var(--space-5);
+}
+
+/* ========================================
+   CONTACT CARDS
+   ======================================== */
+
+.support-page__contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .support-page__contact-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.support-page__contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-4);
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.support-page__contact-icon {
+  color: var(--color-accent);
+  margin-bottom: var(--space-1);
+}
+
+.support-page__contact-title {
+  font-size: var(--font-size-3);
+  font-weight: 700;
+  color: #000000;
+  margin: 0;
+}
+
+.support-page__contact-note {
+  font-size: var(--font-size-1);
+  color: #4b5563;
+  margin: 0 0 var(--space-2);
+}
+
+.support-page__contact-email {
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.support-page__contact-email:hover {
+  text-decoration: underline;
+}
+
+/* ========================================
+   CONTACT FORM
+   ======================================== */
+
+.support-form {
+  padding: var(--space-4);
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-5);
+}
+
+.support-form__heading {
+  margin-bottom: var(--space-3);
+}
+
+.support-form__status {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-3);
+  font-size: var(--font-size-1);
+}
+
+.support-form__status--success {
+  background: #f0fdf4;
+  border: 1px solid var(--color-success);
+  color: #166534;
+}
+
+.support-form__status--error {
+  background: #fef2f2;
+  border: 1px solid var(--color-danger);
+  color: #991b1b;
+}
+
+.support-form__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.support-form__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .support-form__row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.support-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.support-form__label {
+  font-size: var(--font-size-1);
+  font-weight: 600;
+  color: #000000;
+}
+
+.support-form__input {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: #ffffff;
+  color: #000000;
+  font: inherit;
+}
+
+.support-form__input:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+  border-color: var(--color-accent);
+}
+
+.support-form__textarea {
+  resize: vertical;
+}
+
+.support-form__submit-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.support-form__submit {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--color-accent);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.support-form__submit:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+.support-form__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.support-form__spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  animation: spin 0.8s linear infinite;
+}
+
+/* ========================================
+   FAQ ACCORDION
+   ======================================== */
+
+.support-faq {
+  margin-top: var(--space-6);
+}
+
+.support-faq__heading {
+  margin-bottom: var(--space-4);
+}
+
+.support-faq__category {
+  margin-bottom: var(--space-4);
+}
+
+.support-faq__category-title {
+  font-size: var(--font-size-2);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  margin: 0 0 var(--space-2);
+}
+
+.support-faq__item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.support-faq__question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font: inherit;
+  font-weight: 600;
+  color: #000000;
+  cursor: pointer;
+}
+
+.support-faq__chevron {
+  flex-shrink: 0;
+  display: flex;
+  color: var(--color-accent);
+}
+
+.support-faq__answer-wrap {
+  overflow: hidden;
+}
+
+.support-faq__answer {
+  margin: 0 0 var(--space-3);
+  color: #4b5563;
+  line-height: 1.6;
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, User, Heart, Globe, Award, Mail, Download, Code } from 'lucide-react';
+import { ArrowLeft, Heart, Globe, Mail, Download, Code } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { NavigationBar } from '@/Components/NavigationBar';
@@ -52,8 +52,7 @@ const AboutMe = () => {
       />
       <WebsiteBackground />
       <NavigationBar />
-      {/* Header */}
-      <motion.div 
+      <motion.div
         className="bg-white border-b border-gray-200"
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -61,8 +60,8 @@ const AboutMe = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center space-x-4">
-            <Link 
-              to="/home" 
+            <Link
+              to="/home"
               className="back-button-simple"
             >
               <ArrowLeft size={24} />
@@ -92,8 +91,7 @@ const AboutMe = () => {
         </div>
       </motion.div>
 
-      {/* Hero Section */}
-      <motion.div 
+      <motion.div
         className="bg-gradient-to-br from-teal-50 to-teal-100 py-16"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -101,7 +99,7 @@ const AboutMe = () => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <motion.div 
+            <motion.div
               className="mx-auto w-32 h-32 bg-white rounded-full shadow-lg flex items-center justify-center mb-8"
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
@@ -113,7 +111,7 @@ const AboutMe = () => {
                 className="w-24 h-24 object-contain"
               />
             </motion.div>
-            <motion.h2 
+            <motion.h2
               className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6"
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -121,21 +119,20 @@ const AboutMe = () => {
             >
               Welcome to MOOSTYLES
             </motion.h2>
-            <motion.p 
+            <motion.p
               className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.7 }}
             >
-              Your premier destination for high-quality InZoi mods. We're passionate about creating and sharing 
+              Your premier destination for high-quality InZoi mods. We're passionate about creating and sharing
               amazing mods that enhance your InZoi gaming experience, completely free of charge.
             </motion.p>
           </div>
         </div>
       </motion.div>
 
-      {/* Story Section */}
-      <motion.div 
+      <motion.div
         className="py-16 bg-white"
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -151,23 +148,23 @@ const AboutMe = () => {
               <h3 className="text-3xl font-bold text-gray-900 mb-6">My Story</h3>
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
-                  Hi! I'm the creator behind MOOSTYLES, and I'm passionate about InZoi modding. 
-                  What started as a personal hobby of creating mods for my own gameplay has 
+                  Hi! I'm the creator behind MOOSTYLES, and I'm passionate about InZoi modding.
+                  What started as a personal hobby of creating mods for my own gameplay has
                   evolved into a mission to share amazing mods with the entire InZoi community.
                 </p>
                 <p>
-                  You can learn more about me and my other projects by visiting 
-                  <a href="https://moocalf.com" target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:text-teal-700 font-medium"> Moocalf.com</a>, 
+                  You can learn more about me and my other projects by visiting
+                  <a href="https://moocalf.com" target="_blank" rel="noopener noreferrer" className="text-teal-600 hover:text-teal-700 font-medium"> Moocalf.com</a>,
                   where I share my journey, tutorials, and connect with fellow modders and gamers.
                 </p>
                 <p>
-                  MOOSTYLES was created with one simple goal: to make high-quality InZoi mods 
-                  accessible to everyone, completely free. I believe that modding should be 
+                  MOOSTYLES was created with one simple goal: to make high-quality InZoi mods
+                  accessible to everyone, completely free. I believe that modding should be
                   about creativity, community, and enhancing the gaming experience for all players.
                 </p>
               </div>
             </motion.div>
-            <motion.div 
+            <motion.div
               className="bg-gradient-to-br from-teal-100 to-teal-200 rounded-2xl p-8"
               initial={{ x: 30, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -177,8 +174,8 @@ const AboutMe = () => {
               <div className="text-center">
                 <h4 className="text-2xl font-bold text-gray-900 mb-4">My Mission</h4>
                 <p className="text-gray-700 text-lg leading-relaxed">
-                  To create and share amazing InZoi mods that enhance gameplay, 
-                  foster creativity, and build a supportive modding community where 
+                  To create and share amazing InZoi mods that enhance gameplay,
+                  foster creativity, and build a supportive modding community where
                   everyone can enjoy the game to its fullest potential.
                 </p>
               </div>
@@ -187,15 +184,14 @@ const AboutMe = () => {
         </div>
       </motion.div>
 
-      {/* Achievements Section */}
-      <motion.div 
+      <motion.div
         className="py-16 bg-gray-50"
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, delay: 1.1 }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -208,15 +204,15 @@ const AboutMe = () => {
             {achievements.map((achievement, index) => {
               const IconComponent = achievement.icon;
               return (
-                <motion.div 
-                  key={index} 
+                <motion.div
+                  key={index}
                   className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center"
                   initial={{ y: 30, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.5, delay: 1.3 + index * 0.1 }}
                   whileHover={{ y: -5 }}
                 >
-                  <motion.div 
+                  <motion.div
                     className="mx-auto w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mb-4"
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
@@ -233,15 +229,14 @@ const AboutMe = () => {
         </div>
       </motion.div>
 
-      {/* Values Section */}
-      <motion.div 
+      <motion.div
         className="py-16 bg-white"
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, delay: 1.6 }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
+          <motion.div
             className="text-center mb-12"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -252,8 +247,8 @@ const AboutMe = () => {
           </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {values.map((value, index) => (
-              <motion.div 
-                key={index} 
+              <motion.div
+                key={index}
                 className="bg-gray-50 rounded-lg p-8"
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -268,15 +263,14 @@ const AboutMe = () => {
         </div>
       </motion.div>
 
-      {/* Contact Section */}
-      <motion.div 
+      <motion.div
         className="py-16 bg-gradient-to-r from-teal-600 to-teal-700"
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, delay: 2.2 }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.h3 
+          <motion.h3
             className="text-3xl font-bold text-white mb-6"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -284,16 +278,16 @@ const AboutMe = () => {
           >
             Let's Connect
           </motion.h3>
-          <motion.p 
+          <motion.p
             className="text-teal-100 text-lg mb-8 max-w-2xl mx-auto"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 2.4 }}
           >
-            Have questions about mods or want to share your MOOSTYLES experience? 
+            Have questions about mods or want to share your MOOSTYLES experience?
             I'd love to hear from you! Follow me on social media for updates and mod releases.
           </motion.p>
-          <motion.div 
+          <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center mb-8"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -331,7 +325,7 @@ const AboutMe = () => {
               Support on Patreon
             </motion.a>
           </motion.div>
-          <motion.div 
+          <motion.div
             className="flex justify-center space-x-6"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -342,15 +336,15 @@ const AboutMe = () => {
             ].map((social, index) => {
               const IconComponent = social.icon;
               return (
-                <motion.a 
+                <motion.a
                   key={index}
-                  href={social.href} 
-                  className="text-teal-100 hover:text-white transition-colors" 
+                  href={social.href}
+                  className="text-teal-100 hover:text-white transition-colors"
                   aria-label={social.label}
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
-                  transition={{ 
-                    duration: 0.5, 
+                  transition={{
+                    duration: 0.5,
                     delay: 2.7 + index * 0.1,
                     type: "spring",
                     stiffness: 200

@@ -1,0 +1,148 @@
+/* ========================================
+   FIRST-VISIT GATES
+   ======================================== */
+
+.site-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3);
+  background: rgba(11, 15, 16, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.site-gate__panel {
+  width: 100%;
+  max-width: 440px;
+  padding: var(--space-5);
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  color: #000000;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+}
+
+.site-gate__title {
+  font-size: var(--font-size-4);
+  margin: 0 0 var(--space-3);
+}
+
+.site-gate__body {
+  color: #4b5563;
+  line-height: 1.6;
+  margin: 0 0 var(--space-4);
+}
+
+.site-gate__body a {
+  color: var(--color-accent);
+}
+
+/* ========================================
+   DUO BUTTONS
+   ======================================== */
+
+.gate-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+@media (min-width: 480px) {
+  .gate-actions {
+    flex-direction: row;
+  }
+}
+
+.gate-button {
+  flex: 1 1 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  border: 2px solid #000000;
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.gate-button--primary {
+  background: #000000;
+  color: #ffffff;
+}
+
+.gate-button--primary:hover {
+  border-color: #ffffff;
+}
+
+.gate-button--secondary {
+  background: #ffffff;
+  color: #000000;
+}
+
+.gate-button--secondary:hover {
+  background: #000000;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+/* ========================================
+   CONSENT EXCERPTS
+   ======================================== */
+
+.consent-gate__documents {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.consent-gate__document {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.consent-gate__document-title {
+  font-size: var(--font-size-2);
+  font-weight: 700;
+  margin: 0 0 var(--space-1);
+}
+
+.consent-gate__excerpt {
+  position: relative;
+  max-height: 2.8em;
+  overflow: hidden;
+}
+
+.consent-gate__excerpt p {
+  margin: 0;
+  color: #4b5563;
+  font-size: var(--font-size-1);
+  line-height: 1.4;
+}
+
+.consent-gate__excerpt::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1.4em;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff);
+}
+
+.consent-gate__view-more {
+  display: inline-block;
+  margin-top: var(--space-1);
+  font-size: var(--font-size-1);
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.consent-gate__view-more:hover {
+  text-decoration: underline;
+}

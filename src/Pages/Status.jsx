@@ -7,11 +7,6 @@ import { StatusBadge } from "@/Components/mods/StatusBadge";
 import { getAllMods } from "@/lib/mods";
 import { CURRENT_GAME_VERSION } from "@/lib/config";
 
-// Current inZOI build number and per-mod compatibility state. MOOSTYLES has
-// never tracked a specific numbered build before this redesign, so
-// CURRENT_GAME_VERSION is honestly just "inZOI" rather than a fabricated
-// version string like "1.2.3" -- update src/lib/config.js once real build
-// tracking exists.
 export const Status = () => {
   const mods = getAllMods();
 

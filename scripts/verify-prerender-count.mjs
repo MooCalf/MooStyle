@@ -1,6 +1,3 @@
-// CI check: confirms scripts/prerender.mjs actually emitted one index.html
-// per route it claims to have rendered, instead of trusting its own console
-// log. Run after `npm run build`.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

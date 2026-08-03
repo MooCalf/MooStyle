@@ -7,10 +7,6 @@ import { GalleryTeaser } from "@/Components/HomepageComponents/GalleryTeaser";
 import { Footer } from "@/Components/Footer";
 import { WebsiteBackground } from "@/Components/WebsiteBackground";
 
-// The hero image carousel (FeaturedCollections) is the first content
-// section after the nav bar; everything that used to sit above it
-// (HomeHero, EarlyAccessBand, MembershipSection, BrandSections) has been
-// removed per request.
 export const Home = () => (
   <>
     <Metadata

@@ -4,30 +4,40 @@ import { Footer } from "@/Components/Footer";
 import { WebsiteBackground } from "@/Components/WebsiteBackground";
 import { Metadata } from "@/Components/Metadata.jsx";
 import { ProductCard } from "@/Components/ProductCard";
-import { getAllMods, getCollections } from "@/lib/mods";
+import { getAllMods } from "@/lib/mods";
 
 const toLegacyCard = (mod) => ({
   id: mod.legacyId,
   slug: mod.slug,
   name: mod.name,
-  brand: mod.collection || "Archive",
+  brand: mod.collection ? "Collections" : "Individual",
   image: mod.media.banner,
   images: [mod.media.banner, ...mod.media.previews],
-  isNew: mod.legacy.isNew,
 });
 
 export const ModsIndex = () => {
   const [query, setQuery] = useState("");
-  const [collectionFilter, setCollectionFilter] = useState("");
+  const [filterValue, setFilterValue] = useState("");
 
   const allMods = useMemo(() => getAllMods(), []);
-  const collections = useMemo(() => getCollections(), []);
 
-  const filtered = allMods.filter((mod) => {
-    const matchesQuery = !query || mod.name.toLowerCase().includes(query.toLowerCase());
-    const matchesCollection = !collectionFilter || mod.collection === collectionFilter;
-    return matchesQuery && matchesCollection;
-  });
+  const filtered = useMemo(() => {
+    let list = allMods.filter((mod) => {
+      const matchesQuery = !query || mod.name.toLowerCase().includes(query.toLowerCase());
+      if (!matchesQuery) return false;
+      if (filterValue === "type:individual") return !mod.collection;
+      if (filterValue === "type:collections") return Boolean(mod.collection);
+      return true;
+    });
+
+    if (filterValue === "sort:latest") {
+      list = [...list].sort((a, b) => Number(b.legacy.isNew) - Number(a.legacy.isNew));
+    } else if (filterValue === "sort:oldest") {
+      list = [...list].sort((a, b) => Number(a.legacy.isNew) - Number(b.legacy.isNew));
+    }
+
+    return list;
+  }, [allMods, query, filterValue]);
 
   return (
     <div className="min-h-screen">
@@ -41,7 +51,9 @@ export const ModsIndex = () => {
       <NavigationBar />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h1 className="mod-detail__title newdesign-heading newdesign-brand-label">All Mods</h1>
+        <h1 className="mod-detail__title mods-index__title newdesign-heading newdesign-brand-label">
+          All Mods
+        </h1>
 
         <div className="mods-index__filters">
           <input
@@ -53,17 +65,20 @@ export const ModsIndex = () => {
             aria-label="Search mods"
           />
           <select
-            className="mods-index__collection-select"
-            value={collectionFilter}
-            onChange={(event) => setCollectionFilter(event.target.value)}
-            aria-label="Filter by collection"
+            className="mods-index__filter-select"
+            value={filterValue}
+            onChange={(event) => setFilterValue(event.target.value)}
+            aria-label="Filter mods"
           >
-            <option value="">All collections</option>
-            {collections.map((collection) => (
-              <option key={collection} value={collection}>
-                {collection}
-              </option>
-            ))}
+            <option value="">All Mods</option>
+            <optgroup label="Type">
+              <option value="type:individual">Individual</option>
+              <option value="type:collections">Collections</option>
+            </optgroup>
+            <optgroup label="Sort">
+              <option value="sort:latest">Latest</option>
+              <option value="sort:oldest">Oldest</option>
+            </optgroup>
           </select>
         </div>
 

@@ -1,9 +1,6 @@
 import { useRef } from "react";
+import { motion } from "framer-motion";
 
-// Controlled tab bar: the parent (mod detail page) owns activeLabel and
-// filters its own content blocks by tab.sectionIds, since these tabs filter
-// sibling content rather than navigate. role="tablist" with roving tabIndex
-// and arrow-key navigation per WAI-ARIA tab pattern.
 export const SectionTabs = ({ tabs, activeLabel, onSelect }) => {
   const tabRefs = useRef([]);
   const activeIndex = Math.max(
@@ -45,7 +42,7 @@ export const SectionTabs = ({ tabs, activeLabel, onSelect }) => {
       <span className="section-tabs__label">Menu :</span>
       <div className="section-tabs__list" role="tablist" aria-label="Mod detail sections">
         {tabs.map((tab, index) => (
-          <button
+          <motion.button
             key={tab.label}
             ref={(el) => {
               tabRefs.current[index] = el;
@@ -59,9 +56,11 @@ export const SectionTabs = ({ tabs, activeLabel, onSelect }) => {
             className={`section-tabs__tab${index === activeIndex ? " section-tabs__tab--active" : ""}`}
             onClick={() => selectTab(index)}
             onKeyDown={(event) => handleKeyDown(event, index)}
+            whileTap={{ scale: 0.94 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
             {tab.label}
-          </button>
+          </motion.button>
         ))}
       </div>
     </div>

@@ -1,22 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 export const WebsiteBackground = ({
-  // Background color
-  backgroundColor = '#FFFFFF', 
-  // Square/Grid styles
+  backgroundColor = '#FFFFFF',
   squareSize = 40,
   lineThickness = 1,
-  lineColor = 'rgba(188, 255, 247, 0.5)', 
-  
-  // Glow styles
-  glowColor = 'rgb(168, 255, 242)', 
+  lineColor = 'rgba(0, 0, 0, 0.12)',
+
+  glowColor = 'rgb(168, 255, 242)',
   glowSize = 400,
-  
-  // Follow speed 
+
   followSpeed = 0.08,
 }) => {
   const canvasRef = useRef(null);
-  const mouseRef = useRef({ x: -1000, y: -1000 }); 
+  const mouseRef = useRef({ x: -1000, y: -1000 });
   const currentPosRef = useRef({ x: -1000, y: -1000 });
   const animationFrameRef = useRef(null);
 
@@ -27,7 +23,6 @@ export const WebsiteBackground = ({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -35,7 +30,6 @@ export const WebsiteBackground = ({
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Mouse move handler
     const handleMouseMove = (e) => {
       mouseRef.current = {
         x: e.clientX,
@@ -44,29 +38,23 @@ export const WebsiteBackground = ({
     };
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Animation loop
     const animate = () => {
-      // Smooth follow with easing
       currentPosRef.current.x += (mouseRef.current.x - currentPosRef.current.x) * followSpeed;
       currentPosRef.current.y += (mouseRef.current.y - currentPosRef.current.y) * followSpeed;
 
-      // Clear canvas
       ctx.fillStyle = backgroundColor;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Draw grid
       ctx.strokeStyle = lineColor;
       ctx.lineWidth = lineThickness;
 
-      // Vertical lines
-      for (let x = 0; x < canvas.width; x += squareSize) {
+      for (let x = -squareSize; x < canvas.width + squareSize; x += squareSize) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
         ctx.lineTo(x, canvas.height);
         ctx.stroke();
       }
 
-      // Horizontal lines
       for (let y = 0; y < canvas.height; y += squareSize) {
         ctx.beginPath();
         ctx.moveTo(0, y);
@@ -74,16 +62,13 @@ export const WebsiteBackground = ({
         ctx.stroke();
       }
 
-      // Draw enhanced glow only on grid lines in circular glow area with radial gradient
       const glowRadius = glowSize * 0.6;
 
-      // Vertical glowing lines - draw segments within circular glow area
-      for (let x = 0; x < canvas.width; x += squareSize) {
+      for (let x = -squareSize; x < canvas.width + squareSize; x += squareSize) {
         ctx.beginPath();
         let isInGlow = false;
         let segmentStart = null;
 
-        // Sample points along the vertical line
         for (let y = 0; y < canvas.height; y += 2) {
           const dx = x - currentPosRef.current.x;
           const dy = y - currentPosRef.current.y;
@@ -95,7 +80,6 @@ export const WebsiteBackground = ({
               isInGlow = true;
             }
           } else if (isInGlow) {
-            // Draw the segment with radial gradient glow
             const gradient = ctx.createRadialGradient(
               currentPosRef.current.x,
               currentPosRef.current.y,
@@ -122,7 +106,6 @@ export const WebsiteBackground = ({
           }
         }
 
-        // Draw final segment if still in glow
         if (isInGlow) {
           const gradient = ctx.createRadialGradient(
             currentPosRef.current.x,
@@ -149,13 +132,11 @@ export const WebsiteBackground = ({
         }
       }
 
-      // Horizontal glowing lines - draw segments within circular glow area
       for (let y = 0; y < canvas.height; y += squareSize) {
         ctx.beginPath();
         let isInGlow = false;
         let segmentStart = null;
 
-        // Sample points along the horizontal line
         for (let x = 0; x < canvas.width; x += 2) {
           const dx = x - currentPosRef.current.x;
           const dy = y - currentPosRef.current.y;
@@ -167,7 +148,6 @@ export const WebsiteBackground = ({
               isInGlow = true;
             }
           } else if (isInGlow) {
-            // Draw the segment with radial gradient glow
             const gradient = ctx.createRadialGradient(
               currentPosRef.current.x,
               currentPosRef.current.y,
@@ -192,7 +172,6 @@ export const WebsiteBackground = ({
           }
         }
 
-        // Draw final segment if still in glow
         if (isInGlow) {
           const gradient = ctx.createRadialGradient(
             currentPosRef.current.x,
@@ -217,7 +196,6 @@ export const WebsiteBackground = ({
         }
       }
 
-      // Reset shadow and alpha
       ctx.shadowBlur = 0;
       ctx.globalAlpha = 1;
 
@@ -226,7 +204,6 @@ export const WebsiteBackground = ({
 
     animate();
 
-    // Cleanup
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('mousemove', handleMouseMove);
@@ -254,6 +231,7 @@ export const WebsiteBackground = ({
         left: 0,
         width: '100%',
         height: '100%',
+        opacity: 0.4,
         zIndex: -10,
         pointerEvents: 'none',
       }}

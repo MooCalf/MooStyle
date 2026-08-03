@@ -1,79 +1,54 @@
 import { Link } from "react-router-dom";
-import { Info, Unlock } from "lucide-react";
-import { formatReleaseDate, isPublicLocked } from "@/lib/downloadOptions";
+import { motion } from "framer-motion";
 
-// Renders the two download buttons (Early Access on Patreon, Public Access)
-// per the newdesign-layout mod detail template. earlyAccess is omitted
-// (single-button layout) whenever the mod has no tracked early access URL,
-// since MOOSTYLES does not currently gate any mod behind a dated Patreon
-// early access post.
-export const DownloadOptions = ({ modSlug, earlyAccess, publicAccess, fileTypes = [] }) => {
-  const locked = isPublicLocked(publicAccess?.date);
-  const hasEarlyAccess = Boolean(earlyAccess?.url);
+const MotionLink = motion.create(Link);
+const TAP_TRANSITION = { type: "spring", stiffness: 400, damping: 17 };
 
+export const DownloadOptions = ({ patreonUrl, curseforgeUrl, fileTypes = [] }) => {
   return (
     <div className="download-options">
       <div className="download-options__buttons">
-        {hasEarlyAccess && (
-          <Link
-            className="download-options__button download-options__button--early-access"
-            to={`/redirector?to=${encodeURIComponent(earlyAccess.url)}`}
+        {patreonUrl ? (
+          <MotionLink
+            className="download-options__button download-options__button--patreon"
+            to={`/redirector?to=${encodeURIComponent(patreonUrl)}`}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={TAP_TRANSITION}
           >
-            <span className="download-options__button-label">Early Access on Patreon</span>
-            {earlyAccess.date && (
-              <span className="download-options__button-sublabel">
-                Release Date: {formatReleaseDate(earlyAccess.date)}
-              </span>
-            )}
-          </Link>
-        )}
-
-        {locked ? (
-          <button
-            type="button"
-            className="download-options__button download-options__button--locked"
-            disabled
-            aria-disabled="true"
-          >
-            <span className="download-options__button-label">
-              Still in Early Access, please come back after {formatReleaseDate(publicAccess.date)}
-            </span>
-          </button>
-        ) : publicAccess?.url ? (
-          <Link
-            className="download-options__button download-options__button--public"
-            to={`/api/mods/${modSlug}/download`}
-          >
-            <span className="download-options__button-label">Public Access</span>
-            <span className="download-options__button-sublabel">Free Download</span>
-          </Link>
+            Patreon
+          </MotionLink>
         ) : (
           <button
             type="button"
-            className="download-options__button download-options__button--locked"
+            className="download-options__button download-options__button--patreon"
             disabled
             aria-disabled="true"
           >
-            <span className="download-options__button-label">Currently unavailable</span>
+            Patreon
           </button>
         )}
-      </div>
 
-      <div className="download-options__explainers">
-        <p className="download-options__explainer">
-          <Info size={18} aria-hidden="true" />
-          <span>
-            <strong>Early Access</strong> gives Patreon supporters a chance to download a mod
-            before its public release date.
-          </span>
-        </p>
-        <p className="download-options__explainer">
-          <Unlock size={18} aria-hidden="true" />
-          <span>
-            <strong>Public Access</strong> is the free download available to everyone once the
-            public release date has passed.
-          </span>
-        </p>
+        {curseforgeUrl ? (
+          <MotionLink
+            className="download-options__button download-options__button--curseforge"
+            to={`/redirector?to=${encodeURIComponent(curseforgeUrl)}`}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            transition={TAP_TRANSITION}
+          >
+            CurseForge
+          </MotionLink>
+        ) : (
+          <button
+            type="button"
+            className="download-options__button download-options__button--curseforge"
+            disabled
+            aria-disabled="true"
+          >
+            CurseForge
+          </button>
+        )}
       </div>
 
       {fileTypes.length > 0 && (
@@ -81,8 +56,6 @@ export const DownloadOptions = ({ modSlug, earlyAccess, publicAccess, fileTypes 
           Compatible File Types: {fileTypes.join(", ")}
         </p>
       )}
-
-      <p className="download-options__utc-note">Release date based on UTC time.</p>
 
       <p className="download-options__tou">
         By clicking Download, you are agreeing to MOOSTYLES's{" "}

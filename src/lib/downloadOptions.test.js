@@ -25,8 +25,6 @@ describe("isPublicLocked", () => {
   });
 
   it("compares in UTC regardless of local timezone offset", () => {
-    // A local reading of "2026-07-31 20:00 -05:00" is 2026-08-01T01:00:00Z,
-    // an hour past the UTC release instant, so it must already be unlocked.
     const localOffsetInstant = new Date("2026-07-31T20:00:00-05:00").getTime();
     expect(isPublicLocked(publicDate, localOffsetInstant)).toBe(false);
   });

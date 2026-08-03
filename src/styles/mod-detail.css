@@ -1,7 +1,5 @@
 /* ========================================
    MOD DETAIL PAGE LAYOUT
-   Breadcrumb, headings, and content column shared by the mod detail
-   template (src/Pages/ModDetail.jsx).
    ======================================== */
 
 .mod-breadcrumb {
@@ -24,12 +22,44 @@
   color: #000000;
 }
 
+/* ========================================
+   TWO-COLUMN LAYOUT
+   ======================================== */
+
+.mod-detail__layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+@media (min-width: 900px) {
+  .mod-detail__layout {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .mod-detail__media-col {
+    flex: 1 1 58%;
+    min-width: 0;
+  }
+
+  .mod-detail__content-col {
+    flex: 1 1 42%;
+    min-width: 0;
+  }
+}
+
 .mod-detail__content {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
   max-width: var(--maxw-text);
   margin-top: var(--space-4);
+}
+
+.mod-detail__content-col.mod-detail__content {
+  margin-top: 0;
+  max-width: none;
 }
 
 .mod-detail__status-row {
@@ -82,11 +112,6 @@
 
 /* ========================================
    MEDIA GALLERY
-   The extra-image thumbnail list sits to the left of the main image as
-   a vertical, scrollable column (row layout works at 375px already,
-   since the thumb column is a fixed small width and the main image
-   just takes whatever remains). Main image is intentionally smaller
-   and capped in width now, rather than stretching full column width.
    ======================================== */
 
 .media-gallery {
@@ -130,7 +155,7 @@
 .media-gallery__main {
   flex: 1 1 0;
   min-width: 0;
-  max-width: 420px;
+  max-width: 100%;
   aspect-ratio: 4 / 3;
   border-radius: var(--radius-lg);
   overflow: hidden;
@@ -140,13 +165,11 @@
 .media-gallery__main-media {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 /* ========================================
    SECTION TABS
-   "Menu :" tab bar. Horizontally scrollable on mobile, sticks to the
-   top of the content column once scrolled past.
    ======================================== */
 
 .section-tabs {
@@ -193,43 +216,7 @@
 }
 
 /* ========================================
-   METADATA LIST
-   Two column label/value definition list. Stacks below 640px.
-   ======================================== */
-
-.metadata-list {
-  margin: 0;
-}
-
-.metadata-list__row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  padding: var(--space-2) 0;
-  border-bottom: 1px solid var(--color-border);
-}
-
-@media (min-width: 640px) {
-  .metadata-list__row {
-    flex-direction: row;
-    justify-content: space-between;
-    gap: var(--space-3);
-  }
-}
-
-.metadata-list__label {
-  color: #4b5563;
-  font-size: var(--font-size-1);
-}
-
-.metadata-list__value {
-  margin: 0;
-  color: #000000;
-}
-
-/* ========================================
    FILE MANIFEST
-   Numbered list of files included in the mod download.
    ======================================== */
 
 .file-manifest__heading {
@@ -258,8 +245,6 @@
 
 /* ========================================
    STATUS BADGE
-   Compatibility indicator shown on mod cards, mod detail pages, and
-   the /status page.
    ======================================== */
 
 .status-badge {
@@ -300,11 +285,9 @@
 }
 
 /* ========================================
-   INSTALLATION STEPS + KNOWN ISSUES
-   Shared list styling for the Details/Installation tab content.
+   KNOWN ISSUES
    ======================================== */
 
-.installation-steps,
 .known-issues {
   margin: 0;
   padding-left: 1.25em;
@@ -314,7 +297,6 @@
   color: #000000;
 }
 
-.installation-steps--empty,
 .known-issues--empty {
   padding-left: 0;
   color: #4b5563;
@@ -322,7 +304,6 @@
 
 /* ========================================
    STATUS PAGE
-   Every mod with its StatusBadge, on /status.
    ======================================== */
 
 .status-page__list {

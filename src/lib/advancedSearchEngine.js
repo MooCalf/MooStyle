@@ -1,19 +1,12 @@
-// Advanced Search Engine
-// Industry-standard search functionality without external dependencies
-
-/**
- * Advanced search engine with fuzzy matching, relevance scoring, and performance optimization
- */
 export class AdvancedSearchEngine {
   constructor(searchData = [], options = {}) {
-    // Validate searchData
     if (!Array.isArray(searchData)) {
       console.warn('AdvancedSearchEngine: searchData must be an array, received:', typeof searchData);
       this.searchData = [];
     } else {
       this.searchData = searchData;
     }
-    
+
     this.options = {
       debounceMs: 150,
       maxResults: 50,
@@ -22,7 +15,7 @@ export class AdvancedSearchEngine {
       enableAnalytics: true,
       ...options
     };
-    
+
     try {
       this.searchIndex = this.buildSearchIndex();
       this.searchCache = new Map();
@@ -30,7 +23,6 @@ export class AdvancedSearchEngine {
       this.debounceTimer = null;
     } catch (error) {
       console.error('AdvancedSearchEngine initialization error:', error);
-      // Initialize with empty data to prevent further errors
       this.searchIndex = {
         byType: new Map(),
         byCategory: new Map(),
@@ -45,9 +37,6 @@ export class AdvancedSearchEngine {
     }
   }
 
-  /**
-   * Build a search index for fast lookups
-   */
   buildSearchIndex() {
     const index = {
       byType: new Map(),
@@ -58,7 +47,6 @@ export class AdvancedSearchEngine {
       ngrams: new Map()
     };
 
-    // Add safety check for searchData
     if (!this.searchData || !Array.isArray(this.searchData)) {
       console.warn('buildSearchIndex: searchData is not a valid array');
       return index;
@@ -66,13 +54,11 @@ export class AdvancedSearchEngine {
 
     this.searchData.forEach((item, itemIndex) => {
       try {
-        // Validate item has required properties
         if (!item || typeof item !== 'object') {
           console.warn(`buildSearchIndex: Invalid item at index ${itemIndex}:`, item);
           return;
         }
 
-        // Index by type
         if (item.type) {
           if (!index.byType.has(item.type)) {
             index.byType.set(item.type, []);
@@ -80,7 +66,6 @@ export class AdvancedSearchEngine {
           index.byType.get(item.type).push(item);
         }
 
-        // Index by category
         if (item.category) {
           if (!index.byCategory.has(item.category)) {
             index.byCategory.set(item.category, []);
@@ -88,7 +73,6 @@ export class AdvancedSearchEngine {
           index.byCategory.get(item.category).push(item);
         }
 
-        // Index by tags
         if (item.tags && Array.isArray(item.tags)) {
           item.tags.forEach(tag => {
             if (tag && typeof tag === 'string') {
@@ -100,7 +84,6 @@ export class AdvancedSearchEngine {
           });
         }
 
-        // Index by author
         if (item.author) {
           if (!index.byAuthor.has(item.author.toLowerCase())) {
             index.byAuthor.set(item.author.toLowerCase(), []);
@@ -108,12 +91,10 @@ export class AdvancedSearchEngine {
           index.byAuthor.get(item.author.toLowerCase()).push(item);
         }
 
-        // Build full-text search index
         if (item.id) {
           const searchableText = this.extractSearchableText(item);
           index.fullText.set(item.id, searchableText);
 
-          // Build n-gram index for fuzzy matching
           this.buildNgrams(item, index.ngrams);
         }
       } catch (itemError) {
@@ -124,9 +105,6 @@ export class AdvancedSearchEngine {
     return index;
   }
 
-  /**
-   * Extract all searchable text from an item
-   */
   extractSearchableText(item) {
     if (!item || typeof item !== 'object') {
       return '';
@@ -145,9 +123,6 @@ export class AdvancedSearchEngine {
     return this.normalizeText(text);
   }
 
-  /**
-   * Normalize text for searching
-   */
   normalizeText(text) {
     if (!text || typeof text !== 'string') {
       return '';
@@ -159,9 +134,6 @@ export class AdvancedSearchEngine {
       .trim();
   }
 
-  /**
-   * Build n-grams for fuzzy matching
-   */
   buildNgrams(item, ngramsMap) {
     try {
       if (!item || !ngramsMap || !(ngramsMap instanceof Map)) {
@@ -173,10 +145,9 @@ export class AdvancedSearchEngine {
       if (!text) return;
 
       const words = text.split(' ');
-      
+
       words.forEach(word => {
         if (word && word.length > 2) {
-          // Generate 2-grams and 3-grams
           for (let n = 2; n <= Math.min(3, word.length); n++) {
             for (let i = 0; i <= word.length - n; i++) {
               const gram = word.substring(i, i + n);
@@ -195,11 +166,8 @@ export class AdvancedSearchEngine {
     }
   }
 
-  /**
-   * Calculate Levenshtein distance for fuzzy matching
-   */
   levenshteinDistance(str1, str2) {
-    const matrix = Array(str2.length + 1).fill(null).map(() => 
+    const matrix = Array(str2.length + 1).fill(null).map(() =>
       Array(str1.length + 1).fill(null)
     );
 
@@ -225,13 +193,10 @@ export class AdvancedSearchEngine {
     return matrix[str2.length][str1.length];
   }
 
-  /**
-   * Calculate fuzzy match score
-   */
   calculateFuzzyScore(query, text) {
     const queryWords = query.toLowerCase().split(' ');
     const textWords = text.toLowerCase().split(' ');
-    
+
     let totalScore = 0;
     let matches = 0;
 
@@ -258,9 +223,6 @@ export class AdvancedSearchEngine {
     return matches > 0 ? totalScore / queryWords.length : 0;
   }
 
-  /**
-   * Calculate relevance score for search results
-   */
   calculateRelevanceScore(item, query, matchType) {
     let score = 0;
     const queryLower = query.toLowerCase();
@@ -269,35 +231,29 @@ export class AdvancedSearchEngine {
     const content = (item.content || '').toLowerCase();
     const tags = (item.tags || []).map(tag => tag.toLowerCase());
 
-    // Exact title match (highest priority)
     if (title.includes(queryLower)) {
       score += 100;
       if (title.startsWith(queryLower)) score += 50;
     }
 
-    // Exact description match
     if (description.includes(queryLower)) {
       score += 50;
     }
 
-    // Content match
     if (content.includes(queryLower)) {
       score += 25;
     }
 
-    // Tag match
     tags.forEach(tag => {
       if (tag.includes(queryLower)) {
         score += 30;
       }
     });
 
-    // Fuzzy matching bonus
     if (matchType === 'fuzzy') {
-      score *= 0.8; // Reduce score for fuzzy matches
+      score *= 0.8;
     }
 
-    // Type-based scoring
     switch (item.type) {
       case 'product':
         score += 20;
@@ -313,11 +269,9 @@ export class AdvancedSearchEngine {
         break;
     }
 
-    // Popularity bonus (based on analytics)
     const popularity = this.searchAnalytics.get(item.id) || 0;
     score += Math.min(popularity * 2, 20);
 
-    // Recency bonus
     if (item.date) {
       const daysSinceCreated = (Date.now() - new Date(item.date).getTime()) / (1000 * 60 * 60 * 24);
       if (daysSinceCreated < 30) {
@@ -328,17 +282,12 @@ export class AdvancedSearchEngine {
     return Math.max(score, 0);
   }
 
-  /**
-   * Perform advanced search with debouncing
-   */
   search(query, options = {}) {
     return new Promise((resolve) => {
-      // Clear previous debounce timer
       if (this.debounceTimer) {
         clearTimeout(this.debounceTimer);
       }
 
-      // Debounce the search
       this.debounceTimer = setTimeout(() => {
         const results = this.performSearch(query, options);
         resolve(results);
@@ -346,9 +295,6 @@ export class AdvancedSearchEngine {
     });
   }
 
-  /**
-   * Perform the actual search
-   */
   performSearch(query, options = {}) {
     if (!query || query.trim().length < 1) {
       return [];
@@ -357,7 +303,6 @@ export class AdvancedSearchEngine {
     const normalizedQuery = this.normalizeText(query);
     const cacheKey = `${normalizedQuery}-${JSON.stringify(options)}`;
 
-    // Check cache first
     if (this.searchCache.has(cacheKey)) {
       return this.searchCache.get(cacheKey);
     }
@@ -365,30 +310,25 @@ export class AdvancedSearchEngine {
     const results = [];
     const queryWords = normalizedQuery.split(' ');
 
-    // Track search analytics
     if (this.options.enableAnalytics) {
       this.trackSearch(query);
     }
 
-    // Search through all items
     this.searchData.forEach(item => {
       const searchableText = this.searchIndex.fullText.get(item.id);
       let matchScore = 0;
       let matchType = 'none';
 
-      // Exact match
       if (searchableText.includes(normalizedQuery)) {
         matchScore = 1;
         matchType = 'exact';
       } else {
-        // Fuzzy match
         matchScore = this.calculateFuzzyScore(normalizedQuery, searchableText);
         if (matchScore > 0) {
           matchType = 'fuzzy';
         }
       }
 
-      // Word-by-word matching
       if (matchScore === 0) {
         let wordMatches = 0;
         queryWords.forEach(word => {
@@ -414,54 +354,42 @@ export class AdvancedSearchEngine {
       }
     });
 
-    // Sort by relevance score
     results.sort((a, b) => b.relevanceScore - a.relevanceScore);
 
-    // Apply filters
     const filteredResults = this.applyFilters(results, options);
 
-    // Limit results
     const limitedResults = filteredResults.slice(0, this.options.maxResults);
 
-    // Cache results
     this.searchCache.set(cacheKey, limitedResults);
 
     return limitedResults;
   }
 
-  /**
-   * Apply search filters
-   */
   applyFilters(results, options) {
     let filtered = results;
 
-    // Filter by type
     if (options.type && options.type !== 'all') {
       filtered = filtered.filter(item => item.type === options.type);
     }
 
-    // Filter by category
     if (options.category && options.category !== 'all') {
       filtered = filtered.filter(item => item.category === options.category);
     }
 
-    // Filter by tags
     if (options.tags && options.tags.length > 0) {
-      filtered = filtered.filter(item => 
-        item.tags && item.tags.some(tag => 
+      filtered = filtered.filter(item =>
+        item.tags && item.tags.some(tag =>
           options.tags.includes(tag.toLowerCase())
         )
       );
     }
 
-    // Filter by author
     if (options.author && options.author !== 'all') {
-      filtered = filtered.filter(item => 
+      filtered = filtered.filter(item =>
         item.author && item.author.toLowerCase().includes(options.author.toLowerCase())
       );
     }
 
-    // Filter by date range
     if (options.dateRange && options.dateRange !== 'all') {
       const now = new Date();
       const daysAgo = {
@@ -472,7 +400,7 @@ export class AdvancedSearchEngine {
 
       if (daysAgo) {
         const cutoffDate = new Date(now.getTime() - (daysAgo * 24 * 60 * 60 * 1000));
-        filtered = filtered.filter(item => 
+        filtered = filtered.filter(item =>
           item.date && new Date(item.date) >= cutoffDate
         );
       }
@@ -481,9 +409,6 @@ export class AdvancedSearchEngine {
     return filtered;
   }
 
-  /**
-   * Get search suggestions
-   */
   getSuggestions(query, limit = 10) {
     if (!query || query.length < 2) {
       return [];
@@ -492,7 +417,6 @@ export class AdvancedSearchEngine {
     const suggestions = new Set();
     const queryLower = query.toLowerCase();
 
-    // Get suggestions from titles
     this.searchData.forEach(item => {
       const title = (item.title || '').toLowerCase();
       if (title.includes(queryLower)) {
@@ -500,7 +424,6 @@ export class AdvancedSearchEngine {
       }
     });
 
-    // Get suggestions from tags
     this.searchData.forEach(item => {
       if (item.tags) {
         item.tags.forEach(tag => {
@@ -511,7 +434,6 @@ export class AdvancedSearchEngine {
       }
     });
 
-    // Get suggestions from categories
     this.searchData.forEach(item => {
       if (item.category && item.category.toLowerCase().includes(queryLower)) {
         suggestions.add(item.category);
@@ -521,9 +443,6 @@ export class AdvancedSearchEngine {
     return Array.from(suggestions).slice(0, limit);
   }
 
-  /**
-   * Highlight search terms in text
-   */
   highlightText(text, query) {
     if (!this.options.enableHighlighting || !query) {
       return text;
@@ -540,18 +459,14 @@ export class AdvancedSearchEngine {
     return highlightedText;
   }
 
-  /**
-   * Track search analytics
-   */
   trackSearch(query) {
     const searches = this.searchAnalytics.get('searches') || [];
     searches.push({
       query,
       timestamp: Date.now(),
-      results: 0 // Will be updated when results are clicked
+      results: 0
     });
 
-    // Keep only last 100 searches
     if (searches.length > 100) {
       searches.splice(0, searches.length - 100);
     }
@@ -560,14 +475,10 @@ export class AdvancedSearchEngine {
     this.saveAnalytics();
   }
 
-  /**
-   * Track result click
-   */
   trackResultClick(itemId, query) {
     const clicks = this.searchAnalytics.get(itemId) || 0;
     this.searchAnalytics.set(itemId, clicks + 1);
 
-    // Update search result count
     const searches = this.searchAnalytics.get('searches') || [];
     const lastSearch = searches[searches.length - 1];
     if (lastSearch && lastSearch.query === query) {
@@ -577,9 +488,6 @@ export class AdvancedSearchEngine {
     this.saveAnalytics();
   }
 
-  /**
-   * Load analytics from localStorage
-   */
   loadAnalytics() {
     if (typeof window === 'undefined') return new Map();
     try {
@@ -591,9 +499,6 @@ export class AdvancedSearchEngine {
     }
   }
 
-  /**
-   * Save analytics to localStorage
-   */
   saveAnalytics() {
     if (typeof window === 'undefined') return;
     try {
@@ -604,9 +509,6 @@ export class AdvancedSearchEngine {
     }
   }
 
-  /**
-   * Get search analytics
-   */
   getAnalytics() {
     return {
       searches: this.searchAnalytics.get('searches') || [],
@@ -622,16 +524,10 @@ export class AdvancedSearchEngine {
     };
   }
 
-  /**
-   * Clear search cache
-   */
   clearCache() {
     this.searchCache.clear();
   }
 
-  /**
-   * Update search data
-   */
   updateSearchData(newData) {
     this.searchData = newData;
     this.searchIndex = this.buildSearchIndex();
@@ -639,5 +535,4 @@ export class AdvancedSearchEngine {
   }
 }
 
-// Export singleton instance
 export const searchEngine = new AdvancedSearchEngine();

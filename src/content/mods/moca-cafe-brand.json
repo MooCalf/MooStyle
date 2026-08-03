@@ -43,16 +43,6 @@
     "MOCA",
     "Shop"
   ],
-  "metadataList": [
-    {
-      "label": "Game Version",
-      "value": "inZOI"
-    },
-    {
-      "label": "Collection",
-      "value": "MOCA"
-    }
-  ],
   "fileManifest": [
     {
       "filename": "MOCA Cafe Brand",

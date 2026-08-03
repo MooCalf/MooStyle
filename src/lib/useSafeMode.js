@@ -11,11 +11,6 @@ const readStored = () => {
   }
 };
 
-// Persists the visitor's SafeMode preference and stamps it onto <html> as
-// data-safe-mode, so any component can react to it later via a
-// [data-safe-mode="true"] CSS selector without prop-drilling. MOOSTYLES has
-// no mature content today, so toggling this has no visible effect yet, but
-// the preference itself is real and persisted, not a fake stub.
 export const useSafeMode = () => {
   const [safeMode, setSafeMode] = useState(readStored);
 
@@ -24,12 +19,11 @@ export const useSafeMode = () => {
     try {
       window.localStorage.setItem(STORAGE_KEY, String(safeMode));
     } catch {
-      // Storage unavailable (private browsing, disabled storage): the
-      // preference just won't persist across visits.
+      void 0;
     }
   }, [safeMode]);
 
   const toggleSafeMode = useCallback(() => setSafeMode((prev) => !prev), []);
 
-  return [safeMode, toggleSafeMode];
+  return [safeMode, toggleSafeMode, setSafeMode];
 };
