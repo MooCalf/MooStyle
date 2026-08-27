@@ -20,17 +20,31 @@ const readCookie = (request, name) => {
 const htmlResponse = (body) =>
   new Response(body, { headers: { "Content-Type": "text/html; charset=utf-8" } });
 
+// Makes a JSON string safe to embed inside a double-quoted JS string literal:
+// escape backslashes and quotes (or the token payload breaks out of the
+// string), plus < (script-tag breakout) and the two JS line terminators that
+// are illegal unescaped inside a plain string literal.
+const escapeForJsString = (value) =>
+  value
+    .split("\\").join("\\\\")
+    .split('"').join('\\"')
+    .split("<").join("\\u003c")
+    .split(String.fromCharCode(0x2028)).join("\\u2028")
+    .split(String.fromCharCode(0x2029)).join("\\u2029");
+
 // Handshake protocol expected by Decap/Sveltia CMS's github backend:
 // the popup pings the opener with "authorizing:github", the opener echoes it
 // back, and only then does the popup send the final message with the token.
-const renderCallbackPage = (status, payload) => `<!doctype html>
+const renderCallbackPage = (status, payload) => {
+  const payloadJson = escapeForJsString(JSON.stringify(payload));
+  return `<!doctype html>
 <html><body>
 <script>
   (function () {
     function receiveMessage(e) {
       window.removeEventListener("message", receiveMessage, false);
       e.source.postMessage(
-        "authorization:github:${status}:${JSON.stringify(payload).replace(/</g, "\\u003c")}",
+        "authorization:github:${status}:${payloadJson}",
         e.origin
       );
     }
@@ -39,6 +53,7 @@ const renderCallbackPage = (status, payload) => `<!doctype html>
   })();
 </script>
 </body></html>`;
+};
 
 async function handleAuth(request, env) {
   const state = randomState();
@@ -79,6 +94,7 @@ async function handleCallback(request, env) {
   });
 
   const tokenData = await tokenResponse.json();
+  console.log("token exchange", { ok: tokenResponse.ok, hasToken: !!tokenData.access_token, error: tokenData.error });
 
   if (!tokenResponse.ok || tokenData.error || !tokenData.access_token) {
     return htmlResponse(
