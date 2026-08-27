@@ -9,8 +9,13 @@ publish_mode: simple
 site_url: https://moostyles.com
 display_url: https://moostyles.com
 
-media_folder: "public/projects/Mods/{{slug}}"
-public_folder: "/projects/Mods/{{slug}}"
+# Default asset library scope: browsing "Assets" in the CMS shows everything
+# under public/projects, including the pre-existing Products/Archive Images,
+# MOCA Brand, and PITAPATA folders - nothing needs re-uploading, it's already
+# in the repo. Mod image fields below override this with their own per-mod
+# subfolder so new uploads stay organized.
+media_folder: "public/projects"
+public_folder: "/projects"
 
 collections:
   - name: mods
@@ -45,17 +50,29 @@ collections:
           - label: "Banner Image"
             name: banner
             widget: image
+            media_folder: "/public/projects/Mods/{{slug}}"
+            public_folder: "/projects/Mods/{{slug}}"
             hint: "The main thumbnail, shown on the mod list and at the top of the page."
           - label: "Preview Images"
             name: previews
             widget: list
             required: false
-            field: { label: "Image", name: image, widget: image }
+            field:
+              label: "Image"
+              name: image
+              widget: image
+              media_folder: "/public/projects/Mods/{{slug}}"
+              public_folder: "/projects/Mods/{{slug}}"
           - label: "Screenshots"
             name: screenshots
             widget: list
             required: false
-            field: { label: "Image", name: image, widget: image }
+            field:
+              label: "Image"
+              name: image
+              widget: image
+              media_folder: "/public/projects/Mods/{{slug}}"
+              public_folder: "/projects/Mods/{{slug}}"
 
       - label: "Description"
         name: description
