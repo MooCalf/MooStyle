@@ -12,10 +12,14 @@ if (!fs.existsSync(manifestPath)) {
 }
 const { routeCount } = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
 
+// 'admin' is the static CMS page (public/admin/index.html), copied verbatim
+// by Vite - it's not an SSR route, so it isn't in the prerender manifest.
+const SKIP_DIRS = new Set(['assets', 'admin']);
+
 const countIndexFiles = (dir) => {
   let count = 0;
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (entry.name === 'assets') continue;
+    if (entry.isDirectory() && SKIP_DIRS.has(entry.name)) continue;
     const entryPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       count += countIndexFiles(entryPath);
