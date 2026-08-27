@@ -1,12 +1,6 @@
 {
   "name": "Angular Glasswood Table",
   "slug": "angular-glasswood-table",
-  "legacyId": "MOD-01",
-  "collection": "",
-  "status": {
-    "compatibility": "untested",
-    "gameVersion": "inZOI"
-  },
   "media": {
     "banner": "/projects/Mods/angular-glasswood-table/Thumbnail_CF (1).jpg",
     "previews": [],
@@ -16,25 +10,31 @@
   },
   "description": "Add a sleek modern statement piece to your inZOI interiors with the Angular Glasswood Table. This custom table features a clean transparent glass top supported by bold angled wooden panels, giving it a stylish mix of contemporary furniture design and warm natural texture. Perfect for modern homes, offices, lounges, studios, and luxury living spaces, this table brings a minimal but eye-catching look to any room.",
   "highlights": [],
-  "knownIssues": [],
-  "installation": [],
   "downloadOptions": {
     "public": {
       "url": "https://www.curseforge.com/inzoi/build-mode/angular-glasswood-table-955942b2",
       "date": ""
     },
-    "patreonUrl": ""
+    "patreonUrl": "https://www.patreon.com/MOOSTYLES/posts/angular-table-167873815?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
   },
-  "fileTypes": [
-    "inZOI Mod File"
-  ],
-  "tags": [],
   "fileManifest": [
     {
       "filename": "Angular Glasswood Table",
       "description": "Add a sleek modern statement piece to your inZOI interiors with the Angular Glasswood Table. This custom table features a clean transparent glass top supported by bold angled wooden panels, giving it a stylish mix of contemporary furniture design and warm natural texture. Perfect for modern homes, offices, lounges, studios, and luxury living spaces, this table brings a minimal but eye-catching look to any room."
     }
   ],
+  "collection": "",
+  "tags": [],
+  "knownIssues": [],
+  "installation": [],
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "legacyId": "MOD-01",
   "legacy": {
     "isArchiveItem": false,
     "isNew": true
