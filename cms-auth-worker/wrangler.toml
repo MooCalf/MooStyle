@@ -1,0 +1,7 @@
+name = "moostyle-cms-auth"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Secrets (set these once, they are not stored in this file):
+#   npx wrangler secret put GITHUB_CLIENT_ID
+#   npx wrangler secret put GITHUB_CLIENT_SECRET

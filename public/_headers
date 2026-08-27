@@ -127,3 +127,11 @@
   X-XSS-Protection: 1; mode=block
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.googlesyndication.com https://*.doubleclick.net https://www.google.com https://www.gstatic.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://formspree.io https://*.googlesyndication.com; frame-src https://*.doubleclick.net https://*.googlesyndication.com https://www.google.com; frame-ancestors 'none'; form-action 'self' https://formspree.io; upgrade-insecure-requests
+
+# CMS admin panel - its own scoped CSP (needs to load the editor bundle from
+# unpkg and talk to the GitHub API + the OAuth worker). Noindex so it never
+# shows up in search results.
+/admin/*
+  X-Robots-Tag: noindex, nofollow
+  Cache-Control: no-store
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; style-src 'self' 'unsafe-inline' https://unpkg.com https://fonts.googleapis.com; font-src 'self' https://unpkg.com https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://api.github.com https://github.com https://*.githubusercontent.com https://unpkg.com https://*.workers.dev; worker-src 'self' blob:; frame-ancestors 'none'; form-action 'self'

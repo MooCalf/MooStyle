@@ -1,0 +1,170 @@
+backend:
+  name: github
+  repo: MooCalf/MooStyle
+  branch: master
+  base_url: https://moostyle-cms-auth.dencypher01.workers.dev
+  auth_endpoint: auth
+
+publish_mode: simple
+site_url: https://moostyles.com
+display_url: https://moostyles.com
+
+media_folder: "public/projects/Mods/{{slug}}"
+public_folder: "/projects/Mods/{{slug}}"
+
+collections:
+  - name: mods
+    label: "Mods"
+    label_singular: "Mod"
+    description: "Every mod listed on the site. New entries appear on the live mod list as soon as they're published here."
+    folder: "src/content/mods"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: name
+    extension: json
+    format: json
+    summary: "{{name}}"
+    sortable_fields: ["name", "slug"]
+    fields:
+      - label: "Mod Name"
+        name: name
+        widget: string
+        hint: "Shown as the title everywhere on the site."
+
+      - label: "URL Slug"
+        name: slug
+        widget: string
+        pattern: ["^[a-z0-9]+(?:-[a-z0-9]+)*$", "Lowercase letters, numbers, and dashes only (e.g. my-new-mod)."]
+        hint: "Controls the page address: moostyles.com/mods/your-slug. Must be unique — do not reuse another mod's slug, and avoid changing it later since it changes the mod's URL."
+
+      - label: "Internal ID"
+        name: legacyId
+        widget: string
+        hint: "Any short unique code for your own reference (e.g. MOD-042). Not shown to visitors."
+
+      - label: "Collection / Brand"
+        name: collection
+        widget: string
+        required: false
+        hint: "Leave blank for a standalone mod. Fill in to group several mods together under one brand name (e.g. MOCA)."
+
+      - label: "Status"
+        name: status
+        widget: object
+        collapsed: true
+        fields:
+          - label: "Compatibility"
+            name: compatibility
+            widget: select
+            options: ["untested", "compatible", "needs-update", "broken"]
+            default: "untested"
+          - label: "Game Version"
+            name: gameVersion
+            widget: string
+            default: "inZOI"
+
+      - label: "Media"
+        name: media
+        widget: object
+        fields:
+          - label: "Banner Image"
+            name: banner
+            widget: image
+            hint: "Main thumbnail — shown on the mod list and at the top of the mod's page."
+          - label: "Preview Images"
+            name: previews
+            widget: list
+            required: false
+            field: { label: "Image", name: image, widget: image }
+          - label: "Screenshots"
+            name: screenshots
+            widget: list
+            required: false
+            field: { label: "Image", name: image, widget: image }
+
+      - label: "Description"
+        name: description
+        widget: text
+        hint: "The main write-up shown on the mod's detail page."
+
+      - label: "Highlights"
+        name: highlights
+        widget: list
+        required: false
+        field: { label: "Highlight", name: item, widget: string }
+        hint: "Optional short bullet points, e.g. 'Comes in 4 colors'."
+
+      - label: "Known Issues"
+        name: knownIssues
+        widget: list
+        required: false
+        field: { label: "Issue", name: item, widget: string }
+
+      - label: "Installation Notes"
+        name: installation
+        widget: list
+        required: false
+        field: { label: "Paragraph", name: item, widget: text }
+
+      - label: "Download Options"
+        name: downloadOptions
+        widget: object
+        fields:
+          - label: "Public Release"
+            name: public
+            widget: object
+            required: false
+            fields:
+              - label: "CurseForge / Public URL"
+                name: url
+                widget: string
+                required: false
+              - label: "Public Release Date"
+                name: date
+                widget: datetime
+                required: false
+                hint: "Leave blank to make it public immediately once the URL above is filled in. Set a future date to hold it back until then."
+          - label: "Patreon URL"
+            name: patreonUrl
+            widget: string
+            required: false
+
+      - label: "File Types"
+        name: fileTypes
+        widget: list
+        default: ["inZOI Mod File"]
+        field: { label: "File Type", name: item, widget: string }
+
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+        field: { label: "Tag", name: item, widget: string }
+
+      - label: "Files Included"
+        name: fileManifest
+        widget: list
+        min: 1
+        hint: "At least one entry is required, or the site build will fail."
+        fields:
+          - label: "File / Item Name"
+            name: filename
+            widget: string
+          - label: "Description"
+            name: description
+            widget: text
+
+      - label: "Flags"
+        name: legacy
+        widget: object
+        collapsed: true
+        fields:
+          - label: "Archive Item (old/retired mod)"
+            name: isArchiveItem
+            widget: boolean
+            default: false
+          - label: "Mark as New"
+            name: isNew
+            widget: boolean
+            default: true
