@@ -1,0 +1,43 @@
+{
+  "name": "TROVE Tray",
+  "slug": "trove-tray",
+  "media": {
+    "banner": "/projects/Mods/trove-tray/TROVE THUMBNAIL.jpg",
+    "previews": [],
+    "screenshots": [
+      "/projects/Mods/trove-tray/showcase1.jpg",
+      "/projects/Mods/trove-tray/showcase2.jpg"
+    ]
+  },
+  "description": "A clean, modern wooden serving tray designed to make everyday presentation feel intentional. This tray adds a warm curated touch to your spaces.",
+  "highlights": [],
+  "downloadOptions": {
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/trove-tray-903c0217",
+      "date": ""
+    },
+    "patreonUrl": "https://www.patreon.com/MOOSTYLES/posts/trove-tray-167874108?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+  },
+  "fileManifest": [
+    {
+      "filename": "TROVE Tray",
+      "description": "A clean, modern wooden serving tray designed to make everyday presentation feel intentional. This tray adds a warm curated touch to your spaces."
+    }
+  ],
+  "collection": "",
+  "tags": [],
+  "knownIssues": [],
+  "installation": [],
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "legacyId": "MOD-02",
+  "legacy": {
+    "isArchiveItem": false,
+    "isNew": true
+  }
+}
