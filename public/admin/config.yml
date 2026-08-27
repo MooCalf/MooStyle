@@ -16,7 +16,7 @@ collections:
   - name: mods
     label: "Mods"
     label_singular: "Mod"
-    description: "Every mod listed on the site. New entries appear on the live mod list as soon as they're published here."
+    description: "Add or edit a mod. It appears on the live mod list as soon as you publish."
     folder: "src/content/mods"
     create: true
     delete: true
@@ -27,42 +27,16 @@ collections:
     summary: "{{name}}"
     sortable_fields: ["name", "slug"]
     fields:
+      # --- The essentials: what visitors will actually see ---
       - label: "Mod Name"
         name: name
         widget: string
-        hint: "Shown as the title everywhere on the site."
 
       - label: "URL Slug"
         name: slug
         widget: string
-        pattern: ["^[a-z0-9]+(?:-[a-z0-9]+)*$", "Lowercase letters, numbers, and dashes only (e.g. my-new-mod)."]
-        hint: "Controls the page address: moostyles.com/mods/your-slug. Must be unique — do not reuse another mod's slug, and avoid changing it later since it changes the mod's URL."
-
-      - label: "Internal ID"
-        name: legacyId
-        widget: string
-        hint: "Any short unique code for your own reference (e.g. MOD-042). Not shown to visitors."
-
-      - label: "Collection / Brand"
-        name: collection
-        widget: string
-        required: false
-        hint: "Leave blank for a standalone mod. Fill in to group several mods together under one brand name (e.g. MOCA)."
-
-      - label: "Status"
-        name: status
-        widget: object
-        collapsed: true
-        fields:
-          - label: "Compatibility"
-            name: compatibility
-            widget: select
-            options: ["untested", "compatible", "needs-update", "broken"]
-            default: "untested"
-          - label: "Game Version"
-            name: gameVersion
-            widget: string
-            default: "inZOI"
+        pattern: ["^[a-z0-9]+(?:-[a-z0-9]+)*$", "Lowercase letters, numbers, and dashes only."]
+        hint: "The page address: moostyles.com/mods/your-slug. Pick it once — avoid changing it later."
 
       - label: "Media"
         name: media
@@ -71,7 +45,7 @@ collections:
           - label: "Banner Image"
             name: banner
             widget: image
-            hint: "Main thumbnail — shown on the mod list and at the top of the mod's page."
+            hint: "The main thumbnail, shown on the mod list and at the top of the page."
           - label: "Preview Images"
             name: previews
             widget: list
@@ -86,28 +60,16 @@ collections:
       - label: "Description"
         name: description
         widget: text
-        hint: "The main write-up shown on the mod's detail page."
 
       - label: "Highlights"
         name: highlights
         widget: list
         required: false
+        collapsed: true
         field: { label: "Highlight", name: item, widget: string }
         hint: "Optional short bullet points, e.g. 'Comes in 4 colors'."
 
-      - label: "Known Issues"
-        name: knownIssues
-        widget: list
-        required: false
-        field: { label: "Issue", name: item, widget: string }
-
-      - label: "Installation Notes"
-        name: installation
-        widget: list
-        required: false
-        field: { label: "Paragraph", name: item, widget: text }
-
-      - label: "Download Options"
+      - label: "Download Links"
         name: downloadOptions
         widget: object
         fields:
@@ -124,29 +86,18 @@ collections:
                 name: date
                 widget: datetime
                 required: false
-                hint: "Leave blank to make it public immediately once the URL above is filled in. Set a future date to hold it back until then."
+                hint: "Leave blank to go public immediately. Set a future date to hold it back until then."
           - label: "Patreon URL"
             name: patreonUrl
             widget: string
             required: false
 
-      - label: "File Types"
-        name: fileTypes
-        widget: list
-        default: ["inZOI Mod File"]
-        field: { label: "File Type", name: item, widget: string }
-
-      - label: "Tags"
-        name: tags
-        widget: list
-        required: false
-        field: { label: "Tag", name: item, widget: string }
-
       - label: "Files Included"
         name: fileManifest
         widget: list
         min: 1
-        hint: "At least one entry is required, or the site build will fail."
+        summary: "{{fields.filename}}"
+        hint: "What's in the download — at least one entry is required."
         fields:
           - label: "File / Item Name"
             name: filename
@@ -154,6 +105,62 @@ collections:
           - label: "Description"
             name: description
             widget: text
+
+      # --- Extra details (optional — most mods won't need to touch these) ---
+      - label: "Collection / Brand"
+        name: collection
+        widget: string
+        required: false
+        hint: "Leave blank for a standalone mod. Fill in to group several mods under one brand (e.g. MOCA)."
+
+      - label: "Tags"
+        name: tags
+        widget: list
+        required: false
+        collapsed: true
+        field: { label: "Tag", name: item, widget: string }
+
+      - label: "Known Issues"
+        name: knownIssues
+        widget: list
+        required: false
+        collapsed: true
+        field: { label: "Issue", name: item, widget: string }
+
+      - label: "Installation Notes"
+        name: installation
+        widget: list
+        required: false
+        collapsed: true
+        field: { label: "Paragraph", name: item, widget: text }
+
+      - label: "File Types"
+        name: fileTypes
+        widget: list
+        collapsed: true
+        default: ["inZOI Mod File"]
+        field: { label: "File Type", name: item, widget: string }
+
+      - label: "Status"
+        name: status
+        widget: object
+        collapsed: true
+        fields:
+          - label: "Compatibility"
+            name: compatibility
+            widget: select
+            options: ["untested", "compatible", "needs-update", "broken"]
+            default: "untested"
+          - label: "Game Version"
+            name: gameVersion
+            widget: string
+            default: "inZOI"
+
+      - label: "Internal ID"
+        name: legacyId
+        widget: string
+        required: false
+        hint: "Optional — a short code for your own reference (e.g. MOD-042). Not shown to visitors. Safe to leave blank."
 
       - label: "Flags"
         name: legacy
