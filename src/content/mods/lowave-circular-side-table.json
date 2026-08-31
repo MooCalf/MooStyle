@@ -15,9 +15,15 @@
     ]
   },
   "description": "LoWave Circular Side Table was made for the purpose of smoothing the atmosphere beside your rest areas. Preventing sharp corners and stubbing your toes, its truly a nice side piece for a calm atmospheric room.",
-  "highlights": null,
+  "highlights": [
+    "Fully rounded silhouette with no sharp corners or edges",
+    "Built specifically to sit safely beside beds and rest areas",
+    "Calm, understated look that fits relaxed, cozy room themes"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"LoWave\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Side Table",
+    "Wood",
+    "Rounded",
+    "Bedroom"
+  ],
   "fileManifest": [
     {
       "filename": "LoWave Circular Side Table",

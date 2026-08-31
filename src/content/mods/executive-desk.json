@@ -15,9 +15,15 @@
     ]
   },
   "description": "A commanding executive desk designed to for a workspace with both presence and practicality. Its large surface provides generous room for multitasking, accommodating multiple monitors, documents, and meeting materials without feeling crowded.",
-  "highlights": null,
+  "highlights": [
+    "Large work surface with room for multiple monitors and paperwork",
+    "Built for a home office, study, or in-game workspace that needs to feel serious",
+    "Presence-forward design without sacrificing everyday practicality"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Executive Desk\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Desk",
+    "Office",
+    "Wood",
+    "Workspace"
+  ],
   "fileManifest": [
     {
       "filename": "Executive Desk",

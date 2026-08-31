@@ -7,6 +7,7 @@ import { PATREON_MEMBERSHIP_URL } from "@/lib/config";
 const NAV_LINKS = [
   { label: "Home", to: "/" },
   { label: "Mod List", to: "/mods" },
+  { label: "Guides", to: "/guides" },
   { label: "Saved Items", to: "/saved-products" },
   { label: "Support", to: "/support" },
   { label: "More Links", to: "/links" },

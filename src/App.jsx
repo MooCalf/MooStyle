@@ -5,7 +5,6 @@ import { ModDetail } from "./Pages/ModDetail";
 import { ModsIndex } from "./Pages/ModsIndex";
 import { Gallery } from "./Pages/Gallery";
 import { GalleryEntry } from "./Pages/GalleryEntry";
-import { Status } from "./Pages/Status";
 import { ModDownload } from "./Pages/ModDownload";
 import { Redirector } from "./Pages/Redirector";
 import AboutMe from "./Pages/AboutMe";
@@ -16,6 +15,10 @@ import { TermsOfService } from "./Pages/TermsOfService";
 import { NotFound } from "./Pages/NotFound";
 import { Offline } from "./Pages/Offline";
 import { Links } from "./Pages/Links";
+import { GuidesIndex } from "./Pages/Guides/GuidesIndex";
+import { InstallingMods } from "./Pages/Guides/InstallingMods";
+import { Troubleshooting } from "./Pages/Guides/Troubleshooting";
+import { ModSafety } from "./Pages/Guides/ModSafety";
 import ErrorBoundary from "./Components/ErrorBoundary";
 import { FirstVisitGates } from "./Components/gates/FirstVisitGates";
 
@@ -46,10 +49,13 @@ function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/gallery/:slug" element={<GalleryEntry />} />
 
-          <Route path="/status" element={<Status />} />
           <Route path="/api/mods/:id/download" element={<ModDownload />} />
           <Route path="/redirector" element={<Redirector />} />
           <Route path="/about" element={<AboutMe />} />
+          <Route path="/guides" element={<GuidesIndex />} />
+          <Route path="/guides/installing-mods" element={<InstallingMods />} />
+          <Route path="/guides/troubleshooting" element={<Troubleshooting />} />
+          <Route path="/guides/mod-safety" element={<ModSafety />} />
           <Route path="/common-questions" element={<Navigate to="/support" replace />} />
           <Route path="/archive" element={<Navigate to="/mods" replace />} />
           <Route path="*" element={<NotFound />} />

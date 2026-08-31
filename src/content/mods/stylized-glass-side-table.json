@@ -15,9 +15,15 @@
     ]
   },
   "description": "A strikingly red, bold, side table that combines transparency, structure, and color into a geometric form. A deep red translucent panel, that pieces a layered visual effect, revealing its internal framework.",
-  "highlights": null,
+  "highlights": [
+    "Deep red translucent glass panel with a layered, see-through effect",
+    "Exposed internal framework visible through the colored glass",
+    "A bold accent piece for rooms that want a strong pop of color"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Stylized Glass\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Side Table",
+    "Glass",
+    "Modern",
+    "Colorful"
+  ],
   "fileManifest": [
     {
       "filename": "Stylized Glass Side Table",

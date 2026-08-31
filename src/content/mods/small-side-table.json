@@ -14,10 +14,16 @@
       "/projects/Products/Archive Images/Small Side Table/SST - Showcase1.jpg"
     ]
   },
-  "description": "A side table with a simple design and a minimalistic appeal.",
-  "highlights": null,
+  "description": "A compact side table with a simple, minimalistic design built for spaces where a larger piece would not fit. It is deliberately understated, meant to hold a lamp, a drink, or a small decoration next to a chair or bed without competing with the rest of the room.",
+  "highlights": [
+    "Small footprint built for tight spaces beside a chair or bed",
+    "Minimalist design that stays out of the way visually",
+    "A flexible filler piece for rooms that need one more small surface"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Small Side Table\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Side Table",
+    "Small",
+    "Minimalist",
+    "Bedroom"
+  ],
   "fileManifest": [
     {
       "filename": "Small Side Table",

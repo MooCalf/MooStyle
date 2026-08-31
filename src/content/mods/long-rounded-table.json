@@ -14,10 +14,16 @@
       "/projects/Products/Archive Images/LongRoundedTable/LRT_Showcase1.jpg"
     ]
   },
-  "description": "A simple curved and rounded wooden shelf for decorative pieces. Holds up to 20+ items total.",
-  "highlights": null,
+  "description": "A long, low table with softly rounded edges, built as an extended display surface rather than a compact side piece. The curved silhouette avoids sharp corners while giving you a wide, continuous surface for arranging multiple decorations in a row. A good fit for hallways, long walls, or anywhere you want horizontal display space instead of a single small table.",
+  "highlights": [
+    "Extended, low profile built for laying out several decor pieces at once",
+    "Softly rounded edges keep the long silhouette from feeling harsh",
+    "Suited to hallways and long walls where a compact table would look out of place"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Long Rounded Table\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Table",
+    "Wood",
+    "Display",
+    "Living Room"
+  ],
   "fileManifest": [
     {
       "filename": "Long Rounded Table",

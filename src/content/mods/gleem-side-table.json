@@ -14,10 +14,16 @@
       "/projects/Products/Archive Images/Gleems Side Table/Showcase1.jpg"
     ]
   },
-  "description": "A simple wooden side table box like design.",
-  "highlights": null,
+  "description": "A simple wooden side table built around a solid, box-like frame. There is no glass insert here, just clean lines and a sturdy silhouette that fits next to a couch, bed, or armchair without demanding attention. The solid-wood counterpart to the Gleem Glass Side Table.",
+  "highlights": [
+    "Solid box-frame construction for a sturdy, no-frills look",
+    "Neutral wood finish that fits most bedroom and living room palettes",
+    "The plain-wood counterpart to the Gleem Glass Side Table"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Gleem Side Table\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Side Table",
+    "Wood",
+    "Minimalist",
+    "Gleem Collection"
+  ],
   "fileManifest": [
     {
       "filename": "Gleem Side Table",

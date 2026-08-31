@@ -115,7 +115,7 @@ export const SavedProducts = () => {
         ) : (
           <p className="mod-detail__empty-state mt-8">
             {savedProducts.length === 0
-              ? "You haven't saved any mods yet -- tap the heart on a mod card to save it here."
+              ? "You haven't saved any mods yet, tap the heart on a mod card to save it here."
               : "No saved items match your search."}
           </p>
         )}

@@ -15,9 +15,15 @@
     ]
   },
   "description": "Bringing warmth and simplicity to your home featuring a soft cushioned seating paired with natural birch wood panels, this modern minimalist, cozy and inviting atmosphere perfect for living rooms, lounges, and reading nooks. A clean design that blends comfort with contemporary style.",
-  "highlights": null,
+  "highlights": [
+    "Soft cushioned seating framed by natural birch wood panels",
+    "Warm, minimalist palette that fits Scandinavian-leaning interiors",
+    "Comfortable enough to anchor a living room, lounge, or reading nook"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Birch Couch\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,13 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Couch",
+    "Seating",
+    "Wood",
+    "Minimalist",
+    "Living Room"
+  ],
   "fileManifest": [
     {
       "filename": "Birch Couch Set",

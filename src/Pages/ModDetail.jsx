@@ -8,7 +8,6 @@ import { MediaGallery } from "@/Components/mods/MediaGallery";
 import { SectionTabs } from "@/Components/mods/SectionTabs";
 import { DownloadOptions } from "@/Components/mods/DownloadOptions";
 import { FileManifest } from "@/Components/mods/FileManifest";
-import { StatusBadge } from "@/Components/mods/StatusBadge";
 import { KnownIssues } from "@/Components/mods/KnownIssues";
 import { Breadcrumb } from "@/Components/mods/Breadcrumb";
 import { getModByAnyId, getRelatedMods } from "@/lib/mods";
@@ -96,10 +95,6 @@ export const ModDetail = () => {
           <div className="mod-detail__content mod-detail__content-col">
             <h2 className="mod-detail__title newdesign-heading">{mod.name}</h2>
 
-            <div className="mod-detail__status-row">
-              <StatusBadge state={mod.status.compatibility} gameVersion={mod.status.gameVersion} />
-            </div>
-
             <SectionTabs tabs={DEFAULT_MOD_TABS} activeLabel={activeTab} onSelect={setActiveTab} />
 
             {isSectionVisible("details") && (
@@ -130,10 +125,27 @@ export const ModDetail = () => {
                   </>
                 )}
 
+                {mod.installation && mod.installation.length > 0 && (
+                  <>
+                    <h4 className="mod-detail__subheading">Installation</h4>
+                    {mod.installation.map((step, index) => (
+                      <p className="mod-detail__description" key={index}>
+                        {step}
+                      </p>
+                    ))}
+                  </>
+                )}
+
                 <h4 className="mod-detail__subheading">Known Issues</h4>
                 <KnownIssues issues={mod.knownIssues} />
 
                 <FileManifest files={mod.fileManifest} />
+
+                <p className="mod-detail__description">
+                  New to installing custom Build Mode content? See the{" "}
+                  <Link to="/guides/installing-mods">installation guide</Link>, or the{" "}
+                  <Link to="/guides/troubleshooting">troubleshooting guide</Link> if a piece isn't showing up.
+                </p>
 
                 <p className="mod-detail__license-summary">
                   Personal use is always free. Reselling, redistributing, or claiming this mod as

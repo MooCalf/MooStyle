@@ -14,10 +14,16 @@
       "/projects/Products/Archive Images/Hasaun Side Table V2/Showcase.jpg"
     ]
   },
-  "description": "A side table with a classic simple design. Square Legs and a shiny finish. A second version of the Hasaun Collection.",
-  "highlights": null,
+  "description": "The second entry in the Hasaun side table line, keeping the same classic silhouette, square legs and a shiny finish, as the original. This version exists as a standalone variant, so you can mix and match finishes between rooms or pick whichever one fits your build. Straightforward and easy to place next to a couch, bed, or chair.",
+  "highlights": [
+    "Square-leg silhouette with a glossy, reflective finish",
+    "Second variant in the Hasaun side table line",
+    "Easy to slot into bedrooms or living rooms without clashing with existing furniture"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Hasaun\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Side Table",
+    "Wood",
+    "Hasaun Collection",
+    "Classic"
+  ],
   "fileManifest": [
     {
       "filename": "Hasaun Side Table V2",

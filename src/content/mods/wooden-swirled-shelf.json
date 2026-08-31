@@ -14,10 +14,16 @@
       "/projects/Products/Archive Images/WoodenSwirledShelf/WSS - Showcase1.jpg"
     ]
   },
-  "description": "A simple Wooden Swirled Shelf. Holds one item on each shelf.",
-  "highlights": null,
+  "description": "A simple wooden shelf with a swirled, curving frame instead of straight edges. Each tier holds one item, so it is built for showcasing individual decor pieces rather than stacking a lot of clutter, more art object than storage.",
+  "highlights": [
+    "Curved, swirled frame that reads as decor on its own",
+    "One item per tier, built for showcasing rather than storing",
+    "A statement piece for walls that need visual interest, not just storage"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Wooden Swirled Shelf\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Shelf",
+    "Wood",
+    "Decorative",
+    "Display"
+  ],
   "fileManifest": [
     {
       "filename": "Wooden Swirled Shelf",

@@ -10,7 +10,11 @@
     ]
   },
   "description": "SeeGlass Standing Mirror is a stylish decorative design, made to bring a modern, cozy touch to bedrooms, dressing areas, and studio spaces. This standing mirror features a tall rounded mirror frame, warm wooden base, side support, and a small attached drawer for added detail and realism.",
-  "highlights": [],
+  "highlights": [
+    "Tall, rounded standing mirror frame with a warm wooden base",
+    "Side support strut and a small attached drawer for added realism",
+    "Fits bedrooms, dressing areas, and studio-style builds"
+  ],
   "downloadOptions": {
     "public": {
       "url": "https://www.curseforge.com/inzoi/build-mode/seeglass-mirror-96f59e46",
@@ -25,9 +29,16 @@
     }
   ],
   "collection": "",
-  "tags": [],
+  "tags": [
+    "Mirror",
+    "Bedroom",
+    "Wood",
+    "Standing Mirror"
+  ],
   "knownIssues": [],
-  "installation": [],
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"SeeGlass\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "fileTypes": [
     "inZOI Mod File"
   ],

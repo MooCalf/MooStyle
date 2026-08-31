@@ -14,10 +14,16 @@
       "/projects/Products/Archive Images/Glass Coffee Table/GCT_Showcase1.jpg"
     ]
   },
-  "description": "A simple, elegant looking coffee table for placing your beautiful decorations...and maybe a coffee or two",
-  "highlights": null,
+  "description": "A simple, elegant coffee table built around a clean glass tabletop and a minimal frame. It is designed to stay out of the way visually so whatever you set on top of it, books, decor, a cup of coffee, stays the focal point. Works equally well as a centerpiece for a styled living room or as a quiet, functional piece in a smaller space.",
+  "highlights": [
+    "Clean glass tabletop that keeps the room feeling open and uncluttered",
+    "Minimal frame designed to complement decor rather than compete with it",
+    "A safe, neutral pick for living rooms of almost any style"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Glass Coffee Table\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,13 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Table",
+    "Glass",
+    "Coffee Table",
+    "Living Room",
+    "Minimalist"
+  ],
   "fileManifest": [
     {
       "filename": "Glass Coffee Table",

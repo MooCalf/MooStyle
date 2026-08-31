@@ -14,10 +14,16 @@
       "/projects/Products/Archive Images/Anniversary Gift/showcase1.jpg"
     ]
   },
-  "description": "A item given to influencers by inZOI Studios as a gift for the game 1st Anniversary. Congratulations to inZOI, wishing it many more years of developement and success!",
-  "highlights": null,
+  "description": "A commemorative item originally distributed by inZOI Studios to influencers to mark the game's first anniversary. It is shared here as a collectible for players who want the piece in their own builds even if they did not receive it directly. Congratulations to inZOI on one year, here's to many more.",
+  "highlights": [
+    "Commemorative piece marking inZOI's first anniversary",
+    "Originally an influencer-exclusive item, now shared for anyone to use",
+    "A fun addition for players who want a piece of the game's history in their builds"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "This is a collectible decor item rather than a functional furniture set, so where it appears in the build catalog can vary by patch. After installing, check Build Mode's Decor category first; if it is not there, try searching \"Anniversary\" across the other build categories."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Collectible",
+    "Anniversary",
+    "Limited",
+    "Decor"
+  ],
   "fileManifest": [
     {
       "filename": "inZOI 1st Anniversary Gift",

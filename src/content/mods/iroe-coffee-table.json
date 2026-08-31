@@ -15,9 +15,15 @@
     ]
   },
   "description": "The IROE Coffee Table features a perfectly rounded tabletop with a smooth, high gloss finish that subtly reflects light, adding depth and warmth to its surface. Its clean circular form encourages natural flow within a space, making it an inviting centerpiece for living areas.",
-  "highlights": null,
+  "highlights": [
+    "Perfectly circular tabletop with a smooth, high-gloss finish",
+    "Subtle light reflection adds depth without being flashy",
+    "Circular form encourages open flow, making it a natural centerpiece"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"IROE\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Table",
+    "Coffee Table",
+    "Modern",
+    "Living Room"
+  ],
   "fileManifest": [
     {
       "filename": "IROE Coffee Table",

@@ -9,8 +9,12 @@
       "/projects/Mods/trove-tray/showcase2.jpg"
     ]
   },
-  "description": "A clean, modern wooden serving tray designed to make everyday presentation feel intentional. This tray adds a warm curated touch to your spaces.",
-  "highlights": [],
+  "description": "A clean, modern wooden serving tray built to make everyday presentation feel a little more intentional. Use it to group small decor items on a coffee table or shelf, or as an actual serving tray for a styled kitchen or dining build, either way it adds a warm, curated touch without taking up real furniture space.",
+  "highlights": [
+    "Doubles as a serving tray or a way to group small decor items",
+    "Warm wood finish that fits most kitchen and living room palettes",
+    "Small footprint that adds detail without taking up furniture space"
+  ],
   "downloadOptions": {
     "public": {
       "url": "https://www.curseforge.com/inzoi/build-mode/trove-tray-903c0217",
@@ -25,9 +29,16 @@
     }
   ],
   "collection": "",
-  "tags": [],
+  "tags": [
+    "Tray",
+    "Wood",
+    "Decor",
+    "Kitchen"
+  ],
   "knownIssues": [],
-  "installation": [],
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"TROVE Tray\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "fileTypes": [
     "inZOI Mod File"
   ],

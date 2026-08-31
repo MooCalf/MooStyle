@@ -15,9 +15,15 @@
     ]
   },
   "description": "A sleek, sculptural table defined by its continuous flowing form and soft, rounded edges. Crafted from a single bent surface, creating a seamless loop that transitions effortlessly between the tabletop and base.",
-  "highlights": null,
+  "highlights": [
+    "Continuous bent-metal form that flows from base to tabletop in one piece",
+    "Soft, rounded edges instead of hard right angles",
+    "A sculptural alternative to a boxy, traditional TV stand"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Stylized Metal TV Stand\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "TV Stand",
+    "Metal",
+    "Sculptural",
+    "Modern"
+  ],
   "fileManifest": [
     {
       "filename": "Stylized Metal TV Stand",

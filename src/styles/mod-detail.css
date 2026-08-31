@@ -62,10 +62,6 @@
   max-width: none;
 }
 
-.mod-detail__status-row {
-  display: flex;
-}
-
 .mod-detail__section {
   display: flex;
   flex-direction: column;
@@ -244,47 +240,6 @@
 }
 
 /* ========================================
-   STATUS BADGE
-   ======================================== */
-
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-1);
-  border: 1px solid var(--color-border);
-  color: #4b5563;
-}
-
-.status-badge__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: currentColor;
-}
-
-.status-badge__version {
-  color: #4b5563;
-}
-
-.status-badge--compatible {
-  color: var(--color-success);
-  border-color: var(--color-success);
-}
-
-.status-badge--needs-update {
-  color: var(--color-warning);
-  border-color: var(--color-warning);
-}
-
-.status-badge--broken {
-  color: var(--color-danger);
-  border-color: var(--color-danger);
-}
-
-/* ========================================
    KNOWN ISSUES
    ======================================== */
 
@@ -300,32 +255,4 @@
 .known-issues--empty {
   padding-left: 0;
   color: #4b5563;
-}
-
-/* ========================================
-   STATUS PAGE
-   ======================================== */
-
-.status-page__list {
-  list-style: none;
-  margin: var(--space-4) 0 0;
-  padding: 0;
-}
-
-.status-page__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-2);
-  padding: var(--space-2) 0;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.status-page__name {
-  color: #000000;
-  text-decoration: none;
-}
-
-.status-page__name:hover {
-  color: var(--color-accent);
 }

@@ -34,7 +34,10 @@ const STATIC_PATHS = [
   '/mods',
   '/about',
   '/gallery',
-  '/status',
+  '/guides',
+  '/guides/installing-mods',
+  '/guides/troubleshooting',
+  '/guides/mod-safety',
 ];
 
 export function getStaticRoutes() {

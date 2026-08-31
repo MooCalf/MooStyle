@@ -14,10 +14,16 @@
       "/projects/Products/Archive Images/Hasaan Wooden TV Stand/Showcase1.jpg"
     ]
   },
-  "description": "A wooden table crafted with hollowed out wood and a simple open design for spacious looks and functionality.",
-  "highlights": null,
+  "description": "A wooden TV table built around a hollowed-out frame and an open, airy silhouette. The cutout base keeps the piece from feeling heavy in a room while still leaving space underneath for a console, cables, or extra decor. Designed for spacious, functional media setups rather than a bulky traditional stand.",
+  "highlights": [
+    "Hollowed-out wood frame keeps the silhouette open instead of boxy",
+    "Extra clearance underneath for consoles, cables, or additional decor",
+    "Fits living rooms and media rooms that want function without visual bulk"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Hasaan\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "TV Stand",
+    "Wood",
+    "Media Console",
+    "Living Room"
+  ],
   "fileManifest": [
     {
       "filename": "Hasaan Wooden TV",

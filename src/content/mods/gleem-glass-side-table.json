@@ -14,10 +14,16 @@
       "/projects/Products/Archive Images/Gleems Glass Side Table/Showcase1.jpg"
     ]
   },
-  "description": "A simple wooden side table with a centered glass shelf piece.",
-  "highlights": null,
+  "description": "A wooden side table finished with a centered glass shelf insert. The glass panel breaks up the wood visually and adds a spot to display a small decoration or plant without adding bulk. Pairs naturally with the standard Gleem Side Table if you want a matching set with one glass and one solid variant.",
+  "highlights": [
+    "Centered glass shelf panel for extra visual interest and light display space",
+    "Compact footprint suited to bedrooms, living rooms, and reading corners",
+    "Part of the Gleem side table line, alongside the solid-wood version"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Gleem Glass\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Side Table",
+    "Glass",
+    "Wood",
+    "Gleem Collection"
+  ],
   "fileManifest": [
     {
       "filename": "Gleem Side Table",

@@ -14,10 +14,16 @@
       "/projects/Products/Archive Images/JellyFish Light/Showcase1.jpg"
     ]
   },
-  "description": "A whimsical, jellyfish inspired ceiling light that brings a soft, playful look into a room. Its rounded silhouette mimics a gentle, floating form of a jellyfish.",
-  "highlights": null,
+  "description": "A whimsical ceiling light shaped after a jellyfish, built to bring a soft, playful glow into a room without leaning too far into novelty. The rounded, tapering silhouette mimics the gentle, floating form of a real jellyfish, making it a good fit for bedrooms, kids' rooms, or any space that wants a bit of personality in the lighting.",
+  "highlights": [
+    "Rounded, jellyfish-inspired silhouette for a soft, playful glow",
+    "Works well as a standout piece rather than a purely functional fixture",
+    "A good fit for bedrooms, kids' rooms, or playful interior themes"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Lighting catalog. Search for \"JellyFish\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Lighting",
+    "Ceiling Light",
+    "Whimsical",
+    "Bedroom"
+  ],
   "fileManifest": [
     {
       "filename": "JellyFish Light",

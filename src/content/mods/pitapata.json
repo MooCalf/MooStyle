@@ -21,7 +21,9 @@
     "Influencers and Creators from the inZOI Community"
   ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "PITAPATA pieces are character-brand collectibles rather than standard furniture, so where each one appears can vary. Check Build Mode's Decor category first; if a specific creator avatar was packaged as a wearable or Create-a-Zoi asset instead, it will show up in that menu rather than Build Mode. Search \"PITAPATA\" in either menu if you are not sure where a specific piece landed."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -36,8 +38,9 @@
   "tags": [
     "Chibi",
     "Characters",
-    "Youtubers",
-    "PITAPATA"
+    "YouTubers",
+    "PITAPATA",
+    "Collectible"
   ],
   "fileManifest": [
     {

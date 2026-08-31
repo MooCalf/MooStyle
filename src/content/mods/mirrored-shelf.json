@@ -14,10 +14,16 @@
       "/projects/Products/Archive Images/Mirrored Shelf/MS - Showcase1.jpg"
     ]
   },
-  "description": "A simple and minimalistic shelf capable of neatly storing multiple rows of decoration.",
-  "highlights": null,
+  "description": "A simple, minimalistic shelf built around multiple rows of storage rather than a single display surface. The reflective mirrored backing adds visual depth and helps a room feel a little larger without adding a heavier piece of furniture. Designed for stacking decorations, books, or collectibles across several neat rows.",
+  "highlights": [
+    "Mirrored backing adds visual depth without extra bulk",
+    "Multiple rows of storage for decorations, books, or collectibles",
+    "Minimalist frame that fits most modern interior styles"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Mirrored Shelf\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Shelf",
+    "Mirror",
+    "Storage",
+    "Minimalist"
+  ],
   "fileManifest": [
     {
       "filename": "Mirrored Shelf",

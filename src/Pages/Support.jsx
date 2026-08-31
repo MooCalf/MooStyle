@@ -6,7 +6,8 @@ import { Metadata } from '@/Components/Metadata.jsx';
 import { WebsiteBackground } from '@/Components/WebsiteBackground';
 import { SupportContactForm } from '@/Components/SupportContactForm';
 import { ObfuscatedEmail } from '@/Components/ObfuscatedEmail';
-import { Mail, ChevronDown } from 'lucide-react';
+import { Mail, ChevronDown, BookOpen } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const CONTACT_EMAILS = [
   {
@@ -32,7 +33,7 @@ const faqCategories = [
     questions: [
       {
         question: "How do I download your mods?",
-        answer: "Every mod's page has a link to both CurseForge and Patreon -- pick whichever you prefer.",
+        answer: "Every mod's page has a link to both CurseForge and Patreon, pick whichever you prefer.",
       },
       {
         question: "Are the mods safe to download?",
@@ -48,7 +49,7 @@ const faqCategories = [
       },
       {
         question: "Do I need any prerequisites to install mods?",
-        answer: "Most mods just need an up-to-date copy of the base game. Any extra dependencies are called out on that mod's page -- check before downloading.",
+        answer: "Most mods just need an up-to-date copy of the base game. Any extra dependencies are called out on that mod's page, check before downloading.",
       },
     ],
   },
@@ -57,7 +58,7 @@ const faqCategories = [
     questions: [
       {
         question: "How can I support your work?",
-        answer: "Subscribing on Patreon or tipping through any of the links on this site both help a lot -- every contribution goes toward making more mods.",
+        answer: "Subscribing on Patreon or tipping through any of the links on this site both help a lot, every contribution goes toward making more mods.",
       },
       {
         question: "Can I request ideas or commissions?",
@@ -65,11 +66,11 @@ const faqCategories = [
       },
       {
         question: "Can I use your mods in my content or videos?",
-        answer: "Absolutely -- videos, streams, screenshots, all welcome. Credit back to Patreon or CurseForge is appreciated but not required. Just don't claim the mods as your own work.",
+        answer: "Absolutely, videos, streams, screenshots, all welcome. Credit back to Patreon or CurseForge is appreciated but not required. Just don't claim the mods as your own work.",
       },
       {
         question: "Can I modify or redistribute your mods?",
-        answer: "Please don't reupload, modify, or redistribute a mod without asking first. Derivative works and translations are usually fine -- just reach out through the form below to sort out credit first.",
+        answer: "Please don't reupload, modify, or redistribute a mod without asking first. Derivative works and translations are usually fine, just reach out through the form below to sort out credit first.",
       },
     ],
   },
@@ -78,11 +79,11 @@ const faqCategories = [
     questions: [
       {
         question: "Do all mods work with every game version?",
-        answer: "Not always -- compatibility can shift with game updates. Check the mod's page for its current version requirements before downloading.",
+        answer: "Not always, compatibility can shift with game updates. Check the mod's page for its current version requirements before downloading.",
       },
       {
         question: "A mod isn't working or I found a bug, what do I do?",
-        answer: "Double-check you followed the installation steps on the correct game version first. If it's still broken, send a message below with what happened, any error messages, and a screenshot or video if you have one -- that makes it much easier to track down.",
+        answer: "Double-check you followed the installation steps on the correct game version first. If it's still broken, send a message below with what happened, any error messages, and a screenshot or video if you have one, that makes it much easier to track down.",
       },
       {
         question: "How often do you update mods?",
@@ -127,8 +128,14 @@ export const Support = () => {
             Support
           </h1>
           <p className="support-page__intro">
-            Questions, bug reports, or just want to say hi? Reach out below -- we do our best to
+            Questions, bug reports, or just want to say hi? Reach out below, we do our best to
             reply within 24-48 hours.
+          </p>
+
+          <p className="support-page__intro">
+            <BookOpen size={16} aria-hidden="true" style={{ display: 'inline', verticalAlign: '-2px', marginRight: '0.4em' }} />
+            Looking for step-by-step help instead? Check the <Link to="/guides">modding guides</Link> for
+            installation and troubleshooting walkthroughs before reaching out.
           </p>
 
           <div className="support-page__contact-grid">

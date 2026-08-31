@@ -15,9 +15,15 @@
     ]
   },
   "description": "A modern interlocked wall shelf designed to add clean style and functional storage to your inZOI interiors. Perfect for living rooms, offices, etc.",
-  "highlights": null,
+  "highlights": [
+    "Interlocking geometric frame that reads as decor even when empty",
+    "Combines display space with genuine functional storage",
+    "Suited to living rooms, offices, studios, and other work-adjacent spaces"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Interlocked Shelf\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -29,7 +35,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Shelf",
+    "Wall Storage",
+    "Modern",
+    "Storage"
+  ],
   "fileManifest": [
     {
       "filename": "Interlocked Shelf",

@@ -25,6 +25,7 @@ export const Footer = () => {
       title: "Support",
       links: [
         { name: "Support Center", href: "/support" },
+        { name: "Modding Guides", href: "/guides" },
         { name: "Privacy Policy", href: "/privacy-policy" },
         { name: "Terms of Service", href: "/terms-of-service" }
       ]

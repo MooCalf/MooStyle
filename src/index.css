@@ -9,6 +9,8 @@
 @import "./styles/homepage.css";
 @import "./styles/support.css";
 @import "./styles/legal.css";
+@import "./styles/guides.css";
+@import "./styles/about.css";
 @import "./styles/gates.css";
 
 /* Targeted focus outline removal for back buttons only */

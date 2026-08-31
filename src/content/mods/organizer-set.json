@@ -17,10 +17,16 @@
     ],
     "screenshots": []
   },
-  "description": "Simple desk organizers and utensil holders.",
-  "highlights": null,
+  "description": "A set of simple desk organizers and utensil holders built for tidying up small, cluttered surfaces. Useful on a desk for pens and office supplies, or in a kitchen for utensils, the plain, boxy shapes are designed to blend into a build rather than stand out on their own.",
+  "highlights": [
+    "Multiple organizer and utensil-holder shapes in one set",
+    "Works equally well on a desk or in a kitchen",
+    "Plain, functional design meant to reduce clutter rather than draw attention"
+  ],
   "knownIssues": null,
-  "installation": null,
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Organizer\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "downloadOptions": {
     "earlyAccess": null,
     "public": {
@@ -32,7 +38,12 @@
   "fileTypes": [
     "inZOI Mod File"
   ],
-  "tags": [],
+  "tags": [
+    "Organizer",
+    "Desk",
+    "Kitchen",
+    "Storage"
+  ],
   "fileManifest": [
     {
       "filename": "Organizer Set",

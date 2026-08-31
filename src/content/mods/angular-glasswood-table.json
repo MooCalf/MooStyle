@@ -9,7 +9,11 @@
     ]
   },
   "description": "Add a sleek modern statement piece to your inZOI interiors with the Angular Glasswood Table. This custom table features a clean transparent glass top supported by bold angled wooden panels, giving it a stylish mix of contemporary furniture design and warm natural texture. Perfect for modern homes, offices, lounges, studios, and luxury living spaces, this table brings a minimal but eye-catching look to any room.",
-  "highlights": [],
+  "highlights": [
+    "Transparent glass tabletop paired with angled solid-wood panel legs",
+    "Reads as modern and minimal without feeling cold or clinical",
+    "Scales well in offices, lounges, studios, and living rooms alike"
+  ],
   "downloadOptions": {
     "public": {
       "url": "https://www.curseforge.com/inzoi/build-mode/angular-glasswood-table-955942b2",
@@ -24,9 +28,17 @@
     }
   ],
   "collection": "",
-  "tags": [],
+  "tags": [
+    "Table",
+    "Glass",
+    "Wood",
+    "Modern",
+    "Living Room"
+  ],
   "knownIssues": [],
-  "installation": [],
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Angular Glasswood\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
   "fileTypes": [
     "inZOI Mod File"
   ],
