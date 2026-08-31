@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: MooCalf/MooStyle
+  repo: MOOSTYLES/MOOSTYLES-Website
   branch: master
   base_url: https://moostyle-cms-auth.dencypher01.workers.dev
   auth_endpoint: auth
