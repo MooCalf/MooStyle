@@ -1,0 +1,43 @@
+{
+  "name": "Halo Executive Chair",
+  "slug": "halo-executive-chair",
+  "media": {
+    "banner": "/projects/Mods/halo-executive-chair/Thumbnail_CF.jpg",
+    "previews": [],
+    "screenshots": [
+      "/projects/Mods/halo-executive-chair/Showcase (1).jpg",
+      "/projects/Mods/halo-executive-chair/Showcase (2).jpg"
+    ]
+  },
+  "description": "Bring a luxury corporate look to your workspace with the Executive Halo Chair. This sleek modern chair is a counter part to the Halo Executive Series. Perfect for luxury offices, business rooms, modern study rooms, and professional workspace builds.",
+  "highlights": [],
+  "downloadOptions": {
+    "public": {
+      "url": "https://www.curseforge.com/inzoi/build-mode/halo-executive-chair-f22e2203",
+      "date": "2026-09-01T22:29:00"
+    },
+    "patreonUrl": ""
+  },
+  "fileManifest": [
+    {
+      "filename": "Halo Executive Chair",
+      "description": "Bring a luxury corporate look to your workspace with the Executive Halo Chair. This sleek modern chair is a counter part to the Halo Executive Series. Perfect for luxury offices, business rooms, modern study rooms, and professional workspace builds."
+    }
+  ],
+  "collection": "Halo",
+  "tags": [],
+  "knownIssues": [],
+  "installation": [],
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "legacyId": "MOD-04",
+  "legacy": {
+    "isArchiveItem": false,
+    "isNew": true
+  }
+}
