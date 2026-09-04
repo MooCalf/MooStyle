@@ -1,12 +1,6 @@
 {
-  "slug": "hasaun-side-table-v2",
-  "legacyId": "archive-022",
   "name": "Hasaun Side Table V2",
-  "collection": null,
-  "status": {
-    "compatibility": "untested",
-    "gameVersion": "inZOI"
-  },
+  "slug": "hasaun-side-table-v2",
   "media": {
     "banner": "/projects/Products/Archive Images/Hasaun Side Table V2/Hasaun Side Table V2_Thumbnail_CF.jpg",
     "previews": [],
@@ -20,33 +14,39 @@
     "Second variant in the Hasaun side table line",
     "Easy to slot into bedrooms or living rooms without clashing with existing furniture"
   ],
-  "knownIssues": null,
-  "installation": [
-    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Hasaun\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
-  ],
   "downloadOptions": {
-    "earlyAccess": null,
     "public": {
       "url": "https://www.curseforge.com/inzoi/build-mode/hasaun-side-table-v2-c1eb0ec7",
-      "date": null
+      "date": ""
     },
-    "patreonUrl": "https://www.patreon.com/MOOSTYLES/posts/hasaun-side-v2-162258732?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link"
+    "patreonUrl": "https://www.patreon.com/MOOSTYLES/posts/hasaun-side-v2-162258732?utm_medium=clipboard_copy&utm_source=copyLink&utm_campaign=postshare_creator&utm_content=join_link",
+    "earlyAccess": null
   },
-  "fileTypes": [
-    "inZOI Mod File"
-  ],
-  "tags": [
-    "Side Table",
-    "Wood",
-    "Hasaun Collection",
-    "Classic"
-  ],
   "fileManifest": [
     {
       "filename": "Hasaun Side Table V2",
       "description": "A side table with a classic simple design. Square Legs and a shiny finish. A second version of the Hasaun Collection."
     }
   ],
+  "collection": "Hasaun",
+  "tags": [
+    "Side Table",
+    "Wood",
+    "Hasaun Collection",
+    "Classic"
+  ],
+  "knownIssues": [],
+  "installation": [
+    "Once the file is installed and inZOI is running, open Build Mode and switch to the Furniture catalog. Search for \"Hasaun\" to find the piece, it is listed under that name in the build menu, not under \"MOOSTYLES.\" If it does not show up, confirm the mod is enabled in your mod manager and that you are on the tracked game version listed above before reporting it as missing."
+  ],
+  "fileTypes": [
+    "inZOI Mod File"
+  ],
+  "status": {
+    "compatibility": "untested",
+    "gameVersion": "inZOI"
+  },
+  "legacyId": "archive-022",
   "legacy": {
     "isArchiveItem": true,
     "isNew": true
