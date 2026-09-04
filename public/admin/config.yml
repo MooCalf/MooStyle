@@ -9,11 +9,7 @@ publish_mode: simple
 site_url: https://moostyles.com
 display_url: https://moostyles.com
 
-# Default asset library scope: browsing "Assets" in the CMS shows everything
-# under public/projects, including the pre-existing Products/Archive Images,
-# MOCA Brand, and PITAPATA folders - nothing needs re-uploading, it's already
-# in the repo. Mod image fields below override this with their own per-mod
-# subfolder so new uploads stay organized.
+
 media_folder: "public/projects"
 public_folder: "/projects"
 
