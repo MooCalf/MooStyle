@@ -4,6 +4,7 @@ import { FeaturedCollections } from "@/Components/HomepageComponents/FeaturedCol
 import { SupportMyWork } from "@/Components/HomepageComponents/SupportMyWork";
 import { ModListSection } from "@/Components/HomepageComponents/ModListSection";
 import { GalleryTeaser } from "@/Components/HomepageComponents/GalleryTeaser";
+import { PartnershipCallout } from "@/Components/HomepageComponents/PartnershipCallout";
 import { Footer } from "@/Components/Footer";
 import { WebsiteBackground } from "@/Components/WebsiteBackground";
 
@@ -25,6 +26,7 @@ export const Home = () => (
         <SupportMyWork />
         <ModListSection />
         <GalleryTeaser />
+        <PartnershipCallout />
         <Footer />
       </main>
     </div>

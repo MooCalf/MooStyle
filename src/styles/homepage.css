@@ -20,7 +20,9 @@
 .mod-list-section,
 .mod-list-section *,
 .gallery-teaser,
-.gallery-teaser * {
+.gallery-teaser *,
+.partnership-callout,
+.partnership-callout * {
   color: #000000;
 }
 
@@ -35,7 +37,8 @@
 
 .mod-list-section,
 .support-my-work,
-.gallery-teaser {
+.gallery-teaser,
+.partnership-callout {
   max-width: var(--maxw-content);
   margin: 0 auto;
   padding: var(--space-5) var(--space-3);
@@ -255,6 +258,65 @@
   .gallery-page__grid {
     grid-template-columns: repeat(4, 1fr);
   }
+}
+
+/* ========================================
+   PARTNERSHIP CALLOUT
+   ======================================== */
+
+.partnership-callout__card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: #ffffff;
+  border: 2px solid #000000;
+  border-radius: var(--radius-lg);
+}
+
+@media (min-width: 640px) {
+  .partnership-callout__card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.partnership-callout__main {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.partnership-callout__icon {
+  flex-shrink: 0;
+  color: var(--color-accent);
+  margin-top: 2px;
+}
+
+.partnership-callout__title {
+  font-size: var(--font-size-3);
+  font-weight: 700;
+  margin: 0 0 var(--space-1);
+}
+
+.partnership-callout__note {
+  font-size: var(--font-size-1);
+  color: #4b5563;
+  margin: 0;
+}
+
+.partnership-callout__email {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--color-accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.partnership-callout__email:hover {
+  text-decoration: underline;
 }
 
 /* ========================================
